@@ -66,7 +66,6 @@ public class ProjectDAO extends DBConnector implements DAO<ProjectDTO> {
 
     @Override
     public ProjectDTO get(int id) throws SQLException {
-        // No implementado porque el ID es tipo String
         return null;
     }
 
@@ -113,7 +112,6 @@ public class ProjectDAO extends DBConnector implements DAO<ProjectDTO> {
 
     @Override
     public void delete(int id) throws SQLException {
-        // No implementado, porque el ID es un String
     }
 
     public void delete(String idProject) throws SQLException {
