@@ -11,12 +11,12 @@ import java.util.List;
 
 public class PracticeDAO extends DBConnector implements DAO<PracticeDTO> {
     private static final String CREATE_QUERY =
-            "INSERT INTO enrollment (id_course, id_student, created_at) VALUES (?, ?, ?, ?, ?)";
-    private static final String GET_ALL_QUERY = "SELECT * FROM enrollment";
-    private static final String GET_QUERY = "SELECT * FROM course WHERE id_course = ?";
+            "INSERT INTO practice (id_student, id_project, reason_of_assignation) VALUES (?, ?, ?, ?, ?)";
+    private static final String GET_ALL_QUERY = "SELECT * FROM practice";
+    private static final String GET_QUERY = "SELECT * FROM course WHERE id_student = ?";
     private static final String UPDATE_QUERY =
-            "UPDATE enrollment SET id_student = ?, created_at = ? WHERE id_course = ?";
-    private static final String DELETE_QUERY = "DELETE FROM course WHERE id_course = ?";
+            "UPDATE enrollment SET id_project = ?, reason_of_assignation = ? WHERE id_student = ?";
+    private static final String DELETE_QUERY = "DELETE FROM practice WHERE id_student = ?";
 
 
     @Override

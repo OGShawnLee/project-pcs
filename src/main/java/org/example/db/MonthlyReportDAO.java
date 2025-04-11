@@ -13,12 +13,12 @@ import java.util.List;
 
 public class MonthlyReportDAO extends DBConnector implements DAO<MonthlyReportDTO> {
     private static final String CREATE_QUERY =
-            "INSERT INTO enrollment (id_course, id_student, created_at) VALUES (?, ?, ?, ?, ?)";
-    private static final String GET_ALL_QUERY = "SELECT * FROM enrollment";
-    private static final String GET_QUERY = "SELECT * FROM course WHERE id_course = ?";
+            "INSERT INTO monthly_report (id_project, id_student, month, year, worked_hours, created_at) VALUES (?, ?, ?, ?, ?)";
+    private static final String GET_ALL_QUERY = "SELECT * FROM monthly_report";
+    private static final String GET_QUERY = "SELECT * FROM monthly_report WHERE id_student = ?";
     private static final String UPDATE_QUERY =
-            "UPDATE enrollment SET id_student = ?, created_at = ? WHERE id_course = ?";
-    private static final String DELETE_QUERY = "DELETE FROM course WHERE id_course = ?";
+            "UPDATE monthly_report SET month = ?, year = ?, worked_hours = ? WHERE id_student = ? ";
+    private static final String DELETE_QUERY = "DELETE FROM monthly_report WHERE id_student = ?";
 
 
     @Override
