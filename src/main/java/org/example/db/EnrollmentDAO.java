@@ -11,12 +11,12 @@ import java.util.List;
 
 public class EnrollmentDAO extends DBConnector implements DAO<EnrollmentDTO> {
     private static final String CREATE_QUERY =
-            "INSERT INTO course (nrc, id_academic, section, started_at, ended_at) VALUES (?, ?, ?, ?, ?)";
-    private static final String GET_ALL_QUERY = "SELECT * FROM course";
-    private static final String GET_QUERY = "SELECT * FROM course WHERE nrc = ?";
+            "INSERT INTO enrollment (id_course, id_student, created_at) VALUES (?, ?, ?, ?, ?)";
+    private static final String GET_ALL_QUERY = "SELECT * FROM enrollment";
+    private static final String GET_QUERY = "SELECT * FROM course WHERE id_course = ?";
     private static final String UPDATE_QUERY =
-            "UPDATE course SET id_academic = ?, section = ?, started_at = ?, ended_at = ? WHERE nrc = ?";
-    private static final String DELETE_QUERY = "DELETE FROM course WHERE nrc = ?";
+            "UPDATE enrollment SET id_student = ?, created_at = ? WHERE id_course = ?";
+    private static final String DELETE_QUERY = "DELETE FROM course WHERE id_course = ?";
 
 
     @Override
