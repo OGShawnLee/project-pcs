@@ -35,7 +35,7 @@ public class CourseDTO {
         return endedAt;
     }
 
-    public static abstract class Builder {
+    public static class Builder {
         protected String nrc;
         protected String idAcademic;
         protected String section;
