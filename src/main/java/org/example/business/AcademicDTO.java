@@ -4,8 +4,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class AcademicDTO extends Person {
-    private String id;
-    private String role;
+    private final String id;
+    private final String role;
 
     public AcademicDTO(SBuilder builder) {
         super(builder);
