@@ -27,7 +27,7 @@ public class StudentDTO extends Person {
     return id;
   }
 
-  public static class SBuilder extends PBuilder<SBuilder> {
+  public static class SBuilder extends PersonBuilder<SBuilder> {
     private String id;
 
     public SBuilder setID(String id) {

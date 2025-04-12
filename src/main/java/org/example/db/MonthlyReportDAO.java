@@ -46,7 +46,7 @@ public class MonthlyReportDAO extends DBConnector implements DAO<MonthlyReportDT
             ResultSet resultSet = statement.executeQuery()){
 
             while (resultSet.next()) {
-                MonthlyReportDTO dto = new MonthlyReportDTO.Builder() {
+                MonthlyReportDTO dto = new MonthlyReportDTO.MonthlyReportBuilder() {
                 }
                         .setIdProject(resultSet.getString("id_project"))
                         .setIdStudent(resultSet.getString("id_student"))
@@ -77,7 +77,7 @@ public class MonthlyReportDAO extends DBConnector implements DAO<MonthlyReportDT
             statement.setString(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    dto = new MonthlyReportDTO.Builder() {
+                    dto = new MonthlyReportDTO.MonthlyReportBuilder() {
                     }
                             .setIdProject(resultSet.getString("id_project"))
                             .setIdStudent(resultSet.getString("id_student"))

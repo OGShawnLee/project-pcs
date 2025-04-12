@@ -7,7 +7,7 @@ public class ProjectRequestDTO {
     private final String reasonOfState;
     private final String createdAt;
 
-    public ProjectRequestDTO(Builder builder) {
+    public ProjectRequestDTO(ProjectRequestBuilder builder) {
         this.idStudent = builder.idStudent;
         this.idProject = builder.idProject;
         this.state = builder.state;
@@ -35,34 +35,34 @@ public class ProjectRequestDTO {
         return createdAt;
     }
 
-    public static class Builder {
+    public static class ProjectRequestBuilder {
         protected String idStudent;
         protected String idProject;
         protected String state;
         protected String reasonOfState;
         protected String createdAt;
 
-        public Builder setIdStudent(String idStudent) {
+        public ProjectRequestBuilder setIdStudent(String idStudent) {
             this.idStudent = idStudent;
             return this;
         }
 
-        public Builder setIdProject(String idProject) {
+        public ProjectRequestBuilder setIdProject(String idProject) {
             this.idProject = idProject;
             return this;
         }
 
-        public Builder setState(String state) {
+        public ProjectRequestBuilder setState(String state) {
             this.state = state;
             return this;
         }
 
-        public Builder setReasonOfState(String reasonOfState){
+        public ProjectRequestBuilder setReasonOfState(String reasonOfState){
             this.reasonOfState = reasonOfState;
             return this;
         }
 
-        public Builder setCreatedAt(String createdAt) {
+        public ProjectRequestBuilder setCreatedAt(String createdAt) {
             this.createdAt = createdAt;
             return this;
         }

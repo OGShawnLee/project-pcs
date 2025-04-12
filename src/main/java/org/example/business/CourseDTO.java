@@ -7,7 +7,7 @@ public class CourseDTO {
     private final String startedAt;
     private final String endedAt;
 
-    public CourseDTO(Builder builder) {
+    public CourseDTO(CourseBuilder builder) {
         this.nrc = builder.nrc;
         this.idAcademic = builder.idAcademic;
         this.section = builder.section;
@@ -35,34 +35,34 @@ public class CourseDTO {
         return endedAt;
     }
 
-    public static class Builder {
+    public static class CourseBuilder {
         protected String nrc;
         protected String idAcademic;
         protected String section;
         protected String startedAt;
         protected String endedAt;
 
-        public Builder setNrc(String nrc){
+        public CourseBuilder setNrc(String nrc){
             this.nrc =nrc;
             return this;
         }
 
-        public Builder setIdAcademic(String idAcademic) {
+        public CourseBuilder setIdAcademic(String idAcademic) {
             this.idAcademic = idAcademic;
             return this;
         }
 
-        public Builder setSection(String section) {
+        public CourseBuilder setSection(String section) {
             this.section = section;
             return this;
         }
 
-        public Builder setStartedAt(String startedAt) {
+        public CourseBuilder setStartedAt(String startedAt) {
             this.startedAt = startedAt;
             return this;
         }
 
-        public Builder setEndedAt(String endedAt) {
+        public CourseBuilder setEndedAt(String endedAt) {
             this.endedAt = endedAt;
             return this;
         }

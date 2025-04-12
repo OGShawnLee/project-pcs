@@ -13,7 +13,7 @@ public class SelfEvaluationDTO {
     private final int importanceProfessionalDevelopment;
     private final String createdAt;
 
-    public SelfEvaluationDTO(Builder builder) {
+    public SelfEvaluationDTO(SelfEvaluationBuilder builder) {
         this.idStudent = builder.idStudent;
         this.followUpGrade = builder.followUpGrade;
         this.safetyGrade = builder.safetyGrade;
@@ -71,7 +71,7 @@ public class SelfEvaluationDTO {
         return createdAt;
     }
 
-    public static class Builder {
+    public static class SelfEvaluationBuilder {
         protected String idStudent;
         protected int followUpGrade;
         protected int safetyGrade;
@@ -84,52 +84,52 @@ public class SelfEvaluationDTO {
         protected int importanceProfessionalDevelopment;
         protected String createdAt;
 
-        public Builder setIdStudent(String idStudent) {
+        public SelfEvaluationBuilder setIdStudent(String idStudent) {
             this.idStudent = idStudent;
             return this;
         }
 
-        public Builder SetFollowUpGrade(int followUpGrade) {
+        public SelfEvaluationBuilder SetFollowUpGrade(int followUpGrade) {
             this.followUpGrade = followUpGrade;
             return this;
         }
 
-        public Builder SetSafetyGrade(int safetyGrade) {
+        public SelfEvaluationBuilder SetSafetyGrade(int safetyGrade) {
             this.safetyGrade = safetyGrade;
             return this;
         }
 
-        public Builder setKnowledgeApplicationGrade(int knowledgeApplicationGrade) {
+        public SelfEvaluationBuilder setKnowledgeApplicationGrade(int knowledgeApplicationGrade) {
             this.knowledgeApplicationGrade = knowledgeApplicationGrade;
             return this;
         }
 
-        public Builder setInterestingGrade(int interestingGrade) {
+        public SelfEvaluationBuilder setInterestingGrade(int interestingGrade) {
             this.interestingGrade = interestingGrade;
             return this;
         }
 
-        public Builder setProductivityGrade(int productivityGrade) {
+        public SelfEvaluationBuilder setProductivityGrade(int productivityGrade) {
             this.productivityGrade = productivityGrade;
             return this;
         }
 
-        public Builder setCongruentGrade(int congruentGrade) {
+        public SelfEvaluationBuilder setCongruentGrade(int congruentGrade) {
             this.congruentGrade = congruentGrade;
             return this;
         }
 
-        public Builder setInformatedByOrganization(int informatedByOrganization) {
+        public SelfEvaluationBuilder setInformatedByOrganization(int informatedByOrganization) {
             this.informatedByOrganization = informatedByOrganization;
             return this;
         }
 
-        public Builder setRegulatedByOrganization(int regulatedByOrganization) {
+        public SelfEvaluationBuilder setRegulatedByOrganization(int regulatedByOrganization) {
             this.regulatedByOrganization = regulatedByOrganization;
             return this;
         }
 
-        public Builder setImportanceProfessionalDevelopment(int importanceProfessionalDevelopment) {
+        public SelfEvaluationBuilder setImportanceProfessionalDevelopment(int importanceProfessionalDevelopment) {
             this.importanceProfessionalDevelopment = importanceProfessionalDevelopment;
             return this;
         }

@@ -41,7 +41,7 @@ public class PracticeDAO extends DBConnector implements DAO<PracticeDTO> {
             ResultSet resultSet = statement.executeQuery()){
 
             while (resultSet.next()) {
-                PracticeDTO dto = new PracticeDTO.Builder() {
+                PracticeDTO dto = new PracticeDTO.PracticeBuilder() {
                 }
                         .setIdStudent(resultSet.getString("id_student"))
                         .setIdProject(resultSet.getString("id_project"))
@@ -69,7 +69,7 @@ public class PracticeDAO extends DBConnector implements DAO<PracticeDTO> {
             statement.setString(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    dto = new PracticeDTO.Builder() {
+                    dto = new PracticeDTO.PracticeBuilder() {
                     }
                             .setIdStudent(resultSet.getString("id_student"))
                             .setIdProject(resultSet.getString("id_project"))

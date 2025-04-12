@@ -44,7 +44,7 @@ public class ProjectRequestDAO extends DBConnector implements DAO<ProjectRequest
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                ProjectRequestDTO dto = new ProjectRequestDTO.Builder()
+                ProjectRequestDTO dto = new ProjectRequestDTO.ProjectRequestBuilder()
                         .setIdStudent(rs.getString("id_student"))
                         .setIdProject(rs.getString("id_project"))
                         .setState(rs.getString("state"))
@@ -75,7 +75,7 @@ public class ProjectRequestDAO extends DBConnector implements DAO<ProjectRequest
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                dto = new ProjectRequestDTO.Builder()
+                dto = new ProjectRequestDTO.ProjectRequestBuilder()
                         .setIdStudent(rs.getString("id_student"))
                         .setIdProject(rs.getString("id_project"))
                         .setState(rs.getString("state"))

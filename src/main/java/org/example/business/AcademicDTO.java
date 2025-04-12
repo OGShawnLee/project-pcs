@@ -35,7 +35,7 @@ public class AcademicDTO extends Person {
 
     public String getRole() { return role; }
 
-    public static class AcademicBuilder extends PBuilder<AcademicBuilder> {
+    public static class AcademicBuilder extends PersonBuilder<AcademicBuilder> {
         private String id;
         private String role;
 

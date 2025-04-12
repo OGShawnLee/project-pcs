@@ -5,7 +5,7 @@ public class PracticeDTO {
     private final String idProject;
     private final String reasonOfAssignation;
 
-    public PracticeDTO(Builder builder) {
+    public PracticeDTO(PracticeBuilder builder) {
         this.idStudent = builder.idStudent;
         this.idProject = builder.idProject;
         this.reasonOfAssignation = builder.reasonOfAssignation;
@@ -23,22 +23,22 @@ public class PracticeDTO {
         return reasonOfAssignation;
     }
 
-    public static class Builder {
+    public static class PracticeBuilder {
         protected String idStudent;
         protected String idProject;
         protected String reasonOfAssignation;
 
-        public Builder setIdStudent(String idStudent) {
+        public PracticeBuilder setIdStudent(String idStudent) {
             this.idStudent = idStudent;
             return this;
         }
 
-        public Builder setIdProject(String idProject) {
+        public PracticeBuilder setIdProject(String idProject) {
             this.idProject = idProject;
             return this;
         }
 
-        public Builder SetReasonOfAssignation(String reasonOfAssignation) {
+        public PracticeBuilder SetReasonOfAssignation(String reasonOfAssignation) {
             this.reasonOfAssignation = reasonOfAssignation;
             return this;
         }

@@ -56,7 +56,7 @@ public class SelfEvaluationDAO extends DBConnector implements DAO<SelfEvaluation
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                SelfEvaluationDTO dto = new SelfEvaluationDTO.Builder()
+                SelfEvaluationDTO dto = new SelfEvaluationDTO.SelfEvaluationBuilder()
                         .setIdStudent(rs.getString("id_student"))
                         .SetFollowUpGrade(rs.getInt("follow_up_grade"))
                         .SetSafetyGrade(rs.getInt("safety_grade"))
@@ -92,7 +92,7 @@ public class SelfEvaluationDAO extends DBConnector implements DAO<SelfEvaluation
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                dto = new SelfEvaluationDTO.Builder()
+                dto = new SelfEvaluationDTO.SelfEvaluationBuilder()
                         .setIdStudent(rs.getString("id_student"))
                         .SetFollowUpGrade(rs.getInt("follow_up_grade"))
                         .SetSafetyGrade(rs.getInt("safety_grade"))

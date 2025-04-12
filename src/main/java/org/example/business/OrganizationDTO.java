@@ -9,7 +9,7 @@ public class OrganizationDTO {
     private final String state;
     private final String createdAt;
 
-    public OrganizationDTO(Builder builder) {
+    public OrganizationDTO(OrganizationBuilder builder) {
         this.email = builder.email;
         this.name = builder.name;
         this.representativeFullName = builder.representativeFullName;
@@ -47,7 +47,7 @@ public class OrganizationDTO {
         return createdAt;
     }
 
-    public static class Builder {
+    public static class OrganizationBuilder {
         protected String email;
         protected String name;
         protected String representativeFullName;
@@ -56,37 +56,37 @@ public class OrganizationDTO {
         protected String state;
         protected String createdAt;
 
-        public Builder setEmail(String email) {
+        public OrganizationBuilder setEmail(String email) {
             this.email = email;
             return this;
         }
 
-        public Builder setName(String name) {
+        public OrganizationBuilder setName(String name) {
             this.name = name;
             return this;
         }
 
-        public Builder setRepresentativeFullName(String representativeFullName){
+        public OrganizationBuilder setRepresentativeFullName(String representativeFullName){
             this.representativeFullName = representativeFullName;
             return this;
         }
 
-        public Builder setColony(String colony){
+        public OrganizationBuilder setColony(String colony){
             this.colony = colony;
             return this;
         }
 
-        public Builder setStreet(String street){
+        public OrganizationBuilder setStreet(String street){
             this.street = street;
             return this;
         }
 
-        public Builder setState(String state){
+        public OrganizationBuilder setState(String state){
             this.state = state;
             return this;
         }
 
-        public Builder setCreatedAt(String createdAt) {
+        public OrganizationBuilder setCreatedAt(String createdAt) {
             this.createdAt = createdAt;
             return this;
         }

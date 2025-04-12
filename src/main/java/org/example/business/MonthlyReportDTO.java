@@ -8,7 +8,7 @@ public class MonthlyReportDTO {
     private final int workedHours;
     private final String createdAt;
 
-    public MonthlyReportDTO(Builder builder) {
+    public MonthlyReportDTO(MonthlyReportBuilder builder) {
         this.idProject = builder.idProject;
         this.idStudent = builder.idStudent;
         this.month = builder.month;
@@ -35,7 +35,7 @@ public class MonthlyReportDTO {
         return createdAt;
     }
 
-    public static class Builder {
+    public static class MonthlyReportBuilder {
         protected String idProject;
         protected String idStudent;
         protected int month;
@@ -43,32 +43,32 @@ public class MonthlyReportDTO {
         protected int workedHours;
         protected String createdAt;
 
-        public Builder setIdProject(String idProject) {
+        public MonthlyReportBuilder setIdProject(String idProject) {
             this.idProject = idProject;
             return this;
         }
 
-        public Builder setIdStudent(String idStudent) {
+        public MonthlyReportBuilder setIdStudent(String idStudent) {
             this.idStudent = idStudent;
             return this;
         }
 
-        public Builder setMonth(int month){
+        public MonthlyReportBuilder setMonth(int month){
             this.month = month;
             return this;
         }
 
-        public Builder setYear(int year){
+        public MonthlyReportBuilder setYear(int year){
             this.year = year;
             return this;
         }
 
-        public Builder setWorkedHours(int workedHours){
+        public MonthlyReportBuilder setWorkedHours(int workedHours){
             this.workedHours = workedHours;
             return this;
         }
 
-        public Builder setCreatedAt(String createdAt) {
+        public MonthlyReportBuilder setCreatedAt(String createdAt) {
             this.createdAt = createdAt;
             return this;
         }

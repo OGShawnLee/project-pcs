@@ -10,7 +10,7 @@ public abstract class Person {
   private final String state;
   private final LocalDateTime createdAt;
 
-  public Person(PBuilder<?> builder) {
+  public Person(PersonBuilder<?> builder) {
     this.name = builder.name;
     this.paternalLastName = builder.paternalLastName;
     this.maternalLastName = builder.maternalLastName;
@@ -43,7 +43,7 @@ public abstract class Person {
     return createdAt;
   }
 
-  public static abstract class PBuilder<T extends PBuilder<T>> {
+  public static abstract class PersonBuilder<T extends PersonBuilder<T>> {
     protected String name;
     protected String paternalLastName;
     protected String maternalLastName;

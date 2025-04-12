@@ -41,7 +41,7 @@ public class EnrollmentDAO extends DBConnector implements DAO<EnrollmentDTO> {
             ResultSet resultSet = statement.executeQuery()){
 
             while (resultSet.next()) {
-                EnrollmentDTO dto = new EnrollmentDTO.Builder() {
+                EnrollmentDTO dto = new EnrollmentDTO.EnrollmentBuilder() {
                 }
                         .setIdCourse(resultSet.getString("id_course"))
                         .setIdStudent(resultSet.getString("id_student"))
@@ -69,7 +69,7 @@ public class EnrollmentDAO extends DBConnector implements DAO<EnrollmentDTO> {
             statement.setString(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    dto = new EnrollmentDTO.Builder() {
+                    dto = new EnrollmentDTO.EnrollmentBuilder() {
                     }
                             .setIdCourse(resultSet.getString("id_course"))
                             .setIdStudent(resultSet.getString("id_student"))

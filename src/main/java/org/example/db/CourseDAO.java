@@ -43,7 +43,7 @@ public class CourseDAO extends DBConnector implements DAO<CourseDTO> {
             ResultSet resultSet = statement.executeQuery()){
 
             while (resultSet.next()) {
-                CourseDTO dto = new CourseDTO.Builder() {
+                CourseDTO dto = new CourseDTO.CourseBuilder() {
                 }
                 .setNrc(resultSet.getString("nrc"))
                 .setIdAcademic(resultSet.getString("id_academic"))
@@ -73,7 +73,7 @@ public class CourseDAO extends DBConnector implements DAO<CourseDTO> {
             statement.setString(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    dto = new CourseDTO.Builder() {
+                    dto = new CourseDTO.CourseBuilder() {
                     }
                     .setNrc(resultSet.getString("nrc"))
                     .setIdAcademic(resultSet.getString("id_academic"))

@@ -48,7 +48,7 @@ public class ProjectDAO extends DBConnector implements DAO<ProjectDTO> {
              ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
-                ProjectDTO dto = new ProjectDTO.Builder()
+                ProjectDTO dto = new ProjectDTO.PracticeBuilder()
                         .setId(resultSet.getString("id_project"))
                         .setIdOrganization(resultSet.getString("id_organization"))
                         .setName(resultSet.getString("name"))
@@ -79,7 +79,7 @@ public class ProjectDAO extends DBConnector implements DAO<ProjectDTO> {
             statement.setString(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    dto = new ProjectDTO.Builder()
+                    dto = new ProjectDTO.PracticeBuilder()
                             .setId(resultSet.getString("id_project"))
                             .setIdOrganization(resultSet.getString("id_organization"))
                             .setName(resultSet.getString("name"))

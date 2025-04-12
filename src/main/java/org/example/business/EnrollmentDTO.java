@@ -5,7 +5,7 @@ public class EnrollmentDTO {
     private final String idStudent;
     private final String createdAt;
 
-    public EnrollmentDTO(Builder builder) {
+    public EnrollmentDTO(EnrollmentBuilder builder) {
         this.idCourse = builder.idCourse;
         this.idStudent = builder.idStudent;
         this.createdAt = builder.createdAt;
@@ -23,22 +23,22 @@ public class EnrollmentDTO {
         return createdAt;
     }
 
-    public static class Builder {
+    public static class EnrollmentBuilder {
         protected String idCourse;
         protected String idStudent;
         protected String createdAt;
 
-        public Builder setIdCourse(String idCourse) {
+        public EnrollmentBuilder setIdCourse(String idCourse) {
             this.idCourse = idCourse;
             return this;
         }
 
-        public Builder setIdStudent(String idStudent) {
+        public EnrollmentBuilder setIdStudent(String idStudent) {
             this.idStudent = idStudent;
             return this;
         }
 
-        public Builder setCreatedAt(String createdAt) {
+        public EnrollmentBuilder setCreatedAt(String createdAt) {
             this.createdAt = createdAt;
             return this;
         }

@@ -77,7 +77,7 @@ public class OrganizationDAO extends DBConnector implements DAO<OrganizationDTO>
             statement.setString(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    dto = new OrganizationDTO.Builder() {
+                    dto = new OrganizationDTO.OrganizationBuilder() {
                     }
                             .setEmail(resultSet.getString("email"))
                             .setName(resultSet.getString("name"))
