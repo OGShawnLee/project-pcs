@@ -78,10 +78,13 @@ public class AcademicDAO extends DBConnector implements DAO<AcademicDTO> {
         Connection conn = getConnection();
         PreparedStatement statement = conn.prepareStatement(UPDATE_QUERY);
 
-        statement.setString(1, element.getName());
-        statement.setString(2, element.getPaternalLastName());
-        statement.setString(3, element.getMaternalLastName());
-        statement.setString(4, element.getID());
+        try (statement) {
+            statement.setString(1, element.getName());
+            statement.setString(2, element.getPaternalLastName());
+            statement.setString(3, element.getMaternalLastName());
+            statement.setString(4, element.getID());
+            statement.executeUpdate();
+        }
 
         close();
     }
