@@ -7,7 +7,7 @@ public class AcademicDTO extends Person {
     private final String id;
     private final String role;
 
-    public AcademicDTO(SBuilder builder) {
+    public AcademicDTO(AcademicBuilder builder) {
         super(builder);
         this.id = builder.id;
         this.role = builder.role;
@@ -15,7 +15,7 @@ public class AcademicDTO extends Person {
 
     public AcademicDTO(ResultSet resultSet) throws SQLException {
         super(
-                new SBuilder()
+                new AcademicBuilder()
                         .setID(resultSet.getString("id_academic"))
                         .setEmail(resultSet.getString("email"))
                         .setName(resultSet.getString("name"))
@@ -35,16 +35,16 @@ public class AcademicDTO extends Person {
 
     public String getRole() { return role; }
 
-    public static class SBuilder extends PBuilder<SBuilder> {
+    public static class AcademicBuilder extends PBuilder<AcademicBuilder> {
         private String id;
         private String role;
 
-        public SBuilder setID(String id) {
+        public AcademicBuilder setID(String id) {
             this.id = id;
             return this;
         }
 
-        public SBuilder setRole(String role) {
+        public AcademicBuilder setRole(String role) {
             this.role = role;
             return this;
         }
