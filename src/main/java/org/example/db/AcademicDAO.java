@@ -90,13 +90,17 @@ public class AcademicDAO extends DBConnector implements DAO<AcademicDTO> {
         close();
     }
 
+    public void delete(int id) throws SQLException {}
+
     @Override
-    public void delete(int id) throws SQLException {
+    public void delete(String id) throws SQLException {
         Connection conn = getConnection();
         PreparedStatement statement = conn.prepareStatement(DELETE_QUERY);
 
-        statement.setInt(1, id);
-        statement.executeUpdate();
+        try (statement) {
+            statement.setString(1, id);
+            statement.executeUpdate();
+        }
 
         close();
     }
