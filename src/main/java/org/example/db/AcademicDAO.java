@@ -11,7 +11,7 @@ import java.util.List;
 
 public class AcademicDAO extends DBConnector implements DAO<AcademicDTO> {
     private static final String CREATE_QUERY =
-            "INSERT INTO academic (id_academic, email, name, paternal_last_name, maternal_last_name) VALUES (?, ?, ?, ?, ?)";
+            "INSERT INTO academic (id_academic, email, name, paternal_last_name, maternal_last_name, role) VALUES (?, ?, ?, ?, ?, ?)";
     private static final String GET_ALL_QUERY = "SELECT * FROM academic";
     private static final String GET_QUERY = "SELECT * FROM academic WHERE id_academic = ?";
     private static final String UPDATE_QUERY =
@@ -28,6 +28,7 @@ public class AcademicDAO extends DBConnector implements DAO<AcademicDTO> {
         statement.setString(3, element.getName());
         statement.setString(4, element.getPaternalLastName());
         statement.setString(5, element.getMaternalLastName());
+        statement.setString(6, element.getRole());
         statement.executeUpdate();
 
         close();
