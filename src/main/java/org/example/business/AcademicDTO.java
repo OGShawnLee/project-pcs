@@ -19,7 +19,7 @@ public class AcademicDTO extends Person {
                         .setName(resultSet.getString("name"))
                         .setPaternalLastName(resultSet.getString("paternal_last_name"))
                         .setMaternalLastName(resultSet.getString("maternal_last_name"))
-                        .setCreatedAt(resultSet.getTimestamp("createdAt").toLocalDateTime())
+                        .setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime())
                         .setState(resultSet.getString("state"))
         );
         this.id = resultSet.getString("id_academic");
