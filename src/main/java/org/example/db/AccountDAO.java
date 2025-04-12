@@ -85,8 +85,8 @@ public class AccountDAO extends DBConnector implements DAO<AccountDTO> {
     PreparedStatement statement = conn.prepareStatement(UPDATE_QUERY);
 
     try (statement) {
-      statement.setString(1, element.email());
-      statement.setString(2, element.password());
+      statement.setString(1, element.password());
+      statement.setString(2, element.email());
       statement.executeUpdate();
     }
 
@@ -95,11 +95,16 @@ public class AccountDAO extends DBConnector implements DAO<AccountDTO> {
 
   @Override
   public void delete(int id) throws SQLException {
+    // TODO: UPDATE DAO INTERFACE
+  }
+
+  @Override
+  public void delete(String id) throws SQLException {
     Connection conn = getConnection();
     PreparedStatement statement = conn.prepareStatement(DELETE_QUERY);
 
     try (statement) {
-      statement.setInt(1, id);
+      statement.setString(1, id);
       statement.executeUpdate();
     }
 

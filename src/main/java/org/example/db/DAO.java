@@ -13,5 +13,7 @@ public interface DAO <T> {
 
   void update(T element) throws SQLException;
 
+  // TODO: UPDATE PARAMETER WITH DTO
   void delete(int id) throws SQLException;
+  void delete(String id) throws SQLException;
 }
