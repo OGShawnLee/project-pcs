@@ -45,7 +45,7 @@ CREATE TABLE Course (
     started_at DATETIME NOT NULL,
     ended_at DATETIME NOT NULL,
     PRIMARY KEY (nrc),
-    FOREIGN KEY (id_academic) REFERENCES Academic(id_academic)
+    FOREIGN KEY (id_academic) REFERENCES Academic(id_academic) ON DELETE CASCADE
 );
 
 CREATE TABLE Enrollment (
@@ -53,8 +53,8 @@ CREATE TABLE Enrollment (
     id_student CHAR(8) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     PRIMARY KEY (id_student, id_course),
-    FOREIGN KEY (id_student) REFERENCES Student(id_student),
-    FOREIGN KEY (id_course) REFERENCES Course(nrc)
+    FOREIGN KEY (id_student) REFERENCES Student(id_student) ON DELETE CASCADE,
+    FOREIGN KEY (id_course) REFERENCES Course(nrc) ON DELETE CASCADE
 );
 
 CREATE TABLE Organization (
