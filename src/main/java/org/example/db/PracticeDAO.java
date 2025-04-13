@@ -31,8 +31,8 @@ public class PracticeDAO extends DAO<PracticeDTO, FilterPractice> {
   @Override
   public void create(PracticeDTO dataObject) throws SQLException {
     try (
-      Connection conn = getConnection();
-      PreparedStatement statement = conn.prepareStatement(CREATE_QUERY)
+      Connection connection = getConnection();
+      PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
     ) {
       statement.setString(1, dataObject.getIDStudent());
       statement.setString(2, dataObject.getIDProject());
@@ -44,8 +44,8 @@ public class PracticeDAO extends DAO<PracticeDTO, FilterPractice> {
   @Override
   public List<PracticeDTO> getAll() throws SQLException {
     try (
-      Connection conn = getConnection();
-      PreparedStatement statement = conn.prepareStatement(GET_ALL_QUERY);
+      Connection connection = getConnection();
+      PreparedStatement statement = connection.prepareStatement(GET_ALL_QUERY);
       ResultSet resultSet = statement.executeQuery()
     ) {
       List<PracticeDTO> list = new ArrayList<>();
@@ -61,8 +61,8 @@ public class PracticeDAO extends DAO<PracticeDTO, FilterPractice> {
   @Override
   public PracticeDTO get(FilterPractice filter) throws SQLException {
     try (
-      Connection conn = getConnection();
-      PreparedStatement statement = conn.prepareStatement(GET_QUERY)
+      Connection connection = getConnection();
+      PreparedStatement statement = connection.prepareStatement(GET_QUERY)
     ) {
       statement.setString(1, filter.getIDStudent());
       statement.setInt(2, filter.getIDPractice());
@@ -82,8 +82,8 @@ public class PracticeDAO extends DAO<PracticeDTO, FilterPractice> {
   @Override
   public void update(PracticeDTO dataObject) throws SQLException {
     try (
-      Connection conn = getConnection();
-      PreparedStatement statement = conn.prepareStatement(UPDATE_QUERY)
+      Connection connection = getConnection();
+      PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
     ) {
       statement.setString(1, dataObject.getIDProject());
       statement.setString(2, dataObject.getReasonOfAssignation());
@@ -96,8 +96,8 @@ public class PracticeDAO extends DAO<PracticeDTO, FilterPractice> {
   @Override
   public void delete(FilterPractice filter) throws SQLException {
     try (
-      Connection conn = getConnection();
-      PreparedStatement statement = conn.prepareStatement(DELETE_QUERY)
+      Connection connection = getConnection();
+      PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)
     ) {
       statement.setString(1, filter.getIDStudent());
       statement.setInt(2, filter.getIDPractice());

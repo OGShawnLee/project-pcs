@@ -51,8 +51,8 @@ public class AcademicDAO extends DAO<AcademicDTO, String> {
   @Override
   public List<AcademicDTO> getAll() throws SQLException {
     try (
-      Connection conn = getConnection();
-      PreparedStatement statement = conn.prepareStatement(GET_ALL_QUERY);
+      Connection connection = getConnection();
+      PreparedStatement statement = connection.prepareStatement(GET_ALL_QUERY);
       ResultSet resultSet = statement.executeQuery()
     ) {
       List<AcademicDTO> list = new ArrayList<>();
@@ -68,8 +68,8 @@ public class AcademicDAO extends DAO<AcademicDTO, String> {
   @Override
   public AcademicDTO get(String id) throws SQLException {
     try (
-      Connection conn = getConnection();
-      PreparedStatement statement = conn.prepareStatement(GET_QUERY)
+      Connection connection = getConnection();
+      PreparedStatement statement = connection.prepareStatement(GET_QUERY)
     ) {
       statement.setString(1, id);
 
@@ -88,8 +88,8 @@ public class AcademicDAO extends DAO<AcademicDTO, String> {
   @Override
   public void update(AcademicDTO dataObject) throws SQLException {
     try (
-      Connection conn = getConnection();
-      PreparedStatement statement = conn.prepareStatement(UPDATE_QUERY)
+      Connection connection = getConnection();
+      PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
     ) {
       statement.setString(1, dataObject.getName());
       statement.setString(2, dataObject.getPaternalLastName());
@@ -102,8 +102,8 @@ public class AcademicDAO extends DAO<AcademicDTO, String> {
   @Override
   public void delete(String id) throws SQLException {
     try (
-      Connection conn = getConnection();
-      PreparedStatement statement = conn.prepareStatement(DELETE_QUERY)
+      Connection connection = getConnection();
+      PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)
     ) {
       statement.setString(1, id);
       statement.executeUpdate();
