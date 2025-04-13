@@ -13,12 +13,12 @@ import java.util.List;
 
 public class MonthlyReportDAO extends DBConnector implements DAO<MonthlyReportDTO> {
     private static final String CREATE_QUERY =
-            "INSERT INTO monthly_report (id_project, id_student, month, year, worked_hours, created_at) VALUES (?, ?, ?, ?, ?)";
+            "INSERT INTO monthly_report (id_project, id_student, month, year, worked_hours, report) VALUES (?, ?, ?, ?, ?, ?)";
     private static final String GET_ALL_QUERY = "SELECT * FROM monthly_report";
-    private static final String GET_QUERY = "SELECT * FROM monthly_report WHERE id_student = ?";
+    private static final String GET_QUERY = "SELECT * FROM monthly_report WHERE id_project = ?";
     private static final String UPDATE_QUERY =
-            "UPDATE monthly_report SET month = ?, year = ?, worked_hours = ? WHERE id_student = ? ";
-    private static final String DELETE_QUERY = "DELETE FROM monthly_report WHERE id_student = ?";
+            "UPDATE monthly_report SET month = ?, year = ?, worked_hours = ? WHERE id_project = ? ";
+    private static final String DELETE_QUERY = "DELETE FROM monthly_report WHERE id_project = ?";
 
 
     @Override
@@ -26,7 +26,7 @@ public class MonthlyReportDAO extends DBConnector implements DAO<MonthlyReportDT
         Connection conn = getConnection();
         PreparedStatement statement = conn.prepareStatement(CREATE_QUERY);
 
-        statement.setString(1, element.getIdProject());
+        statement.setInt(1, element.getIdProject());
         statement.setString(2, element.getIdStudent());
         statement.setInt(3, element.getMonth());
         statement.setInt(4, element.getYear());
@@ -48,12 +48,13 @@ public class MonthlyReportDAO extends DBConnector implements DAO<MonthlyReportDT
             while (resultSet.next()) {
                 MonthlyReportDTO dto = new MonthlyReportDTO.MonthlyReportBuilder() {
                 }
-                        .setIdProject(resultSet.getString("id_project"))
+                        .setIdProject(resultSet.getInt("id_project"))
                         .setIdStudent(resultSet.getString("id_student"))
                         .setMonth(resultSet.getInt("month"))
                         .setYear(resultSet.getInt("year"))
                         .setWorkedHours(resultSet.getInt("worked_hours"))
-                        .setCreatedAt(resultSet.getString("created_at"))
+                        .setReport(resultSet.getString("report"))
+                        .setCreatedAt(resultSet.getString("createdat_"))
                         .build();
                 list.add(dto);
             }
@@ -79,11 +80,12 @@ public class MonthlyReportDAO extends DBConnector implements DAO<MonthlyReportDT
                 if (resultSet.next()) {
                     dto = new MonthlyReportDTO.MonthlyReportBuilder() {
                     }
-                            .setIdProject(resultSet.getString("id_project"))
+                            .setIdProject(resultSet.getInt("id_project"))
                             .setIdStudent(resultSet.getString("id_student"))
                             .setMonth(resultSet.getInt("month"))
                             .setYear(resultSet.getInt("year"))
                             .setWorkedHours(resultSet.getInt("worked_hours"))
+                            .setReport(resultSet.getString("report"))
                             .setCreatedAt(resultSet.getString("created_at"))
                             .build();
                 }
@@ -99,7 +101,7 @@ public class MonthlyReportDAO extends DBConnector implements DAO<MonthlyReportDT
         try(Connection conn = getConnection();
             PreparedStatement statement = conn.prepareStatement(UPDATE_QUERY)) {
 
-            statement.setString(1, element.getIdProject());
+            statement.setInt(1, element.getIdProject());
             statement.setString(2, element.getIdStudent());
             statement.setInt(3, element.getMonth());
             statement.setInt(4, element.getYear());

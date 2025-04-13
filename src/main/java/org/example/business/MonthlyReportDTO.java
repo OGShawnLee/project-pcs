@@ -1,11 +1,12 @@
 package org.example.business;
 
 public class MonthlyReportDTO {
-    private final String idProject;
+    private final int idProject;
     private final String idStudent;
     private final int month;
     private final int year;
     private final int workedHours;
+    private final String report;
     private final String createdAt;
 
     public MonthlyReportDTO(MonthlyReportBuilder builder) {
@@ -14,10 +15,11 @@ public class MonthlyReportDTO {
         this.month = builder.month;
         this.year = builder.year;
         this.workedHours = builder.workedHours;
+        this.report = builder.report;
         this.createdAt = builder.createdAt;
     }
 
-    public String getIdProject() {
+    public int getIdProject() {
         return idProject;
     }
 
@@ -31,19 +33,24 @@ public class MonthlyReportDTO {
 
     public int getWorkedHours() { return workedHours; }
 
+    public String getReport() {
+        return report;
+    }
+
     public String getCreatedAt() {
         return createdAt;
     }
 
     public static class MonthlyReportBuilder {
-        protected String idProject;
+        protected int idProject;
         protected String idStudent;
         protected int month;
         protected int year;
         protected int workedHours;
+        protected String report;
         protected String createdAt;
 
-        public MonthlyReportBuilder setIdProject(String idProject) {
+        public MonthlyReportBuilder setIdProject(int idProject) {
             this.idProject = idProject;
             return this;
         }
@@ -65,6 +72,11 @@ public class MonthlyReportDTO {
 
         public MonthlyReportBuilder setWorkedHours(int workedHours){
             this.workedHours = workedHours;
+            return this;
+        }
+
+        public MonthlyReportBuilder setReport(String report) {
+            this.report = report;
             return this;
         }
 
