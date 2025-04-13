@@ -20,7 +20,7 @@ public class ProjectDAO extends DAO<ProjectDTO, Integer> {
 
   @Override
   protected ProjectDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
-    return new ProjectDTO.PracticeBuilder()
+    return new ProjectDTO.ProjectBuilder()
       .setId(resultSet.getString("id_project"))
       .setIdOrganization(resultSet.getString("id_organization"))
       .setName(resultSet.getString("name"))

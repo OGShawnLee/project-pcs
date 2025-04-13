@@ -11,7 +11,7 @@ public class ProjectDTO {
   private final String sector;
   private final LocalDateTime createdAt;
 
-  public ProjectDTO(PracticeBuilder builder) {
+  public ProjectDTO(ProjectBuilder builder) {
     this.id = builder.id;
     this.idOrganization = builder.idOrganization;
     this.name = builder.name;
@@ -49,7 +49,7 @@ public class ProjectDTO {
     return createdAt;
   }
 
-  public static class PracticeBuilder {
+  public static class ProjectBuilder {
     protected String id;
     protected String idOrganization;
     protected String name;
@@ -58,38 +58,38 @@ public class ProjectDTO {
     protected String sector;
     protected LocalDateTime createdAt;
 
-    public PracticeBuilder setId(String id) {
+    public ProjectBuilder setId(String id) {
       this.id = id;
       return this;
     }
 
-    public PracticeBuilder setIdOrganization(String idOrganization) {
+    public ProjectBuilder setIdOrganization(String idOrganization) {
       this.idOrganization = idOrganization;
       return this;
     }
 
-    public PracticeBuilder setName(String name) {
+    public ProjectBuilder setName(String name) {
       this.name = name;
       return this;
     }
 
-    public PracticeBuilder setMethodology(String methodology) {
+    public ProjectBuilder setMethodology(String methodology) {
       this.methodology = this.methodology;
       return this;
     }
 
-    public PracticeBuilder setState(String state) {
+    public ProjectBuilder setState(String state) {
       this.state = state;
       return this;
     }
 
-    public PracticeBuilder setSector(String sector) {
+    public ProjectBuilder setSector(String sector) {
       this.sector = sector;
       return this;
     }
 
 
-    public PracticeBuilder setCreatedAt(LocalDateTime createdAt) {
+    public ProjectBuilder setCreatedAt(LocalDateTime createdAt) {
       this.createdAt = createdAt;
       return this;
     }
