@@ -17,7 +17,7 @@ public class MonthlyReportDAO extends DBConnector implements DAO<MonthlyReportDT
     private static final String GET_ALL_QUERY = "SELECT * FROM monthly_report";
     private static final String GET_QUERY = "SELECT * FROM monthly_report WHERE id_project = ?";
     private static final String UPDATE_QUERY =
-            "UPDATE monthly_report SET month = ?, year = ?, worked_hours = ? WHERE id_project = ? ";
+            "UPDATE monthly_report SET worked_hours = ?, report = ? WHERE id_project = ? ";
     private static final String DELETE_QUERY = "DELETE FROM monthly_report WHERE id_project = ?";
 
 
@@ -102,11 +102,8 @@ public class MonthlyReportDAO extends DBConnector implements DAO<MonthlyReportDT
             PreparedStatement statement = conn.prepareStatement(UPDATE_QUERY)) {
 
             statement.setInt(1, element.getIdProject());
-            statement.setString(2, element.getIdStudent());
-            statement.setInt(3, element.getMonth());
-            statement.setInt(4, element.getYear());
-            statement.setInt(5, element.getWorkedHours());
-            statement.setString(6, element.getCreatedAt());
+            statement.setInt(2, element.getWorkedHours());
+            statement.setString(3, element.getReport());
             statement.executeUpdate();
         }
     }
