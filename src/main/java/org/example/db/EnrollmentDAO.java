@@ -15,8 +15,7 @@ package org.example.db;
         "INSERT INTO Enrollment (id_course, id_student) VALUES (?, ?)";
       private static final String GET_ALL_QUERY = "SELECT * FROM Enrollment";
       private static final String GET_QUERY = "SELECT * FROM Enrollment WHERE id_student = ? and id_course = ?";
-      private static final String UPDATE_QUERY =
-        "UPDATE Enrollment SET id_student = ?, created_at = ? WHERE id_student = ? and id_course = ?";
+      // private static final String UPDATE_QUERY = ""; TODO: REMOVE IF NOT NEEDED
       private static final String DELETE_QUERY = "DELETE FROM Enrollment WHERE id_student = ? and id_course = ?";
 
       @Override
@@ -79,17 +78,9 @@ package org.example.db;
       }
 
       @Override
-      public void update(EnrollmentDTO dataObject) throws SQLException {
-        try (
-          Connection connection = getConnection();
-          PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
-        ) {
-          statement.setString(1, dataObject.getIdStudent());
-          statement.setString(2, dataObject.getCreatedAt());
-          statement.setString(3, dataObject.getIdStudent());
-          statement.setString(4, dataObject.getIdCourse());
-          statement.executeUpdate();
-        }
+      public void update(EnrollmentDTO dataObject) throws SQLException, UnsupportedOperationException {
+        // TODO: IMPLEMENT METHOD IF NEEDED
+        throw new UnsupportedOperationException("EnrollmentDAO: Update Method Not Implemented");
       }
 
       @Override
