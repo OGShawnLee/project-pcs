@@ -15,7 +15,7 @@ public class OrganizationDAO extends DAO<OrganizationDTO, String> {
   private static final String GET_ALL_QUERY = "SELECT * FROM Organization";
   private static final String GET_QUERY = "SELECT * FROM Organization WHERE email = ?";
   private static final String UPDATE_QUERY =
-    "UPDATE Organization SET email = ?, representative_full_name = ?, colony = ?, street = ?, state = ? WHERE email = ?";
+    "UPDATE Organization SET name = ?, representative_full_name = ?, colony = ?, street = ?, state = ? WHERE email = ?";
   private static final String DELETE_QUERY = "DELETE FROM Organization WHERE email = ?";
 
   @Override
@@ -89,12 +89,12 @@ public class OrganizationDAO extends DAO<OrganizationDTO, String> {
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
     ) {
-      statement.setString(1, dataObject.getEmail());
-      statement.setString(2, dataObject.getName());
-      statement.setString(3, dataObject.getRepresentativeFullName());
-      statement.setString(4, dataObject.getColony());
-      statement.setString(5, dataObject.getStreet());
-      statement.setString(6, dataObject.getState());
+      statement.setString(1, dataObject.getName());
+      statement.setString(2, dataObject.getRepresentativeFullName());
+      statement.setString(3, dataObject.getColony());
+      statement.setString(4, dataObject.getStreet());
+      statement.setString(5, dataObject.getState());
+      statement.setString(6, dataObject.getEmail());
       statement.executeUpdate();
     }
   }
