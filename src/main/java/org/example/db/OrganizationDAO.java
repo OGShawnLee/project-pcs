@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrganizationDAO extends DAO<OrganizationDTO, String> {
+public class OrganizationDAO extends DAOPattern<OrganizationDTO, String> {
   private static final String CREATE_QUERY =
     "INSERT INTO Organization (email, name, representative_full_name, colony, street) VALUES (?, ?, ?, ?, ?)";
   private static final String GET_ALL_QUERY = "SELECT * FROM Organization";
@@ -32,7 +32,7 @@ public class OrganizationDAO extends DAO<OrganizationDTO, String> {
   }
 
   @Override
-  public void create(OrganizationDTO dataObject) throws SQLException {
+  public void createOne(OrganizationDTO dataObject) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
@@ -64,7 +64,7 @@ public class OrganizationDAO extends DAO<OrganizationDTO, String> {
   }
 
   @Override
-  public OrganizationDTO get(String email) throws SQLException {
+  public OrganizationDTO getOne(String email) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_QUERY)
@@ -84,7 +84,7 @@ public class OrganizationDAO extends DAO<OrganizationDTO, String> {
   }
 
   @Override
-  public void update(OrganizationDTO dataObject) throws SQLException {
+  public void updateOne(OrganizationDTO dataObject) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
@@ -100,7 +100,7 @@ public class OrganizationDAO extends DAO<OrganizationDTO, String> {
   }
 
   @Override
-  public void delete(String email) throws SQLException {
+  public void deleteOne(String email) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)

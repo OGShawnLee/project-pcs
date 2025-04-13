@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MonthlyReportDAO extends DAO<MonthlyReportDTO, FilterMonthlyReport> {
+public class MonthlyReportDAO extends DAOPattern<MonthlyReportDTO, FilterMonthlyReport> {
   private static final String CREATE_QUERY =
     "INSERT INTO MonthlyReport (id_project, id_student, month, year, worked_hours, report) VALUES (?, ?, ?, ?, ?, ?)";
   private static final String GET_ALL_QUERY = "SELECT * FROM MonthlyReport";
@@ -35,7 +35,7 @@ public class MonthlyReportDAO extends DAO<MonthlyReportDTO, FilterMonthlyReport>
   }
 
   @Override
-  public void create(MonthlyReportDTO dataObject) throws SQLException {
+  public void createOne(MonthlyReportDTO dataObject) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
@@ -68,7 +68,7 @@ public class MonthlyReportDAO extends DAO<MonthlyReportDTO, FilterMonthlyReport>
   }
 
   @Override
-  public MonthlyReportDTO get(FilterMonthlyReport filter) throws SQLException {
+  public MonthlyReportDTO getOne(FilterMonthlyReport filter) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_QUERY)
@@ -91,7 +91,7 @@ public class MonthlyReportDAO extends DAO<MonthlyReportDTO, FilterMonthlyReport>
   }
 
   @Override
-  public void update(MonthlyReportDTO dataObject) throws SQLException {
+  public void updateOne(MonthlyReportDTO dataObject) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
@@ -107,7 +107,7 @@ public class MonthlyReportDAO extends DAO<MonthlyReportDTO, FilterMonthlyReport>
   }
 
   @Override
-  public void delete(FilterMonthlyReport filter) throws SQLException {
+  public void deleteOne(FilterMonthlyReport filter) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)

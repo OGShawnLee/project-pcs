@@ -34,23 +34,23 @@ public class AcademicDAOTest {
     .build();
   private final AccountDTO BASE_ACCOUNT_DTO = new AccountDTO(EMAIL, PASSWORD);
 
-  private void createTestData() throws SQLException {
-    ACCOUNT_DAO.create(BASE_ACCOUNT_DTO);
-    ACADEMIC_DAO.create(BASE_ACADEMIC_DTO);
+  private void createOneTestData() throws SQLException {
+    ACCOUNT_DAO.createOne(BASE_ACCOUNT_DTO);
+    ACADEMIC_DAO.createOne(BASE_ACADEMIC_DTO);
   }
 
   @AfterEach
   public void tearDown() throws SQLException {
-    ACADEMIC_DAO.delete(ID);
-    ACCOUNT_DAO.delete(EMAIL);
+    ACADEMIC_DAO.deleteOne(ID);
+    ACCOUNT_DAO.deleteOne(EMAIL);
   }
 
   @Test
-  public void testCreateAcademic() {
+  public void testCreateOneAcademic() {
     assertDoesNotThrow(() -> {
-      createTestData();
+      createOneTestData();
 
-      AcademicDTO createdAcademic = ACADEMIC_DAO.get(ID);
+      AcademicDTO createdAcademic = ACADEMIC_DAO.getOne(ID);
 
       Assertions.assertNotNull(createdAcademic);
       Assertions.assertEquals(ID, createdAcademic.getID());
@@ -64,9 +64,9 @@ public class AcademicDAOTest {
   }
 
   @Test
-  public void testGetAllAcademics() {
+  public void testGetOneAllAcademics() {
     assertDoesNotThrow(() -> {
-      createTestData();
+      createOneTestData();
 
       List<AcademicDTO> academicList = ACADEMIC_DAO.getAll();
 
@@ -76,21 +76,21 @@ public class AcademicDAOTest {
   }
 
   @Test
-  public void testGetAcademic() {
+  public void testGetOneAcademic() {
     assertDoesNotThrow(() -> {
-      ACCOUNT_DAO.create(BASE_ACCOUNT_DTO);
-      ACADEMIC_DAO.create(BASE_ACADEMIC_DTO);
+      ACCOUNT_DAO.createOne(BASE_ACCOUNT_DTO);
+      ACADEMIC_DAO.createOne(BASE_ACADEMIC_DTO);
 
-      AcademicDTO academic = ACADEMIC_DAO.get(ID);
+      AcademicDTO academic = ACADEMIC_DAO.getOne(ID);
 
       Assertions.assertNotNull(academic);
     });
   }
 
   @Test
-  public void testUpdateAcademic() {
+  public void testUpdateOneAcademic() {
     assertDoesNotThrow(() -> {
-      createTestData();
+      createOneTestData();
 
       String updatedName = "John Halo";
       String updatedMaternalLastName = "Smithson";
@@ -104,9 +104,9 @@ public class AcademicDAOTest {
         .setMaternalLastName(updatedMaternalLastName)
         .build();
 
-      ACADEMIC_DAO.update(updatedAcademic);
+      ACADEMIC_DAO.updateOne(updatedAcademic);
 
-      AcademicDTO retrievedAcademic = ACADEMIC_DAO.get(ID);
+      AcademicDTO retrievedAcademic = ACADEMIC_DAO.getOne(ID);
 
       Assertions.assertEquals(updatedMaternalLastName, retrievedAcademic.getMaternalLastName());
       Assertions.assertEquals(updatedPaternalLastName, retrievedAcademic.getPaternalLastName());
@@ -115,14 +115,14 @@ public class AcademicDAOTest {
   }
 
   @Test
-  public void testDeleteAcademic() {
+  public void testDeleteOneAcademic() {
     assertDoesNotThrow(() -> {
-      createTestData();
+      createOneTestData();
 
-      ACCOUNT_DAO.delete(EMAIL);
-      ACADEMIC_DAO.delete(ID);
+      ACCOUNT_DAO.deleteOne(EMAIL);
+      ACADEMIC_DAO.deleteOne(ID);
 
-      AcademicDTO deletedAcademic = ACADEMIC_DAO.get(ID);
+      AcademicDTO deletedAcademic = ACADEMIC_DAO.getOne(ID);
 
       Assertions.assertNull(deletedAcademic);
     });

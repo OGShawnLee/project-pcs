@@ -32,23 +32,23 @@ public class StudentDAOTest {
     .build();
   private final AccountDTO BASE_ACCOUNT_DTO = new AccountDTO(EMAIL, PASSWORD);
 
-  private void createTestData() throws SQLException {
-    ACCOUNT_DAO.create(BASE_ACCOUNT_DTO);
-    STUDENT_DAO.create(BASE_STUDENT_DTO);
+  private void createOneTestData() throws SQLException {
+    ACCOUNT_DAO.createOne(BASE_ACCOUNT_DTO);
+    STUDENT_DAO.createOne(BASE_STUDENT_DTO);
   }
 
   @AfterEach
   public void tearDown() throws SQLException {
-    STUDENT_DAO.delete(ID);
-    ACCOUNT_DAO.delete(EMAIL);
+    STUDENT_DAO.deleteOne(ID);
+    ACCOUNT_DAO.deleteOne(EMAIL);
   }
 
   @Test
-  public void testCreateStudent() {
+  public void testCreateOneStudent() {
     assertDoesNotThrow(() -> {
-      createTestData();
+      createOneTestData();
 
-      StudentDTO createdStudent = STUDENT_DAO.get(ID);
+      StudentDTO createdStudent = STUDENT_DAO.getOne(ID);
 
       Assertions.assertNotNull(createdStudent);
       Assertions.assertEquals(ID, createdStudent.getID());
@@ -61,9 +61,9 @@ public class StudentDAOTest {
   }
 
   @Test
-  public void testGetAllStudents() {
+  public void testGetOneAllStudents() {
     assertDoesNotThrow(() -> {
-      createTestData();
+      createOneTestData();
 
       List<StudentDTO> studentList = STUDENT_DAO.getAll();
 
@@ -73,21 +73,21 @@ public class StudentDAOTest {
   }
 
   @Test
-  public void testGetStudent() {
+  public void testGetOneStudent() {
     assertDoesNotThrow(() -> {
-      ACCOUNT_DAO.create(BASE_ACCOUNT_DTO);
-      STUDENT_DAO.create(BASE_STUDENT_DTO);
+      ACCOUNT_DAO.createOne(BASE_ACCOUNT_DTO);
+      STUDENT_DAO.createOne(BASE_STUDENT_DTO);
 
-      StudentDTO student = STUDENT_DAO.get(ID);
+      StudentDTO student = STUDENT_DAO.getOne(ID);
 
       Assertions.assertNotNull(student);
     });
   }
 
   @Test
-  public void testUpdateAcademic() {
+  public void testUpdateOneAcademic() {
     assertDoesNotThrow(() -> {
-      createTestData();
+      createOneTestData();
 
       String updatedName = "John Halo";
       String updatedMaternalLastName = "Smithson";
@@ -101,9 +101,9 @@ public class StudentDAOTest {
         .setMaternalLastName(updatedMaternalLastName)
         .build();
 
-      STUDENT_DAO.update(updatedStudent);
+      STUDENT_DAO.updateOne(updatedStudent);
 
-      StudentDTO retrievedStudent = STUDENT_DAO.get(ID);
+      StudentDTO retrievedStudent = STUDENT_DAO.getOne(ID);
 
       Assertions.assertEquals(updatedMaternalLastName, retrievedStudent.getMaternalLastName());
       Assertions.assertEquals(updatedPaternalLastName, retrievedStudent.getPaternalLastName());
@@ -112,14 +112,14 @@ public class StudentDAOTest {
   }
 
   @Test
-  public void testDeleteAcademic() {
+  public void testDeleteOneAcademic() {
     assertDoesNotThrow(() -> {
-      createTestData();
+      createOneTestData();
 
-      ACCOUNT_DAO.delete(EMAIL);
-      STUDENT_DAO.delete(ID);
+      ACCOUNT_DAO.deleteOne(EMAIL);
+      STUDENT_DAO.deleteOne(ID);
 
-      StudentDTO deleteStudent = STUDENT_DAO.get(ID);
+      StudentDTO deleteStudent = STUDENT_DAO.getOne(ID);
 
       Assertions.assertNull(deleteStudent);
     });

@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProjectDAO extends DAO<ProjectDTO, Integer> {
+public class ProjectDAO extends DAOPattern<ProjectDTO, Integer> {
   private static final String CREATE_QUERY =
     "INSERT INTO Project (id_project, id_organization, name, methodology, state, sector) VALUES (?, ?, ?, ?, ?, ?)";
   private static final String GET_ALL_QUERY = "SELECT * FROM Project";
@@ -32,7 +32,7 @@ public class ProjectDAO extends DAO<ProjectDTO, Integer> {
   }
 
   @Override
-  public void create(ProjectDTO dataObject) throws SQLException {
+  public void createOne(ProjectDTO dataObject) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
@@ -65,7 +65,7 @@ public class ProjectDAO extends DAO<ProjectDTO, Integer> {
   }
 
   @Override
-  public ProjectDTO get(Integer id) throws SQLException {
+  public ProjectDTO getOne(Integer id) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_QUERY)
@@ -85,7 +85,7 @@ public class ProjectDAO extends DAO<ProjectDTO, Integer> {
   }
 
   @Override
-  public void update(ProjectDTO dataObject) throws SQLException {
+  public void updateOne(ProjectDTO dataObject) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
@@ -101,7 +101,7 @@ public class ProjectDAO extends DAO<ProjectDTO, Integer> {
   }
 
   @Override
-  public void delete(Integer id) throws SQLException {
+  public void deleteOne(Integer id) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)

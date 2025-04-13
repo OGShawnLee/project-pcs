@@ -22,23 +22,23 @@ public class CourseDAOTest extends TestContext {
     .setEndedAt(LocalDateTime.now().plusMonths(4))
     .build();
 
-  private static void createTestData() throws SQLException {
+  private static void createOneTestData() throws SQLException {
     createAcademic();
-    COURSE_DAO.create(COURSE_DTO);
+    COURSE_DAO.createOne(COURSE_DTO);
   }
 
   @AfterEach
   public void tearDown() throws SQLException {
     deleteAcademic();
-    COURSE_DAO.delete(COURSE_DTO.getNRC());
+    COURSE_DAO.deleteOne(COURSE_DTO.getNRC());
   }
 
   @Test
-  public void testCreateCourse() {
+  public void testCreateOneCourse() {
     assertDoesNotThrow(() -> {
-      createTestData();
+      createOneTestData();
 
-      CourseDTO createdCourse = COURSE_DAO.get(COURSE_DTO.getNRC());
+      CourseDTO createdCourse = COURSE_DAO.getOne(COURSE_DTO.getNRC());
 
       Assertions.assertNotNull(createdCourse);
       Assertions.assertEquals(COURSE_DTO.getNRC(), createdCourse.getNRC());
@@ -50,9 +50,9 @@ public class CourseDAOTest extends TestContext {
   }
 
   @Test
-  public void testGetAllCourses() {
+  public void testGetOneAllCourses() {
     assertDoesNotThrow(() -> {
-      createTestData();
+      createOneTestData();
 
       List<CourseDTO> allCourses = COURSE_DAO.getAll();
 
@@ -62,11 +62,11 @@ public class CourseDAOTest extends TestContext {
   }
 
   @Test
-  public void testGetCourse() {
+  public void testGetOneCourse() {
     assertDoesNotThrow(() -> {
-      createTestData();
+      createOneTestData();
 
-      CourseDTO course = COURSE_DAO.get(COURSE_DTO.getNRC());
+      CourseDTO course = COURSE_DAO.getOne(COURSE_DTO.getNRC());
 
       Assertions.assertNotNull(course);
       Assertions.assertEquals(COURSE_DTO.getNRC(), course.getNRC());
@@ -78,9 +78,9 @@ public class CourseDAOTest extends TestContext {
   }
 
   @Test
-  public void testUpdateCourse() {
+  public void testUpdateOneCourse() {
     assertDoesNotThrow(() -> {
-      createTestData();
+      createOneTestData();
 
       CourseDTO updatedCourse = new CourseDTO.CourseBuilder()
         .setNRC(COURSE_DTO.getNRC())
@@ -90,9 +90,9 @@ public class CourseDAOTest extends TestContext {
         .setEndedAt(LocalDateTime.now().plusMonths(5))
         .build();
 
-      COURSE_DAO.update(updatedCourse);
+      COURSE_DAO.updateOne(updatedCourse);
 
-      CourseDTO course = COURSE_DAO.get(COURSE_DTO.getNRC());
+      CourseDTO course = COURSE_DAO.getOne(COURSE_DTO.getNRC());
 
       Assertions.assertEquals(updatedCourse.getSection(), course.getSection());
       Assertions.assertInstanceOf(LocalDateTime.class, course.getStartedAt());
@@ -101,13 +101,13 @@ public class CourseDAOTest extends TestContext {
   }
 
   @Test
-  public void testDeleteCourse() {
+  public void testDeleteOneCourse() {
     assertDoesNotThrow(() -> {
-      createTestData();
+      createOneTestData();
 
-      COURSE_DAO.delete(COURSE_DTO.getNRC());
+      COURSE_DAO.deleteOne(COURSE_DTO.getNRC());
 
-      CourseDTO deletedCourse = COURSE_DAO.get(COURSE_DTO.getNRC());
+      CourseDTO deletedCourse = COURSE_DAO.getOne(COURSE_DTO.getNRC());
 
       Assertions.assertNull(deletedCourse);
     });

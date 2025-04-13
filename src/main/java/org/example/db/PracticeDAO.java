@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PracticeDAO extends DAO<PracticeDTO, FilterPractice> {
+public class PracticeDAO extends DAOPattern<PracticeDTO, FilterPractice> {
   private static final String CREATE_QUERY =
     "INSERT INTO Practice (id_student, id_project, reason_of_assignation) VALUES (?, ?, ?)";
   private static final String GET_ALL_QUERY = "SELECT * FROM Practice";
@@ -29,7 +29,7 @@ public class PracticeDAO extends DAO<PracticeDTO, FilterPractice> {
   }
 
   @Override
-  public void create(PracticeDTO dataObject) throws SQLException {
+  public void createOne(PracticeDTO dataObject) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
@@ -59,7 +59,7 @@ public class PracticeDAO extends DAO<PracticeDTO, FilterPractice> {
   }
 
   @Override
-  public PracticeDTO get(FilterPractice filter) throws SQLException {
+  public PracticeDTO getOne(FilterPractice filter) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_QUERY)
@@ -80,7 +80,7 @@ public class PracticeDAO extends DAO<PracticeDTO, FilterPractice> {
   }
 
   @Override
-  public void update(PracticeDTO dataObject) throws SQLException {
+  public void updateOne(PracticeDTO dataObject) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
@@ -94,7 +94,7 @@ public class PracticeDAO extends DAO<PracticeDTO, FilterPractice> {
   }
 
   @Override
-  public void delete(FilterPractice filter) throws SQLException {
+  public void deleteOne(FilterPractice filter) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)

@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StudentDAO extends DAO<StudentDTO, String> {
+public class StudentDAO extends DAOPattern<StudentDTO, String> {
   protected static final String CREATE_QUERY =
     "INSERT INTO Student (id_student, email, name, paternal_last_name, maternal_last_name) VALUES (?, ?, ?, ?, ?)";
   private static final String GET_ALL_QUERY =
@@ -35,7 +35,7 @@ public class StudentDAO extends DAO<StudentDTO, String> {
   }
 
   @Override
-  public void create(StudentDTO dataObject) throws SQLException {
+  public void createOne(StudentDTO dataObject) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
@@ -68,7 +68,7 @@ public class StudentDAO extends DAO<StudentDTO, String> {
   }
 
   @Override
-  public StudentDTO get(String filter) throws SQLException {
+  public StudentDTO getOne(String filter) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_QUERY)
@@ -88,7 +88,7 @@ public class StudentDAO extends DAO<StudentDTO, String> {
   }
 
   @Override
-  public void update(StudentDTO dataObject) throws SQLException {
+  public void updateOne(StudentDTO dataObject) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
@@ -103,7 +103,7 @@ public class StudentDAO extends DAO<StudentDTO, String> {
   }
 
   @Override
-  public void delete(String id) throws SQLException {
+  public void deleteOne(String id) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)

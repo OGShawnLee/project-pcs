@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AccountDAO extends DAO<AccountDTO, String> {
+public class AccountDAO extends DAOPattern<AccountDTO, String> {
   private static final String CREATE_QUERY = "INSERT INTO Account (email, password) VALUES (?, ?)";
   private static final String GET_QUERY = "SELECT * FROM Account WHERE email = ?";
   private static final String GET_ALL_QUERY = "SELECT * FROM Account";
@@ -22,7 +22,7 @@ public class AccountDAO extends DAO<AccountDTO, String> {
   }
 
   @Override
-  public void create(AccountDTO dataObject) throws SQLException {
+  public void createOne(AccountDTO dataObject) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
@@ -51,7 +51,7 @@ public class AccountDAO extends DAO<AccountDTO, String> {
   }
 
   @Override
-  public AccountDTO get(String email) throws SQLException {
+  public AccountDTO getOne(String email) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_QUERY)
@@ -71,7 +71,7 @@ public class AccountDAO extends DAO<AccountDTO, String> {
   }
 
   @Override
-  public void update(AccountDTO dataObject) throws SQLException {
+  public void updateOne(AccountDTO dataObject) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
@@ -83,7 +83,7 @@ public class AccountDAO extends DAO<AccountDTO, String> {
   }
 
   @Override
-  public void delete(String email) throws SQLException {
+  public void deleteOne(String email) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)

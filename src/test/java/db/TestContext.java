@@ -21,12 +21,12 @@ public class TestContext {
     .build();
 
   protected static void createAcademic() throws SQLException {
-    ACCOUNT_DAO.create(ACADEMIC_ACCOUNT);
-    ACADEMIC_DAO.create(ACADEMIC_DTO);
+    ACCOUNT_DAO.createOne(ACADEMIC_ACCOUNT);
+    ACADEMIC_DAO.createOne(ACADEMIC_DTO);
   }
 
   protected static void deleteAcademic() throws SQLException {
-    ACCOUNT_DAO.delete(ACADEMIC_ACCOUNT.email());
-    ACADEMIC_DAO.delete(ACADEMIC_DTO.getID());
+    ACCOUNT_DAO.deleteOne(ACADEMIC_ACCOUNT.email());
+    ACADEMIC_DAO.deleteOne(ACADEMIC_DTO.getID());
   }
 }

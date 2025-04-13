@@ -10,7 +10,7 @@ package org.example.db;
     import java.util.ArrayList;
     import java.util.List;
 
-    public class EnrollmentDAO extends DAO<EnrollmentDTO, FilterEnrollment> {
+    public class EnrollmentDAO extends DAOPattern<EnrollmentDTO, FilterEnrollment> {
       private static final String CREATE_QUERY =
         "INSERT INTO Enrollment (id_course, id_student) VALUES (?, ?)";
       private static final String GET_ALL_QUERY = "SELECT * FROM Enrollment";
@@ -28,7 +28,7 @@ package org.example.db;
       }
 
       @Override
-      public void create(EnrollmentDTO dataObject) throws SQLException {
+      public void createOne(EnrollmentDTO dataObject) throws SQLException {
         try (
           Connection connection = getConnection();
           PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
@@ -57,7 +57,7 @@ package org.example.db;
       }
 
       @Override
-      public EnrollmentDTO get(FilterEnrollment filter) throws SQLException {
+      public EnrollmentDTO getOne(FilterEnrollment filter) throws SQLException {
         try (
           Connection connection = getConnection();
           PreparedStatement statement = connection.prepareStatement(GET_QUERY)
@@ -78,13 +78,13 @@ package org.example.db;
       }
 
       @Override
-      public void update(EnrollmentDTO dataObject) throws SQLException, UnsupportedOperationException {
+      public void updateOne(EnrollmentDTO dataObject) throws SQLException, UnsupportedOperationException {
         // TODO: IMPLEMENT METHOD IF NEEDED
         throw new UnsupportedOperationException("EnrollmentDAO: Update Method Not Implemented");
       }
 
       @Override
-      public void delete(FilterEnrollment filter) throws SQLException {
+      public void deleteOne(FilterEnrollment filter) throws SQLException {
         try (
           Connection connection = getConnection();
           PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)

@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SelfEvaluationDAO extends DAO<SelfEvaluationDTO, String> {
+public class SelfEvaluationDAO extends DAOPattern<SelfEvaluationDTO, String> {
   private static final String CREATE_QUERY =
     "INSERT INTO SelfEvaluation (" +
       "id_student, follow_up_grade, safety_grade, knowledge_application_grade, interesting_grade, " +
@@ -42,7 +42,7 @@ public class SelfEvaluationDAO extends DAO<SelfEvaluationDTO, String> {
   }
 
   @Override
-  public void create(SelfEvaluationDTO dataObject) throws SQLException {
+  public void createOne(SelfEvaluationDTO dataObject) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
@@ -79,7 +79,7 @@ public class SelfEvaluationDAO extends DAO<SelfEvaluationDTO, String> {
   }
 
   @Override
-  public SelfEvaluationDTO get(String id) throws SQLException {
+  public SelfEvaluationDTO getOne(String id) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_QUERY)
@@ -99,7 +99,7 @@ public class SelfEvaluationDAO extends DAO<SelfEvaluationDTO, String> {
   }
 
   @Override
-  public void update(SelfEvaluationDTO dataObject) throws SQLException {
+  public void updateOne(SelfEvaluationDTO dataObject) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
@@ -119,7 +119,7 @@ public class SelfEvaluationDAO extends DAO<SelfEvaluationDTO, String> {
   }
 
   @Override
-  public void delete(String idStudent) throws SQLException {
+  public void deleteOne(String idStudent) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)

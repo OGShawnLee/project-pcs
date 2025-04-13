@@ -21,13 +21,13 @@ public class AccountDAOTest {
   }
 
   @Test
-  void testCreateAccount() {
+  void testCreateOneAccount() {
     assertDoesNotThrow(() -> {
       AccountDTO account = new AccountDTO(ACC_EMAIL, ACC_PASSWORD);
 
-      ACCOUNT_DAO.create(account);
+      ACCOUNT_DAO.createOne(account);
 
-      AccountDTO createdAccount = ACCOUNT_DAO.get(ACC_EMAIL);
+      AccountDTO createdAccount = ACCOUNT_DAO.getOne(ACC_EMAIL);
 
       Assertions.assertNotNull(createdAccount);
       Assertions.assertEquals(ACC_EMAIL, createdAccount.email());
@@ -36,7 +36,7 @@ public class AccountDAOTest {
   }
 
   @Test
-  void testGetAllAccounts() {
+  void testGetOneAllAccounts() {
     assertDoesNotThrow(() -> {
       List<AccountDTO> accountList = ACCOUNT_DAO.getAll();
 
@@ -46,34 +46,34 @@ public class AccountDAOTest {
   }
 
   @Test
-  void testGetAccount() {
+  void testGetOneAccount() {
     assertDoesNotThrow(() -> {
-      AccountDTO account = ACCOUNT_DAO.get(ACC_EMAIL);
+      AccountDTO account = ACCOUNT_DAO.getOne(ACC_EMAIL);
 
       Assertions.assertNotNull(account);
     });
   }
 
   @Test
-  void testUpdateAccount() {
+  void testUpdateOneAccount() {
     assertDoesNotThrow(() -> {
       String updatedPassword = "UpdatedPassword123";
       AccountDTO account = new AccountDTO(ACC_EMAIL, updatedPassword);
 
-      ACCOUNT_DAO.update(account);
+      ACCOUNT_DAO.updateOne(account);
 
-      AccountDTO updatedAccount = ACCOUNT_DAO.get(ACC_EMAIL);
+      AccountDTO updatedAccount = ACCOUNT_DAO.getOne(ACC_EMAIL);
 
       Assertions.assertEquals(updatedPassword, updatedAccount.password());
     });
   }
 
   @Test
-  void testDeleteAccount() {
+  void testDeleteOneAccount() {
     assertDoesNotThrow(() -> {
-      ACCOUNT_DAO.delete(ACC_EMAIL);
+      ACCOUNT_DAO.deleteOne(ACC_EMAIL);
 
-      AccountDTO deletedAccount = ACCOUNT_DAO.get(ACC_EMAIL);
+      AccountDTO deletedAccount = ACCOUNT_DAO.getOne(ACC_EMAIL);
 
       Assertions.assertNull(deletedAccount);
     });

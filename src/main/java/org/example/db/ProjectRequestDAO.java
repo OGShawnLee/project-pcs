@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProjectRequestDAO extends DAO<ProjectRequestDTO, FilterProject> {
+public class ProjectRequestDAO extends DAOPattern<ProjectRequestDTO, FilterProject> {
   private static final String CREATE_QUERY =
     "INSERT INTO ProjectRequest (id_student, id_project, state, reason_of_state) VALUES (?, ?, ?, ?)";
   private static final String GET_ALL_QUERY = "SELECT * FROM ProjectRequest";
@@ -31,7 +31,7 @@ public class ProjectRequestDAO extends DAO<ProjectRequestDTO, FilterProject> {
   }
 
   @Override
-  public void create(ProjectRequestDTO dataObject) throws SQLException {
+  public void createOne(ProjectRequestDTO dataObject) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
@@ -62,7 +62,7 @@ public class ProjectRequestDAO extends DAO<ProjectRequestDTO, FilterProject> {
   }
 
   @Override
-  public ProjectRequestDTO get(FilterProject filter) throws SQLException {
+  public ProjectRequestDTO getOne(FilterProject filter) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_QUERY)
@@ -83,7 +83,7 @@ public class ProjectRequestDAO extends DAO<ProjectRequestDTO, FilterProject> {
   }
 
   @Override
-  public void update(ProjectRequestDTO dataObject) throws SQLException {
+  public void updateOne(ProjectRequestDTO dataObject) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
@@ -97,7 +97,7 @@ public class ProjectRequestDAO extends DAO<ProjectRequestDTO, FilterProject> {
   }
 
   @Override
-  public void delete(FilterProject filter) throws SQLException {
+  public void deleteOne(FilterProject filter) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)

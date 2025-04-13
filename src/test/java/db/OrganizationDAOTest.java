@@ -27,21 +27,21 @@ public class OrganizationDAOTest {
     .setStreet(STREET)
     .build();
 
-  private void createTestData() throws SQLException {
-    ORGANIZATION_DAO.create(BASE_ORGANIZATION_DTO);
+  private void createOneTestData() throws SQLException {
+    ORGANIZATION_DAO.createOne(BASE_ORGANIZATION_DTO);
   }
 
   @AfterEach
   public void tearDown() throws SQLException {
-    ORGANIZATION_DAO.delete(EMAIL);
+    ORGANIZATION_DAO.deleteOne(EMAIL);
   }
 
   @Test
-  public void testCreateOrganization() {
+  public void testCreateOneOrganization() {
     assertDoesNotThrow(() -> {
-      createTestData();
+      createOneTestData();
 
-      OrganizationDTO createdOrganization = ORGANIZATION_DAO.get(EMAIL);
+      OrganizationDTO createdOrganization = ORGANIZATION_DAO.getOne(EMAIL);
 
       Assertions.assertNotNull(createdOrganization);
       Assertions.assertEquals(EMAIL, createdOrganization.getEmail());
@@ -54,9 +54,9 @@ public class OrganizationDAOTest {
   }
 
   @Test
-  public void testGetAllOrganizations() {
+  public void testGetOneAllOrganizations() {
     assertDoesNotThrow(() -> {
-      createTestData();
+      createOneTestData();
 
       List<OrganizationDTO> organizationList = ORGANIZATION_DAO.getAll();
 
@@ -65,11 +65,11 @@ public class OrganizationDAOTest {
   }
 
   @Test
-  public void testGetOrganization() {
+  public void testGetOneOrganization() {
     assertDoesNotThrow(() -> {
-      createTestData();
+      createOneTestData();
 
-      OrganizationDTO createdOrganization = ORGANIZATION_DAO.get(EMAIL);
+      OrganizationDTO createdOrganization = ORGANIZATION_DAO.getOne(EMAIL);
 
       Assertions.assertNotNull(createdOrganization);
       Assertions.assertEquals(EMAIL, createdOrganization.getEmail());
@@ -81,9 +81,9 @@ public class OrganizationDAOTest {
   }
 
   @Test
-  public void testUpdateOrganization() {
+  public void testUpdateOneOrganization() {
     assertDoesNotThrow(() -> {
-      createTestData();
+      createOneTestData();
 
       String updatedName = "Apple Inc.";
       String updatedRepresentativeFullName = "Steve Jobs";
@@ -100,9 +100,9 @@ public class OrganizationDAOTest {
         .setState(updatedState)
         .build();
 
-      ORGANIZATION_DAO.update(updatedOrganization);
+      ORGANIZATION_DAO.updateOne(updatedOrganization);
 
-      OrganizationDTO retrievedOrganization = ORGANIZATION_DAO.get(EMAIL);
+      OrganizationDTO retrievedOrganization = ORGANIZATION_DAO.getOne(EMAIL);
 
       Assertions.assertEquals(updatedName, retrievedOrganization.getName());
       Assertions.assertEquals(updatedRepresentativeFullName, retrievedOrganization.getRepresentativeFullName());
@@ -113,13 +113,13 @@ public class OrganizationDAOTest {
   }
 
   @Test
-  public void testDeleteOrganization() {
+  public void testDeleteOneOrganization() {
     assertDoesNotThrow(() -> {
-      createTestData();
+      createOneTestData();
 
-      ORGANIZATION_DAO.delete(EMAIL);
+      ORGANIZATION_DAO.deleteOne(EMAIL);
 
-      OrganizationDTO deletedOrganization = ORGANIZATION_DAO.get(EMAIL);
+      OrganizationDTO deletedOrganization = ORGANIZATION_DAO.getOne(EMAIL);
 
       Assertions.assertNull(deletedOrganization);
     });
