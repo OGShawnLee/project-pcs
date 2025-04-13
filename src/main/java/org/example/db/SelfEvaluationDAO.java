@@ -14,13 +14,13 @@ public class SelfEvaluationDAO extends DAO<SelfEvaluationDTO, String> {
     "INSERT INTO SelfEvaluation (" +
       "id_student, follow_up_grade, safety_grade, knowledge_application_grade, interesting_grade, " +
       "productivity_grade, congruent_grade, informed_by_organization, regulated_by_organization, " +
-      "importance_for_professional_development, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      "importance_for_professional_development) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
   private static final String GET_ALL_QUERY = "SELECT * FROM SelfEvaluation";
   private static final String GET_QUERY = "SELECT * FROM SelfEvaluation WHERE id_student = ?";
   private static final String UPDATE_QUERY =
     "UPDATE SelfEvaluation SET follow_up_grade = ?, safety_grade = ?, knowledge_application_grade = ?, " +
       "interesting_grade = ?, productivity_grade = ?, congruent_grade = ?, informed_by_organization = ?, " +
-      "regulated_by_organization = ?, importance_for_professional_development = ?, created_at = ? " +
+      "regulated_by_organization = ?, importance_for_professional_development = ?" +
       "WHERE id_student = ?";
   private static final String DELETE_QUERY = "DELETE FROM SelfEvaluation WHERE id_student = ?";
 
@@ -37,6 +37,7 @@ public class SelfEvaluationDAO extends DAO<SelfEvaluationDTO, String> {
       .setInformedByOrganization(resultSet.getInt("informed_by_organization"))
       .setRegulatedByOrganization(resultSet.getInt("regulated_by_organization"))
       .setImportanceForProfessionalDevelopment(resultSet.getInt("importance_for_professional_development"))
+      .setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime())
       .build();
   }
 
@@ -56,7 +57,6 @@ public class SelfEvaluationDAO extends DAO<SelfEvaluationDTO, String> {
       statement.setInt(8, dataObject.getInformedByOrganization());
       statement.setInt(9, dataObject.getRegulatedByOrganization());
       statement.setInt(10, dataObject.getImportanceForProfessionalDevelopment());
-      statement.setString(11, dataObject.getCreatedAt());
       statement.executeUpdate();
     }
   }
@@ -113,8 +113,7 @@ public class SelfEvaluationDAO extends DAO<SelfEvaluationDTO, String> {
       statement.setInt(7, dataObject.getInformedByOrganization());
       statement.setInt(8, dataObject.getRegulatedByOrganization());
       statement.setInt(9, dataObject.getImportanceForProfessionalDevelopment());
-      statement.setString(10, dataObject.getCreatedAt());
-      statement.setString(11, dataObject.getIdStudent());
+      statement.setString(10, dataObject.getIdStudent());
       statement.executeUpdate();
     }
   }

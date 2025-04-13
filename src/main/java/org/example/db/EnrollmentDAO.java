@@ -23,7 +23,7 @@ package org.example.db;
         return new EnrollmentDTO.EnrollmentBuilder()
           .setIdCourse(resultSet.getString("id_course"))
           .setIdStudent(resultSet.getString("id_student"))
-          .setCreatedAt(resultSet.getString("created_at"))
+          .setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime())
           .build();
       }
 

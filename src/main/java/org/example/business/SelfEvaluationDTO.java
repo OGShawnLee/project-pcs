@@ -1,5 +1,7 @@
 package org.example.business;
 
+import java.time.LocalDateTime;
+
 public class SelfEvaluationDTO {
   private final String idStudent;
   private final int followUpGrade;
@@ -11,7 +13,7 @@ public class SelfEvaluationDTO {
   private final int informedByOrganization;
   private final int regulatedByOrganization;
   private final int importanceForProfessionalDevelopment;
-  private final String createdAt;
+  private final LocalDateTime createdAt;
 
   public SelfEvaluationDTO(SelfEvaluationBuilder builder) {
     this.idStudent = builder.idStudent;
@@ -67,7 +69,7 @@ public class SelfEvaluationDTO {
     return importanceForProfessionalDevelopment;
   }
 
-  public String getCreatedAt() {
+  public LocalDateTime getCreatedAt() {
     return createdAt;
   }
 
@@ -82,7 +84,7 @@ public class SelfEvaluationDTO {
     protected int informedByOrganization;
     protected int regulatedByOrganization;
     protected int importanceForProfessionalDevelopment;
-    protected String createdAt;
+    protected LocalDateTime createdAt;
 
     public SelfEvaluationBuilder setIdStudent(String idStudent) {
       this.idStudent = idStudent;
@@ -131,6 +133,11 @@ public class SelfEvaluationDTO {
 
     public SelfEvaluationBuilder setImportanceForProfessionalDevelopment(int importanceForProfessionalDevelopment) {
       this.importanceForProfessionalDevelopment = importanceForProfessionalDevelopment;
+      return this;
+    }
+
+    public SelfEvaluationBuilder setCreatedAt(LocalDateTime createdAt) {
+      this.createdAt = createdAt;
       return this;
     }
 

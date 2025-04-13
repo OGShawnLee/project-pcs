@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -48,6 +49,7 @@ public class OrganizationDAOTest {
       Assertions.assertEquals(REPRESENTATIVE_FULL_NAME, createdOrganization.getRepresentativeFullName());
       Assertions.assertEquals(COLONY, createdOrganization.getColony());
       Assertions.assertEquals(STREET, createdOrganization.getStreet());
+      Assertions.assertInstanceOf(LocalDateTime.class, createdOrganization.getCreatedAt());
     });
   }
 

@@ -1,5 +1,7 @@
 package org.example.business;
 
+import java.time.LocalDateTime;
+
 public class OrganizationDTO {
   private final String email;
   private final String name;
@@ -7,7 +9,7 @@ public class OrganizationDTO {
   private final String colony;
   private final String street;
   private final String state;
-  private final String createdAt;
+  private final LocalDateTime createdAt;
 
   public OrganizationDTO(OrganizationBuilder builder) {
     this.email = builder.email;
@@ -43,7 +45,7 @@ public class OrganizationDTO {
     return state;
   }
 
-  public String getCreatedAt() {
+  public LocalDateTime getCreatedAt() {
     return createdAt;
   }
 
@@ -54,7 +56,7 @@ public class OrganizationDTO {
     protected String colony;
     protected String street;
     protected String state;
-    protected String createdAt;
+    protected LocalDateTime createdAt;
 
     public OrganizationBuilder setEmail(String email) {
       this.email = email;
@@ -86,7 +88,7 @@ public class OrganizationDTO {
       return this;
     }
 
-    public OrganizationBuilder setCreatedAt(String createdAt) {
+    public OrganizationBuilder setCreatedAt(LocalDateTime createdAt) {
       this.createdAt = createdAt;
       return this;
     }

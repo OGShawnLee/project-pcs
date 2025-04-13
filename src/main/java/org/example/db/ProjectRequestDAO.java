@@ -12,11 +12,11 @@ import java.util.List;
 
 public class ProjectRequestDAO extends DAO<ProjectRequestDTO, FilterProject> {
   private static final String CREATE_QUERY =
-    "INSERT INTO ProjectRequest (id_student, id_project, state, reason_of_state, created_at) VALUES (?, ?, ?, ?, ?)";
+    "INSERT INTO ProjectRequest (id_student, id_project, state, reason_of_state) VALUES (?, ?, ?, ?)";
   private static final String GET_ALL_QUERY = "SELECT * FROM ProjectRequest";
   private static final String GET_QUERY = "SELECT * FROM ProjectRequest WHERE id_student = ? AND id_project = ?";
   private static final String UPDATE_QUERY =
-    "UPDATE ProjectRequest SET state = ?, reason_of_state = ?, created_at = ? WHERE id_student = ? AND id_project = ?";
+    "UPDATE ProjectRequest SET state = ?, reason_of_state = ? WHERE id_student = ? AND id_project = ?";
   private static final String DELETE_QUERY = "DELETE FROM ProjectRequest WHERE id_student = ? AND id_project = ?";
 
   @Override
@@ -26,7 +26,7 @@ public class ProjectRequestDAO extends DAO<ProjectRequestDTO, FilterProject> {
       .setIdProject(resultSet.getString("id_project"))
       .setState(resultSet.getString("state"))
       .setReasonOfState(resultSet.getString("reason_of_state"))
-      .setCreatedAt(resultSet.getString("created_at"))
+      .setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime())
       .build();
   }
 
@@ -40,7 +40,6 @@ public class ProjectRequestDAO extends DAO<ProjectRequestDTO, FilterProject> {
       statement.setString(2, dataObject.getIdProject());
       statement.setString(3, dataObject.getState());
       statement.setString(4, dataObject.getReasonOfState());
-      statement.setString(5, dataObject.getCreatedAt());
       statement.executeUpdate();
     }
   }
@@ -91,9 +90,8 @@ public class ProjectRequestDAO extends DAO<ProjectRequestDTO, FilterProject> {
     ) {
       statement.setString(1, dataObject.getState());
       statement.setString(2, dataObject.getReasonOfState());
-      statement.setString(3, dataObject.getCreatedAt());
-      statement.setString(4, dataObject.getIdStudent());
-      statement.setString(5, dataObject.getIdProject());
+      statement.setString(3, dataObject.getIdStudent());
+      statement.setString(4, dataObject.getIdProject());
       statement.executeUpdate();
     }
   }

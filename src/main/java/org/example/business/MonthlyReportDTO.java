@@ -1,5 +1,7 @@
 package org.example.business;
 
+import java.time.LocalDateTime;
+
 public class MonthlyReportDTO {
   private final int idProject;
   private final String idStudent;
@@ -7,7 +9,7 @@ public class MonthlyReportDTO {
   private final int year;
   private final int workedHours;
   private final String report;
-  private final String createdAt;
+  private final LocalDateTime createdAt;
 
   public MonthlyReportDTO(MonthlyReportBuilder builder) {
     this.idProject = builder.idProject;
@@ -43,7 +45,7 @@ public class MonthlyReportDTO {
     return report;
   }
 
-  public String getCreatedAt() {
+  public LocalDateTime getCreatedAt() {
     return createdAt;
   }
 
@@ -54,7 +56,7 @@ public class MonthlyReportDTO {
     protected int year;
     protected int workedHours;
     protected String report;
-    protected String createdAt;
+    protected LocalDateTime createdAt;
 
     public MonthlyReportBuilder setIdProject(int idProject) {
       this.idProject = idProject;
@@ -86,7 +88,7 @@ public class MonthlyReportDTO {
       return this;
     }
 
-    public MonthlyReportBuilder setCreatedAt(String createdAt) {
+    public MonthlyReportBuilder setCreatedAt(LocalDateTime createdAt) {
       this.createdAt = createdAt;
       return this;
     }

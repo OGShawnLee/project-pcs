@@ -42,7 +42,7 @@ CREATE TABLE Course (
     nrc VARCHAR(5) NOT NULL,
     id_academic CHAR(5) NOT NULL,
     section VARCHAR(16) NOT NULL,
-    started_at TIMESTAMP NOT NULL,
+    started_at DATETIME NOT NULL,
     ended_at DATETIME NOT NULL,
     PRIMARY KEY (nrc),
     FOREIGN KEY (id_academic) REFERENCES Academic(id_academic)

@@ -24,8 +24,8 @@ public class CourseDAO extends DAO<CourseDTO, String> {
       .setNrc(resultSet.getString("nrc"))
       .setIdAcademic(resultSet.getString("id_academic"))
       .setSection(resultSet.getString("section"))
-      .setStartedAt(resultSet.getString("started_at"))
-      .setEndedAt(resultSet.getString("ended_at"))
+      .setStartedAt(resultSet.getTimestamp("started_at").toLocalDateTime())
+      .setEndedAt(resultSet.getTimestamp("ended_at").toLocalDateTime())
       .build();
   }
 
@@ -38,8 +38,8 @@ public class CourseDAO extends DAO<CourseDTO, String> {
       statement.setString(1, dataObject.getNrc());
       statement.setString(2, dataObject.getIdAcademic());
       statement.setString(3, dataObject.getSection());
-      statement.setString(4, dataObject.getStartedAt());
-      statement.setString(5, dataObject.getEndedAt());
+      statement.setDate(4, Common.fromLocalDateTime(dataObject.getStartedAt()));
+      statement.setDate(5, Common.fromLocalDateTime(dataObject.getEndedAt()));
       statement.executeUpdate();
     }
   }
@@ -89,8 +89,8 @@ public class CourseDAO extends DAO<CourseDTO, String> {
     ) {
       statement.setString(1, dataObject.getIdAcademic());
       statement.setString(2, dataObject.getSection());
-      statement.setString(3, dataObject.getStartedAt());
-      statement.setString(4, dataObject.getEndedAt());
+      statement.setDate(3, Common.fromLocalDateTime(dataObject.getStartedAt()));
+      statement.setDate(4, Common.fromLocalDateTime(dataObject.getEndedAt()));
       statement.setString(5, dataObject.getNrc());
       statement.executeUpdate();
     }

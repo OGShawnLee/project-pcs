@@ -1,11 +1,13 @@
 package org.example.business;
 
+import java.time.LocalDateTime;
+
 public class ProjectRequestDTO {
   private final String idStudent;
   private final String idProject;
   private final String state;
   private final String reasonOfState;
-  private final String createdAt;
+  private final LocalDateTime createdAt;
 
   public ProjectRequestDTO(ProjectRequestBuilder builder) {
     this.idStudent = builder.idStudent;
@@ -31,7 +33,7 @@ public class ProjectRequestDTO {
     return reasonOfState;
   }
 
-  public String getCreatedAt() {
+  public LocalDateTime getCreatedAt() {
     return createdAt;
   }
 
@@ -40,7 +42,7 @@ public class ProjectRequestDTO {
     protected String idProject;
     protected String state;
     protected String reasonOfState;
-    protected String createdAt;
+    protected LocalDateTime createdAt;
 
     public ProjectRequestBuilder setIdStudent(String idStudent) {
       this.idStudent = idStudent;
@@ -62,7 +64,7 @@ public class ProjectRequestDTO {
       return this;
     }
 
-    public ProjectRequestBuilder setCreatedAt(String createdAt) {
+    public ProjectRequestBuilder setCreatedAt(LocalDateTime createdAt) {
       this.createdAt = createdAt;
       return this;
     }

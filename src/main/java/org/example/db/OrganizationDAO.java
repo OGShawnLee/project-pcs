@@ -27,7 +27,7 @@ public class OrganizationDAO extends DAO<OrganizationDTO, String> {
       .setColony(resultSet.getString("colony"))
       .setStreet(resultSet.getString("street"))
       .setState(resultSet.getString("state"))
-      .setCreatedAt(resultSet.getString("created_at"))
+      .setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime())
       .build();
   }
 

@@ -27,6 +27,7 @@ public class ProjectDAO extends DAO<ProjectDTO, Integer> {
       .setMethodology(resultSet.getString("methodology"))
       .setState(resultSet.getString("state"))
       .setSector(resultSet.getString("sector"))
+      .setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime())
       .build();
   }
 

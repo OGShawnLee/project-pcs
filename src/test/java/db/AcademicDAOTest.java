@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -58,6 +59,7 @@ public class AcademicDAOTest {
       Assertions.assertEquals(PATERNAL_LAST_NAME, createdAcademic.getPaternalLastName());
       Assertions.assertEquals(MATERNAL_LAST_NAME, createdAcademic.getMaternalLastName());
       Assertions.assertEquals(ROLE, createdAcademic.getRole());
+      Assertions.assertInstanceOf(LocalDateTime.class, createdAcademic.getCreatedAt());
     });
   }
 

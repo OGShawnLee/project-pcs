@@ -26,9 +26,10 @@ public class AcademicDAO extends DAO<AcademicDTO, String> {
       .setName(resultSet.getString("name"))
       .setPaternalLastName(resultSet.getString("paternal_last_name"))
       .setMaternalLastName(resultSet.getString("maternal_last_name"))
-      .setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime())
       .setState(resultSet.getString("state"))
-      .setRole(resultSet.getString("role")).build();
+      .setRole(resultSet.getString("role"))
+      .setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime())
+      .build();
   }
 
   @Override

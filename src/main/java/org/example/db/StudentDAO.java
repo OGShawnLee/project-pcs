@@ -29,8 +29,9 @@ public class StudentDAO extends DAO<StudentDTO, String> {
       .setName(resultSet.getString("name"))
       .setPaternalLastName(resultSet.getString("paternal_last_name"))
       .setMaternalLastName(resultSet.getString("maternal_last_name"))
+      .setState(resultSet.getString("state"))
       .setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime())
-      .setState(resultSet.getString("state")).build();
+      .build();
   }
 
   @Override

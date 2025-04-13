@@ -1,9 +1,11 @@
 package org.example.business;
 
+import java.time.LocalDateTime;
+
 public class EnrollmentDTO {
   private final String idCourse;
   private final String idStudent;
-  private final String createdAt;
+  private final LocalDateTime createdAt;
 
   public EnrollmentDTO(EnrollmentBuilder builder) {
     this.idCourse = builder.idCourse;
@@ -19,14 +21,14 @@ public class EnrollmentDTO {
     return idStudent;
   }
 
-  public String getCreatedAt() {
+  public LocalDateTime getCreatedAt() {
     return createdAt;
   }
 
   public static class EnrollmentBuilder {
     protected String idCourse;
     protected String idStudent;
-    protected String createdAt;
+    protected LocalDateTime createdAt;
 
     public EnrollmentBuilder setIdCourse(String idCourse) {
       this.idCourse = idCourse;
@@ -38,7 +40,7 @@ public class EnrollmentDTO {
       return this;
     }
 
-    public EnrollmentBuilder setCreatedAt(String createdAt) {
+    public EnrollmentBuilder setCreatedAt(LocalDateTime createdAt) {
       this.createdAt = createdAt;
       return this;
     }

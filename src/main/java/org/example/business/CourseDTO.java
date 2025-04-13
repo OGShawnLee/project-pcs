@@ -1,11 +1,13 @@
 package org.example.business;
 
+import java.time.LocalDateTime;
+
 public class CourseDTO {
   private final String nrc;
   private final String idAcademic;
   private final String section;
-  private final String startedAt;
-  private final String endedAt;
+  private final LocalDateTime startedAt;
+  private final LocalDateTime endedAt;
 
   public CourseDTO(CourseBuilder builder) {
     this.nrc = builder.nrc;
@@ -27,11 +29,11 @@ public class CourseDTO {
     return section;
   }
 
-  public String getStartedAt() {
+  public LocalDateTime getStartedAt() {
     return startedAt;
   }
 
-  public String getEndedAt() {
+  public LocalDateTime getEndedAt() {
     return endedAt;
   }
 
@@ -39,8 +41,8 @@ public class CourseDTO {
     protected String nrc;
     protected String idAcademic;
     protected String section;
-    protected String startedAt;
-    protected String endedAt;
+    protected LocalDateTime startedAt;
+    protected LocalDateTime endedAt;
 
     public CourseBuilder setNrc(String nrc) {
       this.nrc = nrc;
@@ -57,12 +59,12 @@ public class CourseDTO {
       return this;
     }
 
-    public CourseBuilder setStartedAt(String startedAt) {
+    public CourseBuilder setStartedAt(LocalDateTime startedAt) {
       this.startedAt = startedAt;
       return this;
     }
 
-    public CourseBuilder setEndedAt(String endedAt) {
+    public CourseBuilder setEndedAt(LocalDateTime endedAt) {
       this.endedAt = endedAt;
       return this;
     }

@@ -30,7 +30,7 @@ public class MonthlyReportDAO extends DAO<MonthlyReportDTO, FilterMonthlyReport>
       .setYear(resultSet.getInt("year"))
       .setWorkedHours(resultSet.getInt("worked_hours"))
       .setReport(resultSet.getString("report"))
-      .setCreatedAt(resultSet.getString("created_at"))
+      .setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime())
       .build();
   }
 
@@ -45,7 +45,7 @@ public class MonthlyReportDAO extends DAO<MonthlyReportDTO, FilterMonthlyReport>
       statement.setInt(3, dataObject.getMonth());
       statement.setInt(4, dataObject.getYear());
       statement.setInt(5, dataObject.getWorkedHours());
-      statement.setString(6, dataObject.getCreatedAt());
+      statement.setString(6, dataObject.getReport());
       statement.executeUpdate();
     }
   }
