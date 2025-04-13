@@ -17,11 +17,11 @@ public class CourseDTO {
     this.endedAt = builder.endedAt;
   }
 
-  public String getNrc() {
+  public String getNRC() {
     return nrc;
   }
 
-  public String getIdAcademic() {
+  public String getIDAcademic() {
     return idAcademic;
   }
 
@@ -44,12 +44,12 @@ public class CourseDTO {
     protected LocalDateTime startedAt;
     protected LocalDateTime endedAt;
 
-    public CourseBuilder setNrc(String nrc) {
+    public CourseBuilder setNRC(String nrc) {
       this.nrc = nrc;
       return this;
     }
 
-    public CourseBuilder setIdAcademic(String idAcademic) {
+    public CourseBuilder setIDAcademic(String idAcademic) {
       this.idAcademic = idAcademic;
       return this;
     }

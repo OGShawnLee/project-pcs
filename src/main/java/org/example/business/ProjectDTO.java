@@ -21,11 +21,11 @@ public class ProjectDTO {
     this.createdAt = builder.createdAt;
   }
 
-  public String getId() {
+  public String getID() {
     return id;
   }
 
-  public String getIdOrganization() {
+  public String getIDOrganization() {
     return idOrganization;
   }
 
@@ -63,7 +63,7 @@ public class ProjectDTO {
       return this;
     }
 
-    public ProjectBuilder setIdOrganization(String idOrganization) {
+    public ProjectBuilder setIDOrganization(String idOrganization) {
       this.idOrganization = idOrganization;
       return this;
     }

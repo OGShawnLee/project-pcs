@@ -13,11 +13,11 @@ public class EnrollmentDTO {
     this.createdAt = builder.createdAt;
   }
 
-  public String getIdCourse() {
+  public String getIDCourse() {
     return idCourse;
   }
 
-  public String getIdStudent() {
+  public String getIDStudent() {
     return idStudent;
   }
 
@@ -30,12 +30,12 @@ public class EnrollmentDTO {
     protected String idStudent;
     protected LocalDateTime createdAt;
 
-    public EnrollmentBuilder setIdCourse(String idCourse) {
+    public EnrollmentBuilder setIDCourse(String idCourse) {
       this.idCourse = idCourse;
       return this;
     }
 
-    public EnrollmentBuilder setIdStudent(String idStudent) {
+    public EnrollmentBuilder setIDStudent(String idStudent) {
       this.idStudent = idStudent;
       return this;
     }

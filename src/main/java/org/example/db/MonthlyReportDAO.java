@@ -24,8 +24,8 @@ public class MonthlyReportDAO extends DAO<MonthlyReportDTO, FilterMonthlyReport>
   @Override
   public MonthlyReportDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
     return new MonthlyReportDTO.MonthlyReportBuilder()
-      .setIdProject(resultSet.getInt("id_project"))
-      .setIdStudent(resultSet.getString("id_student"))
+      .setIDProject(resultSet.getInt("id_project"))
+      .setIDStudent(resultSet.getString("id_student"))
       .setMonth(resultSet.getInt("month"))
       .setYear(resultSet.getInt("year"))
       .setWorkedHours(resultSet.getInt("worked_hours"))
@@ -40,8 +40,8 @@ public class MonthlyReportDAO extends DAO<MonthlyReportDTO, FilterMonthlyReport>
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
     ) {
-      statement.setInt(1, dataObject.getIdProject());
-      statement.setString(2, dataObject.getIdStudent());
+      statement.setInt(1, dataObject.getIDProject());
+      statement.setString(2, dataObject.getIDStudent());
       statement.setInt(3, dataObject.getMonth());
       statement.setInt(4, dataObject.getYear());
       statement.setInt(5, dataObject.getWorkedHours());
@@ -98,8 +98,8 @@ public class MonthlyReportDAO extends DAO<MonthlyReportDTO, FilterMonthlyReport>
     ) {
       statement.setInt(1, dataObject.getWorkedHours());
       statement.setString(2, dataObject.getReport());
-      statement.setInt(3, dataObject.getIdProject());
-      statement.setString(4, dataObject.getIdStudent());
+      statement.setInt(3, dataObject.getIDProject());
+      statement.setString(4, dataObject.getIDStudent());
       statement.setInt(5, dataObject.getMonth());
       statement.setInt(6, dataObject.getYear());
       statement.executeUpdate();

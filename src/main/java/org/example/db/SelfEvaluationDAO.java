@@ -27,7 +27,7 @@ public class SelfEvaluationDAO extends DAO<SelfEvaluationDTO, String> {
   @Override
   protected SelfEvaluationDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
     return new SelfEvaluationDTO.SelfEvaluationBuilder()
-      .setIdStudent(resultSet.getString("id_student"))
+      .setIDStudent(resultSet.getString("id_student"))
       .SetFollowUpGrade(resultSet.getInt("follow_up_grade"))
       .SetSafetyGrade(resultSet.getInt("safety_grade"))
       .setKnowledgeApplicationGrade(resultSet.getInt("knowledge_application_grade"))
@@ -47,7 +47,7 @@ public class SelfEvaluationDAO extends DAO<SelfEvaluationDTO, String> {
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
     ) {
-      statement.setString(1, dataObject.getIdStudent());
+      statement.setString(1, dataObject.getIDStudent());
       statement.setInt(2, dataObject.getFollowUpGrade());
       statement.setInt(3, dataObject.getSafetyGrade());
       statement.setInt(4, dataObject.getKnowledgeApplicationGrade());
@@ -113,7 +113,7 @@ public class SelfEvaluationDAO extends DAO<SelfEvaluationDTO, String> {
       statement.setInt(7, dataObject.getInformedByOrganization());
       statement.setInt(8, dataObject.getRegulatedByOrganization());
       statement.setInt(9, dataObject.getImportanceForProfessionalDevelopment());
-      statement.setString(10, dataObject.getIdStudent());
+      statement.setString(10, dataObject.getIDStudent());
       statement.executeUpdate();
     }
   }

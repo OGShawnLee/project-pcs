@@ -21,8 +21,8 @@ package org.example.db;
       @Override
       protected EnrollmentDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
         return new EnrollmentDTO.EnrollmentBuilder()
-          .setIdCourse(resultSet.getString("id_course"))
-          .setIdStudent(resultSet.getString("id_student"))
+          .setIDCourse(resultSet.getString("id_course"))
+          .setIDStudent(resultSet.getString("id_student"))
           .setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime())
           .build();
       }
@@ -33,8 +33,8 @@ package org.example.db;
           Connection connection = getConnection();
           PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
         ) {
-          statement.setString(1, dataObject.getIdCourse());
-          statement.setString(2, dataObject.getIdStudent());
+          statement.setString(1, dataObject.getIDCourse());
+          statement.setString(2, dataObject.getIDStudent());
           statement.executeUpdate();
         }
       }

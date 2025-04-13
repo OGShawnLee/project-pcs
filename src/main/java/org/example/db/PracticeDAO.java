@@ -22,8 +22,8 @@ public class PracticeDAO extends DAO<PracticeDTO, FilterPractice> {
   @Override
   protected PracticeDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
     return new PracticeDTO.PracticeBuilder()
-      .setIdStudent(resultSet.getString("id_student"))
-      .setIdProject(resultSet.getString("id_project"))
+      .setIDStudent(resultSet.getString("id_student"))
+      .setIDProject(resultSet.getString("id_project"))
       .SetReasonOfAssignation(resultSet.getString("reason_of_assignation"))
       .build();
   }
@@ -34,8 +34,8 @@ public class PracticeDAO extends DAO<PracticeDTO, FilterPractice> {
       Connection conn = getConnection();
       PreparedStatement statement = conn.prepareStatement(CREATE_QUERY)
     ) {
-      statement.setString(1, dataObject.getIdStudent());
-      statement.setString(2, dataObject.getIdProject());
+      statement.setString(1, dataObject.getIDStudent());
+      statement.setString(2, dataObject.getIDProject());
       statement.setString(3, dataObject.getReasonOfAssignation());
       statement.executeUpdate();
     }
@@ -85,10 +85,10 @@ public class PracticeDAO extends DAO<PracticeDTO, FilterPractice> {
       Connection conn = getConnection();
       PreparedStatement statement = conn.prepareStatement(UPDATE_QUERY)
     ) {
-      statement.setString(1, dataObject.getIdProject());
+      statement.setString(1, dataObject.getIDProject());
       statement.setString(2, dataObject.getReasonOfAssignation());
-      statement.setString(3, dataObject.getIdStudent());
-      statement.setString(4, dataObject.getIdProject());
+      statement.setString(3, dataObject.getIDStudent());
+      statement.setString(4, dataObject.getIDProject());
       statement.executeUpdate();
     }
   }

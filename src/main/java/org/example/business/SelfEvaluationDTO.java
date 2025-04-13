@@ -29,7 +29,7 @@ public class SelfEvaluationDTO {
     this.createdAt = builder.createdAt;
   }
 
-  public String getIdStudent() {
+  public String getIDStudent() {
     return idStudent;
   }
 
@@ -86,7 +86,7 @@ public class SelfEvaluationDTO {
     protected int importanceForProfessionalDevelopment;
     protected LocalDateTime createdAt;
 
-    public SelfEvaluationBuilder setIdStudent(String idStudent) {
+    public SelfEvaluationBuilder setIDStudent(String idStudent) {
       this.idStudent = idStudent;
       return this;
     }

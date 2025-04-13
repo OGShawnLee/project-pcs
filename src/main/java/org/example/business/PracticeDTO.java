@@ -11,11 +11,11 @@ public class PracticeDTO {
     this.reasonOfAssignation = builder.reasonOfAssignation;
   }
 
-  public String getIdStudent() {
+  public String getIDStudent() {
     return idStudent;
   }
 
-  public String getIdProject() {
+  public String getIDProject() {
     return idProject;
   }
 
@@ -28,12 +28,12 @@ public class PracticeDTO {
     protected String idProject;
     protected String reasonOfAssignation;
 
-    public PracticeBuilder setIdStudent(String idStudent) {
+    public PracticeBuilder setIDStudent(String idStudent) {
       this.idStudent = idStudent;
       return this;
     }
 
-    public PracticeBuilder setIdProject(String idProject) {
+    public PracticeBuilder setIDProject(String idProject) {
       this.idProject = idProject;
       return this;
     }

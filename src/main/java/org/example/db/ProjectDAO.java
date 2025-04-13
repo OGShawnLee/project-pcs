@@ -22,7 +22,7 @@ public class ProjectDAO extends DAO<ProjectDTO, Integer> {
   protected ProjectDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
     return new ProjectDTO.ProjectBuilder()
       .setId(resultSet.getString("id_project"))
-      .setIdOrganization(resultSet.getString("id_organization"))
+      .setIDOrganization(resultSet.getString("id_organization"))
       .setName(resultSet.getString("name"))
       .setMethodology(resultSet.getString("methodology"))
       .setState(resultSet.getString("state"))
@@ -37,8 +37,8 @@ public class ProjectDAO extends DAO<ProjectDTO, Integer> {
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
     ) {
-      statement.setString(1, dataObject.getId());
-      statement.setString(2, dataObject.getIdOrganization());
+      statement.setString(1, dataObject.getID());
+      statement.setString(2, dataObject.getIDOrganization());
       statement.setString(3, dataObject.getName());
       statement.setString(4, dataObject.getMethodology());
       statement.setString(5, dataObject.getState());
@@ -90,12 +90,12 @@ public class ProjectDAO extends DAO<ProjectDTO, Integer> {
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
     ) {
-      statement.setString(1, dataObject.getIdOrganization());
+      statement.setString(1, dataObject.getIDOrganization());
       statement.setString(2, dataObject.getName());
       statement.setString(3, dataObject.getMethodology());
       statement.setString(4, dataObject.getState());
       statement.setString(5, dataObject.getSector());
-      statement.setString(6, dataObject.getId());
+      statement.setString(6, dataObject.getID());
       statement.executeUpdate();
     }
   }

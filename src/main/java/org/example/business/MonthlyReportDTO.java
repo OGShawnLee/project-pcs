@@ -21,11 +21,11 @@ public class MonthlyReportDTO {
     this.createdAt = builder.createdAt;
   }
 
-  public int getIdProject() {
+  public int getIDProject() {
     return idProject;
   }
 
-  public String getIdStudent() {
+  public String getIDStudent() {
     return idStudent;
   }
 
@@ -58,12 +58,12 @@ public class MonthlyReportDTO {
     protected String report;
     protected LocalDateTime createdAt;
 
-    public MonthlyReportBuilder setIdProject(int idProject) {
+    public MonthlyReportBuilder setIDProject(int idProject) {
       this.idProject = idProject;
       return this;
     }
 
-    public MonthlyReportBuilder setIdStudent(String idStudent) {
+    public MonthlyReportBuilder setIDStudent(String idStudent) {
       this.idStudent = idStudent;
       return this;
     }

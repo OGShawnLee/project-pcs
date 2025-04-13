@@ -17,11 +17,11 @@ public class ProjectRequestDTO {
     this.createdAt = builder.createdAt;
   }
 
-  public String getIdStudent() {
+  public String getIDStudent() {
     return idStudent;
   }
 
-  public String getIdProject() {
+  public String getIDProject() {
     return idProject;
   }
 
@@ -44,12 +44,12 @@ public class ProjectRequestDTO {
     protected String reasonOfState;
     protected LocalDateTime createdAt;
 
-    public ProjectRequestBuilder setIdStudent(String idStudent) {
+    public ProjectRequestBuilder setIDStudent(String idStudent) {
       this.idStudent = idStudent;
       return this;
     }
 
-    public ProjectRequestBuilder setIdProject(String idProject) {
+    public ProjectRequestBuilder setIDProject(String idProject) {
       this.idProject = idProject;
       return this;
     }
