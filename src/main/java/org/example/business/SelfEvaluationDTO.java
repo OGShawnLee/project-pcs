@@ -8,9 +8,9 @@ public class SelfEvaluationDTO {
     private final int interestingGrade;
     private final int productivityGrade;
     private final int congruentGrade;
-    private final int informatedByOrganization;
+    private final int informedByOrganization;
     private final int regulatedByOrganization;
-    private final int importanceProfessionalDevelopment;
+    private final int importanceForProfessionalDevelopment;
     private final String createdAt;
 
     public SelfEvaluationDTO(SelfEvaluationBuilder builder) {
@@ -21,9 +21,9 @@ public class SelfEvaluationDTO {
         this.interestingGrade = builder.interestingGrade;
         this.productivityGrade = builder.productivityGrade;
         this.congruentGrade = builder.congruentGrade;
-        this.informatedByOrganization = builder.informatedByOrganization;
+        this.informedByOrganization = builder.informedByOrganization;
         this.regulatedByOrganization = builder.regulatedByOrganization;
-        this.importanceProfessionalDevelopment = builder.importanceProfessionalDevelopment;
+        this.importanceForProfessionalDevelopment = builder.importanceForProfessionalDevelopment;
         this.createdAt = builder.createdAt;
     }
 
@@ -55,16 +55,16 @@ public class SelfEvaluationDTO {
         return congruentGrade;
     }
 
-    public int getInformatedByOrganization(){
-        return informatedByOrganization;
+    public int getInformedByOrganization(){
+        return informedByOrganization;
     }
 
     public int getRegulatedByOrganization() {
         return regulatedByOrganization;
     }
 
-    public int getImportanceProfessionalDevelopment() {
-        return importanceProfessionalDevelopment;
+    public int getImportanceForProfessionalDevelopment() {
+        return importanceForProfessionalDevelopment;
     }
 
     public String getCreatedAt() {
@@ -79,9 +79,9 @@ public class SelfEvaluationDTO {
         protected int interestingGrade;
         protected int productivityGrade;
         protected int congruentGrade;
-        protected int informatedByOrganization;
+        protected int informedByOrganization;
         protected int regulatedByOrganization;
-        protected int importanceProfessionalDevelopment;
+        protected int importanceForProfessionalDevelopment;
         protected String createdAt;
 
         public SelfEvaluationBuilder setIdStudent(String idStudent) {
@@ -119,8 +119,8 @@ public class SelfEvaluationDTO {
             return this;
         }
 
-        public SelfEvaluationBuilder setInformatedByOrganization(int informatedByOrganization) {
-            this.informatedByOrganization = informatedByOrganization;
+        public SelfEvaluationBuilder setInformedByOrganization(int informedByOrganization) {
+            this.informedByOrganization = informedByOrganization;
             return this;
         }
 
@@ -129,8 +129,8 @@ public class SelfEvaluationDTO {
             return this;
         }
 
-        public SelfEvaluationBuilder setImportanceProfessionalDevelopment(int importanceProfessionalDevelopment) {
-            this.importanceProfessionalDevelopment = importanceProfessionalDevelopment;
+        public SelfEvaluationBuilder setImportanceForProfessionalDevelopment(int importanceForProfessionalDevelopment) {
+            this.importanceForProfessionalDevelopment = importanceForProfessionalDevelopment;
             return this;
         }
 

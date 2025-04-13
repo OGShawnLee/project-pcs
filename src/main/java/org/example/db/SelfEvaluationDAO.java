@@ -9,19 +9,16 @@ import java.util.List;
 public class SelfEvaluationDAO extends DBConnector implements DAO<SelfEvaluationDTO> {
 
     private static final String CREATE_QUERY =
-            "INSERT INTO self_evaluation (" +
+            "INSERT INTO SelfEvaluation (" +
                     "id_student, follow_up_grade, safety_grade, knowledge_application_grade, interesting_grade, " +
-                    "productivity_grade, congruent_grade, informated_by_organization, regulated_by_organization, " +
-                    "importance_professional_development, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-    private static final String GET_ALL_QUERY = "SELECT * FROM self_evaluation";
-
-    private static final String GET_QUERY = "SELECT * FROM self_evaluation WHERE id_student = ?";
-
+                    "productivity_grade, congruent_grade, informed_by_organization, regulated_by_organization, " +
+                    "importance_for_professional_development, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    private static final String GET_ALL_QUERY = "SELECT * FROM SelfEvaluation";
+    private static final String GET_QUERY = "SELECT * FROM SelfEvaluation WHERE id_student = ?";
     private static final String UPDATE_QUERY =
-            "UPDATE self_evaluation SET follow_up_grade = ?, safety_grade = ?, knowledge_application_grade = ?, " +
-                    "interesting_grade = ?, productivity_grade = ?, congruent_grade = ?, informated_by_organization = ?, " +
-                    "regulated_by_organization = ?, importance_professional_development = ?, created_at = ? " +
+            "UPDATE SelfEvaluation SET follow_up_grade = ?, safety_grade = ?, knowledge_application_grade = ?, " +
+                    "interesting_grade = ?, productivity_grade = ?, congruent_grade = ?, informed_by_organization = ?, " +
+                    "regulated_by_organization = ?, importance_for_professional_development = ?, created_at = ? " +
                     "WHERE id_student = ?";
 
     private static final String DELETE_QUERY = "DELETE FROM self_evaluation WHERE id_student = ?";
@@ -38,9 +35,9 @@ public class SelfEvaluationDAO extends DBConnector implements DAO<SelfEvaluation
             stmt.setInt(5, element.getInterestingGrade());
             stmt.setInt(6, element.getProductivityGrade());
             stmt.setInt(7, element.getCongruentGrade());
-            stmt.setInt(8, element.getInformatedByOrganization());
+            stmt.setInt(8, element.getInformedByOrganization());
             stmt.setInt(9, element.getRegulatedByOrganization());
-            stmt.setInt(10, element.getImportanceProfessionalDevelopment());
+            stmt.setInt(10, element.getImportanceForProfessionalDevelopment());
             stmt.setString(11, element.getCreatedAt());
 
             stmt.executeUpdate();
@@ -64,9 +61,9 @@ public class SelfEvaluationDAO extends DBConnector implements DAO<SelfEvaluation
                         .setInterestingGrade(rs.getInt("interesting_grade"))
                         .setProductivityGrade(rs.getInt("productivity_grade"))
                         .setCongruentGrade(rs.getInt("congruent_grade"))
-                        .setInformatedByOrganization(rs.getInt("informated_by_organization"))
+                        .setInformedByOrganization(rs.getInt("informed_by_organization"))
                         .setRegulatedByOrganization(rs.getInt("regulated_by_organization"))
-                        .setImportanceProfessionalDevelopment(rs.getInt("importance_professional_development"))
+                        .setImportanceForProfessionalDevelopment(rs.getInt("importance_for_professional_development"))
                         .build();
 
                 list.add(dto);
@@ -100,9 +97,9 @@ public class SelfEvaluationDAO extends DBConnector implements DAO<SelfEvaluation
                         .setInterestingGrade(rs.getInt("interesting_grade"))
                         .setProductivityGrade(rs.getInt("productivity_grade"))
                         .setCongruentGrade(rs.getInt("congruent_grade"))
-                        .setInformatedByOrganization(rs.getInt("informated_by_organization"))
+                        .setInformedByOrganization(rs.getInt("informed_by_organization"))
                         .setRegulatedByOrganization(rs.getInt("regulated_by_organization"))
-                        .setImportanceProfessionalDevelopment(rs.getInt("importance_professional_development"))
+                        .setImportanceForProfessionalDevelopment(rs.getInt("importance_for_professional_development"))
                         .build();
             }
         }
@@ -121,9 +118,9 @@ public class SelfEvaluationDAO extends DBConnector implements DAO<SelfEvaluation
             stmt.setInt(4, element.getInterestingGrade());
             stmt.setInt(5, element.getProductivityGrade());
             stmt.setInt(6, element.getCongruentGrade());
-            stmt.setInt(7, element.getInformatedByOrganization());
+            stmt.setInt(7, element.getInformedByOrganization());
             stmt.setInt(8, element.getRegulatedByOrganization());
-            stmt.setInt(9, element.getImportanceProfessionalDevelopment());
+            stmt.setInt(9, element.getImportanceForProfessionalDevelopment());
             stmt.setString(10, element.getCreatedAt());
             stmt.setString(11, element.getIdStudent());
 
