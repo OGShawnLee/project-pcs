@@ -1,6 +1,7 @@
 package org.example.db;
 
 import org.example.business.PracticeDTO;
+import org.example.db.filter.FilterPractice;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,14 +10,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PracticeDAO extends DBConnector implements DAO<PracticeDTO> {
+public class PracticeDAO extends DBConnector implements DAO<PracticeDTO, FilterPractice> {
     private static final String CREATE_QUERY =
-            "INSERT INTO practice (id_student, id_project, reason_of_assignation) VALUES (?, ?, ?, ?, ?)";
-    private static final String GET_ALL_QUERY = "SELECT * FROM practice";
-    private static final String GET_QUERY = "SELECT * FROM course WHERE id_student = ?";
+            "INSERT INTO Practice (id_student, id_project, reason_of_assignation) VALUES (?, ?, ?)";
+    private static final String GET_ALL_QUERY = "SELECT * FROM Practice";
+    private static final String GET_QUERY = "SELECT * FROM Practice WHERE id_student = ? AND id_project = ?";
     private static final String UPDATE_QUERY =
-            "UPDATE enrollment SET id_project = ?, reason_of_assignation = ? WHERE id_student = ?";
-    private static final String DELETE_QUERY = "DELETE FROM practice WHERE id_student = ?";
+            "UPDATE Practice SET id_project = ?, reason_of_assignation = ? WHERE id_student = ? AND id_project = ?";
+    private static final String DELETE_QUERY = "DELETE FROM Practice WHERE id_student = ? AND id_project = ?";
 
 
     @Override
@@ -54,19 +55,15 @@ public class PracticeDAO extends DBConnector implements DAO<PracticeDTO> {
     }
 
     @Override
-    public PracticeDTO get(int id) throws SQLException {
-        return null;
-    }
-
-    @Override
-    public PracticeDTO get(String id) throws SQLException {
+    public PracticeDTO get(FilterPractice filter) throws SQLException {
         PracticeDTO dto = null;
 
         try(Connection conn = getConnection();
             PreparedStatement statement = conn.prepareStatement(GET_QUERY)) {
             PracticeDTO element = null;
 
-            statement.setString(1, id);
+            statement.setString(1, filter.getIDStudent());
+            statement.setInt(2, filter.getIDPractice());
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     dto = new PracticeDTO.PracticeBuilder() {
@@ -84,8 +81,7 @@ public class PracticeDAO extends DBConnector implements DAO<PracticeDTO> {
 
     @Override
     public void update(PracticeDTO element) throws SQLException {
-
-        try(Connection conn = getConnection();
+        try (Connection conn = getConnection();
             PreparedStatement statement = conn.prepareStatement(UPDATE_QUERY)) {
 
             statement.setString(1, element.getIdStudent());
@@ -96,12 +92,13 @@ public class PracticeDAO extends DBConnector implements DAO<PracticeDTO> {
     }
 
     @Override
-    public void delete(int id) throws SQLException {
+    public void delete(FilterPractice filter) throws SQLException {
         Connection conn = getConnection();
         PreparedStatement statement = conn.prepareStatement(DELETE_QUERY);
 
         try (statement) {
-            statement.setInt(1, id);
+            statement.setString(1, filter.getIDStudent());
+            statement.setInt(2, filter.getIDPractice());
             statement.executeUpdate();
         }
 

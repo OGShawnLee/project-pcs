@@ -1,8 +1,7 @@
 package org.example.db;
 
 import org.example.business.MonthlyReportDTO;
-import org.example.db.DAO;
-import org.example.db.DBConnector;
+import org.example.db.filter.FilterMonthlyReport;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,15 +10,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MonthlyReportDAO extends DBConnector implements DAO<MonthlyReportDTO> {
+public class MonthlyReportDAO extends DBConnector implements DAO<MonthlyReportDTO, FilterMonthlyReport> {
     private static final String CREATE_QUERY =
-            "INSERT INTO monthly_report (id_project, id_student, month, year, worked_hours, report) VALUES (?, ?, ?, ?, ?, ?)";
-    private static final String GET_ALL_QUERY = "SELECT * FROM monthly_report";
-    private static final String GET_QUERY = "SELECT * FROM monthly_report WHERE id_project = ?";
+            "INSERT INTO MonthlyReport (id_project, id_student, month, year, worked_hours, report) VALUES (?, ?, ?, ?, ?, ?)";
+    private static final String GET_ALL_QUERY = "SELECT * FROM MonthlyReport";
+    private static final String GET_QUERY =
+            "SELECT * FROM MonthlyReport WHERE id_project = ? AND id_student = ? AND month = ? AND year = ?";
     private static final String UPDATE_QUERY =
-            "UPDATE monthly_report SET worked_hours = ?, report = ? WHERE id_project = ? ";
-    private static final String DELETE_QUERY = "DELETE FROM monthly_report WHERE id_project = ?";
-
+            "UPDATE MonthlyReport SET worked_hours = ?, report = ? WHERE id_project = ? AND id_student = ? AND month = ? AND year = ?";
+    private static final String DELETE_QUERY =
+            "DELETE FROM MonthlyReport WHERE id_project = ? AND id_student = ? AND month = ? AND year = ?";
 
     @Override
     public void create(MonthlyReportDTO element) throws SQLException {
@@ -54,7 +54,7 @@ public class MonthlyReportDAO extends DBConnector implements DAO<MonthlyReportDT
                         .setYear(resultSet.getInt("year"))
                         .setWorkedHours(resultSet.getInt("worked_hours"))
                         .setReport(resultSet.getString("report"))
-                        .setCreatedAt(resultSet.getString("createdat_"))
+                        .setCreatedAt(resultSet.getString("created_at"))
                         .build();
                 list.add(dto);
             }
@@ -63,19 +63,17 @@ public class MonthlyReportDAO extends DBConnector implements DAO<MonthlyReportDT
     }
 
     @Override
-    public MonthlyReportDTO get(int id) throws SQLException {
-        return null;
-    }
-
-    @Override
-    public MonthlyReportDTO get(String id) throws SQLException {
+    public MonthlyReportDTO get(FilterMonthlyReport filter) throws SQLException {
         MonthlyReportDTO dto = null;
 
         try(Connection conn = getConnection();
             PreparedStatement statement = conn.prepareStatement(GET_QUERY)) {
             MonthlyReportDTO element = null;
 
-            statement.setString(1, id);
+            statement.setInt(1, filter.getIDProject());
+            statement.setString(2, filter.getIDStudent());
+            statement.setInt(3, filter.getMonth());
+            statement.setInt(4, filter.getYear());
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     dto = new MonthlyReportDTO.MonthlyReportBuilder() {
@@ -101,20 +99,26 @@ public class MonthlyReportDAO extends DBConnector implements DAO<MonthlyReportDT
         try(Connection conn = getConnection();
             PreparedStatement statement = conn.prepareStatement(UPDATE_QUERY)) {
 
-            statement.setInt(1, element.getIdProject());
-            statement.setInt(2, element.getWorkedHours());
-            statement.setString(3, element.getReport());
+            statement.setInt(1, element.getWorkedHours());
+            statement.setString(2, element.getReport());
+            statement.setInt(4, element.getIdProject());
+            statement.setString(3, element.getIdStudent());
+            statement.setInt(5, element.getMonth());
+            statement.setInt(6, element.getYear());
             statement.executeUpdate();
         }
     }
 
     @Override
-    public void delete(int id) throws SQLException {
+    public void delete(FilterMonthlyReport filter) throws SQLException {
         Connection conn = getConnection();
         PreparedStatement statement = conn.prepareStatement(DELETE_QUERY);
 
         try (statement) {
-            statement.setInt(1, id);
+            statement.setInt(1, filter.getIDProject());
+            statement.setString(2, filter.getIDStudent());
+            statement.setInt(3, filter.getMonth());
+            statement.setInt(4, filter.getYear());
             statement.executeUpdate();
         }
 

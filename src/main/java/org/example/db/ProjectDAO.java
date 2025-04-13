@@ -9,19 +9,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProjectDAO extends DBConnector implements DAO<ProjectDTO> {
-
+public class ProjectDAO extends DBConnector implements DAO<ProjectDTO, Integer> {
     private static final String CREATE_QUERY =
-            "INSERT INTO project (id_project, id_organization, name, methodology, state, sector) VALUES (?, ?, ?, ?, ?, ?)";
-
-    private static final String GET_ALL_QUERY = "SELECT * FROM project";
-
-    private static final String GET_QUERY = "SELECT * FROM project WHERE id_project = ?";
-
+            "INSERT INTO Project (id_project, id_organization, name, methodology, state, sector) VALUES (?, ?, ?, ?, ?, ?)";
+    private static final String GET_ALL_QUERY = "SELECT * FROM Project";
+    private static final String GET_QUERY = "SELECT * FROM Project WHERE id_project = ?";
     private static final String UPDATE_QUERY =
-            "UPDATE project SET id_organization = ?, name = ?, methodology = ?, state = ?, sector = ? WHERE id_project = ?";
-
-    private static final String DELETE_QUERY = "DELETE FROM project WHERE id_project = ?";
+            "UPDATE Project SET id_organization = ?, name = ?, methodology = ?, state = ?, sector = ? WHERE id_project = ?";
+    private static final String DELETE_QUERY = "DELETE FROM Project WHERE id_project = ?";
 
     @Override
     public void create(ProjectDTO element) throws SQLException {
@@ -65,18 +60,13 @@ public class ProjectDAO extends DBConnector implements DAO<ProjectDTO> {
     }
 
     @Override
-    public ProjectDTO get(int id) throws SQLException {
-        return null;
-    }
-
-    @Override
-    public ProjectDTO get(String id) throws SQLException {
+    public ProjectDTO get(Integer id) throws SQLException {
         ProjectDTO dto = null;
 
         try (Connection conn = getConnection();
              PreparedStatement statement = conn.prepareStatement(GET_QUERY)) {
 
-            statement.setString(1, id);
+            statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     dto = new ProjectDTO.PracticeBuilder()
@@ -110,15 +100,11 @@ public class ProjectDAO extends DBConnector implements DAO<ProjectDTO> {
         }
     }
 
-    @Override
-    public void delete(int id) throws SQLException {
-    }
-
-    public void delete(String idProject) throws SQLException {
+    public void delete(Integer id) throws SQLException {
         try (Connection conn = getConnection();
              PreparedStatement statement = conn.prepareStatement(DELETE_QUERY)) {
 
-            statement.setString(1, idProject);
+            statement.setInt(1, id);
             statement.executeUpdate();
         }
     }

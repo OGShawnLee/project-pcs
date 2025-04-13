@@ -9,14 +9,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AcademicDAO extends DBConnector implements DAO<AcademicDTO> {
+public class AcademicDAO extends DBConnector implements DAO<AcademicDTO, String> {
     private static final String CREATE_QUERY =
-            "INSERT INTO academic (id_academic, email, name, paternal_last_name, maternal_last_name, role) VALUES (?, ?, ?, ?, ?, ?)";
-    private static final String GET_ALL_QUERY = "SELECT * FROM academic";
-    private static final String GET_QUERY = "SELECT * FROM academic WHERE id_academic = ?";
+            "INSERT INTO Academic (id_academic, email, name, paternal_last_name, maternal_last_name, role) VALUES (?, ?, ?, ?, ?, ?)";
+    private static final String GET_ALL_QUERY = "SELECT * FROM Academic";
+    private static final String GET_QUERY = "SELECT * FROM Academic WHERE id_academic = ?";
     private static final String UPDATE_QUERY =
-            "UPDATE academic SET name = ?, paternal_last_name = ?, maternal_last_name = ? WHERE id_academic = ?";
-    private static final String DELETE_QUERY = "DELETE FROM academic WHERE id_academic = ?";
+            "UPDATE Academic SET name = ?, paternal_last_name = ?, maternal_last_name = ? WHERE id_academic = ?";
+    private static final String DELETE_QUERY = "DELETE FROM Academic WHERE id_academic = ?";
 
     @Override
     public void create(AcademicDTO element) throws SQLException {
@@ -53,11 +53,6 @@ public class AcademicDAO extends DBConnector implements DAO<AcademicDTO> {
     }
 
     @Override
-    public AcademicDTO get(int id) throws SQLException {
-        return null;
-    }
-
-    @Override
     public AcademicDTO get(String id) throws SQLException {
         Connection conn = getConnection();
         PreparedStatement statement = conn.prepareStatement(GET_QUERY);
@@ -89,8 +84,6 @@ public class AcademicDAO extends DBConnector implements DAO<AcademicDTO> {
 
         close();
     }
-
-    public void delete(int id) throws SQLException {}
 
     @Override
     public void delete(String id) throws SQLException {

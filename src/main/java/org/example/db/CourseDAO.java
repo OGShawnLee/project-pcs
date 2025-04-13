@@ -1,6 +1,7 @@
 package org.example.db;
 
 import org.example.business.CourseDTO;
+import org.example.db.filter.Filter;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CourseDAO extends DBConnector implements DAO<CourseDTO> {
+public class CourseDAO extends DBConnector implements DAO<CourseDTO, String> {
     private static final String CREATE_QUERY =
             "INSERT INTO course (nrc, id_academic, section, started_at, ended_at) VALUES (?, ?, ?, ?, ?)";
     private static final String GET_ALL_QUERY = "SELECT * FROM course";
@@ -58,19 +59,14 @@ public class CourseDAO extends DBConnector implements DAO<CourseDTO> {
     }
 
     @Override
-    public CourseDTO get(int id) throws SQLException {
-        return null;
-    }
-
-    @Override
-    public CourseDTO get(String id) throws SQLException {
+    public CourseDTO get(String nrc) throws SQLException {
         CourseDTO dto = null;
 
         try(Connection conn = getConnection();
         PreparedStatement statement = conn.prepareStatement(GET_QUERY)) {
             CourseDTO element = null;
 
-            statement.setString(1, id);
+            statement.setString(1, nrc);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     dto = new CourseDTO.CourseBuilder() {
@@ -104,12 +100,12 @@ public class CourseDAO extends DBConnector implements DAO<CourseDTO> {
     }
 
     @Override
-    public void delete(int id) throws SQLException {
+    public void delete(String nrc) throws SQLException {
         Connection conn = getConnection();
         PreparedStatement statement = conn.prepareStatement(DELETE_QUERY);
 
         try (statement) {
-            statement.setInt(1, id);
+            statement.setString(1, nrc);
             statement.executeUpdate();
         }
 

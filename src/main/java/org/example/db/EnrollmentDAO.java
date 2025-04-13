@@ -1,6 +1,7 @@
 package org.example.db;
 
 import org.example.business.EnrollmentDTO;
+import org.example.db.filter.FilterEnrollment;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,14 +10,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EnrollmentDAO extends DBConnector implements DAO<EnrollmentDTO> {
+public class EnrollmentDAO extends DBConnector implements DAO<EnrollmentDTO, FilterEnrollment> {
     private static final String CREATE_QUERY =
-            "INSERT INTO enrollment (id_course, id_student, created_at) VALUES (?, ?, ?, ?, ?)";
-    private static final String GET_ALL_QUERY = "SELECT * FROM enrollment";
-    private static final String GET_QUERY = "SELECT * FROM course WHERE id_course = ?";
+            "INSERT INTO Enrollment (id_course, id_student) VALUES (?, ?)";
+    private static final String GET_ALL_QUERY = "SELECT * FROM Enrollment";
+    private static final String GET_QUERY = "SELECT * FROM Enrollment WHERE id_student = ? and id_course = ?";
     private static final String UPDATE_QUERY =
-            "UPDATE enrollment SET id_student = ?, created_at = ? WHERE id_course = ?";
-    private static final String DELETE_QUERY = "DELETE FROM course WHERE id_course = ?";
+            "UPDATE Enrollment SET id_student = ?, created_at = ? WHERE id_student = ? and id_course = ?";
+    private static final String DELETE_QUERY = "DELETE FROM Enrollment WHERE id_student = ? and id_course = ?";
 
 
     @Override
@@ -26,7 +27,6 @@ public class EnrollmentDAO extends DBConnector implements DAO<EnrollmentDTO> {
 
         statement.setString(1, element.getIdCourse());
         statement.setString(2, element.getIdStudent());
-        statement.setString(3, element.getCreatedAt());
         statement.executeUpdate();
 
         close();
@@ -54,19 +54,15 @@ public class EnrollmentDAO extends DBConnector implements DAO<EnrollmentDTO> {
     }
 
     @Override
-    public EnrollmentDTO get(int id) throws SQLException {
-        return null;
-    }
-
-    @Override
-    public EnrollmentDTO get(String id) throws SQLException {
+    public EnrollmentDTO get(FilterEnrollment filter) throws SQLException {
         EnrollmentDTO dto = null;
 
         try(Connection conn = getConnection();
             PreparedStatement statement = conn.prepareStatement(GET_QUERY)) {
             EnrollmentDTO element = null;
 
-            statement.setString(1, id);
+            statement.setString(1, filter.getIDStudent());
+            statement.setString(2, filter.getIDCourse());
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     dto = new EnrollmentDTO.EnrollmentBuilder() {
@@ -96,12 +92,13 @@ public class EnrollmentDAO extends DBConnector implements DAO<EnrollmentDTO> {
     }
 
     @Override
-    public void delete(int id) throws SQLException {
+    public void delete(FilterEnrollment filter) throws SQLException {
         Connection conn = getConnection();
         PreparedStatement statement = conn.prepareStatement(DELETE_QUERY);
 
         try (statement) {
-            statement.setInt(1, id);
+            statement.setString(1, filter.getIDStudent());
+            statement.setString(2, filter.getIDCourse());
             statement.executeUpdate();
         }
 

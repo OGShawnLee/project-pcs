@@ -1,24 +1,20 @@
 package org.example.db;
 
 import org.example.business.ProjectRequestDTO;
+import org.example.db.filter.FilterProject;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProjectRequestDAO extends DBConnector implements DAO<ProjectRequestDTO> {
-
+public class ProjectRequestDAO extends DBConnector implements DAO<ProjectRequestDTO, FilterProject> {
     private static final String CREATE_QUERY =
-            "INSERT INTO project_request (id_student, id_project, state, reason_of_state, created_at) VALUES (?, ?, ?, ?, ?)";
-
-    private static final String GET_ALL_QUERY = "SELECT * FROM project_request";
-
-    private static final String GET_QUERY = "SELECT * FROM project_request WHERE id_student = ? AND id_project = ?";
-
+            "INSERT INTO ProjectRequest (id_student, id_project, state, reason_of_state, created_at) VALUES (?, ?, ?, ?, ?)";
+    private static final String GET_ALL_QUERY = "SELECT * FROM ProjectRequest";
+    private static final String GET_QUERY = "SELECT * FROM ProjectRequest WHERE id_student = ? AND id_project = ?";
     private static final String UPDATE_QUERY =
-            "UPDATE project_request SET state = ?, reason_of_state = ?, created_at = ? WHERE id_student = ? AND id_project = ?";
-
-    private static final String DELETE_QUERY = "DELETE FROM project_request WHERE id_student = ? AND id_project = ?";
+            "UPDATE ProjectRequest SET state = ?, reason_of_state = ?, created_at = ? WHERE id_student = ? AND id_project = ?";
+    private static final String DELETE_QUERY = "DELETE FROM ProjectRequest WHERE id_student = ? AND id_project = ?";
 
     @Override
     public void create(ProjectRequestDTO element) throws SQLException {
@@ -60,18 +56,14 @@ public class ProjectRequestDAO extends DBConnector implements DAO<ProjectRequest
     }
 
     @Override
-    public ProjectRequestDTO get(int id) throws SQLException {
-        return null;
-    }
-
-    public ProjectRequestDTO get(String idStudent, String idProject) throws SQLException {
+    public ProjectRequestDTO get(FilterProject filter) throws SQLException {
         ProjectRequestDTO dto = null;
 
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(GET_QUERY)) {
 
-            stmt.setString(1, idStudent);
-            stmt.setString(2, idProject);
+            stmt.setString(1, filter.getIDStudent());
+            stmt.setInt(2, filter.getIDProject());
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
@@ -86,11 +78,6 @@ public class ProjectRequestDAO extends DBConnector implements DAO<ProjectRequest
         }
 
         return dto;
-    }
-
-    @Override
-    public ProjectRequestDTO get(String id) throws SQLException {
-        return null;
     }
 
     @Override
@@ -109,15 +96,12 @@ public class ProjectRequestDAO extends DBConnector implements DAO<ProjectRequest
     }
 
     @Override
-    public void delete(int id) throws SQLException {
-    }
-
-    public void delete(String idStudent, String idProject) throws SQLException {
+    public void delete(FilterProject filter) throws SQLException {
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(DELETE_QUERY)) {
 
-            stmt.setString(1, idStudent);
-            stmt.setString(2, idProject);
+            stmt.setString(1, filter.getIDStudent());
+            stmt.setInt(2, filter.getIDProject());
             stmt.executeUpdate();
         }
     }

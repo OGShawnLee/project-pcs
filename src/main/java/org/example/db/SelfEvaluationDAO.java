@@ -6,8 +6,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SelfEvaluationDAO extends DBConnector implements DAO<SelfEvaluationDTO> {
-
+public class SelfEvaluationDAO extends DBConnector implements DAO<SelfEvaluationDTO, String> {
     private static final String CREATE_QUERY =
             "INSERT INTO SelfEvaluation (" +
                     "id_student, follow_up_grade, safety_grade, knowledge_application_grade, interesting_grade, " +
@@ -20,8 +19,7 @@ public class SelfEvaluationDAO extends DBConnector implements DAO<SelfEvaluation
                     "interesting_grade = ?, productivity_grade = ?, congruent_grade = ?, informed_by_organization = ?, " +
                     "regulated_by_organization = ?, importance_for_professional_development = ?, created_at = ? " +
                     "WHERE id_student = ?";
-
-    private static final String DELETE_QUERY = "DELETE FROM self_evaluation WHERE id_student = ?";
+    private static final String DELETE_QUERY = "DELETE FROM SelfEvaluation WHERE id_student = ?";
 
     @Override
     public void create(SelfEvaluationDTO element) throws SQLException {
@@ -71,11 +69,6 @@ public class SelfEvaluationDAO extends DBConnector implements DAO<SelfEvaluation
         }
 
         return list;
-    }
-
-    @Override
-    public SelfEvaluationDTO get(int id) throws SQLException {
-        return null;
     }
 
     @Override
@@ -129,9 +122,6 @@ public class SelfEvaluationDAO extends DBConnector implements DAO<SelfEvaluation
     }
 
     @Override
-    public void delete(int id) throws SQLException {
-    }
-
     public void delete(String idStudent) throws SQLException {
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(DELETE_QUERY)) {

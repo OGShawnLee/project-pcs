@@ -9,14 +9,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrganizationDAO extends DBConnector implements DAO<OrganizationDTO> {
+public class OrganizationDAO extends DBConnector implements DAO<OrganizationDTO, String> {
     private static final String CREATE_QUERY =
-            "INSERT INTO organization (email, name, representative_fullname, colony, street, state) VALUES (?, ?, ?, ?, ?)";
-    private static final String GET_ALL_QUERY = "SELECT * FROM organization";
-    private static final String GET_QUERY = "SELECT * FROM organization WHERE name = ?";
+            "INSERT INTO Organization (email, name, representative_full_name, colony, street, state) VALUES (?, ?, ?, ?, ?, ?)";
+    private static final String GET_ALL_QUERY = "SELECT * FROM Organization";
+    private static final String GET_QUERY = "SELECT * FROM Organization WHERE email = ?";
     private static final String UPDATE_QUERY =
-            "UPDATE organization SET email = ?, representative_fullname = ?, colony = ?, street = ?, state = ? WHERE name = ?";
-    private static final String DELETE_QUERY = "DELETE FROM organization WHERE name = ?";
+            "UPDATE Organization SET email = ?, representative_full_name = ?, colony = ?, street = ?, state = ? WHERE email = ?";
+    private static final String DELETE_QUERY = "DELETE FROM Organization WHERE email = ?";
 
 
     @Override
@@ -30,7 +30,6 @@ public class OrganizationDAO extends DBConnector implements DAO<OrganizationDTO>
         statement.setString(4, element.getColony());
         statement.setString(5, element.getStreet());
         statement.setString(6, element.getState());
-        statement.setString(7, element.getCreatedAt());
         statement.executeUpdate();
 
         close();
@@ -45,7 +44,7 @@ public class OrganizationDAO extends DBConnector implements DAO<OrganizationDTO>
             ResultSet resultSet = statement.executeQuery()){
 
             while (resultSet.next()) {
-                OrganizationDTO dto = new OrganizationDTO.Builder() {
+                OrganizationDTO dto = new OrganizationDTO.OrganizationBuilder() {
                 }
                         .setEmail(resultSet.getString("email"))
                         .setName(resultSet.getString("name"))
@@ -62,19 +61,14 @@ public class OrganizationDAO extends DBConnector implements DAO<OrganizationDTO>
     }
 
     @Override
-    public OrganizationDTO get(int id) throws SQLException {
-        return null;
-    }
-
-    @Override
-    public OrganizationDTO get(String id) throws SQLException {
+    public OrganizationDTO get(String email) throws SQLException {
         OrganizationDTO dto = null;
 
         try(Connection conn = getConnection();
             PreparedStatement statement = conn.prepareStatement(GET_QUERY)) {
             OrganizationDTO element = null;
 
-            statement.setString(1, id);
+            statement.setString(1, email);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     dto = new OrganizationDTO.OrganizationBuilder() {
@@ -112,12 +106,12 @@ public class OrganizationDAO extends DBConnector implements DAO<OrganizationDTO>
     }
 
     @Override
-    public void delete(int id) throws SQLException {
+    public void delete(String email) throws SQLException {
         Connection conn = getConnection();
         PreparedStatement statement = conn.prepareStatement(DELETE_QUERY);
 
         try (statement) {
-            statement.setInt(1, id);
+            statement.setString(1, email);
             statement.executeUpdate();
         }
 

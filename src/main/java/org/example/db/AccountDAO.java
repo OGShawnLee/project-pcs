@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AccountDAO extends DBConnector implements DAO<AccountDTO> {
+public class AccountDAO extends DBConnector implements DAO<AccountDTO, String> {
   private static final String CREATE_QUERY = "INSERT INTO Account (email, password) VALUES (?, ?)";
   private static final String GET_QUERY = "SELECT * FROM Account WHERE email = ?";
   private static final String GET_ALL_QUERY = "SELECT * FROM Account";
@@ -54,11 +54,6 @@ public class AccountDAO extends DBConnector implements DAO<AccountDTO> {
   }
 
   @Override
-  public AccountDTO get(int id) throws SQLException {
-    return null;
-  }
-
-  @Override
   public AccountDTO get(String email) throws SQLException {
     Connection conn = getConnection();
     PreparedStatement statement = conn.prepareStatement(GET_QUERY);
@@ -94,17 +89,12 @@ public class AccountDAO extends DBConnector implements DAO<AccountDTO> {
   }
 
   @Override
-  public void delete(int id) throws SQLException {
-    // TODO: UPDATE DAO INTERFACE
-  }
-
-  @Override
-  public void delete(String id) throws SQLException {
+  public void delete(String email) throws SQLException {
     Connection conn = getConnection();
     PreparedStatement statement = conn.prepareStatement(DELETE_QUERY);
 
     try (statement) {
-      statement.setString(1, id);
+      statement.setString(1, email);
       statement.executeUpdate();
     }
 
