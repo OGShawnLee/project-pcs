@@ -35,76 +35,80 @@ public class StudentDAO extends DAO<StudentDTO, String> {
 
   @Override
   public void create(StudentDTO dataObject) throws SQLException {
-    Connection connection = getConnection();
-    PreparedStatement statement = connection.prepareStatement(CREATE_QUERY);
+    try (
+      Connection connection = getConnection();
+      PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
+    ) {
+      statement.setString(1, dataObject.getID());
+      statement.setString(2, dataObject.getEmail());
+      statement.setString(3, dataObject.getName());
+      statement.setString(4, dataObject.getPaternalLastName());
+      statement.setString(5, dataObject.getMaternalLastName());
 
-    statement.setString(1, dataObject.getID());
-    statement.setString(2, dataObject.getEmail());
-    statement.setString(3, dataObject.getName());
-    statement.setString(4, dataObject.getPaternalLastName());
-    statement.setString(5, dataObject.getMaternalLastName());
-
-    statement.executeUpdate();
-
-    close();
+      statement.executeUpdate();
+    }
   }
 
   @Override
   public List<StudentDTO> getAll() throws SQLException {
-    Connection connection = getConnection();
-    PreparedStatement statement = connection.prepareStatement(GET_ALL_QUERY);
-    ResultSet resultSet = statement.executeQuery();
-    ArrayList<StudentDTO> list = new ArrayList<>();
+    try (
+      Connection connection = getConnection();
+      PreparedStatement statement = connection.prepareStatement(GET_ALL_QUERY);
+      ResultSet resultSet = statement.executeQuery()
+    ) {
+      ArrayList<StudentDTO> list = new ArrayList<>();
 
-    while (resultSet.next()) {
-      list.add(createDTOInstanceFromResultSet(resultSet));
+      while (resultSet.next()) {
+        list.add(createDTOInstanceFromResultSet(resultSet));
+      }
+
+      return list;
     }
-
-    close();
-
-    return list;
   }
 
   @Override
   public StudentDTO get(String filter) throws SQLException {
-    Connection connection = getConnection();
-    PreparedStatement statement = connection.prepareStatement(GET_QUERY);
-    StudentDTO dataObject = null;
+    try (
+      Connection connection = getConnection();
+      PreparedStatement statement = connection.prepareStatement(GET_QUERY)
+    ) {
+      statement.setString(1, filter);
 
-    statement.setString(1, filter);
+      StudentDTO dataObject = null;
 
-    ResultSet resultSet = statement.executeQuery();
+      try (ResultSet resultSet = statement.executeQuery()) {
+        if (resultSet.next()) {
+          dataObject = createDTOInstanceFromResultSet(resultSet);
+        }
+      }
 
-    if (resultSet.next()) {
-      dataObject = createDTOInstanceFromResultSet(resultSet);
+      return dataObject;
     }
-
-    close();
-
-    return dataObject;
   }
 
   @Override
   public void update(StudentDTO dataObject) throws SQLException {
-    Connection connection = getConnection();
-    PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY);
+    try (
+      Connection connection = getConnection();
+      PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
+    ) {
+      statement.setString(1, dataObject.getName());
+      statement.setString(2, dataObject.getPaternalLastName());
+      statement.setString(3, dataObject.getMaternalLastName());
+      statement.setString(4, dataObject.getID());
 
-    statement.setString(1, dataObject.getName());
-    statement.setString(2, dataObject.getPaternalLastName());
-    statement.setString(3, dataObject.getMaternalLastName());
-    statement.setString(4, dataObject.getID());
-
-    statement.executeUpdate();
-    close();
+      statement.executeUpdate();
+    }
   }
 
   @Override
   public void delete(String id) throws SQLException {
-    Connection connection = getConnection();
-    PreparedStatement statement = connection.prepareStatement(DELETE_QUERY);
-
-    statement.setString(1, id);
-    statement.executeUpdate();
-    close();
+    try (
+      Connection connection = getConnection();
+      PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)
+    ) {
+      statement.setString(1, id);
+      statement.executeUpdate();
+    }
   }
 }

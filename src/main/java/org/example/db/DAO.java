@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public abstract class DAO <T, F> extends DBConnector {
+public abstract class DAO<T, F> extends DBConnector {
   protected abstract T createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException;
 
   public abstract void create(T dataObject) throws SQLException;

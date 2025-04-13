@@ -11,93 +11,97 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PracticeDAO extends DAO<PracticeDTO, FilterPractice> {
-    private static final String CREATE_QUERY =
-            "INSERT INTO Practice (id_student, id_project, reason_of_assignation) VALUES (?, ?, ?)";
-    private static final String GET_ALL_QUERY = "SELECT * FROM Practice";
-    private static final String GET_QUERY = "SELECT * FROM Practice WHERE id_student = ? AND id_project = ?";
-    private static final String UPDATE_QUERY =
-            "UPDATE Practice SET id_project = ?, reason_of_assignation = ? WHERE id_student = ? AND id_project = ?";
-    private static final String DELETE_QUERY = "DELETE FROM Practice WHERE id_student = ? AND id_project = ?";
+  private static final String CREATE_QUERY =
+    "INSERT INTO Practice (id_student, id_project, reason_of_assignation) VALUES (?, ?, ?)";
+  private static final String GET_ALL_QUERY = "SELECT * FROM Practice";
+  private static final String GET_QUERY = "SELECT * FROM Practice WHERE id_student = ? AND id_project = ?";
+  private static final String UPDATE_QUERY =
+    "UPDATE Practice SET id_project = ?, reason_of_assignation = ? WHERE id_student = ? AND id_project = ?";
+  private static final String DELETE_QUERY = "DELETE FROM Practice WHERE id_student = ? AND id_project = ?";
 
-    @Override
-    protected PracticeDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
-        return new PracticeDTO.PracticeBuilder()
-            .setIdStudent(resultSet.getString("id_student"))
-            .setIdProject(resultSet.getString("id_project"))
-            .SetReasonOfAssignation(resultSet.getString("reason_of_assignation"))
-            .build();
+  @Override
+  protected PracticeDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
+    return new PracticeDTO.PracticeBuilder()
+      .setIdStudent(resultSet.getString("id_student"))
+      .setIdProject(resultSet.getString("id_project"))
+      .SetReasonOfAssignation(resultSet.getString("reason_of_assignation"))
+      .build();
+  }
+
+  @Override
+  public void create(PracticeDTO dataObject) throws SQLException {
+    try (
+      Connection conn = getConnection();
+      PreparedStatement statement = conn.prepareStatement(CREATE_QUERY)
+    ) {
+      statement.setString(1, dataObject.getIdStudent());
+      statement.setString(2, dataObject.getIdProject());
+      statement.setString(3, dataObject.getReasonOfAssignation());
+      statement.executeUpdate();
     }
+  }
 
-    @Override
-    public void create(PracticeDTO dataObject) throws SQLException {
-        Connection conn = getConnection();
-        PreparedStatement statement = conn.prepareStatement(CREATE_QUERY);
+  @Override
+  public List<PracticeDTO> getAll() throws SQLException {
+    try (
+      Connection conn = getConnection();
+      PreparedStatement statement = conn.prepareStatement(GET_ALL_QUERY);
+      ResultSet resultSet = statement.executeQuery()
+    ) {
+      List<PracticeDTO> list = new ArrayList<>();
 
-        statement.setString(1, dataObject.getIdStudent());
-        statement.setString(2, dataObject.getIdProject());
-        statement.setString(3, dataObject.getReasonOfAssignation());
-        statement.executeUpdate();
+      while (resultSet.next()) {
+        list.add(createDTOInstanceFromResultSet(resultSet));
+      }
 
-        close();
+      return list;
     }
+  }
 
-    @Override
-    public List<PracticeDTO> getAll() throws SQLException {
-        List<PracticeDTO> list = new ArrayList<>();
+  @Override
+  public PracticeDTO get(FilterPractice filter) throws SQLException {
+    try (
+      Connection conn = getConnection();
+      PreparedStatement statement = conn.prepareStatement(GET_QUERY)
+    ) {
+      statement.setString(1, filter.getIDStudent());
+      statement.setInt(2, filter.getIDPractice());
 
-        try(Connection conn = getConnection();
-            PreparedStatement statement = conn.prepareStatement(GET_ALL_QUERY);
-            ResultSet resultSet = statement.executeQuery()){
+      PracticeDTO dataObject = null;
 
-            while (resultSet.next()) {
-                list.add(createDTOInstanceFromResultSet(resultSet));
-            }
+      try (ResultSet resultSet = statement.executeQuery()) {
+        if (resultSet.next()) {
+          dataObject = createDTOInstanceFromResultSet(resultSet);
         }
-        return list;
+      }
+
+      return dataObject;
     }
+  }
 
-    @Override
-    public PracticeDTO get(FilterPractice filter) throws SQLException {
-        PracticeDTO element = null;
-
-        try(Connection conn = getConnection();
-            PreparedStatement statement = conn.prepareStatement(GET_QUERY)) {
-
-            statement.setString(1, filter.getIDStudent());
-            statement.setInt(2, filter.getIDPractice());
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    element = createDTOInstanceFromResultSet(resultSet);
-                }
-            }
-        }
-
-        return element;
+  @Override
+  public void update(PracticeDTO dataObject) throws SQLException {
+    try (
+      Connection conn = getConnection();
+      PreparedStatement statement = conn.prepareStatement(UPDATE_QUERY)
+    ) {
+      statement.setString(1, dataObject.getIdProject());
+      statement.setString(2, dataObject.getReasonOfAssignation());
+      statement.setString(3, dataObject.getIdStudent());
+      statement.setString(4, dataObject.getIdProject());
+      statement.executeUpdate();
     }
+  }
 
-    @Override
-    public void update(PracticeDTO dataObject) throws SQLException {
-        try (Connection conn = getConnection();
-            PreparedStatement statement = conn.prepareStatement(UPDATE_QUERY)) {
-
-            statement.setString(1, dataObject.getIdStudent());
-            statement.setString(2, dataObject.getIdProject());
-            statement.setString(3, dataObject.getReasonOfAssignation());
-            statement.executeUpdate();
-        }
+  @Override
+  public void delete(FilterPractice filter) throws SQLException {
+    try (
+      Connection conn = getConnection();
+      PreparedStatement statement = conn.prepareStatement(DELETE_QUERY)
+    ) {
+      statement.setString(1, filter.getIDStudent());
+      statement.setInt(2, filter.getIDPractice());
+      statement.executeUpdate();
     }
-
-    @Override
-    public void delete(FilterPractice filter) throws SQLException {
-        Connection conn = getConnection();
-        PreparedStatement statement = conn.prepareStatement(DELETE_QUERY);
-
-        try (statement) {
-            statement.setString(1, filter.getIDStudent());
-            statement.setInt(2, filter.getIDPractice());
-            statement.executeUpdate();
-        }
-
-        close();
-    }
+  }
 }
