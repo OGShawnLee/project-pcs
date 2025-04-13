@@ -7,7 +7,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProjectRequestDAO extends DBConnector implements DAO<ProjectRequestDTO, FilterProject> {
+public class ProjectRequestDAO extends DAO<ProjectRequestDTO, FilterProject> {
     private static final String CREATE_QUERY =
             "INSERT INTO ProjectRequest (id_student, id_project, state, reason_of_state, created_at) VALUES (?, ?, ?, ?, ?)";
     private static final String GET_ALL_QUERY = "SELECT * FROM ProjectRequest";
@@ -17,15 +17,26 @@ public class ProjectRequestDAO extends DBConnector implements DAO<ProjectRequest
     private static final String DELETE_QUERY = "DELETE FROM ProjectRequest WHERE id_student = ? AND id_project = ?";
 
     @Override
-    public void create(ProjectRequestDTO element) throws SQLException {
+    public ProjectRequestDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
+        return new ProjectRequestDTO.ProjectRequestBuilder()
+            .setIdStudent(resultSet.getString("id_student"))
+            .setIdProject(resultSet.getString("id_project"))
+            .setState(resultSet.getString("state"))
+            .setReasonOfState(resultSet.getString("reason_of_state"))
+            .setCreatedAt(resultSet.getString("created_at"))
+            .build();
+    }
+
+    @Override
+    public void create(ProjectRequestDTO dataObject) throws SQLException {
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(CREATE_QUERY)) {
 
-            stmt.setString(1, element.getIdStudent());
-            stmt.setString(2, element.getIdProject());
-            stmt.setString(3, element.getState());
-            stmt.setString(4, element.getReasonOfState());
-            stmt.setString(5, element.getCreatedAt());
+            stmt.setString(1, dataObject.getIdStudent());
+            stmt.setString(2, dataObject.getIdProject());
+            stmt.setString(3, dataObject.getState());
+            stmt.setString(4, dataObject.getReasonOfState());
+            stmt.setString(5, dataObject.getCreatedAt());
 
             stmt.executeUpdate();
         }
@@ -40,15 +51,7 @@ public class ProjectRequestDAO extends DBConnector implements DAO<ProjectRequest
              ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                ProjectRequestDTO dto = new ProjectRequestDTO.ProjectRequestBuilder()
-                        .setIdStudent(rs.getString("id_student"))
-                        .setIdProject(rs.getString("id_project"))
-                        .setState(rs.getString("state"))
-                        .setReasonOfState(rs.getString("reason_of_state"))
-                        .setCreatedAt(rs.getString("created_at"))
-                        .build();
-
-                list.add(dto);
+                list.add(createDTOInstanceFromResultSet(rs));
             }
         }
 
@@ -57,7 +60,7 @@ public class ProjectRequestDAO extends DBConnector implements DAO<ProjectRequest
 
     @Override
     public ProjectRequestDTO get(FilterProject filter) throws SQLException {
-        ProjectRequestDTO dto = null;
+        ProjectRequestDTO element = null;
 
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(GET_QUERY)) {
@@ -67,29 +70,23 @@ public class ProjectRequestDAO extends DBConnector implements DAO<ProjectRequest
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                dto = new ProjectRequestDTO.ProjectRequestBuilder()
-                        .setIdStudent(rs.getString("id_student"))
-                        .setIdProject(rs.getString("id_project"))
-                        .setState(rs.getString("state"))
-                        .setReasonOfState(rs.getString("reason_of_state"))
-                        .setCreatedAt(rs.getString("created_at"))
-                        .build();
+                element = createDTOInstanceFromResultSet(rs);
             }
         }
 
-        return dto;
+        return element;
     }
 
     @Override
-    public void update(ProjectRequestDTO element) throws SQLException {
+    public void update(ProjectRequestDTO dataObject) throws SQLException {
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(UPDATE_QUERY)) {
 
-            stmt.setString(1, element.getState());
-            stmt.setString(2, element.getReasonOfState());
-            stmt.setString(3, element.getCreatedAt());
-            stmt.setString(4, element.getIdStudent());
-            stmt.setString(5, element.getIdProject());
+            stmt.setString(1, dataObject.getState());
+            stmt.setString(2, dataObject.getReasonOfState());
+            stmt.setString(3, dataObject.getCreatedAt());
+            stmt.setString(4, dataObject.getIdStudent());
+            stmt.setString(5, dataObject.getIdProject());
 
             stmt.executeUpdate();
         }

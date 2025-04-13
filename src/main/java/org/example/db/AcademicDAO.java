@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AcademicDAO extends DBConnector implements DAO<AcademicDTO, String> {
+public class AcademicDAO extends DAO<AcademicDTO, String> {
     private static final String CREATE_QUERY =
             "INSERT INTO Academic (id_academic, email, name, paternal_last_name, maternal_last_name, role) VALUES (?, ?, ?, ?, ?, ?)";
     private static final String GET_ALL_QUERY = "SELECT * FROM Academic";
@@ -19,18 +19,31 @@ public class AcademicDAO extends DBConnector implements DAO<AcademicDTO, String>
     private static final String DELETE_QUERY = "DELETE FROM Academic WHERE id_academic = ?";
 
     @Override
-    public void create(AcademicDTO element) throws SQLException {
-        Connection conn = getConnection();
-        PreparedStatement statement = conn.prepareStatement(CREATE_QUERY);
+    protected AcademicDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
+        return new AcademicDTO.AcademicBuilder()
+            .setID(resultSet.getString("id_academic"))
+            .setEmail(resultSet.getString("email"))
+            .setName(resultSet.getString("name"))
+            .setPaternalLastName(resultSet.getString("paternal_last_name"))
+            .setMaternalLastName(resultSet.getString("maternal_last_name"))
+            .setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime())
+            .setState(resultSet.getString("state"))
+            .setRole(resultSet.getString("role")).build();
+    }
 
-        statement.setString(1, element.getID());
-        statement.setString(2, element.getEmail());
-        statement.setString(3, element.getName());
-        statement.setString(4, element.getPaternalLastName());
-        statement.setString(5, element.getMaternalLastName());
-        statement.setString(6, element.getRole());
+    @Override
+    public void create(AcademicDTO dataObject) throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement statement = connection.prepareStatement(CREATE_QUERY);
+
+        statement.setString(1, dataObject.getID());
+        statement.setString(2, dataObject.getEmail());
+        statement.setString(3, dataObject.getName());
+        statement.setString(4, dataObject.getPaternalLastName());
+        statement.setString(5, dataObject.getMaternalLastName());
+        statement.setString(6, dataObject.getRole());
+
         statement.executeUpdate();
-
         close();
     }
 
@@ -43,7 +56,7 @@ public class AcademicDAO extends DBConnector implements DAO<AcademicDTO, String>
             List<AcademicDTO> list = new ArrayList<>();
 
             while (resultSet.next()) {
-                list.add(new AcademicDTO(resultSet));
+                list.add(createDTOInstanceFromResultSet(resultSet));
             }
 
             close();
@@ -61,7 +74,7 @@ public class AcademicDAO extends DBConnector implements DAO<AcademicDTO, String>
         statement.setString(1, id);
         ResultSet resultSet = statement.executeQuery();
         if (resultSet.next()) {
-            element = new AcademicDTO(resultSet);
+            element = createDTOInstanceFromResultSet(resultSet);
         }
 
         close();
@@ -70,15 +83,15 @@ public class AcademicDAO extends DBConnector implements DAO<AcademicDTO, String>
     }
 
     @Override
-    public void update(AcademicDTO element) throws SQLException {
+    public void update(AcademicDTO dataObject) throws SQLException {
         Connection conn = getConnection();
         PreparedStatement statement = conn.prepareStatement(UPDATE_QUERY);
 
         try (statement) {
-            statement.setString(1, element.getName());
-            statement.setString(2, element.getPaternalLastName());
-            statement.setString(3, element.getMaternalLastName());
-            statement.setString(4, element.getID());
+            statement.setString(1, dataObject.getName());
+            statement.setString(2, dataObject.getPaternalLastName());
+            statement.setString(3, dataObject.getMaternalLastName());
+            statement.setString(4, dataObject.getID());
             statement.executeUpdate();
         }
 

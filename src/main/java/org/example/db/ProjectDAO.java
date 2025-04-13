@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProjectDAO extends DBConnector implements DAO<ProjectDTO, Integer> {
+public class ProjectDAO extends DAO<ProjectDTO, Integer> {
     private static final String CREATE_QUERY =
             "INSERT INTO Project (id_project, id_organization, name, methodology, state, sector) VALUES (?, ?, ?, ?, ?, ?)";
     private static final String GET_ALL_QUERY = "SELECT * FROM Project";
@@ -19,16 +19,28 @@ public class ProjectDAO extends DBConnector implements DAO<ProjectDTO, Integer> 
     private static final String DELETE_QUERY = "DELETE FROM Project WHERE id_project = ?";
 
     @Override
-    public void create(ProjectDTO element) throws SQLException {
+    protected ProjectDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
+        return new ProjectDTO.PracticeBuilder()
+            .setId(resultSet.getString("id_project"))
+            .setIdOrganization(resultSet.getString("id_organization"))
+            .setName(resultSet.getString("name"))
+            .setMethodology(resultSet.getString("methodology"))
+            .setState(resultSet.getString("state"))
+            .setSector(resultSet.getString("sector"))
+            .build();
+    }
+
+    @Override
+    public void create(ProjectDTO dataObject) throws SQLException {
         try (Connection conn = getConnection();
              PreparedStatement statement = conn.prepareStatement(CREATE_QUERY)) {
 
-            statement.setString(1, element.getId());
-            statement.setString(2, element.getIdOrganization());
-            statement.setString(3, element.getName());
-            statement.setString(4, element.getMethodology());
-            statement.setString(5, element.getState());
-            statement.setString(6, element.getSector());
+            statement.setString(1, dataObject.getId());
+            statement.setString(2, dataObject.getIdOrganization());
+            statement.setString(3, dataObject.getName());
+            statement.setString(4, dataObject.getMethodology());
+            statement.setString(5, dataObject.getState());
+            statement.setString(6, dataObject.getSector());
 
             statement.executeUpdate();
         }
@@ -43,16 +55,7 @@ public class ProjectDAO extends DBConnector implements DAO<ProjectDTO, Integer> 
              ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
-                ProjectDTO dto = new ProjectDTO.PracticeBuilder()
-                        .setId(resultSet.getString("id_project"))
-                        .setIdOrganization(resultSet.getString("id_organization"))
-                        .setName(resultSet.getString("name"))
-                        .setMethodology(resultSet.getString("methodology"))
-                        .setState(resultSet.getString("state"))
-                        .setSector(resultSet.getString("sector"))
-                        .build();
-
-                list.add(dto);
+                list.add(createDTOInstanceFromResultSet(resultSet));
             }
         }
 
@@ -61,7 +64,7 @@ public class ProjectDAO extends DBConnector implements DAO<ProjectDTO, Integer> 
 
     @Override
     public ProjectDTO get(Integer id) throws SQLException {
-        ProjectDTO dto = null;
+        ProjectDTO element = null;
 
         try (Connection conn = getConnection();
              PreparedStatement statement = conn.prepareStatement(GET_QUERY)) {
@@ -69,32 +72,25 @@ public class ProjectDAO extends DBConnector implements DAO<ProjectDTO, Integer> 
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    dto = new ProjectDTO.PracticeBuilder()
-                            .setId(resultSet.getString("id_project"))
-                            .setIdOrganization(resultSet.getString("id_organization"))
-                            .setName(resultSet.getString("name"))
-                            .setMethodology(resultSet.getString("methodology"))
-                            .setState(resultSet.getString("state"))
-                            .setSector(resultSet.getString("sector"))
-                            .build();
+                    element = createDTOInstanceFromResultSet(resultSet);
                 }
             }
         }
 
-        return dto;
+        return element;
     }
 
     @Override
-    public void update(ProjectDTO element) throws SQLException {
+    public void update(ProjectDTO dataObject) throws SQLException {
         try (Connection conn = getConnection();
              PreparedStatement statement = conn.prepareStatement(UPDATE_QUERY)) {
 
-            statement.setString(1, element.getIdOrganization());
-            statement.setString(2, element.getName());
-            statement.setString(3, element.getMethodology());
-            statement.setString(4, element.getState());
-            statement.setString(5, element.getSector());
-            statement.setString(6, element.getId());
+            statement.setString(1, dataObject.getIdOrganization());
+            statement.setString(2, dataObject.getName());
+            statement.setString(3, dataObject.getMethodology());
+            statement.setString(4, dataObject.getState());
+            statement.setString(5, dataObject.getSector());
+            statement.setString(6, dataObject.getId());
 
             statement.executeUpdate();
         }

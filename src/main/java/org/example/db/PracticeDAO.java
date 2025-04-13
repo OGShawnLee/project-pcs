@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PracticeDAO extends DBConnector implements DAO<PracticeDTO, FilterPractice> {
+public class PracticeDAO extends DAO<PracticeDTO, FilterPractice> {
     private static final String CREATE_QUERY =
             "INSERT INTO Practice (id_student, id_project, reason_of_assignation) VALUES (?, ?, ?)";
     private static final String GET_ALL_QUERY = "SELECT * FROM Practice";
@@ -19,15 +19,23 @@ public class PracticeDAO extends DBConnector implements DAO<PracticeDTO, FilterP
             "UPDATE Practice SET id_project = ?, reason_of_assignation = ? WHERE id_student = ? AND id_project = ?";
     private static final String DELETE_QUERY = "DELETE FROM Practice WHERE id_student = ? AND id_project = ?";
 
+    @Override
+    protected PracticeDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
+        return new PracticeDTO.PracticeBuilder()
+            .setIdStudent(resultSet.getString("id_student"))
+            .setIdProject(resultSet.getString("id_project"))
+            .SetReasonOfAssignation(resultSet.getString("reason_of_assignation"))
+            .build();
+    }
 
     @Override
-    public void create(PracticeDTO element) throws SQLException {
+    public void create(PracticeDTO dataObject) throws SQLException {
         Connection conn = getConnection();
         PreparedStatement statement = conn.prepareStatement(CREATE_QUERY);
 
-        statement.setString(1, element.getIdStudent());
-        statement.setString(2, element.getIdProject());
-        statement.setString(3, element.getReasonOfAssignation());
+        statement.setString(1, dataObject.getIdStudent());
+        statement.setString(2, dataObject.getIdProject());
+        statement.setString(3, dataObject.getReasonOfAssignation());
         statement.executeUpdate();
 
         close();
@@ -42,13 +50,7 @@ public class PracticeDAO extends DBConnector implements DAO<PracticeDTO, FilterP
             ResultSet resultSet = statement.executeQuery()){
 
             while (resultSet.next()) {
-                PracticeDTO dto = new PracticeDTO.PracticeBuilder() {
-                }
-                        .setIdStudent(resultSet.getString("id_student"))
-                        .setIdProject(resultSet.getString("id_project"))
-                        .SetReasonOfAssignation(resultSet.getString("reason_of_assignation"))
-                        .build();
-                list.add(dto);
+                list.add(createDTOInstanceFromResultSet(resultSet));
             }
         }
         return list;
@@ -56,37 +58,31 @@ public class PracticeDAO extends DBConnector implements DAO<PracticeDTO, FilterP
 
     @Override
     public PracticeDTO get(FilterPractice filter) throws SQLException {
-        PracticeDTO dto = null;
+        PracticeDTO element = null;
 
         try(Connection conn = getConnection();
             PreparedStatement statement = conn.prepareStatement(GET_QUERY)) {
-            PracticeDTO element = null;
 
             statement.setString(1, filter.getIDStudent());
             statement.setInt(2, filter.getIDPractice());
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    dto = new PracticeDTO.PracticeBuilder() {
-                    }
-                            .setIdStudent(resultSet.getString("id_student"))
-                            .setIdProject(resultSet.getString("id_project"))
-                            .SetReasonOfAssignation(resultSet.getString("reason_of_assignation"))
-                            .build();
+                    element = createDTOInstanceFromResultSet(resultSet);
                 }
             }
         }
 
-        return dto;
+        return element;
     }
 
     @Override
-    public void update(PracticeDTO element) throws SQLException {
+    public void update(PracticeDTO dataObject) throws SQLException {
         try (Connection conn = getConnection();
             PreparedStatement statement = conn.prepareStatement(UPDATE_QUERY)) {
 
-            statement.setString(1, element.getIdStudent());
-            statement.setString(2, element.getIdProject());
-            statement.setString(3, element.getReasonOfAssignation());
+            statement.setString(1, dataObject.getIdStudent());
+            statement.setString(2, dataObject.getIdProject());
+            statement.setString(3, dataObject.getReasonOfAssignation());
             statement.executeUpdate();
         }
     }

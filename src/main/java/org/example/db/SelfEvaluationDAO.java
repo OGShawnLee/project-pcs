@@ -6,129 +6,121 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SelfEvaluationDAO extends DBConnector implements DAO<SelfEvaluationDTO, String> {
-    private static final String CREATE_QUERY =
-            "INSERT INTO SelfEvaluation (" +
-                    "id_student, follow_up_grade, safety_grade, knowledge_application_grade, interesting_grade, " +
-                    "productivity_grade, congruent_grade, informed_by_organization, regulated_by_organization, " +
-                    "importance_for_professional_development, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    private static final String GET_ALL_QUERY = "SELECT * FROM SelfEvaluation";
-    private static final String GET_QUERY = "SELECT * FROM SelfEvaluation WHERE id_student = ?";
-    private static final String UPDATE_QUERY =
-            "UPDATE SelfEvaluation SET follow_up_grade = ?, safety_grade = ?, knowledge_application_grade = ?, " +
-                    "interesting_grade = ?, productivity_grade = ?, congruent_grade = ?, informed_by_organization = ?, " +
-                    "regulated_by_organization = ?, importance_for_professional_development = ?, created_at = ? " +
-                    "WHERE id_student = ?";
-    private static final String DELETE_QUERY = "DELETE FROM SelfEvaluation WHERE id_student = ?";
+public class SelfEvaluationDAO extends DAO<SelfEvaluationDTO, String> {
+  private static final String CREATE_QUERY =
+          "INSERT INTO SelfEvaluation (" +
+                  "id_student, follow_up_grade, safety_grade, knowledge_application_grade, interesting_grade, " +
+                  "productivity_grade, congruent_grade, informed_by_organization, regulated_by_organization, " +
+                  "importance_for_professional_development, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+  private static final String GET_ALL_QUERY = "SELECT * FROM SelfEvaluation";
+  private static final String GET_QUERY = "SELECT * FROM SelfEvaluation WHERE id_student = ?";
+  private static final String UPDATE_QUERY =
+          "UPDATE SelfEvaluation SET follow_up_grade = ?, safety_grade = ?, knowledge_application_grade = ?, " +
+                  "interesting_grade = ?, productivity_grade = ?, congruent_grade = ?, informed_by_organization = ?, " +
+                  "regulated_by_organization = ?, importance_for_professional_development = ?, created_at = ? " +
+                  "WHERE id_student = ?";
+  private static final String DELETE_QUERY = "DELETE FROM SelfEvaluation WHERE id_student = ?";
 
-    @Override
-    public void create(SelfEvaluationDTO element) throws SQLException {
-        try (Connection conn = getConnection();
-             PreparedStatement stmt = conn.prepareStatement(CREATE_QUERY)) {
+  @Override
+  protected SelfEvaluationDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
+    return new SelfEvaluationDTO.SelfEvaluationBuilder()
+      .setIdStudent(resultSet.getString("id_student"))
+      .SetFollowUpGrade(resultSet.getInt("follow_up_grade"))
+      .SetSafetyGrade(resultSet.getInt("safety_grade"))
+      .setKnowledgeApplicationGrade(resultSet.getInt("knowledge_application_grade"))
+      .setInterestingGrade(resultSet.getInt("interesting_grade"))
+      .setProductivityGrade(resultSet.getInt("productivity_grade"))
+      .setCongruentGrade(resultSet.getInt("congruent_grade"))
+      .setInformedByOrganization(resultSet.getInt("informed_by_organization"))
+      .setRegulatedByOrganization(resultSet.getInt("regulated_by_organization"))
+      .setImportanceForProfessionalDevelopment(resultSet.getInt("importance_for_professional_development"))
+      .build();
+  }
 
-            stmt.setString(1, element.getIdStudent());
-            stmt.setInt(2, element.getFollowUpGrade());
-            stmt.setInt(3, element.getSafetyGrade());
-            stmt.setInt(4, element.getKnowledgeApplicationGrade());
-            stmt.setInt(5, element.getInterestingGrade());
-            stmt.setInt(6, element.getProductivityGrade());
-            stmt.setInt(7, element.getCongruentGrade());
-            stmt.setInt(8, element.getInformedByOrganization());
-            stmt.setInt(9, element.getRegulatedByOrganization());
-            stmt.setInt(10, element.getImportanceForProfessionalDevelopment());
-            stmt.setString(11, element.getCreatedAt());
+  @Override
+  public void create(SelfEvaluationDTO dataObject) throws SQLException {
+    try (Connection connection = getConnection();
+         PreparedStatement stmt = connection.prepareStatement(CREATE_QUERY)) {
 
-            stmt.executeUpdate();
-        }
+      stmt.setString(1, dataObject.getIdStudent());
+      stmt.setInt(2, dataObject.getFollowUpGrade());
+      stmt.setInt(3, dataObject.getSafetyGrade());
+      stmt.setInt(4, dataObject.getKnowledgeApplicationGrade());
+      stmt.setInt(5, dataObject.getInterestingGrade());
+      stmt.setInt(6, dataObject.getProductivityGrade());
+      stmt.setInt(7, dataObject.getCongruentGrade());
+      stmt.setInt(8, dataObject.getInformedByOrganization());
+      stmt.setInt(9, dataObject.getRegulatedByOrganization());
+      stmt.setInt(10, dataObject.getImportanceForProfessionalDevelopment());
+      stmt.setString(11, dataObject.getCreatedAt());
+
+      stmt.executeUpdate();
+    }
+  }
+
+  @Override
+  public List<SelfEvaluationDTO> getAll() throws SQLException {
+    List<SelfEvaluationDTO> list = new ArrayList<>();
+
+    try (Connection conn = getConnection();
+         PreparedStatement stmt = conn.prepareStatement(GET_ALL_QUERY);
+         ResultSet rs = stmt.executeQuery()) {
+
+      while (rs.next()) {
+        list.add(createDTOInstanceFromResultSet(rs));
+      }
     }
 
-    @Override
-    public List<SelfEvaluationDTO> getAll() throws SQLException {
-        List<SelfEvaluationDTO> list = new ArrayList<>();
+    return list;
+  }
 
-        try (Connection conn = getConnection();
-             PreparedStatement stmt = conn.prepareStatement(GET_ALL_QUERY);
-             ResultSet rs = stmt.executeQuery()) {
+  @Override
+  public SelfEvaluationDTO get(String id) throws SQLException {
+    SelfEvaluationDTO element = null;
 
-            while (rs.next()) {
-                SelfEvaluationDTO dto = new SelfEvaluationDTO.SelfEvaluationBuilder()
-                        .setIdStudent(rs.getString("id_student"))
-                        .SetFollowUpGrade(rs.getInt("follow_up_grade"))
-                        .SetSafetyGrade(rs.getInt("safety_grade"))
-                        .setKnowledgeApplicationGrade(rs.getInt("knowledge_application_grade"))
-                        .setInterestingGrade(rs.getInt("interesting_grade"))
-                        .setProductivityGrade(rs.getInt("productivity_grade"))
-                        .setCongruentGrade(rs.getInt("congruent_grade"))
-                        .setInformedByOrganization(rs.getInt("informed_by_organization"))
-                        .setRegulatedByOrganization(rs.getInt("regulated_by_organization"))
-                        .setImportanceForProfessionalDevelopment(rs.getInt("importance_for_professional_development"))
-                        .build();
+    try (Connection conn = getConnection();
+         PreparedStatement stmt = conn.prepareStatement(GET_QUERY)) {
 
-                list.add(dto);
-            }
-        }
+      stmt.setString(1, id);
+      ResultSet rs = stmt.executeQuery();
 
-        return list;
+      if (rs.next()) {
+        element = createDTOInstanceFromResultSet(rs);
+      }
     }
 
-    @Override
-    public SelfEvaluationDTO get(String id) throws SQLException {
-        SelfEvaluationDTO dto = null;
+    return element;
+  }
 
-        try (Connection conn = getConnection();
-             PreparedStatement stmt = conn.prepareStatement(GET_QUERY)) {
+  @Override
+  public void update(SelfEvaluationDTO dataObject) throws SQLException {
+    try (Connection conn = getConnection();
+         PreparedStatement stmt = conn.prepareStatement(UPDATE_QUERY)) {
 
-            stmt.setString(1, id);
-            ResultSet rs = stmt.executeQuery();
+      stmt.setInt(1, dataObject.getFollowUpGrade());
+      stmt.setInt(2, dataObject.getSafetyGrade());
+      stmt.setInt(3, dataObject.getKnowledgeApplicationGrade());
+      stmt.setInt(4, dataObject.getInterestingGrade());
+      stmt.setInt(5, dataObject.getProductivityGrade());
+      stmt.setInt(6, dataObject.getCongruentGrade());
+      stmt.setInt(7, dataObject.getInformedByOrganization());
+      stmt.setInt(8, dataObject.getRegulatedByOrganization());
+      stmt.setInt(9, dataObject.getImportanceForProfessionalDevelopment());
+      stmt.setString(10, dataObject.getCreatedAt());
+      stmt.setString(11, dataObject.getIdStudent());
 
-            if (rs.next()) {
-                dto = new SelfEvaluationDTO.SelfEvaluationBuilder()
-                        .setIdStudent(rs.getString("id_student"))
-                        .SetFollowUpGrade(rs.getInt("follow_up_grade"))
-                        .SetSafetyGrade(rs.getInt("safety_grade"))
-                        .setKnowledgeApplicationGrade(rs.getInt("knowledge_application_grade"))
-                        .setInterestingGrade(rs.getInt("interesting_grade"))
-                        .setProductivityGrade(rs.getInt("productivity_grade"))
-                        .setCongruentGrade(rs.getInt("congruent_grade"))
-                        .setInformedByOrganization(rs.getInt("informed_by_organization"))
-                        .setRegulatedByOrganization(rs.getInt("regulated_by_organization"))
-                        .setImportanceForProfessionalDevelopment(rs.getInt("importance_for_professional_development"))
-                        .build();
-            }
-        }
-
-        return dto;
+      stmt.executeUpdate();
     }
+  }
 
-    @Override
-    public void update(SelfEvaluationDTO element) throws SQLException {
-        try (Connection conn = getConnection();
-             PreparedStatement stmt = conn.prepareStatement(UPDATE_QUERY)) {
+  @Override
+  public void delete(String idStudent) throws SQLException {
+    try (Connection conn = getConnection();
+         PreparedStatement stmt = conn.prepareStatement(DELETE_QUERY)) {
 
-            stmt.setInt(1, element.getFollowUpGrade());
-            stmt.setInt(2, element.getSafetyGrade());
-            stmt.setInt(3, element.getKnowledgeApplicationGrade());
-            stmt.setInt(4, element.getInterestingGrade());
-            stmt.setInt(5, element.getProductivityGrade());
-            stmt.setInt(6, element.getCongruentGrade());
-            stmt.setInt(7, element.getInformedByOrganization());
-            stmt.setInt(8, element.getRegulatedByOrganization());
-            stmt.setInt(9, element.getImportanceForProfessionalDevelopment());
-            stmt.setString(10, element.getCreatedAt());
-            stmt.setString(11, element.getIdStudent());
-
-            stmt.executeUpdate();
-        }
+      stmt.setString(1, idStudent);
+      stmt.executeUpdate();
     }
-
-    @Override
-    public void delete(String idStudent) throws SQLException {
-        try (Connection conn = getConnection();
-             PreparedStatement stmt = conn.prepareStatement(DELETE_QUERY)) {
-
-            stmt.setString(1, idStudent);
-            stmt.executeUpdate();
-        }
-    }
+  }
 }
 

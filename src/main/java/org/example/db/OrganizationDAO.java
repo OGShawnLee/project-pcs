@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrganizationDAO extends DBConnector implements DAO<OrganizationDTO, String> {
+public class OrganizationDAO extends DAO<OrganizationDTO, String> {
     private static final String CREATE_QUERY =
             "INSERT INTO Organization (email, name, representative_full_name, colony, street, state) VALUES (?, ?, ?, ?, ?, ?)";
     private static final String GET_ALL_QUERY = "SELECT * FROM Organization";
@@ -18,18 +18,30 @@ public class OrganizationDAO extends DBConnector implements DAO<OrganizationDTO,
             "UPDATE Organization SET email = ?, representative_full_name = ?, colony = ?, street = ?, state = ? WHERE email = ?";
     private static final String DELETE_QUERY = "DELETE FROM Organization WHERE email = ?";
 
+    @Override
+    protected OrganizationDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
+        return new OrganizationDTO.OrganizationBuilder()
+            .setEmail(resultSet.getString("email"))
+            .setName(resultSet.getString("name"))
+            .setRepresentativeFullName(resultSet.getString("representative_full_name"))
+            .setColony(resultSet.getString("colony"))
+            .setStreet(resultSet.getString("street"))
+            .setState(resultSet.getString("state"))
+            .setCreatedAt(resultSet.getString("created_at"))
+            .build();
+    }
 
     @Override
-    public void create(OrganizationDTO element) throws SQLException {
+    public void create(OrganizationDTO dataObject) throws SQLException {
         Connection conn = getConnection();
         PreparedStatement statement = conn.prepareStatement(CREATE_QUERY);
 
-        statement.setString(1, element.getEmail());
-        statement.setString(2, element.getName());
-        statement.setString(3, element.getRepresentativeFullName());
-        statement.setString(4, element.getColony());
-        statement.setString(5, element.getStreet());
-        statement.setString(6, element.getState());
+        statement.setString(1, dataObject.getEmail());
+        statement.setString(2, dataObject.getName());
+        statement.setString(3, dataObject.getRepresentativeFullName());
+        statement.setString(4, dataObject.getColony());
+        statement.setString(5, dataObject.getStreet());
+        statement.setString(6, dataObject.getState());
         statement.executeUpdate();
 
         close();
@@ -44,17 +56,7 @@ public class OrganizationDAO extends DBConnector implements DAO<OrganizationDTO,
             ResultSet resultSet = statement.executeQuery()){
 
             while (resultSet.next()) {
-                OrganizationDTO dto = new OrganizationDTO.OrganizationBuilder() {
-                }
-                        .setEmail(resultSet.getString("email"))
-                        .setName(resultSet.getString("name"))
-                        .setRepresentativeFullName(resultSet.getString("representative_fullname"))
-                        .setColony(resultSet.getString("colony"))
-                        .setStreet(resultSet.getString("street"))
-                        .setState(resultSet.getString("state"))
-                        .setCreatedAt(resultSet.getString("created_at"))
-                        .build();
-                list.add(dto);
+                list.add(createDTOInstanceFromResultSet(resultSet));
             }
         }
         return list;
@@ -62,45 +64,35 @@ public class OrganizationDAO extends DBConnector implements DAO<OrganizationDTO,
 
     @Override
     public OrganizationDTO get(String email) throws SQLException {
-        OrganizationDTO dto = null;
+        OrganizationDTO element = null;
 
         try(Connection conn = getConnection();
             PreparedStatement statement = conn.prepareStatement(GET_QUERY)) {
-            OrganizationDTO element = null;
 
             statement.setString(1, email);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    dto = new OrganizationDTO.OrganizationBuilder() {
-                    }
-                            .setEmail(resultSet.getString("email"))
-                            .setName(resultSet.getString("name"))
-                            .setRepresentativeFullName(resultSet.getString("representative_fullname"))
-                            .setColony(resultSet.getString("colony"))
-                            .setStreet(resultSet.getString("street"))
-                            .setState(resultSet.getString("state"))
-                            .setCreatedAt(resultSet.getString("created_at"))
-                            .build();
+                    element = createDTOInstanceFromResultSet(resultSet);
                 }
             }
         }
 
-        return dto;
+        return element;
     }
 
     @Override
-    public void update(OrganizationDTO element) throws SQLException {
+    public void update(OrganizationDTO dataObject) throws SQLException {
 
         try(Connection conn = getConnection();
             PreparedStatement statement = conn.prepareStatement(UPDATE_QUERY)) {
 
-            statement.setString(1, element.getEmail());
-            statement.setString(2, element.getRepresentativeFullName());
-            statement.setString(3, element.getColony());
-            statement.setString(4, element.getStreet());
-            statement.setString(5, element.getState());
-            statement.setString(6, element.getCreatedAt());
-            statement.setString(7, element.getName());
+            statement.setString(1, dataObject.getEmail());
+            statement.setString(2, dataObject.getRepresentativeFullName());
+            statement.setString(3, dataObject.getColony());
+            statement.setString(4, dataObject.getStreet());
+            statement.setString(5, dataObject.getState());
+            statement.setString(6, dataObject.getCreatedAt());
+            statement.setString(7, dataObject.getName());
             statement.executeUpdate();
         }
     }

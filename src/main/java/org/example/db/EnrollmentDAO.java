@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EnrollmentDAO extends DBConnector implements DAO<EnrollmentDTO, FilterEnrollment> {
+public class EnrollmentDAO extends DAO<EnrollmentDTO, FilterEnrollment> {
     private static final String CREATE_QUERY =
             "INSERT INTO Enrollment (id_course, id_student) VALUES (?, ?)";
     private static final String GET_ALL_QUERY = "SELECT * FROM Enrollment";
@@ -19,14 +19,22 @@ public class EnrollmentDAO extends DBConnector implements DAO<EnrollmentDTO, Fil
             "UPDATE Enrollment SET id_student = ?, created_at = ? WHERE id_student = ? and id_course = ?";
     private static final String DELETE_QUERY = "DELETE FROM Enrollment WHERE id_student = ? and id_course = ?";
 
+    @Override
+    protected EnrollmentDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
+        return new EnrollmentDTO.EnrollmentBuilder()
+            .setIdCourse(resultSet.getString("id_course"))
+            .setIdStudent(resultSet.getString("id_student"))
+            .setCreatedAt(resultSet.getString("created_at"))
+            .build();
+    }
 
     @Override
-    public void create(EnrollmentDTO element) throws SQLException {
+    public void create(EnrollmentDTO dataObject) throws SQLException {
         Connection conn = getConnection();
         PreparedStatement statement = conn.prepareStatement(CREATE_QUERY);
 
-        statement.setString(1, element.getIdCourse());
-        statement.setString(2, element.getIdStudent());
+        statement.setString(1, dataObject.getIdCourse());
+        statement.setString(2, dataObject.getIdStudent());
         statement.executeUpdate();
 
         close();
@@ -41,52 +49,41 @@ public class EnrollmentDAO extends DBConnector implements DAO<EnrollmentDTO, Fil
             ResultSet resultSet = statement.executeQuery()){
 
             while (resultSet.next()) {
-                EnrollmentDTO dto = new EnrollmentDTO.EnrollmentBuilder() {
-                }
-                        .setIdCourse(resultSet.getString("id_course"))
-                        .setIdStudent(resultSet.getString("id_student"))
-                        .setCreatedAt(resultSet.getString("created_at"))
-                        .build();
-                list.add(dto);
+                list.add(createDTOInstanceFromResultSet(resultSet));
             }
         }
+
         return list;
     }
 
     @Override
     public EnrollmentDTO get(FilterEnrollment filter) throws SQLException {
-        EnrollmentDTO dto = null;
+        EnrollmentDTO element = null;
 
         try(Connection conn = getConnection();
             PreparedStatement statement = conn.prepareStatement(GET_QUERY)) {
-            EnrollmentDTO element = null;
 
             statement.setString(1, filter.getIDStudent());
             statement.setString(2, filter.getIDCourse());
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    dto = new EnrollmentDTO.EnrollmentBuilder() {
-                    }
-                            .setIdCourse(resultSet.getString("id_course"))
-                            .setIdStudent(resultSet.getString("id_student"))
-                            .setCreatedAt(resultSet.getString("created_at"))
-                            .build();
+                    element = createDTOInstanceFromResultSet(resultSet);
                 }
             }
         }
 
-        return dto;
+        return element;
     }
 
     @Override
-    public void update(EnrollmentDTO element) throws SQLException {
+    public void update(EnrollmentDTO dataObject) throws SQLException {
 
         try(Connection conn = getConnection();
             PreparedStatement statement = conn.prepareStatement(UPDATE_QUERY)) {
 
-            statement.setString(1, element.getIdStudent());
-            statement.setString(2, element.getCreatedAt());
-            statement.setString(3, element.getIdCourse());
+            statement.setString(1, dataObject.getIdStudent());
+            statement.setString(2, dataObject.getCreatedAt());
+            statement.setString(3, dataObject.getIdCourse());
             statement.executeUpdate();
         }
     }

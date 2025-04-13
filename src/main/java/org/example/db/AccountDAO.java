@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AccountDAO extends DBConnector implements DAO<AccountDTO, String> {
+public class AccountDAO extends DAO<AccountDTO, String> {
   private static final String CREATE_QUERY = "INSERT INTO Account (email, password) VALUES (?, ?)";
   private static final String GET_QUERY = "SELECT * FROM Account WHERE email = ?";
   private static final String GET_ALL_QUERY = "SELECT * FROM Account";
@@ -17,13 +17,21 @@ public class AccountDAO extends DBConnector implements DAO<AccountDTO, String> {
   private static final String DELETE_QUERY = "DELETE FROM Account WHERE email = ?";
 
   @Override
-  public void create(AccountDTO element) throws SQLException {
+  protected AccountDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
+    return new AccountDTO(
+      resultSet.getString("email"),
+      resultSet.getString("password")
+    );
+  }
+
+  @Override
+  public void create(AccountDTO dataObject) throws SQLException {
     Connection conn = getConnection();
     PreparedStatement statement = conn.prepareStatement(CREATE_QUERY);
 
     try (statement) {
-      statement.setString(1, element.email());
-      statement.setString(2, element.password());
+      statement.setString(1, dataObject.email());
+      statement.setString(2, dataObject.password());
       statement.executeUpdate();
     }
 
@@ -39,12 +47,7 @@ public class AccountDAO extends DBConnector implements DAO<AccountDTO, String> {
       List<AccountDTO> list = new ArrayList<>();
 
       while (resultSet.next()) {
-        list.add(
-                new AccountDTO(
-                        resultSet.getString("email"),
-                        resultSet.getString("password")
-                )
-        );
+        list.add(createDTOInstanceFromResultSet(resultSet));
       }
 
       close();
@@ -64,10 +67,7 @@ public class AccountDAO extends DBConnector implements DAO<AccountDTO, String> {
       ResultSet resultSet = statement.executeQuery();
 
       if (resultSet.next()) {
-        element = new AccountDTO(
-                resultSet.getString("email"),
-                resultSet.getString("password")
-        );
+        element = createDTOInstanceFromResultSet(resultSet);
       }
     }
 
@@ -75,13 +75,13 @@ public class AccountDAO extends DBConnector implements DAO<AccountDTO, String> {
   }
 
   @Override
-  public void update(AccountDTO element) throws SQLException {
+  public void update(AccountDTO dataObject) throws SQLException {
     Connection conn = getConnection();
     PreparedStatement statement = conn.prepareStatement(UPDATE_QUERY);
 
     try (statement) {
-      statement.setString(1, element.password());
-      statement.setString(2, element.email());
+      statement.setString(1, dataObject.password());
+      statement.setString(2, dataObject.email());
       statement.executeUpdate();
     }
 
