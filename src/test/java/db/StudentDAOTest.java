@@ -1,8 +1,6 @@
 package db;
 
-import org.example.business.AccountDTO;
 import org.example.business.StudentDTO;
-import org.example.db.AccountDAO;
 import org.example.db.StudentDAO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -15,55 +13,51 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class StudentDAOTest {
-  private final StudentDAO STUDENT_DAO = new StudentDAO();
-  private final AccountDAO ACCOUNT_DAO = new AccountDAO();
-  private final String ID = "18014115";
-  private final String EMAIL = "zS18014115@estudiantes.mx";
-  private final String PASSWORD = "Password123";
-  private final String NAME = "Shawn";
-  private final String PATERNAL_LAST_NAME = "Doe";
-  private final String MATERNAL_LAST_NAME = "Lee";
-  private final StudentDTO BASE_STUDENT_DTO = new StudentDTO.StudentBuilder()
-    .setID(ID)
-    .setEmail(EMAIL)
-    .setName(NAME)
-    .setPaternalLastName(PATERNAL_LAST_NAME)
-    .setMaternalLastName(MATERNAL_LAST_NAME)
+  public static final StudentDAO STUDENT_DAO = new StudentDAO();
+  public static final StudentDTO STUDENT_DTO = new StudentDTO.StudentBuilder()
+    .setID("23014115")
+    .setEmail(AccountDAOTest.STUDENT_ACCOUNT_DTO.email())
+    .setName("Shawn")
+    .setPaternalLastName("Doe")
+    .setMaternalLastName("Smith")
     .build();
-  private final AccountDTO BASE_ACCOUNT_DTO = new AccountDTO(EMAIL, PASSWORD);
 
-  private void createOneTestData() throws SQLException {
-    ACCOUNT_DAO.createOne(BASE_ACCOUNT_DTO);
-    STUDENT_DAO.createOne(BASE_STUDENT_DTO);
+  public static void createOneTestStudent() throws SQLException {
+    AccountDAOTest.createOneTestStudentAccount();
+    STUDENT_DAO.createOne(STUDENT_DTO);
+  }
+
+  public static void deleteOneTestStudent() throws SQLException {
+    AccountDAOTest.deleteOneTestStudentAccount();
+    STUDENT_DAO.deleteOne(STUDENT_DTO.getID());
   }
 
   @AfterEach
   public void tearDown() throws SQLException {
-    STUDENT_DAO.deleteOne(ID);
-    ACCOUNT_DAO.deleteOne(EMAIL);
+    deleteOneTestStudent();
   }
 
   @Test
   public void testCreateOneStudent() {
     assertDoesNotThrow(() -> {
-      createOneTestData();
+      createOneTestStudent();
 
-      StudentDTO createdStudent = STUDENT_DAO.getOne(ID);
+      StudentDTO createdStudent = STUDENT_DAO.getOne(STUDENT_DTO.getID());
 
       Assertions.assertNotNull(createdStudent);
-      Assertions.assertEquals(ID, createdStudent.getID());
-      Assertions.assertEquals(EMAIL, createdStudent.getEmail());
-      Assertions.assertEquals(NAME, createdStudent.getName());
-      Assertions.assertEquals(PATERNAL_LAST_NAME, createdStudent.getPaternalLastName());
-      Assertions.assertEquals(MATERNAL_LAST_NAME, createdStudent.getMaternalLastName());
+      Assertions.assertEquals(STUDENT_DTO.getID(), createdStudent.getID());
+      Assertions.assertEquals(STUDENT_DTO.getEmail(), createdStudent.getEmail());
+      Assertions.assertEquals(STUDENT_DTO.getName(), createdStudent.getName());
+      Assertions.assertEquals(STUDENT_DTO.getPaternalLastName(), createdStudent.getPaternalLastName());
+      Assertions.assertEquals(STUDENT_DTO.getMaternalLastName(), createdStudent.getMaternalLastName());
       Assertions.assertInstanceOf(LocalDateTime.class, createdStudent.getCreatedAt());
     });
   }
 
   @Test
-  public void testGetOneAllStudents() {
+  public void testGetAllStudents() {
     assertDoesNotThrow(() -> {
-      createOneTestData();
+      createOneTestStudent();
 
       List<StudentDTO> studentList = STUDENT_DAO.getAll();
 
@@ -75,10 +69,9 @@ public class StudentDAOTest {
   @Test
   public void testGetOneStudent() {
     assertDoesNotThrow(() -> {
-      ACCOUNT_DAO.createOne(BASE_ACCOUNT_DTO);
-      STUDENT_DAO.createOne(BASE_STUDENT_DTO);
+      createOneTestStudent();
 
-      StudentDTO student = STUDENT_DAO.getOne(ID);
+      StudentDTO student = STUDENT_DAO.getOne(STUDENT_DTO.getID());
 
       Assertions.assertNotNull(student);
     });
@@ -87,41 +80,34 @@ public class StudentDAOTest {
   @Test
   public void testUpdateOneAcademic() {
     assertDoesNotThrow(() -> {
-      createOneTestData();
-
-      String updatedName = "John Halo";
-      String updatedMaternalLastName = "Smithson";
-      String updatedPaternalLastName = "Does";
+      createOneTestStudent();
 
       StudentDTO updatedStudent = new StudentDTO.StudentBuilder()
-        .setID(ID)
-        .setEmail(EMAIL)
-        .setName(updatedName)
-        .setPaternalLastName(updatedPaternalLastName)
-        .setMaternalLastName(updatedMaternalLastName)
+        .setID(STUDENT_DTO.getID())
+        .setEmail(STUDENT_DTO.getEmail())
+        .setName("John Halo")
+        .setPaternalLastName("Does")
+        .setMaternalLastName("Smithson")
         .build();
-
       STUDENT_DAO.updateOne(updatedStudent);
 
-      StudentDTO retrievedStudent = STUDENT_DAO.getOne(ID);
-
-      Assertions.assertEquals(updatedMaternalLastName, retrievedStudent.getMaternalLastName());
-      Assertions.assertEquals(updatedPaternalLastName, retrievedStudent.getPaternalLastName());
-      Assertions.assertEquals(updatedName, retrievedStudent.getName());
+      StudentDTO student = STUDENT_DAO.getOne(updatedStudent.getID());
+      Assertions.assertEquals(updatedStudent.getName(), student.getName());
+      Assertions.assertEquals(updatedStudent.getPaternalLastName(), student.getPaternalLastName());
+      Assertions.assertEquals(updatedStudent.getMaternalLastName(), student.getMaternalLastName());
     });
   }
 
   @Test
   public void testDeleteOneAcademic() {
     assertDoesNotThrow(() -> {
-      createOneTestData();
+      createOneTestStudent();
+      StudentDTO createdStudent = STUDENT_DAO.getOne(STUDENT_DTO.getID());
+      Assertions.assertNotNull(createdStudent);
 
-      ACCOUNT_DAO.deleteOne(EMAIL);
-      STUDENT_DAO.deleteOne(ID);
-
-      StudentDTO deleteStudent = STUDENT_DAO.getOne(ID);
-
-      Assertions.assertNull(deleteStudent);
+      deleteOneTestStudent();
+      StudentDTO deletedStudent = STUDENT_DAO.getOne(STUDENT_DTO.getID());
+      Assertions.assertNull(deletedStudent);
     });
   }
 }

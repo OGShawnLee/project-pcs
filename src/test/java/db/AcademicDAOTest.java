@@ -1,9 +1,7 @@
 package db;
 
 import org.example.business.AcademicDTO;
-import org.example.business.AccountDTO;
 import org.example.db.AcademicDAO;
-import org.example.db.AccountDAO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -15,58 +13,53 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class AcademicDAOTest {
-  private final AcademicDAO ACADEMIC_DAO = new AcademicDAO();
-  private final AccountDAO ACCOUNT_DAO = new AccountDAO();
-  private final String ID = "00102";
-  private final String EMAIL = "smith@uv.mx";
-  private final String PASSWORD = "Password123";
-  private final String NAME = "John";
-  private final String PATERNAL_LAST_NAME = "Doe";
-  private final String MATERNAL_LAST_NAME = "Smith";
-  private final String ROLE = "PROFESSOR";
-  private final AcademicDTO BASE_ACADEMIC_DTO = new AcademicDTO.AcademicBuilder()
-    .setID(ID)
-    .setEmail(EMAIL)
-    .setName(NAME)
-    .setPaternalLastName(PATERNAL_LAST_NAME)
-    .setMaternalLastName(MATERNAL_LAST_NAME)
-    .setRole(ROLE)
+  public static final AcademicDAO ACADEMIC_DAO = new AcademicDAO();
+  public static final AcademicDTO ACADEMIC_DTO = new AcademicDTO.AcademicBuilder()
+    .setID("00010")
+    .setEmail(AccountDAOTest.ACADEMIC_ACCOUNT_DTO.email())
+    .setName("John")
+    .setPaternalLastName("Doe")
+    .setMaternalLastName("Smith")
+    .setRole("PROFESSOR")
     .build();
-  private final AccountDTO BASE_ACCOUNT_DTO = new AccountDTO(EMAIL, PASSWORD);
 
-  private void createOneTestData() throws SQLException {
-    ACCOUNT_DAO.createOne(BASE_ACCOUNT_DTO);
-    ACADEMIC_DAO.createOne(BASE_ACADEMIC_DTO);
+  public static void createOneTestAcademic() throws SQLException {
+    AccountDAOTest.createOneTestAcademicAccount();
+    ACADEMIC_DAO.createOne(ACADEMIC_DTO);
+  }
+
+  public static void deleteOneTestAcademic() throws SQLException {
+    AccountDAOTest.deleteOneTestAcademicAccount();
+    ACADEMIC_DAO.deleteOne(ACADEMIC_DTO.getID());
   }
 
   @AfterEach
   public void tearDown() throws SQLException {
-    ACADEMIC_DAO.deleteOne(ID);
-    ACCOUNT_DAO.deleteOne(EMAIL);
+    deleteOneTestAcademic();
   }
 
   @Test
   public void testCreateOneAcademic() {
     assertDoesNotThrow(() -> {
-      createOneTestData();
+      createOneTestAcademic();
 
-      AcademicDTO createdAcademic = ACADEMIC_DAO.getOne(ID);
+      AcademicDTO createdAcademic = ACADEMIC_DAO.getOne(ACADEMIC_DTO.getID());
 
       Assertions.assertNotNull(createdAcademic);
-      Assertions.assertEquals(ID, createdAcademic.getID());
-      Assertions.assertEquals(EMAIL, createdAcademic.getEmail());
-      Assertions.assertEquals(NAME, createdAcademic.getName());
-      Assertions.assertEquals(PATERNAL_LAST_NAME, createdAcademic.getPaternalLastName());
-      Assertions.assertEquals(MATERNAL_LAST_NAME, createdAcademic.getMaternalLastName());
-      Assertions.assertEquals(ROLE, createdAcademic.getRole());
+      Assertions.assertEquals(ACADEMIC_DTO.getID(), createdAcademic.getID());
+      Assertions.assertEquals(ACADEMIC_DTO.getEmail(), createdAcademic.getEmail());
+      Assertions.assertEquals(ACADEMIC_DTO.getName(), createdAcademic.getName());
+      Assertions.assertEquals(ACADEMIC_DTO.getPaternalLastName(), createdAcademic.getPaternalLastName());
+      Assertions.assertEquals(ACADEMIC_DTO.getMaternalLastName(), createdAcademic.getMaternalLastName());
+      Assertions.assertEquals(ACADEMIC_DTO.getRole(), createdAcademic.getRole());
       Assertions.assertInstanceOf(LocalDateTime.class, createdAcademic.getCreatedAt());
     });
   }
 
   @Test
-  public void testGetOneAllAcademics() {
+  public void testGetAllAcademics() {
     assertDoesNotThrow(() -> {
-      createOneTestData();
+      createOneTestAcademic();
 
       List<AcademicDTO> academicList = ACADEMIC_DAO.getAll();
 
@@ -78,10 +71,9 @@ public class AcademicDAOTest {
   @Test
   public void testGetOneAcademic() {
     assertDoesNotThrow(() -> {
-      ACCOUNT_DAO.createOne(BASE_ACCOUNT_DTO);
-      ACADEMIC_DAO.createOne(BASE_ACADEMIC_DTO);
+      createOneTestAcademic();
 
-      AcademicDTO academic = ACADEMIC_DAO.getOne(ID);
+      AcademicDTO academic = ACADEMIC_DAO.getOne(ACADEMIC_DTO.getID());
 
       Assertions.assertNotNull(academic);
     });
@@ -90,41 +82,28 @@ public class AcademicDAOTest {
   @Test
   public void testUpdateOneAcademic() {
     assertDoesNotThrow(() -> {
-      createOneTestData();
+      createOneTestAcademic();
 
-      String updatedName = "John Halo";
-      String updatedMaternalLastName = "Smithson";
-      String updatedPaternalLastName = "Does";
-
-      AcademicDTO updatedAcademic = new AcademicDTO.AcademicBuilder()
-        .setID(ID)
-        .setEmail(EMAIL)
-        .setName(updatedName)
-        .setPaternalLastName(updatedPaternalLastName)
-        .setMaternalLastName(updatedMaternalLastName)
-        .build();
-
+      AcademicDTO updatedAcademic = new AcademicDTO.AcademicBuilder().setID(ACADEMIC_DTO.getID()).setEmail(ACADEMIC_DTO.getEmail()).setName("John Halo").setPaternalLastName("Does").setMaternalLastName("Smithson").build();
       ACADEMIC_DAO.updateOne(updatedAcademic);
 
-      AcademicDTO retrievedAcademic = ACADEMIC_DAO.getOne(ID);
-
-      Assertions.assertEquals(updatedMaternalLastName, retrievedAcademic.getMaternalLastName());
-      Assertions.assertEquals(updatedPaternalLastName, retrievedAcademic.getPaternalLastName());
-      Assertions.assertEquals(updatedName, retrievedAcademic.getName());
+      AcademicDTO academic = ACADEMIC_DAO.getOne(updatedAcademic.getID());
+      Assertions.assertEquals(updatedAcademic.getName(), academic.getName());
+      Assertions.assertEquals(updatedAcademic.getPaternalLastName(), academic.getPaternalLastName());
+      Assertions.assertEquals(updatedAcademic.getMaternalLastName(), academic.getMaternalLastName());
     });
   }
 
   @Test
   public void testDeleteOneAcademic() {
     assertDoesNotThrow(() -> {
-      createOneTestData();
+      createOneTestAcademic();
+      AcademicDTO createdAcademic = ACADEMIC_DAO.getOne(ACADEMIC_DTO.getID());
+      Assertions.assertNotNull(createdAcademic);
 
-      ACCOUNT_DAO.deleteOne(EMAIL);
-      ACADEMIC_DAO.deleteOne(ID);
-
-      AcademicDTO deletedAcademic = ACADEMIC_DAO.getOne(ID);
-
-      Assertions.assertNull(deletedAcademic);
+      deleteOneTestAcademic();
+      AcademicDTO deletedStudent = ACADEMIC_DAO.getOne(ACADEMIC_DTO.getID());
+      Assertions.assertNull(deletedStudent);
     });
   }
 }

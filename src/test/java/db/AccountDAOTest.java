@@ -2,42 +2,59 @@ package db;
 
 import org.example.business.AccountDTO;
 import org.example.db.AccountDAO;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class AccountDAOTest {
-  private AccountDAO ACCOUNT_DAO;
-  private final String ACC_EMAIL = "test@example.com";
-  private final String ACC_PASSWORD = "Password123";
+  public static final AccountDAO ACCOUNT_DAO = new AccountDAO();
+  public static final AccountDTO ACADEMIC_ACCOUNT_DTO = new AccountDTO("smith@uv.mx", "123Password");
+  public static final AccountDTO STUDENT_ACCOUNT_DTO = new AccountDTO("zS18014115@estudiantes.uv.mx", "Password123");
 
-  @BeforeEach
-  public void setUp() {
-    ACCOUNT_DAO = new AccountDAO();
+  public static void createOneTestAcademicAccount() throws SQLException {
+    ACCOUNT_DAO.createOne(ACADEMIC_ACCOUNT_DTO);
+  }
+
+  public static void createOneTestStudentAccount() throws SQLException {
+    ACCOUNT_DAO.createOne(STUDENT_ACCOUNT_DTO);
+  }
+
+  public static void deleteOneTestAcademicAccount() throws SQLException {
+    ACCOUNT_DAO.deleteOne(ACADEMIC_ACCOUNT_DTO.email());
+  }
+
+  public static void deleteOneTestStudentAccount() throws SQLException {
+    ACCOUNT_DAO.deleteOne(STUDENT_ACCOUNT_DTO.email());
+  }
+
+  @AfterEach
+  public void tearDown() throws SQLException {
+    deleteOneTestAcademicAccount();
   }
 
   @Test
   void testCreateOneAccount() {
     assertDoesNotThrow(() -> {
-      AccountDTO account = new AccountDTO(ACC_EMAIL, ACC_PASSWORD);
+      createOneTestAcademicAccount();
 
-      ACCOUNT_DAO.createOne(account);
-
-      AccountDTO createdAccount = ACCOUNT_DAO.getOne(ACC_EMAIL);
+      AccountDTO createdAccount = ACCOUNT_DAO.getOne(ACADEMIC_ACCOUNT_DTO.email());
 
       Assertions.assertNotNull(createdAccount);
-      Assertions.assertEquals(ACC_EMAIL, createdAccount.email());
-      Assertions.assertEquals(ACC_PASSWORD, createdAccount.password());
+      Assertions.assertEquals(ACADEMIC_ACCOUNT_DTO.email(), createdAccount.email());
+      Assertions.assertEquals(ACADEMIC_ACCOUNT_DTO.password(), createdAccount.password());
     });
   }
 
   @Test
-  void testGetOneAllAccounts() {
+  void testGetAllAccounts() {
     assertDoesNotThrow(() -> {
+      createOneTestAcademicAccount();
+
       List<AccountDTO> accountList = ACCOUNT_DAO.getAll();
 
       Assertions.assertNotNull(accountList);
@@ -48,33 +65,40 @@ public class AccountDAOTest {
   @Test
   void testGetOneAccount() {
     assertDoesNotThrow(() -> {
-      AccountDTO account = ACCOUNT_DAO.getOne(ACC_EMAIL);
+      createOneTestAcademicAccount();
+
+      AccountDTO account = ACCOUNT_DAO.getOne(ACADEMIC_ACCOUNT_DTO.email());
 
       Assertions.assertNotNull(account);
+      Assertions.assertEquals(ACADEMIC_ACCOUNT_DTO.email(), account.email());
+      Assertions.assertEquals(ACADEMIC_ACCOUNT_DTO.password(), account.password());
     });
   }
 
   @Test
   void testUpdateOneAccount() {
     assertDoesNotThrow(() -> {
-      String updatedPassword = "UpdatedPassword123";
-      AccountDTO account = new AccountDTO(ACC_EMAIL, updatedPassword);
+      createOneTestAcademicAccount();
 
-      ACCOUNT_DAO.updateOne(account);
+      AccountDTO updatedAccount = new AccountDTO(ACADEMIC_ACCOUNT_DTO.email(), "SecurePassword");
+      ACCOUNT_DAO.updateOne(updatedAccount);
 
-      AccountDTO updatedAccount = ACCOUNT_DAO.getOne(ACC_EMAIL);
-
-      Assertions.assertEquals(updatedPassword, updatedAccount.password());
+      AccountDTO account = ACCOUNT_DAO.getOne(ACADEMIC_ACCOUNT_DTO.email());
+      Assertions.assertNotNull(account);
+      Assertions.assertEquals(updatedAccount.email(), account.email());
+      Assertions.assertEquals(updatedAccount.password(), account.password());
     });
   }
 
   @Test
   void testDeleteOneAccount() {
     assertDoesNotThrow(() -> {
-      ACCOUNT_DAO.deleteOne(ACC_EMAIL);
+      createOneTestAcademicAccount();
+      AccountDTO createdAccount = ACCOUNT_DAO.getOne(ACADEMIC_ACCOUNT_DTO.email());
+      Assertions.assertNotNull(createdAccount);
 
-      AccountDTO deletedAccount = ACCOUNT_DAO.getOne(ACC_EMAIL);
-
+      deleteOneTestAcademicAccount();
+      AccountDTO deletedAccount = ACCOUNT_DAO.getOne(ACADEMIC_ACCOUNT_DTO.email());
       Assertions.assertNull(deletedAccount);
     });
   }

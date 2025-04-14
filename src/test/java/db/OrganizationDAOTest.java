@@ -13,53 +13,53 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 public class OrganizationDAOTest {
-  private final OrganizationDAO ORGANIZATION_DAO = new OrganizationDAO();
-  private final String EMAIL = "microsoft@outlook.com";
-  private final String NAME = "Microsoft";
-  private final String REPRESENTATIVE_FULL_NAME = "Bill Gates";
-  private final String COLONY = "Redmond";
-  private final String STREET = "Microsoft Way";
-  private final OrganizationDTO BASE_ORGANIZATION_DTO = new OrganizationDTO.OrganizationBuilder()
-    .setEmail(EMAIL)
-    .setName(NAME)
-    .setRepresentativeFullName(REPRESENTATIVE_FULL_NAME)
-    .setColony(COLONY)
-    .setStreet(STREET)
+  public static final OrganizationDAO ORGANIZATION_DAO = new OrganizationDAO();
+  public static final OrganizationDTO ORGANIZATION_DTO = new OrganizationDTO.OrganizationBuilder()
+    .setEmail("microsoft@outlook.com")
+    .setName("Microsoft")
+    .setRepresentativeFullName("Bill Gates")
+    .setColony("Redmond")
+    .setStreet("Microsoft Way")
     .build();
 
-  private void createOneTestData() throws SQLException {
-    ORGANIZATION_DAO.createOne(BASE_ORGANIZATION_DTO);
+  public void createOneTestOrganization() throws SQLException {
+    ORGANIZATION_DAO.createOne(ORGANIZATION_DTO);
+  }
+
+  public void deleteOneTestOrganization() throws SQLException {
+    ORGANIZATION_DAO.deleteOne(ORGANIZATION_DTO.getEmail());
   }
 
   @AfterEach
   public void tearDown() throws SQLException {
-    ORGANIZATION_DAO.deleteOne(EMAIL);
+    deleteOneTestOrganization();
   }
 
   @Test
   public void testCreateOneOrganization() {
     assertDoesNotThrow(() -> {
-      createOneTestData();
+      createOneTestOrganization();
 
-      OrganizationDTO createdOrganization = ORGANIZATION_DAO.getOne(EMAIL);
+      OrganizationDTO createdOrganization = ORGANIZATION_DAO.getOne(ORGANIZATION_DTO.getEmail());
 
       Assertions.assertNotNull(createdOrganization);
-      Assertions.assertEquals(EMAIL, createdOrganization.getEmail());
-      Assertions.assertEquals(NAME, createdOrganization.getName());
-      Assertions.assertEquals(REPRESENTATIVE_FULL_NAME, createdOrganization.getRepresentativeFullName());
-      Assertions.assertEquals(COLONY, createdOrganization.getColony());
-      Assertions.assertEquals(STREET, createdOrganization.getStreet());
+      Assertions.assertEquals(ORGANIZATION_DTO.getEmail(), createdOrganization.getEmail());
+      Assertions.assertEquals(ORGANIZATION_DTO.getName(), createdOrganization.getName());
+      Assertions.assertEquals(ORGANIZATION_DTO.getRepresentativeFullName(), createdOrganization.getRepresentativeFullName());
+      Assertions.assertEquals(ORGANIZATION_DTO.getColony(), createdOrganization.getColony());
+      Assertions.assertEquals(ORGANIZATION_DTO.getStreet(), createdOrganization.getStreet());
       Assertions.assertInstanceOf(LocalDateTime.class, createdOrganization.getCreatedAt());
     });
   }
 
   @Test
-  public void testGetOneAllOrganizations() {
+  public void testGetAllOrganizations() {
     assertDoesNotThrow(() -> {
-      createOneTestData();
+      createOneTestOrganization();
 
       List<OrganizationDTO> organizationList = ORGANIZATION_DAO.getAll();
 
+      Assertions.assertNotNull(organizationList);
       Assertions.assertFalse(organizationList.isEmpty());
     });
   }
@@ -67,60 +67,48 @@ public class OrganizationDAOTest {
   @Test
   public void testGetOneOrganization() {
     assertDoesNotThrow(() -> {
-      createOneTestData();
+      createOneTestOrganization();
 
-      OrganizationDTO createdOrganization = ORGANIZATION_DAO.getOne(EMAIL);
+      OrganizationDTO createdOrganization = ORGANIZATION_DAO.getOne(ORGANIZATION_DTO.getEmail());
 
       Assertions.assertNotNull(createdOrganization);
-      Assertions.assertEquals(EMAIL, createdOrganization.getEmail());
-      Assertions.assertEquals(NAME, createdOrganization.getName());
-      Assertions.assertEquals(REPRESENTATIVE_FULL_NAME, createdOrganization.getRepresentativeFullName());
-      Assertions.assertEquals(COLONY, createdOrganization.getColony());
-      Assertions.assertEquals(STREET, createdOrganization.getStreet());
     });
   }
 
   @Test
   public void testUpdateOneOrganization() {
     assertDoesNotThrow(() -> {
-      createOneTestData();
-
-      String updatedName = "Apple Inc.";
-      String updatedRepresentativeFullName = "Steve Jobs";
-      String updatedColony = "Cupertino";
-      String updatedStreet = "Infinite Loop";
-      String updatedState = "RETIRED";
+      createOneTestOrganization();
 
       OrganizationDTO updatedOrganization = new OrganizationDTO.OrganizationBuilder()
-        .setEmail(EMAIL)
-        .setName(updatedName)
-        .setRepresentativeFullName(updatedRepresentativeFullName)
-        .setColony(updatedColony)
-        .setStreet(updatedStreet)
-        .setState(updatedState)
+        .setEmail(ORGANIZATION_DTO.getEmail())
+        .setName("Apple Inc.")
+        .setRepresentativeFullName("Steve Jobs")
+        .setColony("Cupertino")
+        .setStreet("Infinite Loop")
+        .setState("RETIRED")
         .build();
 
       ORGANIZATION_DAO.updateOne(updatedOrganization);
 
-      OrganizationDTO retrievedOrganization = ORGANIZATION_DAO.getOne(EMAIL);
-
-      Assertions.assertEquals(updatedName, retrievedOrganization.getName());
-      Assertions.assertEquals(updatedRepresentativeFullName, retrievedOrganization.getRepresentativeFullName());
-      Assertions.assertEquals(updatedColony, retrievedOrganization.getColony());
-      Assertions.assertEquals(updatedStreet, retrievedOrganization.getStreet());
-      Assertions.assertEquals(updatedState, retrievedOrganization.getState());
+      OrganizationDTO organization = ORGANIZATION_DAO.getOne(ORGANIZATION_DTO.getEmail());
+      Assertions.assertEquals(updatedOrganization.getName(), organization.getName());
+      Assertions.assertEquals(updatedOrganization.getRepresentativeFullName(), organization.getRepresentativeFullName());
+      Assertions.assertEquals(updatedOrganization.getColony(), organization.getColony());
+      Assertions.assertEquals(updatedOrganization.getStreet(), organization.getStreet());
+      Assertions.assertEquals(updatedOrganization.getState(), organization.getState());
     });
   }
 
   @Test
   public void testDeleteOneOrganization() {
     assertDoesNotThrow(() -> {
-      createOneTestData();
+      createOneTestOrganization();
+      OrganizationDTO createdOrganization = ORGANIZATION_DAO.getOne(ORGANIZATION_DTO.getEmail());
+      Assertions.assertNotNull(createdOrganization);
 
-      ORGANIZATION_DAO.deleteOne(EMAIL);
-
-      OrganizationDTO deletedOrganization = ORGANIZATION_DAO.getOne(EMAIL);
-
+      deleteOneTestOrganization();
+      OrganizationDTO deletedOrganization = ORGANIZATION_DAO.getOne(ORGANIZATION_DTO.getEmail());
       Assertions.assertNull(deletedOrganization);
     });
   }
