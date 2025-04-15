@@ -11,7 +11,7 @@ import java.util.List;
 
 public class ProjectDAO extends DAOPattern<ProjectDTO, Integer> {
   private static final String CREATE_QUERY =
-    "INSERT INTO Project (id_project, id_organization, name, methodology, state, sector) VALUES (?, ?, ?, ?, ?, ?)";
+    "INSERT INTO Project (id_organization, name, methodology, sector) VALUES (?, ?, ?, ?)";
   private static final String GET_ALL_QUERY = "SELECT * FROM Project";
   private static final String GET_QUERY = "SELECT * FROM Project WHERE id_project = ?";
   private static final String UPDATE_QUERY =
@@ -37,12 +37,10 @@ public class ProjectDAO extends DAOPattern<ProjectDTO, Integer> {
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
     ) {
-      statement.setString(1, dataObject.getID());
-      statement.setString(2, dataObject.getIDOrganization());
-      statement.setString(3, dataObject.getName());
-      statement.setString(4, dataObject.getMethodology());
-      statement.setString(5, dataObject.getState());
-      statement.setString(6, dataObject.getSector());
+      statement.setString(1, dataObject.getIDOrganization());
+      statement.setString(2, dataObject.getName());
+      statement.setString(3, dataObject.getMethodology());
+      statement.setString(4, dataObject.getSector());
       statement.executeUpdate();
     }
   }
