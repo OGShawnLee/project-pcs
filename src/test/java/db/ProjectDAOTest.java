@@ -89,7 +89,7 @@ public class ProjectDAOTest {
         .setIDOrganization(OrganizationDAOTest.ORGANIZATION_DTO.getEmail())
         .setName("Bard AI Reborn 2")
         .setMethodology("Waterfall")
-        .setSector("PUBLIC")
+        .setSector(PROJECT_DTO.getSector())
         .setState("RETIRED")
         .build();
 
@@ -102,6 +102,48 @@ public class ProjectDAOTest {
       Assertions.assertEquals(updatedProject.getMethodology(), retrievedProject.getMethodology());
       Assertions.assertEquals(updatedProject.getSector(), retrievedProject.getSector());
       Assertions.assertEquals(updatedProject.getState(), retrievedProject.getState());
+    });
+  }
+
+  @Test
+  public void testUpdateOneProjectSector() {
+    assertDoesNotThrow(() -> {
+      createOneTestProject();
+
+      ProjectDTO updatedProject = new ProjectDTO.ProjectBuilder()
+        .setID(PROJECT_DTO.getID())
+        .setIDOrganization(OrganizationDAOTest.ORGANIZATION_DTO.getEmail())
+        .setName(PROJECT_DTO.getName())
+        .setMethodology(PROJECT_DTO.getMethodology())
+        .setSector("PRIVATE")
+        .setState("ACTIVE")
+        .build();
+
+      PROJECT_DAO.updateOne(updatedProject);
+
+      ProjectDTO retrievedProject = PROJECT_DAO.getOne(PROJECT_DTO.getID());
+
+      Assertions.assertNotNull(retrievedProject);
+      Assertions.assertEquals(updatedProject.getID(), retrievedProject.getID());
+      Assertions.assertEquals(updatedProject.getMethodology(), retrievedProject.getMethodology());
+      Assertions.assertEquals(updatedProject.getSector(), retrievedProject.getSector());
+      Assertions.assertEquals(updatedProject.getState(), retrievedProject.getState());
+
+      updatedProject = new ProjectDTO.ProjectBuilder()
+        .setID(PROJECT_DTO.getID())
+        .setIDOrganization(OrganizationDAOTest.ORGANIZATION_DTO.getEmail())
+        .setName(PROJECT_DTO.getName())
+        .setMethodology(PROJECT_DTO.getMethodology())
+        .setSector("SOCIAL")
+        .setState("ACTIVE")
+        .build();
+
+      PROJECT_DAO.updateOne(updatedProject);
+      retrievedProject = PROJECT_DAO.getOne(PROJECT_DTO.getID());
+      Assertions.assertNotNull(retrievedProject);
+      Assertions.assertEquals(updatedProject.getID(), retrievedProject.getID());
+      Assertions.assertEquals(updatedProject.getMethodology(), retrievedProject.getMethodology());
+      Assertions.assertEquals(updatedProject.getSector(), retrievedProject.getSector());
     });
   }
 
