@@ -22,11 +22,11 @@ public class OrganizationDAOTest {
     .setStreet("Microsoft Way")
     .build();
 
-  public void createOneTestOrganization() throws SQLException {
+  public static void createOneTestOrganization() throws SQLException {
     ORGANIZATION_DAO.createOne(ORGANIZATION_DTO);
   }
 
-  public void deleteOneTestOrganization() throws SQLException {
+  public static void deleteOneTestOrganization() throws SQLException {
     ORGANIZATION_DAO.deleteOne(ORGANIZATION_DTO.getEmail());
   }
 
