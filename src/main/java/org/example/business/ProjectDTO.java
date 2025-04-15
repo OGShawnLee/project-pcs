@@ -78,7 +78,7 @@ public class ProjectDTO {
     }
 
     public ProjectBuilder setMethodology(String methodology) {
-      this.methodology = this.methodology;
+      this.methodology = methodology;
       return this;
     }
 
