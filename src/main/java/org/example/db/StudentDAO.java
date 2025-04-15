@@ -17,7 +17,7 @@ public class StudentDAO extends DAOPattern<StudentDTO, String> {
   private static final String GET_QUERY =
     "SELECT * FROM Student WHERE id_student = ?";
   private static final String UPDATE_QUERY =
-    "UPDATE Student SET name = ?, paternal_last_name = ?, maternal_last_name = ? WHERE id_student = ?";
+    "UPDATE Student SET name = ?, paternal_last_name = ?, maternal_last_name = ?, state = ? WHERE id_student = ?";
   private static final String DELETE_QUERY =
     "DELETE FROM Student WHERE id_student = ?";
 
@@ -96,7 +96,8 @@ public class StudentDAO extends DAOPattern<StudentDTO, String> {
       statement.setString(1, dataObject.getName());
       statement.setString(2, dataObject.getPaternalLastName());
       statement.setString(3, dataObject.getMaternalLastName());
-      statement.setString(4, dataObject.getID());
+      statement.setString(4, dataObject.getState());
+      statement.setString(5, dataObject.getID());
 
       statement.executeUpdate();
     }

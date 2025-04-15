@@ -78,7 +78,7 @@ public class StudentDAOTest {
   }
 
   @Test
-  public void testUpdateOneAcademic() {
+  public void testUpdateOneStudent() {
     assertDoesNotThrow(() -> {
       createOneTestStudent();
 
@@ -88,6 +88,7 @@ public class StudentDAOTest {
         .setName("John Halo")
         .setPaternalLastName("Does")
         .setMaternalLastName("Smithson")
+        .setState("RETIRED")
         .build();
       STUDENT_DAO.updateOne(updatedStudent);
 
@@ -99,7 +100,7 @@ public class StudentDAOTest {
   }
 
   @Test
-  public void testDeleteOneAcademic() {
+  public void testDeleteOneStudent() {
     assertDoesNotThrow(() -> {
       createOneTestStudent();
       StudentDTO createdStudent = STUDENT_DAO.getOne(STUDENT_DTO.getID());
