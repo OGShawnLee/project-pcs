@@ -15,7 +15,7 @@ public class AcademicDAO extends DAOPattern<AcademicDTO, String> {
   private static final String GET_ALL_QUERY = "SELECT * FROM Academic";
   private static final String GET_QUERY = "SELECT * FROM Academic WHERE id_academic = ?";
   private static final String UPDATE_QUERY =
-    "UPDATE Academic SET name = ?, paternal_last_name = ?, maternal_last_name = ? WHERE id_academic = ?";
+    "UPDATE Academic SET name = ?, paternal_last_name = ?, maternal_last_name = ?, role = ?, state = ? WHERE id_academic = ?";
   private static final String DELETE_QUERY = "DELETE FROM Academic WHERE id_academic = ?";
 
   @Override
@@ -94,7 +94,9 @@ public class AcademicDAO extends DAOPattern<AcademicDTO, String> {
       statement.setString(1, dataObject.getName());
       statement.setString(2, dataObject.getPaternalLastName());
       statement.setString(3, dataObject.getMaternalLastName());
-      statement.setString(4, dataObject.getID());
+      statement.setString(4, dataObject.getRole());
+      statement.setString(5, dataObject.getState());
+      statement.setString(6, dataObject.getID());
       statement.executeUpdate();
     }
   }

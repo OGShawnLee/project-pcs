@@ -84,13 +84,58 @@ public class AcademicDAOTest {
     assertDoesNotThrow(() -> {
       createOneTestAcademic();
 
-      AcademicDTO updatedAcademic = new AcademicDTO.AcademicBuilder().setID(ACADEMIC_DTO.getID()).setEmail(ACADEMIC_DTO.getEmail()).setName("John Halo").setPaternalLastName("Does").setMaternalLastName("Smithson").build();
+      AcademicDTO updatedAcademic = new AcademicDTO.AcademicBuilder()
+        .setID(ACADEMIC_DTO.getID())
+        .setEmail(ACADEMIC_DTO.getEmail())
+        .setName("John Halo")
+        .setPaternalLastName("Does")
+        .setMaternalLastName("Smithson")
+        .setState("RETIRED")
+        .setRole(ACADEMIC_DTO.getRole())
+        .build();
       ACADEMIC_DAO.updateOne(updatedAcademic);
 
       AcademicDTO academic = ACADEMIC_DAO.getOne(updatedAcademic.getID());
       Assertions.assertEquals(updatedAcademic.getName(), academic.getName());
       Assertions.assertEquals(updatedAcademic.getPaternalLastName(), academic.getPaternalLastName());
       Assertions.assertEquals(updatedAcademic.getMaternalLastName(), academic.getMaternalLastName());
+      Assertions.assertEquals(updatedAcademic.getState(), academic.getState());
+      Assertions.assertEquals(updatedAcademic.getRole(), academic.getRole());
+    });
+  }
+
+  @Test
+  public void testUpdateOneAcademicRole() {
+    assertDoesNotThrow(() -> {
+      createOneTestAcademic();
+
+      AcademicDTO updatedAcademic = new AcademicDTO.AcademicBuilder()
+        .setID(ACADEMIC_DTO.getID())
+        .setEmail(ACADEMIC_DTO.getEmail())
+        .setName(ACADEMIC_DTO.getName())
+        .setPaternalLastName(ACADEMIC_DTO.getPaternalLastName())
+        .setMaternalLastName(ACADEMIC_DTO.getMaternalLastName())
+        .setRole("EVALUATOR")
+        .setState("ACTIVE")
+        .build();
+      ACADEMIC_DAO.updateOne(updatedAcademic);
+
+      AcademicDTO academic = ACADEMIC_DAO.getOne(updatedAcademic.getID());
+      Assertions.assertEquals(updatedAcademic.getRole(), academic.getRole());
+
+      updatedAcademic = new AcademicDTO.AcademicBuilder()
+        .setID(ACADEMIC_DTO.getID())
+        .setEmail(ACADEMIC_DTO.getEmail())
+        .setName(ACADEMIC_DTO.getName())
+        .setPaternalLastName(ACADEMIC_DTO.getPaternalLastName())
+        .setMaternalLastName(ACADEMIC_DTO.getMaternalLastName())
+        .setRole("EVALUATOR-PROFESSOR")
+        .setState("ACTIVE")
+        .build();
+
+      ACADEMIC_DAO.updateOne(updatedAcademic);
+      academic = ACADEMIC_DAO.getOne(updatedAcademic.getID());
+      Assertions.assertEquals(updatedAcademic.getRole(), academic.getRole());
     });
   }
 
