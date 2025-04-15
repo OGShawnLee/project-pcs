@@ -3,7 +3,7 @@ package org.example.business;
 import java.time.LocalDateTime;
 
 public class ProjectDTO {
-  private final String id;
+  private int id;
   private final String idOrganization;
   private final String name;
   private final String methodology;
@@ -21,8 +21,12 @@ public class ProjectDTO {
     this.createdAt = builder.createdAt;
   }
 
-  public String getID() {
+  public int getID() {
     return id;
+  }
+
+  public void setID(int id) {
+    this.id = id;
   }
 
   public String getIDOrganization() {
@@ -50,7 +54,7 @@ public class ProjectDTO {
   }
 
   public static class ProjectBuilder {
-    protected String id;
+    protected int id;
     protected String idOrganization;
     protected String name;
     protected String methodology;
@@ -58,7 +62,7 @@ public class ProjectDTO {
     protected String sector;
     protected LocalDateTime createdAt;
 
-    public ProjectBuilder setId(String id) {
+    public ProjectBuilder setID(int id) {
       this.id = id;
       return this;
     }

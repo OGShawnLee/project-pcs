@@ -21,7 +21,7 @@ public class ProjectDAO extends DAOPattern<ProjectDTO, Integer> {
   @Override
   protected ProjectDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
     return new ProjectDTO.ProjectBuilder()
-      .setId(resultSet.getString("id_project"))
+      .setID(resultSet.getInt("id_project"))
       .setIDOrganization(resultSet.getString("id_organization"))
       .setName(resultSet.getString("name"))
       .setMethodology(resultSet.getString("methodology"))
@@ -95,7 +95,7 @@ public class ProjectDAO extends DAOPattern<ProjectDTO, Integer> {
       statement.setString(3, dataObject.getMethodology());
       statement.setString(4, dataObject.getState());
       statement.setString(5, dataObject.getSector());
-      statement.setString(6, dataObject.getID());
+      statement.setInt(6, dataObject.getID());
       statement.executeUpdate();
     }
   }
