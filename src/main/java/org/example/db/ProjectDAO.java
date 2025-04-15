@@ -35,13 +35,21 @@ public class ProjectDAO extends DAOPattern<ProjectDTO, Integer> {
   public void createOne(ProjectDTO dataObject) throws SQLException {
     try (
       Connection connection = getConnection();
-      PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
+      PreparedStatement statement = connection.prepareStatement(CREATE_QUERY, PreparedStatement.RETURN_GENERATED_KEYS)
     ) {
       statement.setString(1, dataObject.getIDOrganization());
       statement.setString(2, dataObject.getName());
       statement.setString(3, dataObject.getMethodology());
       statement.setString(4, dataObject.getSector());
       statement.executeUpdate();
+
+      try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+        if (generatedKeys.next()) {
+          dataObject.setID(generatedKeys.getInt(1));
+        } else {
+          throw new SQLException("Creating project failed, no ID obtained.");
+        }
+      }
     }
   }
 
