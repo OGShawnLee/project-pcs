@@ -20,12 +20,12 @@ public class ProjectDAOTest {
     .setSector("PRIVATE")
     .build();
 
-  public void createOneTestProject() throws SQLException {
+  public static void createOneTestProject() throws SQLException {
     OrganizationDAOTest.createOneTestOrganization();
     PROJECT_DAO.createOne(PROJECT_DTO);
   }
 
-  public void deleteOneTestProject() throws SQLException {
+  public static void deleteOneTestProject() throws SQLException {
     OrganizationDAOTest.deleteOneTestOrganization();
     PROJECT_DAO.deleteOne(PROJECT_DTO.getID());
   }
