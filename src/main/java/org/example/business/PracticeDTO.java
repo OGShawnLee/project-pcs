@@ -2,7 +2,7 @@ package org.example.business;
 
 public class PracticeDTO {
   private final String idStudent;
-  private final String idProject;
+  private final int idProject;
   private final String reasonOfAssignation;
 
   public PracticeDTO(PracticeBuilder builder) {
@@ -15,7 +15,7 @@ public class PracticeDTO {
     return idStudent;
   }
 
-  public String getIDProject() {
+  public int getIDProject() {
     return idProject;
   }
 
@@ -25,7 +25,7 @@ public class PracticeDTO {
 
   public static class PracticeBuilder {
     protected String idStudent;
-    protected String idProject;
+    protected int idProject;
     protected String reasonOfAssignation;
 
     public PracticeBuilder setIDStudent(String idStudent) {
@@ -33,12 +33,12 @@ public class PracticeDTO {
       return this;
     }
 
-    public PracticeBuilder setIDProject(String idProject) {
+    public PracticeBuilder setIDProject(int idProject) {
       this.idProject = idProject;
       return this;
     }
 
-    public PracticeBuilder SetReasonOfAssignation(String reasonOfAssignation) {
+    public PracticeBuilder setReasonOfAssignation(String reasonOfAssignation) {
       this.reasonOfAssignation = reasonOfAssignation;
       return this;
     }
