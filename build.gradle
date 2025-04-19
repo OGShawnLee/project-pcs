@@ -1,5 +1,7 @@
 plugins {
-    id("java")
+    id 'java'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.13'
 }
 
 group = "org.example"
@@ -9,12 +11,23 @@ repositories {
     mavenCentral()
 }
 
+application {
+    mainModule = 'com.example'
+    mainClass = 'com.example.App'
+}
+
+javafx {
+    version = '21.0.1'
+    modules = ['javafx.controls', 'javafx.fxml']
+}
+
 dependencies {
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     implementation("mysql:mysql-connector-java:8.0.33")
+    implementation("org.controlsfx:controlsfx:11.2.1")
 }
 
-tasks.test {
+test {
     useJUnitPlatform()
 }
