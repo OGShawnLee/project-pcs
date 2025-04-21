@@ -1,9 +1,9 @@
 package db;
 
 
-import org.example.business.EnrollmentDTO;
-import org.example.db.EnrollmentDAO;
-import org.example.db.filter.FilterEnrollment;
+import org.example.business.dto.EnrollmentDTO;
+import org.example.db.dao.EnrollmentDAO;
+import org.example.db.dao.filter.FilterEnrollment;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

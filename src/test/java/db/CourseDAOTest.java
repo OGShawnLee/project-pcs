@@ -1,7 +1,7 @@
 package db;
 
-import org.example.business.CourseDTO;
-import org.example.db.CourseDAO;
+import org.example.business.dto.CourseDTO;
+import org.example.db.dao.CourseDAO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

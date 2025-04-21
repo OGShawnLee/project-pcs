@@ -1,7 +1,7 @@
 package db;
 
-import org.example.business.AcademicDTO;
-import org.example.db.AcademicDAO;
+import org.example.business.dto.AcademicDTO;
+import org.example.db.dao.AcademicDAO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
