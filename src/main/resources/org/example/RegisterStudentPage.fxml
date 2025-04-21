@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="420.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.business.controller.RegisterStudentController">
+  <content>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="497.0" prefWidth="577.0">
+         <children>
+            <Label layoutX="275.0" layoutY="31.0" />
+            <Label layoutX="250.0" layoutY="31.0" text="Registro de estudiante" />
+            <TextField fx:id="fieldPaternalLastName" layoutX="30.0" layoutY="140.0" prefHeight="25.0" prefWidth="500.0" />
+            <TextField fx:id="fieldMaternalLastName" layoutX="30.0" layoutY="200.0" prefHeight="25.0" prefWidth="500.0" />
+            <TextField fx:id="fieldName" layoutX="30.0" layoutY="260.0" prefWidth="500.0" />
+            <TextField fx:id="fieldIdStudent" layoutX="30.0" layoutY="320.0" prefHeight="25.0" prefWidth="500.0" />
+            <TextField fx:id="fieldEmail" layoutX="31.0" layoutY="384.0" prefHeight="25.0" prefWidth="499.0" />
+            <Label layoutX="30.0" layoutY="123.0" text="Apellido Paterno" />
+            <Label layoutX="30.0" layoutY="183.0" text="Apellido Materno" />
+            <Label layoutX="30.0" layoutY="247.0" text="Nombre" />
+            <Label layoutX="30.0" layoutY="303.0" text="Matricula" />
+            <Label layoutX="30.0" layoutY="367.0" text="Correo Electronico" />
+            <Button layoutX="228.0" layoutY="441.0" mnemonicParsing="false" onAction="#handleRegisterStudent" text="Registrar Estudiante" />
+         </children></AnchorPane>
+  </content>
+</ScrollPane>
