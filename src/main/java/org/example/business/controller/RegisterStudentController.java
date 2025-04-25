@@ -2,8 +2,13 @@ package org.example.business.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
+import javafx.stage.Stage;
 import org.example.business.Result;
 import org.example.business.dto.AccountDTO;
 import org.example.business.dto.StudentDTO;
@@ -11,7 +16,9 @@ import org.example.business.validation.Validator;
 import org.example.db.dao.StudentDAO;
 import org.example.gui.AlertDialog;
 
+import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Objects;
 
 public class RegisterStudentController {
     private final StudentDAO STUDENT_DAO = new StudentDAO();
@@ -25,8 +32,10 @@ public class RegisterStudentController {
     private TextField fieldIdStudent;
     @FXML
     private TextField fieldEmail;
+    @FXML
+    private Button registerStudent;
 
-    public void handleRegisterStudent(ActionEvent event) {
+    public void handleRegisterStudent(javafx.event.ActionEvent event) {
         StudentDTO student = new StudentDTO.StudentBuilder()
                 .setPaternalLastName(fieldPaternalLastName.getText())
                 .setMaternalLastName(fieldMaternalLastName.getText())
@@ -105,19 +114,25 @@ public class RegisterStudentController {
 
 
         try {
-            StudentDTO existingOrganization = STUDENT_DAO.getOne(student.getEmail());
+            StudentDTO existingStudent = STUDENT_DAO.getOne(student.getEmail());
 
-            if (existingOrganization != null) {
+            if (existingStudent != null) {
                 AlertDialog.showError(
                         "No ha sido posible registrar al estudiante debido a que ya existe un estudiante " +
                                 "registrado con ese correo electronico."
                 );
                 return;
             }
+            Parent newView = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/example/RegisterStudentPage.fxml")));
+            Scene newScene = new Scene(newView);
+
+            Stage stage = (Stage) registerStudent.getScene().getWindow();
+            stage.setScene(newScene);
+            stage.show();
 
             STUDENT_DAO.createOne(student);
             AlertDialog.showSuccess("El estudiante ha sido registrado exitosamente.");
-        } catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             AlertDialog.showError("No ha sido posible registrar al estudiante debido a un error de sistema.");
         }
     }
