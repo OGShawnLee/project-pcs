@@ -98,6 +98,7 @@ public class StudentDAO extends DAOPattern<StudentDTO, String> {
       statement.setString(3, dataObject.getMaternalLastName());
       statement.setString(4, dataObject.getState());
       statement.setString(5, dataObject.getID());
+      statement.setDouble(6, dataObject.getFinalGrade());
 
       statement.executeUpdate();
     }
