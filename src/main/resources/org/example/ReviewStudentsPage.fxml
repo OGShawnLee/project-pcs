@@ -28,7 +28,7 @@
                 <TableColumn fx:id="stateColumn" minWidth="-1.0" prefWidth="125.0" text="Estado" />
               </columns>
             </TableView>
-            <ComboBox layoutX="705.0" layoutY="87.0" prefWidth="150.0" />
+            <ComboBox fx:id="stateView" layoutX="705.0" layoutY="87.0" prefWidth="150.0" promptText="Todos" />
             <Button layoutX="474.0" layoutY="87.0" mnemonicParsing="false" onAction="#openFinalGradeStudent" text="Registrar Calificacion Final" />
          </children></AnchorPane>
   </content>
