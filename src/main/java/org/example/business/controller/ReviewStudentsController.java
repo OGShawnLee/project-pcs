@@ -9,6 +9,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -24,8 +25,11 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
 
+
 public class ReviewStudentsController {
 
+    @FXML
+    private ComboBox<String> stateView;
     @FXML
     private TableView<StudentDTO> studentTable;
     @FXML
@@ -49,19 +53,19 @@ public class ReviewStudentsController {
 
     private final StudentDAO studentDAO = new StudentDAO();
 
-    @FXML
-    public void initialize() {
-        showTableStudents();
+
+
+    @FXML public void selectFilter(){
     }
 
     @FXML
     public void showTableStudents() {
-        idColumn.setCellValueFactory(new PropertyValueFactory<>("id_student"));
-        paternalLastNameColumn.setCellValueFactory(new PropertyValueFactory<>("paternal_last_name"));
-        maternalLastNameColumn.setCellValueFactory(new PropertyValueFactory<>("paternal_last_name"));
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("ID"));
+        paternalLastNameColumn.setCellValueFactory(new PropertyValueFactory<>("paternalLastName"));
+        maternalLastNameColumn.setCellValueFactory(new PropertyValueFactory<>("maternalLastName"));
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
-        createdAtColumn.setCellValueFactory(new PropertyValueFactory<>("created_at"));
-        finalGradeColumn.setCellValueFactory(new PropertyValueFactory<>("final_grade"));
+        createdAtColumn.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
+        finalGradeColumn.setCellValueFactory(new PropertyValueFactory<>("finalGrade"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         stateColumn.setCellValueFactory(new PropertyValueFactory<>("state"));
 
@@ -73,6 +77,21 @@ public class ReviewStudentsController {
             AlertDialog.showError("No se pudo mostrar los datos debido a un error en el sistema");
         }
     }
+
+    @FXML
+    public void showStudentsByState(String state) {
+        try {
+            List<StudentDTO> studentList = studentDAO.getAll();
+            List<StudentDTO> filteredList = studentList.stream()
+                    .filter(student -> student.getState().equalsIgnoreCase(state))
+                    .toList();
+            ObservableList<StudentDTO> observableList = FXCollections.observableArrayList(filteredList);
+            studentTable.setItems(observableList);
+        } catch (SQLException e) {
+            AlertDialog.showError("Error al filtrar por estado");
+        }
+    }
+
 
     @FXML
     public void openRegisterStudent(javafx.event.ActionEvent actionEvent) throws IOException {
@@ -89,7 +108,7 @@ public class ReviewStudentsController {
     public void openGestionStudent(javafx.event.ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/InsertId.fxml"));
 
-        InsertToGestionController controller = new InsertToGestionController();
+        InsertToManageController controller = new InsertToManageController();
         Stage reviewStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         controller.setReviewStage(reviewStage);
         loader.setController(controller);
@@ -123,5 +142,22 @@ public class ReviewStudentsController {
         stage.setOnCloseRequest(Event::consume);
         controller.setStage(stage);
         stage.show();
+    }
+
+    @FXML
+    public void initialize() {
+        stateView.getItems().addAll("Activo", "Archivado", "Todos");
+        stateView.setOnAction(event -> {
+            String option = stateView.getValue();
+            if (option != null) {
+                switch (option) {
+                    case "Todos" -> showTableStudents();
+                    case "Activo" -> showStudentsByState("ACTIVE");
+                    case "Archivado" -> showStudentsByState("RETIRED");
+                }
+            }
+        });
+        stateView.setValue("Todos");
+        showTableStudents();
     }
 }
