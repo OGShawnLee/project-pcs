@@ -19,8 +19,8 @@ public class Validator {
     return Result.createSuccessResult(value);
   }
 
-  public static Result<String> getWords(String value, String message, int maxLength) {
-    if (value == null || !value.matches(".*[^a-zA-Z].*")) {
+  public static Result<String> getWords(String value, String message) {
+    if (!value.matches(".*[^a-zA-ZáéíóúÁÉÍÓÚñÑ]*.")) {
       return Result.createFailureResult(message);
     }
     return Result.createSuccessResult(value);
