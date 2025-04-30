@@ -11,13 +11,13 @@ import java.util.List;
 
 public class StudentDAO extends DAOPattern<StudentDTO, String> {
   protected static final String CREATE_QUERY =
-    "INSERT INTO Student (id_student, email, name, paternal_last_name, maternal_last_name) VALUES (?, ?, ?, ?, ?)";
+    "INSERT INTO Student (id_student, email, name, paternal_last_name, maternal_last_name, final_grade) VALUES (?, ?, ?, ?, ?, ?)";
   private static final String GET_ALL_QUERY =
     "SELECT * FROM Student";
   private static final String GET_QUERY =
     "SELECT * FROM Student WHERE id_student = ?";
   private static final String UPDATE_QUERY =
-    "UPDATE Student SET name = ?, paternal_last_name = ?, maternal_last_name = ?, state = ? WHERE id_student = ?";
+    "UPDATE Student SET name = ?, paternal_last_name = ?, maternal_last_name = ?, state = ?, final_grade = ? WHERE id_student = ?";
   private static final String DELETE_QUERY =
     "DELETE FROM Student WHERE id_student = ?";
 
@@ -31,6 +31,7 @@ public class StudentDAO extends DAOPattern<StudentDTO, String> {
       .setMaternalLastName(resultSet.getString("maternal_last_name"))
       .setState(resultSet.getString("state"))
       .setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime())
+      .setFinalGrade(resultSet.getString("final_grade"))
       .build();
   }
 
@@ -45,6 +46,7 @@ public class StudentDAO extends DAOPattern<StudentDTO, String> {
       statement.setString(3, dataObject.getName());
       statement.setString(4, dataObject.getPaternalLastName());
       statement.setString(5, dataObject.getMaternalLastName());
+      statement.setString(6, dataObject.getFinalGrade());
 
       statement.executeUpdate();
     }
@@ -97,8 +99,8 @@ public class StudentDAO extends DAOPattern<StudentDTO, String> {
       statement.setString(2, dataObject.getPaternalLastName());
       statement.setString(3, dataObject.getMaternalLastName());
       statement.setString(4, dataObject.getState());
-      statement.setString(5, dataObject.getID());
-      statement.setDouble(6, dataObject.getFinalGrade());
+      statement.setString(5, dataObject.getFinalGrade());
+      statement.setString(6, dataObject.getID());
 
       statement.executeUpdate();
     }
