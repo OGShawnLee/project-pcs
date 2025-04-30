@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class StudentDAOTest {
   public static final StudentDAO STUDENT_DAO = new StudentDAO();
   public static final StudentDTO STUDENT_DTO = new StudentDTO.StudentBuilder()
-    .setID("23014115")
+    .setID("00112233")
     .setEmail(AccountDAOTest.STUDENT_ACCOUNT_DTO.email())
     .setName("Shawn")
     .setPaternalLastName("Doe")
