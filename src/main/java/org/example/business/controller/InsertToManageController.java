@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Objects;
 
-public class InsertToGestionController extends InsertIdController{
+public class InsertToManageController extends InsertIdController{
     private Stage reviewStage;
 
     @FXML
@@ -26,7 +26,7 @@ public class InsertToGestionController extends InsertIdController{
     }
 
     @Override
-    public void searchId(javafx.event.ActionEvent event) {
+    public void searchId(ActionEvent event) {
         String idStudent = idStudentTextField.getText();
         try {
             StudentDAO dao = new StudentDAO();
@@ -35,7 +35,7 @@ public class InsertToGestionController extends InsertIdController{
             if (student == null) {
                 AlertDialog.showError("Estudiante no encontrado");
                 Parent gestionView = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(
-                        "/org/example/ReviewStudentPage.fxml"
+                        "/org/example/ReviewStudentsPage.fxml"
                 )));
                 Scene gestionScene = new Scene(gestionView);
                 reviewStage.setScene(gestionScene);
@@ -45,15 +45,23 @@ public class InsertToGestionController extends InsertIdController{
                 }
                 return;
             }
-            Parent gestionView = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(
-                    "/org/example/GestionStudentPage.fxml"
-            )));
-            Scene gestionScene = new Scene(gestionView);
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                    "/org/example/ManageStudentPage.fxml"
+            ));
+            Parent ManageView = loader.load();
+
+            ManageStudentController controller = loader.getController();
+            controller.setStudent(student);
+
+            Scene gestionScene = new Scene(ManageView);
             reviewStage.setScene(gestionScene);
             reviewStage.show();
+
             if (stage != null) {
                 stage.close();
             }
+
         } catch (SQLException | IOException e) {
             AlertDialog.showError("No se pudo cargar la gestion debido a un error del sistema");
         }
