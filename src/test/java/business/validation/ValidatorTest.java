@@ -238,6 +238,295 @@ public class ValidatorTest {
   }
 
   @Test
+  public void testGetValidFlexibleName() {
+    assertDoesNotThrow(
+      () -> {
+        Assertions.assertEquals(
+          "John Doe",
+          Validator.getValidFlexibleName("John Doe", "Name", 3, 64),
+          "Valid flexible name should be returned"
+        );
+      }
+    );
+  }
+
+  @Test
+  public void testGetValidFlexibleNameWithSpaces() {
+    assertDoesNotThrow(
+      () -> {
+        Assertions.assertEquals(
+          "John Doe",
+          Validator.getValidFlexibleName("   John Doe   ", "Name", 3, 64),
+          "Valid flexible name should be returned with spaces trimmed"
+        );
+      }
+    );
+  }
+
+  @Test
+  public void testGetValidFlexibleNameWithSpanishCharacters() {
+    assertDoesNotThrow(
+      () -> {
+        Assertions.assertEquals(
+          "José María Nuñez Dominguéz",
+          Validator.getValidFlexibleName("José María Nuñez Dominguéz", "Name", 3, 64),
+          "Valid flexible name should allow Spanish characters"
+        );
+      }
+    );
+  }
+
+  @Test
+  public void testGetValidFlexibleNameWithNull() {
+    Assertions.assertThrows(
+      IllegalArgumentException.class,
+      () -> Validator.getValidFlexibleName(null, "Name", 6, 64),
+      "Flexible name cannot be null"
+    );
+  }
+
+  @Test
+  public void testGetValidFlexibleNameWithEmpty() {
+    Assertions.assertThrows(
+      IllegalArgumentException.class,
+      () -> Validator.getValidFlexibleName("", "Name", 6, 64),
+      "Flexible name cannot be empty"
+    );
+  }
+
+  @Test
+  public void testGetValidFlexibleNameWithShortInvalidLength() {
+    Assertions.assertThrows(
+      IllegalArgumentException.class,
+      () -> Validator.getValidFlexibleName("A", "Name", 6, 64),
+      "Flexible name must be between 6 and 64 characters"
+    );
+  }
+
+  @Test
+  public void testGetValidFlexibleNameWithLongInvalidLength() {
+    Assertions.assertThrows(
+      IllegalArgumentException.class,
+      () -> Validator.getValidFlexibleName("A very long flexible name that exceeds the maximum length", "Name", 6, 16),
+      "Flexible name must be between 6 and 16 characters"
+    );
+  }
+
+  @Test
+  public void testGetValidFlexibleNameWithValidCharacters() {
+    String[] validCharacters = {"-", "_", "/", ".", ":", "1234567890"};
+    for (String validCharacter : validCharacters) {
+      assertDoesNotThrow(
+        () -> {
+          Assertions.assertEquals(
+            "John Doe" + validCharacter,
+            Validator.getValidFlexibleName("John Doe" + validCharacter, "Name", 3, 64),
+            "Flexible name should allow special characters"
+          );
+        }
+      );
+    }
+  }
+
+  @Test
+  public void testGetValidFlexibleNameWithInvalidCharacters() {
+    String[] invalidCharacters = {"!", "#", "$", "%", "^", "&", "*", "(", ")", "=", "+", "{", "}", "[", "]", "|", "\\", ";", "\"", "'", "<", ">", ",", "?", "~"};
+    for (String invalidCharacter : invalidCharacters) {
+      Assertions.assertThrows(
+        IllegalArgumentException.class,
+        () -> Validator.getValidFlexibleName("John Doe" + invalidCharacter, "Name", 3, 64),
+        "Flexible name cannot contain special characters"
+      );
+    }
+  }
+
+  @Test
+  public void testGetValidProjectRequestState() {
+    assertDoesNotThrow(
+      () -> {
+        String[] states = {"PENDING", "ACCEPTED", "REJECTED"};
+        for (String state : states) {
+          Assertions.assertEquals(
+            state,
+            Validator.getValidProjectRequestState(state),
+            "Valid project request state should be returned"
+          );
+        }
+      }
+    );
+  }
+
+  @Test
+  public void testGetValidProjectRequestStateWithSpaces() {
+    assertDoesNotThrow(
+      () -> {
+        String[] states = {"PENDING", "ACCEPTED", "REJECTED"};
+        for (String state : states) {
+          Assertions.assertEquals(
+            state,
+            Validator.getValidProjectRequestState("   " + state + "   "),
+            "Valid project request state should be returned with spaces trimmed"
+          );
+        }
+      }
+    );
+  }
+
+  @Test
+  public void testGetValidProjectRequestStateWithSpanishLabel() {
+    assertDoesNotThrow(
+      () -> {
+        String[] states = {"PENDING", "ACCEPTED", "REJECTED"};
+        String[] spanishLabels = {"Pendiente", "Aceptada", "Rechazada"};
+        for (int i = 0; i < states.length; i++) {
+          Assertions.assertEquals(
+            states[i],
+            Validator.getValidProjectRequestState(spanishLabels[i]),
+            "Valid project request state should be returned with Spanish label"
+          );
+        }
+      }
+    );
+  }
+
+  @Test
+  public void testGetValidProjectRequestStateWithSpanishLabelAndSpaces() {
+    assertDoesNotThrow(
+      () -> {
+        String[] states = {"PENDING", "ACCEPTED", "REJECTED"};
+        String[] spanishLabels = {"   Pendiente   ", "   Aceptada   ", "   Rechazada   "};
+        for (int i = 0; i < states.length; i++) {
+          Assertions.assertEquals(
+            states[i],
+            Validator.getValidProjectRequestState(spanishLabels[i]),
+            "Valid project request state should be returned with Spanish label and spaces trimmed"
+          );
+        }
+      }
+    );
+  }
+
+  @Test
+  public void testGetValidProjectRequestStateWithNull() {
+    Assertions.assertThrows(
+      IllegalArgumentException.class,
+      () -> Validator.getValidProjectRequestState(null),
+      "Project request state cannot be null"
+    );
+  }
+
+  @Test
+  public void testGetValidProjectRequestStateWithEmpty() {
+    Assertions.assertThrows(
+      IllegalArgumentException.class,
+      () -> Validator.getValidProjectRequestState(""),
+      "Project request state cannot be empty"
+    );
+  }
+
+  @Test
+  public void testGetValidProjectRequestStateWithInvalidValue() {
+    Assertions.assertThrows(
+      IllegalArgumentException.class,
+      () -> Validator.getValidProjectRequestState("InvalidState"),
+      "Project request state must be one of the following: Pendiente, Aceptada, Rechazada"
+    );
+  }
+
+  @Test
+  public void testGetValidProjectSector() {
+    assertDoesNotThrow(
+      () -> {
+        String[] sectors = {"PUBLIC", "PRIVATE", "SOCIAL"};
+        for (String sector : sectors) {
+          Assertions.assertEquals(
+            sector,
+            Validator.getValidProjectSector(sector),
+            "Valid project sector should be returned"
+          );
+        }
+      }
+    );
+  }
+
+  @Test
+  public void testGetValidProjectSectorWithSpaces() {
+    assertDoesNotThrow(
+      () -> {
+        String[] sectors = {"PUBLIC", "PRIVATE", "SOCIAL"};
+        for (String sector : sectors) {
+          Assertions.assertEquals(
+            sector,
+            Validator.getValidProjectSector("   " + sector + "   "),
+            "Valid project sector should be returned with spaces trimmed"
+          );
+        }
+      }
+    );
+  }
+
+  @Test
+  public void testGetValidProjectSectorWithSpanishLabel() {
+    assertDoesNotThrow(
+      () -> {
+        String[] sectors = {"PUBLIC", "PRIVATE", "SOCIAL"};
+        String[] spanishLabels = {"Público", "Privado", "Social"};
+        for (int i = 0; i < sectors.length; i++) {
+          Assertions.assertEquals(
+            sectors[i],
+            Validator.getValidProjectSector(spanishLabels[i]),
+            "Valid project sector should be returned with Spanish label"
+          );
+        }
+      }
+    );
+  }
+
+  @Test
+  public void testGetValidProjectSectorWithSpanishLabelAndSpaces() {
+    assertDoesNotThrow(
+      () -> {
+        String[] sectors = {"PUBLIC", "PRIVATE", "SOCIAL"};
+        String[] spanishLabels = {"   Público   ", "   Privado   ", "   Social   "};
+        for (int i = 0; i < sectors.length; i++) {
+          Assertions.assertEquals(
+            sectors[i],
+            Validator.getValidProjectSector(spanishLabels[i]),
+            "Valid project sector should be returned with Spanish label and spaces trimmed"
+          );
+        }
+      }
+    );
+  }
+
+  @Test
+  public void testGetValidProjectSectorWithNull() {
+    Assertions.assertThrows(
+      IllegalArgumentException.class,
+      () -> Validator.getValidProjectSector(null),
+      "Project sector cannot be null"
+    );
+  }
+
+  @Test
+  public void testGetValidProjectSectorWithEmpty() {
+    Assertions.assertThrows(
+      IllegalArgumentException.class,
+      () -> Validator.getValidProjectSector(""),
+      "Project sector cannot be empty"
+    );
+  }
+
+  @Test
+  public void testGetValidProjectSectorWithInvalidValue() {
+    Assertions.assertThrows(
+      IllegalArgumentException.class,
+      () -> Validator.getValidProjectSector("InvalidSector"),
+      "Project sector must be one of the following: Público, Privado, Social"
+    );
+  }
+
+  @Test
   public void testGetValidName() {
     assertDoesNotThrow(() -> {
       Assertions.assertEquals(
@@ -375,6 +664,76 @@ public class ValidatorTest {
       IllegalArgumentException.class,
       () -> Validator.getValidState(""),
       "State cannot be empty"
+    );
+  }
+
+  @Test
+  public void testGetValidText() {
+    assertDoesNotThrow(
+      () -> {
+        Assertions.assertEquals(
+          "Valid text",
+          Validator.getValidText("Valid text", "Text"),
+          "Valid text should be returned"
+        );
+      }
+    );
+  }
+
+  @Test
+  public void testGetValidTextWithSpaces() {
+    assertDoesNotThrow(
+      () -> {
+        Assertions.assertEquals(
+          "Valid text",
+          Validator.getValidText("   Valid text   ", "Text"),
+          "Valid text should be returned with spaces trimmed"
+        );
+      }
+    );
+  }
+
+  @Test
+  public void testGetValidTextWithNull() {
+    Assertions.assertThrows(
+      IllegalArgumentException.class,
+      () -> Validator.getValidText(null, "Text"),
+      "Text cannot be null"
+    );
+  }
+
+  @Test
+  public void testGetValidTextWithEmpty() {
+    Assertions.assertThrows(
+      IllegalArgumentException.class,
+      () -> Validator.getValidText("", "Text"),
+      "Text cannot be empty"
+    );
+  }
+
+  @Test
+  public void testGetValidTextWithInvalidShortLength() {
+    Assertions.assertThrows(
+      IllegalArgumentException.class,
+      () -> Validator.getValidText("A", "Text"),
+      "Text must be between 3 and 512 characters"
+    );
+  }
+
+  @Test
+  public void testGetValidTextWithInvalidLongLength() {
+    Assertions.assertThrows(
+      IllegalArgumentException.class,
+      () -> {
+        StringBuilder builder = new StringBuilder();
+
+        for (int i = 0; i < 514; i++) {
+          builder.append("A");
+        }
+
+        Validator.getValidText(builder.toString(), "Text");
+      },
+      "Text must be between 3 and 512 characters"
     );
   }
 
