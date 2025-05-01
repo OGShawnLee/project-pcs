@@ -1,5 +1,7 @@
 package org.example.business.dto;
 
+import org.example.business.validation.Validator;
+
 public class PracticeDTO {
   private final String idStudent;
   private final int idProject;
@@ -29,7 +31,7 @@ public class PracticeDTO {
     protected String reasonOfAssignation;
 
     public PracticeBuilder setIDStudent(String idStudent) {
-      this.idStudent = idStudent;
+      this.idStudent = Validator.getValidEnrollment(idStudent);
       return this;
     }
 
@@ -39,7 +41,7 @@ public class PracticeDTO {
     }
 
     public PracticeBuilder setReasonOfAssignation(String reasonOfAssignation) {
-      this.reasonOfAssignation = reasonOfAssignation;
+      this.reasonOfAssignation = Validator.getValidText(reasonOfAssignation, "Razon de Asignación");
       return this;
     }
 
