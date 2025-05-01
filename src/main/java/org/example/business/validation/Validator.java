@@ -31,7 +31,7 @@ public class Validator {
   }
 
   public static String getValidAcademicRole(String value) throws IllegalArgumentException   {
-    String finalValue = getValidName(value, "Rol de Académico");
+    String finalValue = getValidString(value, "Rol de Académico");
 
     if (
       finalValue.equals("EVALUATOR") ||
@@ -141,6 +141,14 @@ public class Validator {
     }
 
     throw new IllegalArgumentException("Estado debe ser uno de los siguientes: Activo, Inactivo.");
+  }
+
+  private static String getValidString(String value, String name) throws IllegalArgumentException {
+    if (isValidString(value, 3, 128)) {
+      return value.trim();
+    }
+
+    throw new IllegalArgumentException(name + " no puede ser nulo o vacío.");
   }
 
   public static String getValidWorkerID(String value) throws IllegalArgumentException {
