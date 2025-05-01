@@ -143,8 +143,38 @@ public class Validator {
     throw new IllegalArgumentException("Estado debe ser uno de los siguientes: Activo, Inactivo.");
   }
 
+  public static String getValidProjectRequestState(String value) throws IllegalArgumentException {
+    String finalValue = getValidName(value, "Estado de Solicitud");
+
+    if (finalValue.equals("PENDING") || finalValue.equals("ACCEPTED") || finalValue.equals("REJECTED")) {
+      return finalValue;
+    }
+
+    if (finalValue.equals("Pendiente")) {
+      return "PENDING";
+    }
+
+    if (finalValue.equals("Aceptada")) {
+      return "ACCEPTED";
+    }
+
+    if (finalValue.equals("Rechazada")) {
+      return "REJECTED";
+    }
+
+    throw new IllegalArgumentException("Estado de Solicitud debe ser uno de los siguientes: Pendiente, Aceptada, Rechazada.");
+  }
+
   private static String getValidString(String value, String name) throws IllegalArgumentException {
     if (isValidString(value, 3, 128)) {
+      return value.trim();
+    }
+
+    throw new IllegalArgumentException(name + " no puede ser nulo o vacío.");
+  }
+
+  public static String getValidText(String value, String name) throws IllegalArgumentException {
+    if (isValidString(value, 3, 512)) {
       return value.trim();
     }
 

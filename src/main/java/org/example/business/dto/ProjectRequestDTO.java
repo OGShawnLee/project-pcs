@@ -1,5 +1,7 @@
 package org.example.business.dto;
 
+import org.example.business.validation.Validator;
+
 import java.time.LocalDateTime;
 
 public class ProjectRequestDTO {
@@ -45,7 +47,7 @@ public class ProjectRequestDTO {
     protected LocalDateTime createdAt;
 
     public ProjectRequestBuilder setIDStudent(String idStudent) {
-      this.idStudent = idStudent;
+      this.idStudent = Validator.getValidEnrollment(idStudent);
       return this;
     }
 
@@ -55,12 +57,12 @@ public class ProjectRequestDTO {
     }
 
     public ProjectRequestBuilder setState(String state) {
-      this.state = state;
+      this.state = Validator.getValidProjectRequestState(state);
       return this;
     }
 
     public ProjectRequestBuilder setReasonOfState(String reasonOfState) {
-      this.reasonOfState = reasonOfState;
+      this.reasonOfState = Validator.getValidText(reasonOfState, "Razon de Estado");
       return this;
     }
 
