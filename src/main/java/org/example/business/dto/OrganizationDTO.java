@@ -1,5 +1,7 @@
 package org.example.business.dto;
 
+import org.example.business.validation.Validator;
+
 import java.time.LocalDateTime;
 
 public class OrganizationDTO {
@@ -59,32 +61,32 @@ public class OrganizationDTO {
     protected LocalDateTime createdAt;
 
     public OrganizationBuilder setEmail(String email) {
-      this.email = email;
+      this.email = Validator.getValidEmail(email);
       return this;
     }
 
     public OrganizationBuilder setName(String name) {
-      this.name = name;
+      this.name = Validator.getValidFlexibleName(name, "Nombre de Organización", 3, 128);
       return this;
     }
 
     public OrganizationBuilder setRepresentativeFullName(String representativeFullName) {
-      this.representativeFullName = representativeFullName;
+      this.representativeFullName = Validator.getValidName(representativeFullName, "Nombre del Representante", 3, 128);
       return this;
     }
 
     public OrganizationBuilder setColony(String colony) {
-      this.colony = colony;
+      this.colony = Validator.getValidFlexibleName(colony, "Colonia", 3, 128);
       return this;
     }
 
     public OrganizationBuilder setStreet(String street) {
-      this.street = street;
+      this.street = Validator.getValidFlexibleName(street, "Calle", 3, 128);
       return this;
     }
 
     public OrganizationBuilder setState(String state) {
-      this.state = state;
+      this.state = Validator.getValidState(state);
       return this;
     }
 
