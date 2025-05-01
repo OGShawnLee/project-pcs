@@ -1,5 +1,7 @@
 package org.example.business.dto;
 
+import org.example.business.validation.Validator;
+
 public class StudentDTO extends Person {
   private final String id;
   private final String finalGrade;
@@ -21,7 +23,7 @@ public class StudentDTO extends Person {
     private String finalGrade;
 
     public StudentBuilder setID(String id) {
-      this.id = id;
+      this.id = Validator.getValidEnrollment(id);
       return this;
     }
 

@@ -4,6 +4,117 @@ import org.example.business.Result;
 
 public class Validator {
   private static final String EMAIL_REGEX = "^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
+  private static final String ENROLLMENT_REGEX = "^[0-9]{8}$";
+  private static final String NAME_REGEX_SPANISH = "^[A-Za-zÑñÁáÉéÍíÓóÚúÜü\\s]+$";
+  private static final String WORKER_ID_REGEX = "^[A-Z0-9]{5}$";
+
+  private static boolean isValidEmail(String email) {
+    return isValidString(email) && email.trim().matches(EMAIL_REGEX);
+  }
+
+  private static boolean isValidName(String name, int minLength, int maxLength) {
+    return isValidString(name, minLength, maxLength) && name.matches(NAME_REGEX_SPANISH);
+  }
+
+  private static boolean isValidString(String string) {
+    return string != null && string.trim().length() > 0;
+  }
+
+  private static boolean isValidString(String value, int minLength, int maxLength) {
+    if (value == null || value.trim().isEmpty()) {
+      return false;
+    }
+
+    String trimmedString = value.trim();
+    return trimmedString.length() >= minLength && trimmedString.length() <= maxLength;
+  }
+
+  public static String getValidAcademicRole(String value) throws IllegalArgumentException   {
+    String finalValue = getValidName(value, "Rol de Académico");
+
+    if (
+      finalValue.equals("EVALUATOR") ||
+      finalValue.equals("EVALUATOR-PROFESSOR") ||
+      finalValue.equals("PROFESSOR")
+    ) {
+      return finalValue;
+    }
+
+    if (finalValue.equals("Evaluador")) {
+      return "EVALUATOR";
+    }
+
+    if (finalValue.equals("Evaluador y Profesor")) {
+      return "EVALUATOR-PROFESSOR";
+    }
+
+    if (finalValue.equals("Profesor")) {
+      return "PROFESSOR";
+    }
+
+    throw new IllegalArgumentException("Rol académico debe ser uno de los siguientes: Evaluador, Evaluador-Profesor, Profesor.");
+  }
+
+  public static String getValidEmail(String value) throws IllegalArgumentException {
+    if (isValidEmail(value)) {
+      return value.trim();
+    }
+
+    throw new IllegalArgumentException("Correo Electrónico debe ser una cadena de texto con el formato correcto.");
+  }
+
+
+  public static String getValidEnrollment(String value) throws IllegalArgumentException {
+    if (isValidString(value) && value.trim().matches(ENROLLMENT_REGEX)) {
+      return value.trim();
+    }
+
+    throw new IllegalArgumentException("Matrícula debe ser una cadena de texto de 8 dígitos.");
+  }
+
+  public static String getValidName(String value, String name) throws IllegalArgumentException {
+    if (isValidString(value)) {
+      return value.trim();
+    }
+
+    throw new IllegalArgumentException(name + " no puede ser nulo o vacío.");
+  }
+
+  public static String getValidName(String value, String name, int minLength, int maxLength) throws IllegalArgumentException {
+    if (isValidName(value, minLength, maxLength)) {
+      return value.trim();
+    }
+
+    throw new IllegalArgumentException(
+      name + " debe ser una cadena de texto entre " + minLength + " y " + maxLength + " carácteres."
+    );
+  }
+
+  public static String getValidState(String value) throws IllegalArgumentException {
+    String finalValue = getValidName(value, "Estado");
+
+    if (finalValue.equals("ACTIVE") || finalValue.equals("RETIRED")) {
+      return finalValue;
+    }
+
+    if (finalValue.equals("Activo")) {
+      return "ACTIVE";
+    }
+
+    if (finalValue.equals("Inactivo")) {
+      return "RETIRED";
+    }
+
+    throw new IllegalArgumentException("Estado debe ser uno de los siguientes: Activo, Inactivo.");
+  }
+
+  public static String getValidWorkerID(String value) {
+    if (isValidString(value) && value.trim().matches(WORKER_ID_REGEX)) {
+      return value.trim();
+    }
+
+    throw new IllegalArgumentException("ID de Trabajador debe ser una cadena de texto de 5 carácteres de letras o digitos.");
+  }
 
   public static Result<String> getFilledString(String value, String message) {
     if (value == null ||value.trim().isEmpty()) {

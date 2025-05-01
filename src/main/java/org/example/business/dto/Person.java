@@ -1,5 +1,7 @@
 package org.example.business.dto;
 
+import org.example.business.validation.Validator;
+
 import java.time.LocalDateTime;
 
 public abstract class Person {
@@ -55,28 +57,28 @@ public abstract class Person {
       return (T) this;
     }
 
-    public T setName(String name) {
-      this.name = name;
+    public T setName(String name) throws IllegalArgumentException {
+      this.name = Validator.getValidName(name, "Nombre", 3, 64);
       return self();
     }
 
-    public T setPaternalLastName(String paternalLastName) {
-      this.paternalLastName = paternalLastName;
+    public T setPaternalLastName(String paternalLastName) throws IllegalArgumentException{
+      this.paternalLastName = Validator.getValidName(paternalLastName, "Apellido Paterno", 3, 64);
       return self();
     }
 
-    public T setMaternalLastName(String maternalLastName) {
-      this.maternalLastName = maternalLastName;
+    public T setMaternalLastName(String maternalLastName) throws IllegalArgumentException {
+      this.maternalLastName = Validator.getValidName(maternalLastName, "Apellido Materno", 3, 64);
       return self();
     }
 
-    public T setEmail(String email) {
-      this.email = email;
+    public T setEmail(String email) throws IllegalArgumentException {
+      this.email = Validator.getValidEmail(email);
       return self();
     }
 
     public T setState(String state) {
-      this.state = state;
+      this.state = Validator.getValidState(state);
       return self();
     }
 
