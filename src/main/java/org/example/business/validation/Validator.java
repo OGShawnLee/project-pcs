@@ -7,6 +7,7 @@ public class Validator {
   private static final String ENROLLMENT_REGEX = "^[0-9]{8}$";
   private static final String NAME_REGEX_SPANISH = "^[A-Za-zÑñÁáÉéÍíÓóÚúÜü\\s]+$";
   private static final String WORKER_ID_REGEX = "^[A-Z0-9]{5}$";
+  private static final String FLEXIBLE_NAME_REGEX = "^[A-Za-zÑñÁáÉéÍíÓóÚúÜü0-9\\s\\-_/.:]+$";
 
   private static boolean isValidEmail(String email) {
     return isValidString(email) && email.trim().matches(EMAIL_REGEX);
@@ -72,8 +73,16 @@ public class Validator {
     throw new IllegalArgumentException("Matrícula debe ser una cadena de texto de 8 dígitos.");
   }
 
-  public static String getValidName(String value, String name) throws IllegalArgumentException {
-    if (isValidString(value)) {
+  public static String getValidFlexibleName(String value, String name, int minLength, int maxLength) throws IllegalArgumentException {
+    if (isValidString(value, minLength, maxLength) && value.trim().matches(FLEXIBLE_NAME_REGEX)) {
+      return value.trim();
+    }
+
+    throw new IllegalArgumentException(name + " no puede ser nulo o vacío.");
+  }
+
+  private static String getValidName(String value, String name) throws IllegalArgumentException {
+    if (isValidName(value, 3, 128)) {
       return value.trim();
     }
 
@@ -88,6 +97,32 @@ public class Validator {
     throw new IllegalArgumentException(
       name + " debe ser una cadena de texto entre " + minLength + " y " + maxLength + " carácteres."
     );
+  }
+
+  public static String getValidProjectSector(String value) throws IllegalArgumentException {
+    String finalValue = getValidName(value, "Sector");
+
+    if (
+      finalValue.equals("PUBLIC") ||
+      finalValue.equals("PRIVATE") ||
+      finalValue.equals("SOCIAL")
+    ) {
+      return finalValue;
+    }
+
+    if (finalValue.equals("Público")) {
+      return "PUBLIC";
+    }
+
+    if (finalValue.equals("Privado")) {
+      return "PRIVATE";
+    }
+
+    if (finalValue.equals("Social")) {
+      return "SOCIAL";
+    }
+
+    throw new IllegalArgumentException("Sector debe ser uno de los siguientes: Público, Privado, Social.");
   }
 
   public static String getValidState(String value) throws IllegalArgumentException {

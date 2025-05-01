@@ -1,5 +1,7 @@
 package org.example.business.dto;
 
+import org.example.business.validation.Validator;
+
 import java.time.LocalDateTime;
 
 public class ProjectDTO {
@@ -67,28 +69,28 @@ public class ProjectDTO {
       return this;
     }
 
-    public ProjectBuilder setIDOrganization(String idOrganization) {
-      this.idOrganization = idOrganization;
+    public ProjectBuilder setIDOrganization(String idOrganization) throws IllegalArgumentException {
+      this.idOrganization = Validator.getValidEmail(idOrganization);
       return this;
     }
 
-    public ProjectBuilder setName(String name) {
-      this.name = name;
+    public ProjectBuilder setName(String name) throws IllegalArgumentException {
+      this.name = Validator.getValidFlexibleName(name, "Nombre del Proyecto", 3, 128);
       return this;
     }
 
-    public ProjectBuilder setMethodology(String methodology) {
-      this.methodology = methodology;
+    public ProjectBuilder setMethodology(String methodology) throws IllegalArgumentException {
+      this.methodology = Validator.getValidFlexibleName(methodology, "Metodología", 3, 128);
       return this;
     }
 
-    public ProjectBuilder setState(String state) {
-      this.state = state;
+    public ProjectBuilder setState(String state) throws IllegalArgumentException {
+      this.state = Validator.getValidState(state);
       return this;
     }
 
-    public ProjectBuilder setSector(String sector) {
-      this.sector = sector;
+    public ProjectBuilder setSector(String sector) throws IllegalArgumentException {
+      this.sector = Validator.getValidProjectSector(sector);
       return this;
     }
 
