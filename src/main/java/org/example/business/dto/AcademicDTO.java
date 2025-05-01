@@ -24,12 +24,12 @@ public class AcademicDTO extends Person {
     private String id;
     private String role;
 
-    public AcademicBuilder setID(String id) {
+    public AcademicBuilder setID(String id) throws IllegalArgumentException {
       this.id = Validator.getValidWorkerID(id);
       return this;
     }
 
-    public AcademicBuilder setRole(String role) {
+    public AcademicBuilder setRole(String role) throws IllegalArgumentException {
       this.role = Validator.getValidAcademicRole(role);
       return this;
     }

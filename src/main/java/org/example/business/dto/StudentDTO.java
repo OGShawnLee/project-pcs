@@ -22,7 +22,7 @@ public class StudentDTO extends Person {
     private String id;
     private String finalGrade;
 
-    public StudentBuilder setID(String id) {
+    public StudentBuilder setID(String id) throws IllegalArgumentException {
       this.id = Validator.getValidEnrollment(id);
       return this;
     }

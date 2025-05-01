@@ -77,7 +77,7 @@ public abstract class Person {
       return self();
     }
 
-    public T setState(String state) {
+    public T setState(String state) throws IllegalArgumentException {
       this.state = Validator.getValidState(state);
       return self();
     }

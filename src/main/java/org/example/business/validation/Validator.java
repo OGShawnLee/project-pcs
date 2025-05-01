@@ -108,7 +108,7 @@ public class Validator {
     throw new IllegalArgumentException("Estado debe ser uno de los siguientes: Activo, Inactivo.");
   }
 
-  public static String getValidWorkerID(String value) {
+  public static String getValidWorkerID(String value) throws IllegalArgumentException {
     if (isValidString(value) && value.trim().matches(WORKER_ID_REGEX)) {
       return value.trim();
     }
