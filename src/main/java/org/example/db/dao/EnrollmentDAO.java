@@ -15,7 +15,7 @@ package org.example.db.dao;
         "INSERT INTO Enrollment (id_course, id_student) VALUES (?, ?)";
       private static final String GET_ALL_QUERY = "SELECT * FROM Enrollment";
       private static final String GET_QUERY = "SELECT * FROM Enrollment WHERE id_student = ? and id_course = ?";
-      // private static final String UPDATE_QUERY = ""; TODO: REMOVE IF NOT NEEDED
+      private static final String UPDATE_QUERY = "";
       private static final String DELETE_QUERY = "DELETE FROM Enrollment WHERE id_student = ? and id_course = ?";
 
       @Override
