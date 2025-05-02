@@ -2,6 +2,7 @@ package org.example.business.controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,7 +25,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
-
 
 public class ReviewStudentsController {
 
@@ -52,11 +52,6 @@ public class ReviewStudentsController {
     private Button registerStudentButton;
 
     private final StudentDAO studentDAO = new StudentDAO();
-
-
-
-    @FXML public void selectFilter(){
-    }
 
     @FXML
     public void showTableStudents() {
@@ -92,20 +87,28 @@ public class ReviewStudentsController {
         }
     }
 
+    public void updateTable() {
+        try {
+            List<StudentDTO> studentList = studentDAO.getAll();
+            ObservableList<StudentDTO> observableList = FXCollections.observableArrayList(studentList);
+            studentTable.setItems(observableList);
+        } catch (SQLException e) {
+            AlertDialog.showError("No se pudo actualizar la tabla debido a un error en el sistema.");
+        }
+    }
 
     @FXML
-    public void openRegisterStudent(javafx.event.ActionEvent actionEvent) throws IOException {
+    public void openRegisterStudent(ActionEvent actionEvent) throws IOException {
         Parent newView = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/example/RegisterStudentPage.fxml")));
         Scene newScene = new Scene(newView);
 
         Stage stage = (Stage) registerStudentButton.getScene().getWindow();
         stage.setScene(newScene);
         stage.show();
-
     }
 
     @FXML
-    public void openGestionStudent(javafx.event.ActionEvent actionEvent) throws IOException {
+    public void openManageStudent(ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/InsertId.fxml"));
 
         InsertToManageController controller = new InsertToManageController();
@@ -125,7 +128,7 @@ public class ReviewStudentsController {
     }
 
     @FXML
-    public void openFinalGradeStudent(javafx.event.ActionEvent actionEvent) throws IOException {
+    public void openFinalGradeStudent(ActionEvent actionEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/InsertId.fxml"));
 
         InsertToFinalGradeController controller = new InsertToFinalGradeController();
