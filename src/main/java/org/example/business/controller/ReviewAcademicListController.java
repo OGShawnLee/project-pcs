@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import org.example.business.dto.AcademicDTO;
 import org.example.db.dao.AcademicDAO;
 import org.example.gui.AlertDialog;
+import org.example.gui.controller.LandingPageController;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -57,6 +58,18 @@ public class ReviewAcademicListController {
     } catch (SQLException e) {
       AlertDialog.showError(
         "No ha sido posible cargar información de académicos debido a un error de sistema."
+      );
+    }
+  }
+
+  public void navigateToLandingPage() {
+    try {
+      LandingPageController.navigateToLandingPage(
+        (Stage) tableAcademic.getScene().getWindow()
+      );
+    } catch (IOException e) {
+      AlertDialog.showError(
+        "No ha sido posible navegar a página de inicio."
       );
     }
   }

@@ -11,35 +11,40 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.gui.controller.ReviewProjectListController">
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0"
+            prefWidth="1280.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.example.gui.controller.ReviewProjectListController">
   <content>
     <AnchorPane minHeight="-Infinity" prefHeight="720.0" prefWidth="1280.0">
       <VBox layoutX="172.0" prefHeight="720.0" prefWidth="950.0" spacing="16.0">
         <children>
-          <HBox alignment="CENTER_LEFT" fillHeight="false" spacing="646.0" VBox.vgrow="ALWAYS">
+          <Label text="Lista de Proyectos">
+            <font>
+              <Font size="24.0"/>
+            </font>
+          </Label>
+          <HBox alignment="CENTER_LEFT" fillHeight="false" spacing="32.0" VBox.vgrow="ALWAYS">
             <children>
-              <Label text="Lista de Proyectos">
-                <font>
-                  <Font size="24.0" />
-                </font>
-              </Label>
-              <Button mnemonicParsing="false" onMouseClicked="#navigateToRegisterProjectPage" text="Registrar Proyecto" HBox.hgrow="ALWAYS" />
+              <Button mnemonicParsing="false" onMouseClicked="#navigateToLandingPage" text="Volver a Inicio"
+                      HBox.hgrow="ALWAYS"/>
+              <Button mnemonicParsing="false" onMouseClicked="#navigateToRegisterProjectPage"
+                      text="Registrar Proyecto"/>
             </children>
           </HBox>
           <TableView fx:id="tableProject" prefHeight="605.0" prefWidth="1013.0">
             <columns>
-              <TableColumn fx:id="columnID" prefWidth="50.0" text="ID" />
-              <TableColumn fx:id="columnEmail" prefWidth="170.0" text="Organización" />
-              <TableColumn fx:id="columnName" prefWidth="140.0" text="Nombre" />
-              <TableColumn fx:id="columnMethodology" prefWidth="140.0" text="Metodología" />
-              <TableColumn fx:id="columnSector" prefWidth="160.0" text="Sector" />
-              <TableColumn fx:id="columnState" prefWidth="130.0" text="Estado" />
-              <TableColumn fx:id="columnCreatedAt" prefWidth="160.0" text="Fecha de Registro" />
+              <TableColumn fx:id="columnID" prefWidth="50.0" text="ID"/>
+              <TableColumn fx:id="columnEmail" prefWidth="170.0" text="Organización"/>
+              <TableColumn fx:id="columnName" prefWidth="140.0" text="Nombre"/>
+              <TableColumn fx:id="columnMethodology" prefWidth="140.0" text="Metodología"/>
+              <TableColumn fx:id="columnSector" prefWidth="160.0" text="Sector"/>
+              <TableColumn fx:id="columnState" prefWidth="130.0" text="Estado"/>
+              <TableColumn fx:id="columnCreatedAt" prefWidth="160.0" text="Fecha de Registro"/>
             </columns>
           </TableView>
         </children>
         <padding>
-          <Insets bottom="32.0" top="32.0" />
+          <Insets bottom="32.0" top="32.0"/>
         </padding>
       </VBox>
     </AnchorPane>

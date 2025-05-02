@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.example.business.dto.AcademicDTO;
 import org.example.business.dto.AccountDTO;
@@ -21,6 +22,8 @@ import java.util.Objects;
 public class RegisterAcademicController {
   private final AccountDAO ACCOUNT_DAO = new AccountDAO();
   private final AcademicDAO ACADEMIC_DAO = new AcademicDAO();
+  @FXML
+  private AnchorPane container;
   @FXML
   private TextField fieldIDAcademic;
   @FXML
@@ -71,6 +74,18 @@ public class RegisterAcademicController {
     } catch (SQLException e) {
       System.out.println(e.getMessage());
       AlertDialog.showError("No ha sido posible registrar el académico debido a un error de sistema.");
+    }
+  }
+
+  public void navigateToAcademicList() {
+    try {
+      ReviewAcademicListController.navigateToAcademicListPage(
+        (Stage) container.getScene().getWindow()
+      );
+    } catch (IOException e) {
+      AlertDialog.showError(
+        "No ha sido posible navegar a página de lista de académicos."
+      );
     }
   }
 

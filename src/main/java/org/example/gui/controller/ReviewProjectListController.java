@@ -59,6 +59,18 @@ public class ReviewProjectListController {
     }
   }
 
+  public void navigateToLandingPage() {
+    try {
+      LandingPageController.navigateToLandingPage(
+        (Stage) tableProject.getScene().getWindow()
+      );
+    } catch (IOException e) {
+      AlertDialog.showError(
+        "No ha sido posible navegar a página de inicio."
+      );
+    }
+  }
+
   public void navigateToRegisterProjectPage() {
     try {
       RegisterProjectController.navigateToRegisterProjectPage(

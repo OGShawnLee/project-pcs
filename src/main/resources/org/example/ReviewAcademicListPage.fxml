@@ -11,36 +11,40 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.business.controller.ReviewAcademicListController">
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0"
+            prefWidth="1280.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.example.business.controller.ReviewAcademicListController">
   <content>
     <AnchorPane minHeight="-Infinity" prefHeight="720.0" prefWidth="1280.0">
       <VBox layoutX="172.0" prefHeight="720.0" prefWidth="950.0" spacing="16.0">
         <children>
-               <HBox alignment="CENTER_LEFT" fillHeight="false" spacing="610.0" VBox.vgrow="ALWAYS">
-                  <children>
-                <Label text="Lista de Académicos">
-                  <font>
-                    <Font size="24.0" />
-                  </font>
-                </Label>
-                     <Button mnemonicParsing="false" text="Registrar Académico" HBox.hgrow="ALWAYS" onMouseClicked="#navigateToRegisterAcademicPage" />
-                  </children>
-               </HBox>
+          <Label text="Lista de Académicos">
+            <font>
+              <Font size="24.0"/>
+            </font>
+          </Label>
+          <HBox alignment="CENTER_LEFT" fillHeight="false" spacing="32.0" VBox.vgrow="ALWAYS">
+            <children>
+              <Button mnemonicParsing="false" onMouseClicked="#navigateToLandingPage" text="Volver a Inicio"/>
+              <Button mnemonicParsing="false" onMouseClicked="#navigateToRegisterAcademicPage"
+                      text="Registrar Académico" HBox.hgrow="ALWAYS"/>
+            </children>
+          </HBox>
           <TableView fx:id="tableAcademic" prefHeight="605.0" prefWidth="1013.0">
             <columns>
-              <TableColumn fx:id="columnID" prefWidth="50.0" text="ID" />
-              <TableColumn fx:id="columnEmail" prefWidth="150.0" text="Correo Electrónico" />
-              <TableColumn fx:id="columnName" text="Nombre" />
-              <TableColumn fx:id="columnPaternalLastName" prefWidth="110.0" text="Apellido Paterno" />
-              <TableColumn fx:id="columnMaternalLastName" prefWidth="110.0" text="Apellido Materno" />
-              <TableColumn fx:id="columnRole" prefWidth="200.0" text="Rol" />
-              <TableColumn fx:id="columnState" prefWidth="90.0" text="Estado" />
-              <TableColumn fx:id="columnCreatedAt" prefWidth="160.0" text="Fecha de Registro" />
+              <TableColumn fx:id="columnID" prefWidth="50.0" text="ID"/>
+              <TableColumn fx:id="columnEmail" prefWidth="150.0" text="Correo Electrónico"/>
+              <TableColumn fx:id="columnName" text="Nombre"/>
+              <TableColumn fx:id="columnPaternalLastName" prefWidth="110.0" text="Apellido Paterno"/>
+              <TableColumn fx:id="columnMaternalLastName" prefWidth="110.0" text="Apellido Materno"/>
+              <TableColumn fx:id="columnRole" prefWidth="200.0" text="Rol"/>
+              <TableColumn fx:id="columnState" prefWidth="90.0" text="Estado"/>
+              <TableColumn fx:id="columnCreatedAt" prefWidth="160.0" text="Fecha de Registro"/>
             </columns>
           </TableView>
         </children>
         <padding>
-          <Insets bottom="32.0" top="32.0" />
+          <Insets bottom="32.0" top="32.0"/>
         </padding>
       </VBox>
     </AnchorPane>
