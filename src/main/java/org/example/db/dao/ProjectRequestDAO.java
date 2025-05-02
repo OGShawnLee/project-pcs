@@ -83,15 +83,15 @@ public class ProjectRequestDAO extends DAOPattern<ProjectRequestDTO, FilterProje
   }
 
   @Override
-  public void updateOne(ProjectRequestDTO dataObject) throws SQLException {
+  public void updateOne(ProjectRequestDTO dataObject, FilterProject filter) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
     ) {
       statement.setString(1, dataObject.getState());
       statement.setString(2, dataObject.getReasonOfState());
-      statement.setString(3, dataObject.getIDStudent());
-      statement.setString(4, dataObject.getIDProject());
+      statement.setString(3, filter.getIDStudent());
+      statement.setInt(4, filter.getIDProject());
       statement.executeUpdate();
     }
   }

@@ -80,15 +80,15 @@ public class PracticeDAO extends DAOPattern<PracticeDTO, FilterPractice> {
   }
 
   @Override
-  public void updateOne(PracticeDTO dataObject) throws SQLException {
+  public void updateOne(PracticeDTO dataObject, FilterPractice filter) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
     ) {
       statement.setInt(1, dataObject.getIDProject());
       statement.setString(2, dataObject.getReasonOfAssignation());
-      statement.setString(3, dataObject.getIDStudent());
-      statement.setInt(4, dataObject.getIDProject());
+      statement.setString(3, filter.getIDStudent());
+      statement.setInt(4, filter.getIDPractice());
       statement.executeUpdate();
     }
   }

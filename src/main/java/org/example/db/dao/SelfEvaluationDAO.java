@@ -20,7 +20,7 @@ public class SelfEvaluationDAO extends DAOPattern<SelfEvaluationDTO, String> {
   private static final String UPDATE_QUERY =
     "UPDATE SelfEvaluation SET follow_up_grade = ?, safety_grade = ?, knowledge_application_grade = ?, " +
       "interesting_grade = ?, productivity_grade = ?, congruent_grade = ?, informed_by_organization = ?, " +
-      "regulated_by_organization = ?, importance_for_professional_development = ?" +
+      "regulated_by_organization = ?, importance_for_professional_development = ? " +
       "WHERE id_student = ?";
   private static final String DELETE_QUERY = "DELETE FROM SelfEvaluation WHERE id_student = ?";
 
@@ -99,7 +99,7 @@ public class SelfEvaluationDAO extends DAOPattern<SelfEvaluationDTO, String> {
   }
 
   @Override
-  public void updateOne(SelfEvaluationDTO dataObject) throws SQLException {
+  public void updateOne(SelfEvaluationDTO dataObject, String originalID) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)

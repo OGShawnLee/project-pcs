@@ -91,7 +91,7 @@ public class ProjectDAO extends DAOPattern<ProjectDTO, Integer> {
   }
 
   @Override
-  public void updateOne(ProjectDTO dataObject) throws SQLException {
+  public void updateOne(ProjectDTO dataObject, Integer originalID) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
@@ -101,7 +101,7 @@ public class ProjectDAO extends DAOPattern<ProjectDTO, Integer> {
       statement.setString(3, dataObject.getMethodology());
       statement.setString(4, dataObject.getState());
       statement.setString(5, dataObject.getSector());
-      statement.setInt(6, dataObject.getID());
+      statement.setInt(6, originalID);
       statement.executeUpdate();
     }
   }

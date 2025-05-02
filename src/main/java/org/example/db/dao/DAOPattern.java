@@ -15,7 +15,7 @@ public abstract class DAOPattern<T, F> extends DBConnector {
 
   public abstract T getOne(F filter) throws SQLException;
 
-  public abstract void updateOne(T dataObject) throws SQLException;
+  public abstract void updateOne(T dataObject, F filter) throws SQLException;
 
   public abstract void deleteOne(F filter) throws SQLException;
 }

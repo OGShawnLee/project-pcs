@@ -84,17 +84,18 @@ public class OrganizationDAO extends DAOPattern<OrganizationDTO, String> {
   }
 
   @Override
-  public void updateOne(OrganizationDTO dataObject) throws SQLException {
+  public void updateOne(OrganizationDTO dataObject, String originalEmail) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
     ) {
+      statement.setString(1, dataObject.getEmail());
       statement.setString(1, dataObject.getName());
       statement.setString(2, dataObject.getRepresentativeFullName());
       statement.setString(3, dataObject.getColony());
       statement.setString(4, dataObject.getStreet());
       statement.setString(5, dataObject.getState());
-      statement.setString(6, dataObject.getEmail());
+      statement.setString(6, originalEmail);
       statement.executeUpdate();
     }
   }

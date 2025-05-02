@@ -13,7 +13,7 @@ public class AccountDAO extends DAOPattern<AccountDTO, String> {
   private static final String CREATE_QUERY = "INSERT INTO Account (email, password) VALUES (?, ?)";
   private static final String GET_QUERY = "SELECT * FROM Account WHERE email = ?";
   private static final String GET_ALL_QUERY = "SELECT * FROM Account";
-  private static final String UPDATE_QUERY = "UPDATE Account SET password = ? WHERE email = ?";
+  private static final String UPDATE_QUERY = "UPDATE Account SET email = ?, password = ? WHERE email = ?";
   private static final String DELETE_QUERY = "DELETE FROM Account WHERE email = ?";
 
   @Override
@@ -71,14 +71,16 @@ public class AccountDAO extends DAOPattern<AccountDTO, String> {
   }
 
   @Override
-  public void updateOne(AccountDTO dataObject) throws SQLException {
+  public void updateOne(AccountDTO dataObject, String originalEmail) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
     ) {
-      statement.setString(1, dataObject.password());
-      statement.setString(2, dataObject.email());
-      statement.executeUpdate();
+      statement.setString(1, dataObject.email());//antiguo email
+      statement.setString(2, dataObject.password());
+      statement.setString(3, dataObject.email());//nuevo email
+      int rowsAffected = statement.executeUpdate();
+      System.out.println("Filas actualizadas: " + rowsAffected);
     }
   }
 

@@ -91,17 +91,17 @@ public class MonthlyReportDAO extends DAOPattern<MonthlyReportDTO, FilterMonthly
   }
 
   @Override
-  public void updateOne(MonthlyReportDTO dataObject) throws SQLException {
+  public void updateOne(MonthlyReportDTO dataObject, FilterMonthlyReport filter) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
     ) {
       statement.setInt(1, dataObject.getWorkedHours());
       statement.setString(2, dataObject.getReport());
-      statement.setInt(3, dataObject.getIDProject());
-      statement.setString(4, dataObject.getIDStudent());
-      statement.setInt(5, dataObject.getMonth());
-      statement.setInt(6, dataObject.getYear());
+      statement.setInt(3, filter.getIDProject());
+      statement.setString(4, filter.getIDStudent());
+      statement.setInt(5, filter.getMonth());
+      statement.setInt(6, filter.getYear());
       statement.executeUpdate();
     }
   }
