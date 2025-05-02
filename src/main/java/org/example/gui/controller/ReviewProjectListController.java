@@ -39,7 +39,7 @@ public class ReviewProjectListController {
   @FXML
   private TableColumn<ProjectDTO, String> columnCreatedAt;
 
-  private void loadAcademicList() {
+  private void loadProjectList() {
     columnID.setCellValueFactory(new PropertyValueFactory<>("ID"));
     columnName.setCellValueFactory(new PropertyValueFactory<>("name"));
     columnEmail.setCellValueFactory(new PropertyValueFactory<>("IDOrganization"));
@@ -93,6 +93,6 @@ public class ReviewProjectListController {
 
   @FXML
   private void initialize() {
-    loadAcademicList();
+    loadProjectList();
   }
 }
