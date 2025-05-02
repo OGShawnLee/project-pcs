@@ -3,15 +3,16 @@ package org.example.business.controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import org.example.business.Result;
+import org.example.business.dto.AccountDTO;
 import org.example.business.dto.StudentDTO;
-import org.example.business.validation.Validator;
+import org.example.db.dao.AccountDAO;
 import org.example.db.dao.StudentDAO;
 import org.example.gui.AlertDialog;
 
@@ -21,28 +22,29 @@ import java.util.Objects;
 
 public class ManageStudentController {
 
-    @FXML
-    private TextField idTextField;
+    private final AccountDAO ACCOUNT_DAO = new AccountDAO();
+    private final StudentDAO STUDENT_DAO = new StudentDAO();
 
     @FXML
-    private TextField nameTextField;
-
+    private TextField fieldIDStudent;
     @FXML
-    private TextField paternalLastNameTextField;
-
+    private TextField fieldName;
     @FXML
-    private TextField maternalLastNameTextField;
-
+    private TextField fieldPaternalLastName;
     @FXML
-    private TextField emailTextField;
-
+    private TextField fieldMaternalLastName;
+    @FXML
+    private TextField fieldEmail;
     @FXML
     private ComboBox<String> stateComboBox;
-
     @FXML
     private Button updateStudent;
+    @FXML
+    private Button goBack;
 
-    private StudentDTO currentStudent;
+    private StudentDTO previousStudent;
+
+    private ReviewStudentsController reviewController;
 
     @FXML
     public void initialize() {
@@ -50,13 +52,13 @@ public class ManageStudentController {
     }
 
     public void setStudent(StudentDTO student) {
-        this.currentStudent = student;
+        this.previousStudent = student;
 
-        idTextField.setText(student.getID());
-        nameTextField.setText(student.getName());
-        paternalLastNameTextField.setText(student.getPaternalLastName());
-        maternalLastNameTextField.setText(student.getMaternalLastName());
-        emailTextField.setText(student.getEmail());
+        fieldIDStudent.setText(student.getID());
+        fieldName.setText(student.getName());
+        fieldPaternalLastName.setText(student.getPaternalLastName());
+        fieldMaternalLastName.setText(student.getMaternalLastName());
+        fieldEmail.setText(student.getEmail());
 
         String state = student.getState();
         if (state.equalsIgnoreCase("ACTIVE")) {
@@ -66,161 +68,55 @@ public class ManageStudentController {
         }
     }
 
-    @FXML
-    public void updateStudentData(ActionEvent event) throws IOException {
+    public void handleUpdateStudent(ActionEvent event) throws IOException {
+        String selectedState = stateComboBox.getValue();
+        String internalState = selectedState.equalsIgnoreCase("Activo") ? "ACTIVE" : "RETIRED";
         try {
-            String selectedState = stateComboBox.getValue();
-            String finalState = selectedState.equals("Activo") ? "ACTIVE" : "RETIRED";
-
-            StudentDTO updatedStudent = new StudentDTO.StudentBuilder()
-                    .setID(currentStudent.getID())
-                    .setName(nameTextField.getText())
-                    .setPaternalLastName(paternalLastNameTextField.getText())
-                    .setMaternalLastName(maternalLastNameTextField.getText())
-                    .setEmail(emailTextField.getText())
-                    .setState(finalState)
+            StudentDTO dataObjectStudent = new StudentDTO.StudentBuilder()
+                    .setPaternalLastName(fieldPaternalLastName.getText())
+                    .setMaternalLastName(fieldMaternalLastName.getText())
+                    .setName(fieldName.getText())
+                    .setID(fieldIDStudent.getText())
+                    .setEmail(fieldEmail.getText())
+                    .setState(internalState)
+                    .setFinalGrade(previousStudent.getFinalGrade())
                     .build();
 
-            Result<String> nameResult = Validator.getFilledString(
-                    updatedStudent.getName(),
-                    "Nombre no puede estar vacío"
-            );
-
-            if (nameResult.isFailure()) {
-                AlertDialog.showError(nameResult.getError());
+            AccountDTO existingAccount = ACCOUNT_DAO.getOne(dataObjectStudent.getEmail());
+            if (existingAccount != null && !dataObjectStudent.getEmail().equals(previousStudent.getEmail())) {
+                AlertDialog.showError("No ha sido posible actualizar al estudiante debido a que ya existe una cuenta con ese correo electrónico.");
                 return;
             }
 
-            Result<String> nameLettersResult = Validator.getWords(
-                    updatedStudent.getName(),
-                    "El nombre tiene caracteres no validos"
-            );
-
-            if (nameLettersResult.isFailure()) {
-                AlertDialog.showError(nameLettersResult.getError());
+            StudentDTO existingStudent = STUDENT_DAO.getOne(dataObjectStudent.getID());
+            if (existingStudent != null && !existingStudent.getID().equals(previousStudent.getID())) {
+                AlertDialog.showError("No ha sido posible actualizar al estudiante debido a que ya existe un estudiante con la misma ID de Estudiante.");
                 return;
             }
 
-            Result<String> nameLenghtResult = Validator.getMaxLenght(
-                    updatedStudent.getName(),
-                    "El nombre excede los caracteres permitidos",
-                    127
+            ACCOUNT_DAO.updateOne(
+                    new AccountDTO(dataObjectStudent.getEmail(), dataObjectStudent.getID()),
+                    previousStudent.getEmail()
             );
-            if (nameLenghtResult.isFailure()) {
-                AlertDialog.showError(nameLenghtResult.getError());
-                return;
-            }
-
-            Result<String> emailResult = Validator.getEmail(
-                    updatedStudent.getEmail(),
-                    "El correo electrónico no es valido"
-            );
-
-            if (emailResult.isFailure()) {
-                AlertDialog.showError(emailResult.getError());
-                return;
-            }
-
-            Result<String> paternalLastNameNullResult = Validator.getFilledString(
-                    updatedStudent.getPaternalLastName(),
-                    "El apellido paterno no puede estar vacio"
-            );
-
-            if (paternalLastNameNullResult.isFailure()) {
-                AlertDialog.showError(paternalLastNameNullResult.getError());
-                return;
-            }
-
-            Result<String> paternalLastNameLettersResult = Validator.getWords(
-                    updatedStudent.getName(),
-                    "El apellido paterno tiene caracteres no validos"
-            );
-
-            if (paternalLastNameLettersResult.isFailure()) {
-                AlertDialog.showError(paternalLastNameLettersResult.getError());
-                return;
-            }
-
-            Result<String> paternalLastNameLenghtResult = Validator.getMaxLenght(
-                    updatedStudent.getMaternalLastName(),
-                    "El apellido paterno excede los caracteres permitidos",
-                    127
-            );
-            if (paternalLastNameLenghtResult.isFailure()) {
-                AlertDialog.showError(paternalLastNameLenghtResult.getError());
-                return;
-            }
-
-            Result<String> maternalLastNameNullResult = Validator.getFilledString(
-                    updatedStudent.getMaternalLastName(),
-                    "El apellido materno no puede estar vacio"
-            );
-
-            if (maternalLastNameNullResult.isFailure()) {
-                AlertDialog.showError(maternalLastNameNullResult.getError());
-                return;
-            }
-
-            Result<String> maternalLastNameLettersResult = Validator.getWords(
-                    updatedStudent.getName(),
-                    "El apellido materno tiene caracteres no validos"
-            );
-
-            if (maternalLastNameLettersResult.isFailure()) {
-                AlertDialog.showError(maternalLastNameLettersResult.getError());
-                return;
-            }
-
-            Result<String> maternalLastNameLenghtResult = Validator.getMaxLenght(
-                    updatedStudent.getMaternalLastName(),
-                    "El apellido materno exede los caracteres permitidos",
-                    127
-            );
-
-            if (maternalLastNameLenghtResult.isFailure()) {
-                AlertDialog.showError(maternalLastNameLenghtResult.getError());
-                return;
-            }
-            Result<String> studentIdResult = Validator.getFilledString(
-                    updatedStudent.getID(),
-                    "La matricula no puede estar vacía"
-            );
-
-            if (studentIdResult.isFailure()) {
-                AlertDialog.showError(studentIdResult.getError());
-                return;
-            }
-
-            Result<String> studentIdCharResult = Validator.getIDStudent(
-                    updatedStudent.getID(),
-                    "La matricula no es valida para su registro",
-                    8
-            );
-
-            if (studentIdCharResult.isFailure()) {
-                AlertDialog.showError(studentIdCharResult.getError());
-                return;
-            }
-
-            StudentDAO studentDAO = new StudentDAO();
-            studentDAO.updateOne(updatedStudent);
-
-            AlertDialog.showSuccess("Datos actualizados correctamente.");
-
-            Parent newView = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/example/ReviewStudentsPage.fxml")));
-            Scene newScene = new Scene(newView);
-            Stage stage = (Stage) updateStudent.getScene().getWindow();
-            stage.setScene(newScene);
-            stage.show();
-
-        } catch (SQLException e){
-            AlertDialog.showError("No se pudieron actualizar los datos.");
-
-            Parent newView = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/example/ReviewStudentsPage.fxml")));
-            Scene newScene = new Scene(newView);
-            Stage stage = (Stage) updateStudent.getScene().getWindow();
-            stage.setScene(newScene);
-            stage.show();
+            System.out.println("Actualizando estudiante con ID: " + dataObjectStudent.getID());
+            STUDENT_DAO.updateOne(dataObjectStudent, previousStudent.getID());
+            System.out.println("Estudiante actualizado");
+            AlertDialog.showSuccess("Estudiante actualizado exitosamente.");
+            returnToReviewStudentsPage(event);
+        } catch (IllegalArgumentException e) {
+            AlertDialog.showError(e.getMessage());
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            AlertDialog.showError("No ha sido posible actualizar al estudiante debido a un error de sistema.");
         }
+    }
+
+    @FXML
+    public void returnToReviewStudentsPage(ActionEvent event) throws IOException {
+        Parent newView = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/example/ReviewStudentsPage.fxml")));
+        Scene newScene = new Scene(newView);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(newScene);
+        stage.show();
     }
 }

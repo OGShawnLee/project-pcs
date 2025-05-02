@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Objects;
 
-public class InsertToManageController extends InsertIdController{
+public class InsertToManageController extends InsertIdController {
     private Stage reviewStage;
 
     @FXML

@@ -3,6 +3,8 @@ package org.example.business.controller;
 import javafx.fxml.FXML;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 public abstract class InsertIdController {
     protected Stage stage;
 
@@ -11,5 +13,5 @@ public abstract class InsertIdController {
     }
 
     @FXML
-    public abstract void searchId(javafx.event.ActionEvent event);
+    public abstract void searchId(javafx.event.ActionEvent event) throws IOException;
 }
