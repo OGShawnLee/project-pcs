@@ -1,5 +1,7 @@
 package org.example.business.dto;
 
+import org.example.business.validation.Validator;
+
 import java.time.LocalDateTime;
 
 public class EvaluationDTO {
@@ -87,23 +89,23 @@ public class EvaluationDTO {
             return this;
         }
 
-        public EvaluationBuilder setSkillGrade(int skillGrade) {
-            this.skillGrade = skillGrade;
+        public EvaluationBuilder setSkillGrade(String skillGrade) {
+            this.skillGrade = Validator.getValidGrade(skillGrade);
             return this;
         }
 
-        public EvaluationBuilder setContentGrade(int contentGrade) {
-            this.contentGrade = contentGrade;
+        public EvaluationBuilder setContentGrade(String contentGrade) {
+            this.contentGrade = Validator.getValidGrade(contentGrade);
             return this;
         }
 
-        public EvaluationBuilder setWritingGrade(int writingGrade) {
-            this.writingGrade = writingGrade;
+        public EvaluationBuilder setWritingGrade(String writingGrade) {
+            this.writingGrade = Validator.getValidGrade(writingGrade);
             return this;
         }
 
-        public EvaluationBuilder setRequirementsGrade(int requirementsGrade) {
-            this.requirementsGrade = requirementsGrade;
+        public EvaluationBuilder setRequirementsGrade(String requirementsGrade) {
+            this.requirementsGrade = Validator.getValidGrade(requirementsGrade);;
             return this;
         }
 

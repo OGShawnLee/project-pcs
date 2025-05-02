@@ -1,7 +1,6 @@
 package org.example.db.dao;
 
 import org.example.business.dto.EvaluationDTO;
-import org.example.db.Common;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -17,32 +16,32 @@ public class EvaluationDAO extends DAOPattern<EvaluationDTO, String> {
     private static final String DELETE_QUERY = "DELETE FROM Evaluation WHERE id_student = ? AND id_project = ?";
 
     @Override
-    public EvaluationDTO createDTOInstanceFromResultSet(ResultSet rs) throws SQLException {
+    public EvaluationDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
         return new EvaluationDTO.EvaluationBuilder()
-                .setIDStudent(rs.getString("id_student"))
-                .setIDProject(rs.getInt("id_project"))
-                .setIDAcademic(rs.getString("id_academic"))
-                .setSkillGrade(rs.getInt("skill_grade"))
-                .setContentGrade(rs.getInt("content_grade"))
-                .setWritingGrade(rs.getInt("writing_grade"))
-                .setRequirementsGrade(rs.getInt("requirements_grade"))
-                .setFeedback(rs.getString("feedback"))
-                .setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime())
+                .setIDStudent(resultSet.getString("id_student"))
+                .setIDProject(resultSet.getInt("id_project"))
+                .setIDAcademic(resultSet.getString("id_academic"))
+                .setSkillGrade(resultSet.getString("skill_grade"))
+                .setContentGrade(resultSet.getString("content_grade"))
+                .setWritingGrade(resultSet.getString("writing_grade"))
+                .setRequirementsGrade(resultSet.getString("requirements_grade"))
+                .setFeedback(resultSet.getString("feedback"))
+                .setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime())
                 .build();
     }
 
     @Override
-    public void createOne(EvaluationDTO dto) throws SQLException {
+    public void createOne(EvaluationDTO evaluationDTO) throws SQLException {
         try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(CREATE_QUERY)) {
-            stmt.setString(1, dto.getIDStudent());
-            stmt.setInt(2, dto.getIDProject());
-            stmt.setString(3, dto.getIDAcademic());
-            stmt.setInt(4, dto.getSkillGrade());
-            stmt.setInt(5, dto.getContentGrade());
-            stmt.setInt(6, dto.getWritingGrade());
-            stmt.setInt(7, dto.getRequirementsGrade());
-            stmt.setString(8, dto.getFeedback());
+            stmt.setString(1, evaluationDTO.getIDStudent());
+            stmt.setInt(2, evaluationDTO.getIDProject());
+            stmt.setString(3, evaluationDTO.getIDAcademic());
+            stmt.setInt(4, evaluationDTO.getSkillGrade());
+            stmt.setInt(5, evaluationDTO.getContentGrade());
+            stmt.setInt(6, evaluationDTO.getWritingGrade());
+            stmt.setInt(7, evaluationDTO.getRequirementsGrade());
+            stmt.setString(8, evaluationDTO.getFeedback());
             stmt.executeUpdate();
         }
     }
@@ -62,12 +61,12 @@ public class EvaluationDAO extends DAOPattern<EvaluationDTO, String> {
 
     @Override
     public EvaluationDTO getOne(String idStudent) throws SQLException {
-        try (Connection conn = getConnection();
-             PreparedStatement stmt = conn.prepareStatement(GET_QUERY)) {
+        try (Connection connection = getConnection();
+             PreparedStatement stmt = connection.prepareStatement(GET_QUERY)) {
             stmt.setString(1, idStudent);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    return createDTOInstanceFromResultSet(rs);
+            try (ResultSet resultSet = stmt.executeQuery()) {
+                if (resultSet.next()) {
+                    return createDTOInstanceFromResultSet(resultSet);
                 }
             }
             return null;
@@ -75,17 +74,17 @@ public class EvaluationDAO extends DAOPattern<EvaluationDTO, String> {
     }
 
     @Override
-    public void updateOne(EvaluationDTO dto, String unusedKey) throws SQLException {
-        try (Connection conn = getConnection();
-             PreparedStatement stmt = conn.prepareStatement(UPDATE_QUERY)) {
-            stmt.setString(1, dto.getIDAcademic());
-            stmt.setInt(2, dto.getSkillGrade());
-            stmt.setInt(3, dto.getContentGrade());
-            stmt.setInt(4, dto.getWritingGrade());
-            stmt.setInt(5, dto.getRequirementsGrade());
-            stmt.setString(6, dto.getFeedback());
-            stmt.setString(7, dto.getIDStudent());
-            stmt.setInt(8, dto.getIDProject());
+    public void updateOne(EvaluationDTO evaluationDTO, String unusedKey) throws SQLException {
+        try (Connection connection = getConnection();
+             PreparedStatement stmt = connection.prepareStatement(UPDATE_QUERY)) {
+            stmt.setString(1, evaluationDTO.getIDAcademic());
+            stmt.setInt(2, evaluationDTO.getSkillGrade());
+            stmt.setInt(3, evaluationDTO.getContentGrade());
+            stmt.setInt(4, evaluationDTO.getWritingGrade());
+            stmt.setInt(5, evaluationDTO.getRequirementsGrade());
+            stmt.setString(6, evaluationDTO.getFeedback());
+            stmt.setString(7, evaluationDTO.getIDStudent());
+            stmt.setInt(8, evaluationDTO.getIDProject());
             stmt.executeUpdate();
         }
     }

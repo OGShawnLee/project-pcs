@@ -196,6 +196,13 @@ public class Validator {
     return Result.createSuccessResult(value);
   }
 
+  public static int getValidGrade(String value) throws IllegalArgumentException {
+    if (value != null && value.trim().matches("^(10|[0-9])$")) {
+      return Integer.parseInt(value.trim());
+    }
+    throw new IllegalArgumentException("La calificación debe ser un número entero entre 0 y 10.");
+  }
+
   public static Result<String> getMaxLenght(String value, String message, int maxLength) {
     if (value.trim().length() > maxLength) {
       return Result.createFailureResult(message);
