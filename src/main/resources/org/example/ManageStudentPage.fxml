@@ -18,6 +18,7 @@
                 <TextField fx:id="fieldName" layoutX="31.0" layoutY="314.0" prefWidth="500.0" />
                 <TextField fx:id="fieldIDStudent" layoutX="29.0" layoutY="119.0" prefHeight="25.0" prefWidth="500.0" />
                 <TextField fx:id="fieldEmail" layoutX="31.0" layoutY="384.0" prefHeight="25.0" prefWidth="499.0" />
+                <TextField fx:id="fieldNRC" />
                 <Label layoutX="30.0" layoutY="166.0" text="Apellido Paterno" />
                 <Label layoutX="31.0" layoutY="232.0" text="Apellido Materno" />
                 <Label layoutX="30.0" layoutY="297.0" text="Nombre" />

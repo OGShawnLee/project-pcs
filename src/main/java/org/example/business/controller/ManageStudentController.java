@@ -6,14 +6,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.example.business.dto.AccountDTO;
+import org.example.business.dto.EnrollmentDTO;
 import org.example.business.dto.StudentDTO;
 import org.example.db.dao.AccountDAO;
+import org.example.db.dao.EnrollmentDAO;
 import org.example.db.dao.StudentDAO;
+import org.example.db.dao.filter.FilterEnrollment;
 import org.example.gui.AlertDialog;
 
 import java.io.IOException;
@@ -38,13 +40,9 @@ public class ManageStudentController {
     @FXML
     private ComboBox<String> stateComboBox;
     @FXML
-    private Button updateStudent;
-    @FXML
-    private Button goBack;
+    private TextField fieldNRC;
 
     private StudentDTO previousStudent;
-
-    private ReviewStudentsController reviewController;
 
     @FXML
     public void initialize() {
@@ -59,6 +57,19 @@ public class ManageStudentController {
         fieldPaternalLastName.setText(student.getPaternalLastName());
         fieldMaternalLastName.setText(student.getMaternalLastName());
         fieldEmail.setText(student.getEmail());
+
+        EnrollmentDAO enrollmentDAO = new EnrollmentDAO();
+        try {
+            var enrollment = enrollmentDAO.getOne(
+                    new FilterEnrollment(previousStudent.getID(), null)
+            );
+            if (enrollment != null) {
+                fieldNRC.setText(enrollment.getIDCourse());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            AlertDialog.showError("No se pudo cargar el NRC del estudiante.");
+        }
 
         String state = student.getState();
         if (state.equalsIgnoreCase("ACTIVE")) {
@@ -98,9 +109,22 @@ public class ManageStudentController {
                     new AccountDTO(dataObjectStudent.getEmail(), dataObjectStudent.getID()),
                     previousStudent.getEmail()
             );
-            System.out.println("Actualizando estudiante con ID: " + dataObjectStudent.getID());
             STUDENT_DAO.updateOne(dataObjectStudent, previousStudent.getID());
-            System.out.println("Estudiante actualizado");
+
+            String newNRC = fieldNRC.getText().trim();
+            if (!newNRC.isEmpty()) {
+                EnrollmentDAO enrollmentDAO = new EnrollmentDAO();
+                var existingEnrollment = enrollmentDAO.getOne(new FilterEnrollment(previousStudent.getID(), null));
+                if (existingEnrollment != null) {
+                    enrollmentDAO.deleteOne(new FilterEnrollment(previousStudent.getID(), existingEnrollment.getIDCourse()));
+                }
+                EnrollmentDTO newEnrollment = new EnrollmentDTO.EnrollmentBuilder()
+                        .setIDCourse(newNRC)
+                        .setIDStudent(dataObjectStudent.getID())
+                        .build();
+                enrollmentDAO.createOne(newEnrollment);
+            }
+
             AlertDialog.showSuccess("Estudiante actualizado exitosamente.");
             returnToReviewStudentsPage(event);
         } catch (IllegalArgumentException e) {
