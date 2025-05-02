@@ -4,15 +4,14 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="217.0" prefWidth="479.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="217.0" prefWidth="479.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.business.controller.RegisterFinalGradeController">
    <children>
       <Label layoutX="31.0" layoutY="45.0" text="Inserte la calificacion que desea asignar">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
-      <TextField layoutX="165.0" layoutY="120.0" />
-      <Button layoutX="213.0" layoutY="167.0" mnemonicParsing="false" text="Aceptar" />
-      <Label layoutX="103.0" layoutY="92.0" text="Matricula del estudiante: " />
+      <TextField fx:id="finalGradeField" layoutX="165.0" layoutY="120.0" />
+      <Button fx:id="registerFinalGradeButton" layoutX="213.0" layoutY="167.0" mnemonicParsing="false" onAction="#updateStudentFinalGrade" text="Aceptar" />
    </children>
 </Pane>
