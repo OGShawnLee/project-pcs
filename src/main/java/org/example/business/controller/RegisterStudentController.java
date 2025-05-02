@@ -10,8 +10,12 @@ import javafx.scene.control.TextField;
 
 import javafx.stage.Stage;
 import org.example.business.dto.AccountDTO;
+import org.example.business.dto.CourseDTO;
 import org.example.business.dto.StudentDTO;
+import org.example.business.dto.EnrollmentDTO;
 import org.example.db.dao.AccountDAO;
+import org.example.db.dao.CourseDAO;
+import org.example.db.dao.EnrollmentDAO;
 import org.example.db.dao.StudentDAO;
 import org.example.gui.AlertDialog;
 
@@ -22,6 +26,7 @@ import java.util.Objects;
 public class RegisterStudentController {
     private final AccountDAO ACCOUNT_DAO = new AccountDAO();
     private final StudentDAO STUDENT_DAO = new StudentDAO();
+    private final EnrollmentDAO ENROLLMENT_DAO = new EnrollmentDAO();
     @FXML
     private TextField fieldPaternalLastName;
     @FXML
@@ -32,6 +37,8 @@ public class RegisterStudentController {
     private TextField fieldIdStudent;
     @FXML
     private TextField fieldEmail;
+    @FXML
+    private TextField fieldNRC;
 
 
 
@@ -58,8 +65,26 @@ public class RegisterStudentController {
             return;
         }
 
+        String nrc = fieldNRC.getText().trim();
+        if (nrc.isEmpty()) {
+            AlertDialog.showError("Debe ingresar un NRC.");
+            return;
+        }
+
+        CourseDAO courseDAO = new CourseDAO();
+        CourseDTO course = courseDAO.getOne(nrc);
+        if (course == null) {
+            AlertDialog.showError("El NRC ingresado no existe en el sistema.");
+            return;
+        }
+
         ACCOUNT_DAO.createOne(new AccountDTO(dataObjectStudent.getEmail(), dataObjectStudent.getID()));
         STUDENT_DAO.createOne(dataObjectStudent);
+        EnrollmentDTO enrollment = new EnrollmentDTO.EnrollmentBuilder()
+                .setIDCourse(nrc)
+                .setIDStudent(dataObjectStudent.getID())
+                .build();
+        ENROLLMENT_DAO.createOne(enrollment);
         AlertDialog.showSuccess("Estudiante registrado exitosamente.");
         returnToReviewStudentsPage(event);
       } catch (IllegalArgumentException e) {
