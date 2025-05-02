@@ -33,8 +33,7 @@ public class RegisterProjectController {
 
     Result<String> nameResult = Validator.getFilledString(
       project.getName(),
-      "Nombre no puede estar vacío",
-      128
+      "Nombre no puede estar vacío"
     );
 
     if (nameResult.isFailure()) {
@@ -44,8 +43,7 @@ public class RegisterProjectController {
 
     Result<String> emailResult = Validator.getEmail(
       project.getIDOrganization(),
-      "Correo electrónico de la organización no es valido",
-      128
+      "Correo electrónico de la organización no es valido"
     );
 
     if (emailResult.isFailure()) {
@@ -55,8 +53,7 @@ public class RegisterProjectController {
 
     Result<String> methodologyResult = Validator.getFilledString(
       project.getMethodology(),
-      "Nombre del representante no puede estar vacío",
-      128
+      "Nombre del representante no puede estar vacío"
     );
 
     if (methodologyResult.isFailure()) {
@@ -66,8 +63,7 @@ public class RegisterProjectController {
 
     Result<String> sectorResult = Validator.getFilledString(
       project.getSector(),
-      "El sector no puede estar vacío",
-      128
+      "El sector no puede estar vacío"
     );
 
     if (sectorResult.isFailure()) {
