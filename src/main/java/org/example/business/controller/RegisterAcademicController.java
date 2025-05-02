@@ -2,15 +2,21 @@ package org.example.business.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import org.example.business.dto.AcademicDTO;
 import org.example.business.dto.AccountDTO;
 import org.example.db.dao.AcademicDAO;
 import org.example.db.dao.AccountDAO;
 import org.example.gui.AlertDialog;
 
+import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Objects;
 
 public class RegisterAcademicController {
   private final AccountDAO ACCOUNT_DAO = new AccountDAO();
@@ -59,12 +65,20 @@ public class RegisterAcademicController {
 
       ACCOUNT_DAO.createOne(new AccountDTO(dataObjectAcademic.getEmail(), dataObjectAcademic.getID()));
       ACADEMIC_DAO.createOne(dataObjectAcademic);
-      AlertDialog.showSuccess("Académico registrado exitosamente.");
+      AlertDialog.showSuccess("El académico ha sido registrado exitosamente.");
     } catch (IllegalArgumentException e) {
       AlertDialog.showError(e.getMessage());
     } catch (SQLException e) {
       System.out.println(e.getMessage());
       AlertDialog.showError("No ha sido posible registrar el académico debido a un error de sistema.");
     }
+  }
+
+  public static void navigateToRegisterAcademicPage(Stage currentStage) throws IOException {
+    Parent newView = FXMLLoader.load(Objects.requireNonNull(RegisterAcademicController.class.getResource("/org/example/RegisterAcademicPage.fxml")));
+    Scene newScene = new Scene(newView);
+
+    currentStage.setScene(newScene);
+    currentStage.show();
   }
 }
