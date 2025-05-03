@@ -80,12 +80,12 @@ public class EvaluationDTO {
         }
 
         public EvaluationBuilder setIDStudent(String idStudent) {
-            this.idStudent = idStudent;
+            this.idStudent = Validator.getValidEnrollment(idStudent);
             return this;
         }
 
         public EvaluationBuilder setIDAcademic(String idAcademic) {
-            this.idAcademic = idAcademic;
+            this.idAcademic = Validator.getValidWorkerID(idAcademic);
             return this;
         }
 
@@ -110,7 +110,7 @@ public class EvaluationDTO {
         }
 
         public EvaluationBuilder setFeedback(String feedback) {
-            this.feedback = feedback;
+            this.feedback = Validator.getValidText(feedback, "Feedback");
             return this;
         }
 
