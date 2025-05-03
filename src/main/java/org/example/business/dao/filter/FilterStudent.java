@@ -1,6 +1,6 @@
 package org.example.business.dao.filter;
 
-public class FilterStudent extends Filter {
+public abstract class FilterStudent {
   private final String idStudent;
 
   public FilterStudent(String idStudent) {
