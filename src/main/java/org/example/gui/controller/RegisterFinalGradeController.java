@@ -72,7 +72,7 @@ public class RegisterFinalGradeController {
     }
 
     private void goToReviewStudentsPage() throws IOException {
-        Parent newView = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/example/ReviewStudentsPage.fxml")));
+        Parent newView = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/example/ReviewStudentListPage.fxml")));
         Scene newScene = new Scene(newView);
         Stage stage = (Stage) registerFinalGradeButton.getScene().getWindow();
         stage.setScene(newScene);

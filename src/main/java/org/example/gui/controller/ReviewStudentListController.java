@@ -26,7 +26,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
 
-public class ReviewStudentsController {
+public class ReviewStudentListController {
 
     @FXML
     private ComboBox<String> stateView;

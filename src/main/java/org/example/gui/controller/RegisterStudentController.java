@@ -99,7 +99,7 @@ public class RegisterStudentController {
 
     @FXML
     public void returnToReviewStudentsPage(ActionEvent event) throws IOException {
-        Parent newView = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/example/ReviewStudentsPage.fxml")));
+        Parent newView = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/example/ReviewStudentListPage.fxml")));
         Scene newScene = new Scene(newView);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(newScene);

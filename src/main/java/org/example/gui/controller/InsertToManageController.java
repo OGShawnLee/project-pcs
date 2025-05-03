@@ -35,7 +35,7 @@ public class InsertToManageController extends InsertIdController {
             if (student == null) {
                 AlertDialog.showError("Estudiante no encontrado");
                 Parent gestionView = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(
-                        "/org/example/ReviewStudentsPage.fxml"
+                  "/org/example/ReviewStudentListPage.fxml"
                 )));
                 Scene gestionScene = new Scene(gestionView);
                 reviewStage.setScene(gestionScene);

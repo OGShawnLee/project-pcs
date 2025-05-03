@@ -22,7 +22,7 @@ public class EvaluatorMainController {
 
     @FXML
     private void handleReviewEvaluationAction(ActionEvent event) throws IOException {
-        Parent newSceneParent = FXMLLoader.load(getClass().getResource("/org/example/ReviewEvaluationPage.fxml"));
+        Parent newSceneParent = FXMLLoader.load(getClass().getResource("/org/example/ReviewEvaluationListPage.fxml"));
         Scene newScene = new Scene(newSceneParent);
         Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         currentStage.setScene(newScene);
