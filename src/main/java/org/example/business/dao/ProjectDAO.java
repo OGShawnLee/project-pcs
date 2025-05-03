@@ -1,4 +1,4 @@
-package org.example.db.dao;
+package org.example.business.dao;
 
 import org.example.business.dto.ProjectDTO;
 

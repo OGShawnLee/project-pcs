@@ -18,7 +18,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.example.business.dto.StudentDTO;
-import org.example.db.dao.StudentDAO;
+import org.example.business.dao.StudentDAO;
 import org.example.gui.AlertDialog;
 
 import java.io.IOException;

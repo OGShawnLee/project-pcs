@@ -1,8 +1,8 @@
 package db;
 
 import org.example.business.dto.PracticeDTO;
-import org.example.db.dao.PracticeDAO;
-import org.example.db.dao.filter.FilterPractice;
+import org.example.business.dao.PracticeDAO;
+import org.example.business.dao.filter.FilterPractice;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

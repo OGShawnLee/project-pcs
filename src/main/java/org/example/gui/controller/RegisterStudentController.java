@@ -13,10 +13,10 @@ import org.example.business.dto.AccountDTO;
 import org.example.business.dto.CourseDTO;
 import org.example.business.dto.StudentDTO;
 import org.example.business.dto.EnrollmentDTO;
-import org.example.db.dao.AccountDAO;
-import org.example.db.dao.CourseDAO;
-import org.example.db.dao.EnrollmentDAO;
-import org.example.db.dao.StudentDAO;
+import org.example.business.dao.AccountDAO;
+import org.example.business.dao.CourseDAO;
+import org.example.business.dao.EnrollmentDAO;
+import org.example.business.dao.StudentDAO;
 import org.example.gui.AlertDialog;
 
 import java.io.IOException;

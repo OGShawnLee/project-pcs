@@ -10,7 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.example.business.dto.EvaluationDTO;
 import org.example.business.validation.Validator;
-import org.example.db.dao.EvaluationDAO;
+import org.example.business.dao.EvaluationDAO;
 import org.example.gui.AlertDialog;
 
 import java.io.IOException;

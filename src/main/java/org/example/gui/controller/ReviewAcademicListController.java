@@ -11,7 +11,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import org.example.business.dto.AcademicDTO;
-import org.example.db.dao.AcademicDAO;
+import org.example.business.dao.AcademicDAO;
 import org.example.gui.AlertDialog;
 
 import java.io.IOException;

@@ -12,10 +12,10 @@ import javafx.stage.Stage;
 import org.example.business.dto.AccountDTO;
 import org.example.business.dto.EnrollmentDTO;
 import org.example.business.dto.StudentDTO;
-import org.example.db.dao.AccountDAO;
-import org.example.db.dao.EnrollmentDAO;
-import org.example.db.dao.StudentDAO;
-import org.example.db.dao.filter.FilterEnrollment;
+import org.example.business.dao.AccountDAO;
+import org.example.business.dao.EnrollmentDAO;
+import org.example.business.dao.StudentDAO;
+import org.example.business.dao.filter.FilterEnrollment;
 import org.example.gui.AlertDialog;
 
 import java.io.IOException;

@@ -7,7 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.example.business.dto.StudentDTO;
-import org.example.db.dao.StudentDAO;
+import org.example.business.dao.StudentDAO;
 import org.example.gui.AlertDialog;
 
 import javafx.scene.control.TextField;

@@ -1,8 +1,8 @@
 package db;
 
 import org.example.business.dto.EvaluationDTO;
-import org.example.db.dao.EvaluationDAO;
-import org.example.db.dao.filter.FilterEvaluation;
+import org.example.business.dao.EvaluationDAO;
+import org.example.business.dao.filter.FilterEvaluation;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 

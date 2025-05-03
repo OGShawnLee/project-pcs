@@ -1,4 +1,4 @@
-package org.example.db.dao.filter;
+package org.example.business.dao.filter;
 
 public class FilterPractice extends FilterStudent {
   private final int idPractice;

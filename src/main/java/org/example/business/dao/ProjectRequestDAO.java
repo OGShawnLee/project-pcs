@@ -1,7 +1,7 @@
-package org.example.db.dao;
+package org.example.business.dao;
 
 import org.example.business.dto.ProjectRequestDTO;
-import org.example.db.dao.filter.FilterProject;
+import org.example.business.dao.filter.FilterProject;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

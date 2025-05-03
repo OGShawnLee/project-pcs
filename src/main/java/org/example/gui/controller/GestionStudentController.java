@@ -4,7 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import org.example.business.dto.StudentDTO;
-import org.example.db.dao.StudentDAO;
+import org.example.business.dao.StudentDAO;
 import org.example.gui.AlertDialog;
 
 import java.sql.SQLException;

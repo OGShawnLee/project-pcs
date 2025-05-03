@@ -11,8 +11,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.example.business.dto.AcademicDTO;
 import org.example.business.dto.AccountDTO;
-import org.example.db.dao.AcademicDAO;
-import org.example.db.dao.AccountDAO;
+import org.example.business.dao.AcademicDAO;
+import org.example.business.dao.AccountDAO;
 import org.example.gui.AlertDialog;
 
 import java.io.IOException;

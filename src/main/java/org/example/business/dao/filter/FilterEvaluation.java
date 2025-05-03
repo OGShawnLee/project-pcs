@@ -1,4 +1,4 @@
-package org.example.db.dao.filter;
+package org.example.business.dao.filter;
 
 public class FilterEvaluation extends FilterProject {
   private final String idAcademic;

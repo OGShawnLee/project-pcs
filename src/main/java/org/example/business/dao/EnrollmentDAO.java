@@ -1,7 +1,7 @@
-package org.example.db.dao;
+package org.example.business.dao;
 
     import org.example.business.dto.EnrollmentDTO;
-    import org.example.db.dao.filter.FilterEnrollment;
+    import org.example.business.dao.filter.FilterEnrollment;
 
     import java.sql.Connection;
     import java.sql.PreparedStatement;

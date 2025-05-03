@@ -13,9 +13,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import org.example.business.dto.EvaluationDTO;
-import org.example.db.dao.EnrollmentDAO;
-import org.example.db.dao.EvaluationDAO;
-import org.example.db.dao.StudentDAO;
+import org.example.business.dao.EnrollmentDAO;
+import org.example.business.dao.EvaluationDAO;
+import org.example.business.dao.StudentDAO;
 import org.example.gui.AlertDialog;
 
 import java.io.IOException;

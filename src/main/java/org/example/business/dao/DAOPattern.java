@@ -1,12 +1,17 @@
-package org.example.db.dao;
+package org.example.business.dao;
 
 import org.example.db.DBConnector;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-public abstract class DAOPattern<T, F> extends DBConnector {
+public abstract class DAOPattern<T, F> {
+  protected Connection getConnection() throws SQLException {
+    return DBConnector.getConnection();
+  }
+
   protected abstract T createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException;
 
   public abstract void createOne(T dataObject) throws SQLException;

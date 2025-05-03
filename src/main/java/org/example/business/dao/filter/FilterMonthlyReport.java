@@ -1,4 +1,4 @@
-package org.example.db.dao.filter;
+package org.example.business.dao.filter;
 
 public class FilterMonthlyReport extends FilterProject {
   private final int month;

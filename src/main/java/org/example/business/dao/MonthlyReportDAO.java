@@ -1,7 +1,7 @@
-package org.example.db.dao;
+package org.example.business.dao;
 
 import org.example.business.dto.MonthlyReportDTO;
-import org.example.db.dao.filter.FilterMonthlyReport;
+import org.example.business.dao.filter.FilterMonthlyReport;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
