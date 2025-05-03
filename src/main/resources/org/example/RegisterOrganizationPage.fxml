@@ -6,7 +6,8 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="462.0" prefWidth="660.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.business.controller.RegisterOrganizationController">
+<?import javafx.scene.layout.HBox?>
+<AnchorPane fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="462.0" prefWidth="660.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.business.controller.RegisterOrganizationController">
    <children>
       <VBox layoutX="202.0" layoutY="43.0" prefHeight="300.0" prefWidth="300.0" spacing="16.0">
          <children>
@@ -41,7 +42,14 @@
                   <TextField fx:id="fieldStreet" prefHeight="25.0" prefWidth="300.0" promptText="Introduzca la calle donde se ubica" />
                </children>
             </VBox>
-            <Button mnemonicParsing="false" onAction="#handleRegisterOrganization" prefHeight="40.0" prefWidth="300.0" text="Registrar Organización" />
+            <HBox prefHeight="100.0" prefWidth="200.0" spacing="16.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#navigateToOrganizationList" prefHeight="40.0" prefWidth="300.0"
+                          text="Volver a Listado"/>
+                  <Button mnemonicParsing="false" onAction="#handleRegisterOrganization" prefHeight="40.0" prefWidth="300.0"
+                          text="Registrar Organización"/>
+               </children>
+            </HBox>
          </children>
       </VBox>
    </children>

@@ -40,6 +40,18 @@ public class LandingPageController {
     }
   }
 
+  public void navigateToReviewOrganizationListPage() {
+    try {
+      ReviewOrganizationListController.navigateToOrganizationListPage(
+        (Stage) container.getScene().getWindow()
+      );
+    } catch (IOException e) {
+      AlertDialog.showError(
+        "No ha sido posible navegar a página de organizaciones."
+      );
+    }
+  }
+
   public static void navigateToLandingPage(Stage currentStage) throws IOException {
     Parent newView = FXMLLoader.load(
       Objects.requireNonNull(LandingPageController.class.getResource("/org/example/LandingPage.fxml"))

@@ -12,7 +12,7 @@
       <children>
         <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="184.0" text="Académicos"
                 onMouseClicked="#navigateToReviewAcademicListPage"/>
-        <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="225.0" text="Organizaciones"/>
+        <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="225.0" text="Organizaciones" onMouseClicked="#navigateToReviewOrganizationListPage"/>
         <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="242.0" text="Proyectos"
                 onMouseClicked="#navigateToReviewProjectListPage"/>
         <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="242.0" text="Estudiantes"/>
