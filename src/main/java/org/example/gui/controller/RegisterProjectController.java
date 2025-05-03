@@ -1,4 +1,4 @@
-package org.example.business.controller;
+package org.example.gui.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,7 +12,6 @@ import javafx.stage.Stage;
 import org.example.business.dto.ProjectDTO;
 import org.example.db.dao.ProjectDAO;
 import org.example.gui.AlertDialog;
-import org.example.gui.controller.ReviewProjectListController;
 
 import java.io.IOException;
 import java.sql.SQLException;

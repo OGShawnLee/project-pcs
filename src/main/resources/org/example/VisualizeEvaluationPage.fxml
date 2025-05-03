@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.12" fx:controller="org.example.business.controller.VisualizeEvaluationController">
+<VBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.12" fx:controller="org.example.gui.controller.VisualizeEvaluationController">
     <Label fx:id="projectLabel" text="ID del Proyecto:" />
     <Label fx:id="idStudentLabel" text="ID del Estudiante:" />
     <Label fx:id="skillGradeLabel" text="Calificación de Habilidad:" />

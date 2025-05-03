@@ -6,7 +6,7 @@
 
 <ScrollPane prefHeight="600.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/17.0.12"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="org.example.business.controller.RegisterEvaluationController">
+            fx:controller="org.example.gui.controller.RegisterEvaluationController">
     <content>
         <AnchorPane prefHeight="600.0" prefWidth="650.0">
             <children>

@@ -6,7 +6,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import org.example.business.controller.ReviewAcademicListController;
 import org.example.gui.AlertDialog;
 
 import java.io.IOException;

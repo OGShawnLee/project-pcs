@@ -10,7 +10,7 @@
 <AnchorPane fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
             prefHeight="462.0" prefWidth="660.0" xmlns="http://javafx.com/javafx/23.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="org.example.business.controller.RegisterProjectController">
+            fx:controller="org.example.gui.controller.RegisterProjectController">
   <children>
     <VBox layoutX="202.0" layoutY="43.0" prefHeight="300.0" prefWidth="300.0" spacing="16.0">
       <children>

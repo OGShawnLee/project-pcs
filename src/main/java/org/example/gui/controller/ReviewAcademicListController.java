@@ -1,4 +1,4 @@
-package org.example.business.controller;
+package org.example.gui.controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,7 +13,6 @@ import javafx.stage.Stage;
 import org.example.business.dto.AcademicDTO;
 import org.example.db.dao.AcademicDAO;
 import org.example.gui.AlertDialog;
-import org.example.gui.controller.LandingPageController;
 
 import java.io.IOException;
 import java.sql.SQLException;

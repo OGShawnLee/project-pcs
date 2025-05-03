@@ -1,4 +1,4 @@
-package org.example.business.controller;
+package org.example.gui.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
