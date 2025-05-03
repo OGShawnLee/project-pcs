@@ -814,4 +814,98 @@ public class ValidatorTest {
       );
     }
   }
+
+  @Test
+  public void testGetValidGrade() {
+    assertDoesNotThrow(
+      () -> {
+        for (int i = 0; i <= 10; i++) {
+          Assertions.assertEquals(
+            i,
+            Validator.getValidGrade(String.valueOf(i)),
+            "Valid grade should be returned"
+          );
+        }
+      }
+    );
+  }
+
+  @Test
+  public void testGetValidGradeWithSpaces() {
+    assertDoesNotThrow(
+      () -> {
+        Assertions.assertEquals(
+          3,
+          Validator.getValidGrade("   3   "),
+          "Valid grade should be returned with spaces trimmed"
+        );
+      }
+    );
+  }
+
+  @Test
+  public void testGetValidGradeWithNull() {
+    Assertions.assertThrows(
+      IllegalArgumentException.class,
+      () -> Validator.getValidGrade(null),
+      "Grade cannot be null"
+    );
+  }
+
+  @Test
+  public void testGetValidGradeWithEmpty() {
+    Assertions.assertThrows(
+      IllegalArgumentException.class,
+      () -> Validator.getValidGrade(""),
+      "Grade cannot be empty"
+    );
+  }
+
+  @Test
+  public void testGetValidGradeWithInvalidFormat() {
+    Assertions.assertThrows(
+      IllegalArgumentException.class,
+      () -> Validator.getValidGrade("invalid-grade"),
+      "Grade must be a string of digits"
+    );
+  }
+
+  @Test
+  public void testGetValidGradeWithInvalidLength() {
+    Assertions.assertThrows(
+      IllegalArgumentException.class,
+      () -> Validator.getValidGrade("1234567890"),
+      "Grade must be a string of 1 or 2 digits"
+    );
+  }
+
+  @Test
+  public void testGetValidGradeWithInvalidCharacters() {
+    String[] invalidCharacters = {"!", "#", "$", "%", "^", "&", "*", "(", ")", "=", "+", "{", "}", "[", "]", "|", "\\", ":", ";", "\"", "'", "<", ">", ",", "?", "/", "~"};
+    for (String invalidCharacter : invalidCharacters) {
+      Assertions.assertThrows(
+        IllegalArgumentException.class,
+        () -> Validator.getValidGrade("3" + invalidCharacter),
+        "Grade cannot contain special characters"
+      );
+    }
+  }
+
+  @Test
+  public void testGetValidGradeWithInvalidValue() {
+    Assertions.assertThrows(
+      IllegalArgumentException.class,
+      () -> Validator.getValidGrade("11"),
+      "Grade must be between 0 and 10"
+    );
+  }
+
+  @Test
+  public void testGetValidGradeWithNegativeValue() {
+    Assertions.assertThrows(
+      IllegalArgumentException.class,
+      () -> Validator.getValidGrade("-1"),
+      "Grade must be between 0 and 10"
+    );
+  }
 }
