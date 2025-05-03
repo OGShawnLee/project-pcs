@@ -1,3 +1,10 @@
 package org.example.business.dto;
 
-public record AccountDTO(String email, String password) {}
+import org.example.business.validation.Validator;
+
+public record AccountDTO(String email, String password) {
+  public AccountDTO(String email, String password) {
+    this.email = Validator.getValidEmail(email);
+    this.password = Validator.getValidText(password, "Contraseña");
+  }
+}
