@@ -1,4 +1,4 @@
-package org.example.business.validation;
+package org.example.business;
 
 public class Validator {
   private static final String EMAIL_REGEX = "^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$";

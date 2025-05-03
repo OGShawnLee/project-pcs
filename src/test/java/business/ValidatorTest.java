@@ -1,6 +1,6 @@
-package business.validation;
+package business;
 
-import org.example.business.validation.Validator;
+import org.example.business.Validator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

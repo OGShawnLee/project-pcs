@@ -1,6 +1,6 @@
 package org.example.business.dto;
 
-import org.example.business.validation.Validator;
+import org.example.business.Validator;
 
 import java.time.LocalDateTime;
 
