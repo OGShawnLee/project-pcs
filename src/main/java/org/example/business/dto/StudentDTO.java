@@ -4,7 +4,7 @@ import org.example.business.validation.Validator;
 
 public class StudentDTO extends Person {
   private final String id;
-  private final String finalGrade;
+  private final int finalGrade;
 
   public StudentDTO(StudentBuilder builder) {
     super(builder);
@@ -16,19 +16,21 @@ public class StudentDTO extends Person {
     return id;
   }
 
-  public String getFinalGrade() { return finalGrade;}
+  public int getFinalGrade() {
+    return finalGrade;
+  }
 
   public static class StudentBuilder extends PersonBuilder<StudentBuilder> {
     private String id;
-    private String finalGrade;
+    private int finalGrade;
 
     public StudentBuilder setID(String id) throws IllegalArgumentException {
       this.id = Validator.getValidEnrollment(id);
       return this;
     }
 
-    public StudentBuilder setFinalGrade(String finalGrade) {
-      this.finalGrade = finalGrade;
+    public StudentBuilder setFinalGrade(int finalGrade) {
+      this.finalGrade = Validator.getValidGrade(finalGrade);
       return this;
     }
 

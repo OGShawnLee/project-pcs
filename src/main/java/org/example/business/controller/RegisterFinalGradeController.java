@@ -55,7 +55,7 @@ public class RegisterFinalGradeController {
                     .setMaternalLastName(currentStudent.getMaternalLastName())
                     .setEmail(currentStudent.getEmail())
                     .setState(currentStudent.getState())
-                    .setFinalGrade(String.valueOf(newFinalGrade))
+                    .setFinalGrade(newFinalGrade)
                     .build();
 
             StudentDAO studentDAO = new StudentDAO();

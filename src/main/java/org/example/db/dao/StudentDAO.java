@@ -31,7 +31,7 @@ public class StudentDAO extends DAOPattern<StudentDTO, String> {
       .setMaternalLastName(resultSet.getString("maternal_last_name"))
       .setState(resultSet.getString("state"))
       .setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime())
-      .setFinalGrade(resultSet.getString("final_grade"))
+      .setFinalGrade(resultSet.getInt("final_grade"))
       .build();
   }
 
@@ -46,7 +46,7 @@ public class StudentDAO extends DAOPattern<StudentDTO, String> {
       statement.setString(3, dataObject.getName());
       statement.setString(4, dataObject.getPaternalLastName());
       statement.setString(5, dataObject.getMaternalLastName());
-      statement.setString(6, dataObject.getFinalGrade());
+      statement.setInt(6, dataObject.getFinalGrade());
 
       statement.executeUpdate();
     }
@@ -99,7 +99,7 @@ public class StudentDAO extends DAOPattern<StudentDTO, String> {
       statement.setString(2, dataObject.getPaternalLastName());
       statement.setString(3, dataObject.getMaternalLastName());
       statement.setString(4, dataObject.getState());
-      statement.setInt(5, Integer.parseInt((dataObject.getFinalGrade())));
+      statement.setInt(5, dataObject.getFinalGrade());
       statement.setString(6, dataObject.getID());
       statement.executeUpdate();
     }

@@ -88,6 +88,10 @@ public class Validator {
     throw new IllegalArgumentException("La calificación debe ser un número entero entre 0 y 10.");
   }
 
+  public static int getValidGrade(int value) throws IllegalArgumentException {
+    return getValidGrade(String.valueOf(value));
+  }
+
   private static String getValidName(String value, String name) throws IllegalArgumentException {
     if (isValidName(value, 3, 128)) {
       return value.trim();

@@ -50,7 +50,7 @@ public class RegisterStudentController {
                 .setName(fieldName.getText())
                 .setID(fieldIdStudent.getText())
                 .setEmail(fieldEmail.getText())
-                .setFinalGrade("0")
+                .setFinalGrade(0)
                 .build();
 
         AccountDTO existingAccount = ACCOUNT_DAO.getOne(dataObjectStudent.getEmail());

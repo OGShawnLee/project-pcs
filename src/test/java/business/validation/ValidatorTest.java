@@ -908,4 +908,46 @@ public class ValidatorTest {
       "Grade must be between 0 and 10"
     );
   }
+
+  @Test
+  public void testGetValidGradeWithNonIntegerValue() {
+    Assertions.assertThrows(
+      IllegalArgumentException.class,
+      () -> Validator.getValidGrade("3.0"),
+      "Grade must be an integer between 0 and 10"
+    );
+  }
+
+  @Test
+  public void testGetValidGradeWithInteger() {
+    assertDoesNotThrow(
+      () -> {
+        for (int i = 0; i <= 10; i++) {
+          Assertions.assertEquals(
+            i,
+            Validator.getValidGrade(i),
+            "Valid grade should be returned as an integer"
+          );
+        }
+      }
+    );
+  }
+
+  @Test
+  public void testGetValidGradeWithNegativeInteger() {
+    Assertions.assertThrows(
+      IllegalArgumentException.class,
+      () -> Validator.getValidGrade(-1),
+      "Grade must be between 0 and 10"
+    );
+  }
+
+  @Test
+  public void testGetValidGradeWithOutOfRangeInteger() {
+    Assertions.assertThrows(
+      IllegalArgumentException.class,
+      () -> Validator.getValidGrade(11),
+      "Grade must be between 0 and 10"
+    );
+  }
 }
