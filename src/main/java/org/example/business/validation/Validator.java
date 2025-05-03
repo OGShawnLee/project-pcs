@@ -1,13 +1,12 @@
 package org.example.business.validation;
 
-import org.example.business.Result;
-
 public class Validator {
   private static final String EMAIL_REGEX = "^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
   private static final String ENROLLMENT_REGEX = "^[0-9]{8}$";
   private static final String NAME_REGEX_SPANISH = "^[A-Za-zÑñÁáÉéÍíÓóÚúÜü\\s]+$";
   private static final String WORKER_ID_REGEX = "^[A-Z0-9]{5}$";
   private static final String FLEXIBLE_NAME_REGEX = "^[A-Za-zÑñÁáÉéÍíÓóÚúÜü0-9\\s\\-_/.:]+$";
+  private static final String GRADE_REGEX = "^(10|[0-9])$";
 
   private static boolean isValidEmail(String email) {
     return isValidString(email) && email.trim().matches(EMAIL_REGEX);
@@ -79,6 +78,14 @@ public class Validator {
     }
 
     throw new IllegalArgumentException(name + " no puede ser nulo o vacío.");
+  }
+
+  public static int getValidGrade(String value) throws IllegalArgumentException {
+    if (isValidString(value) && value.trim().matches(GRADE_REGEX)) {
+      return Integer.parseInt(value.trim());
+    }
+
+    throw new IllegalArgumentException("La calificación debe ser un número entero entre 0 y 10.");
   }
 
   private static String getValidName(String value, String name) throws IllegalArgumentException {
@@ -187,19 +194,5 @@ public class Validator {
     }
 
     throw new IllegalArgumentException("ID de Trabajador debe ser una cadena de texto de 5 carácteres de letras o digitos.");
-  }
-
-  public static Result<String> getFilledString(String value, String message) {
-    if (value == null ||value.trim().isEmpty()) {
-      return Result.createFailureResult(message);
-    }
-    return Result.createSuccessResult(value);
-  }
-
-  public static int getValidGrade(String value) throws IllegalArgumentException {
-    if (value != null && value.trim().matches("^(10|[0-9])$")) {
-      return Integer.parseInt(value.trim());
-    }
-    throw new IllegalArgumentException("La calificación debe ser un número entero entre 0 y 10.");
   }
 }
