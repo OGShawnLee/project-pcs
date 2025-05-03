@@ -5,7 +5,7 @@ import org.example.business.validation.Validator;
 import java.time.LocalDateTime;
 
 public class EvaluationDTO {
-    private final int idProject;
+    private int idProject;
     private final String idStudent;
     private final String idAcademic;
     private final int skillGrade;
@@ -29,6 +29,10 @@ public class EvaluationDTO {
 
     public int getIDProject() {
         return idProject;
+    }
+
+    public void setIDProject(int idProject) {
+        this.idProject = idProject;
     }
 
     public String getIDStudent() {
@@ -61,6 +65,24 @@ public class EvaluationDTO {
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
+    }
+
+    @Override
+    public boolean equals(Object instance) {
+        if (this == instance) return true;
+        if (instance == null || getClass() != instance.getClass()) return false;
+
+        EvaluationDTO that = (EvaluationDTO) instance;
+
+        return
+          idAcademic.equals(that.idAcademic) &&
+          idStudent.equals(that.idStudent) &&
+          idProject == that.idProject &&
+          contentGrade == that.contentGrade &&
+          feedback.equals(that.feedback) &&
+          requirementsGrade == that.requirementsGrade &&
+          skillGrade == that.skillGrade &&
+          writingGrade == that.writingGrade;
     }
 
     public static class EvaluationBuilder {
