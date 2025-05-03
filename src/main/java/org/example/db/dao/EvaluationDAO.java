@@ -1,106 +1,122 @@
 package org.example.db.dao;
 
 import org.example.business.dto.EvaluationDTO;
+import org.example.db.dao.filter.FilterEvaluation;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EvaluationDAO extends DAOPattern<EvaluationDTO, String> {
-    private static final String CREATE_QUERY =
-            "INSERT INTO Evaluation (id_student, id_project, id_academic, skill_grade, content_grade, writing_grade, requirements_grade, feedback, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())";
-    private static final String GET_ALL_QUERY = "SELECT * FROM Evaluation";
-    private static final String GET_QUERY = "SELECT * FROM Evaluation WHERE id_student = ?";
-    private static final String UPDATE_QUERY =
-            "UPDATE Evaluation SET id_academic = ?, skill_grade = ?, content_grade = ?, writing_grade = ?, requirements_grade = ?, feedback = ? WHERE id_student = ? AND id_project = ?";
-    private static final String DELETE_QUERY = "DELETE FROM Evaluation WHERE id_student = ? AND id_project = ?";
+public class EvaluationDAO extends DAOPattern<EvaluationDTO, FilterEvaluation> {
+  private static final String CREATE_QUERY =
+    "INSERT INTO Evaluation (id_academic, id_project, id_student, content_grade, feedback, requirements_grade, skill_grade, writing_grade) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+  private static final String GET_ALL_QUERY = "SELECT * FROM Evaluation";
+  private static final String GET_QUERY = "SELECT * FROM Evaluation WHERE id_academic = ? AND id_project = ? AND id_student = ?";
+  private static final String UPDATE_QUERY =
+    "UPDATE Evaluation SET content_grade = ?, feedback = ?, requirements_grade = ?, skill_grade = ?, writing_grade = ? WHERE id_academic = ? AND id_project = ? AND id_student = ?";
+  private static final String DELETE_QUERY = "DELETE FROM Evaluation WHERE id_academic = ? AND id_project = ? AND id_student = ?";
 
-    @Override
-    public EvaluationDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
-        return new EvaluationDTO.EvaluationBuilder()
-                .setIDStudent(resultSet.getString("id_student"))
-                .setIDProject(resultSet.getInt("id_project"))
-                .setIDAcademic(resultSet.getString("id_academic"))
-                .setSkillGrade(resultSet.getString("skill_grade"))
-                .setContentGrade(resultSet.getString("content_grade"))
-                .setWritingGrade(resultSet.getString("writing_grade"))
-                .setRequirementsGrade(resultSet.getString("requirements_grade"))
-                .setFeedback(resultSet.getString("feedback"))
-                .setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime())
-                .build();
+  @Override
+  public EvaluationDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
+    return new EvaluationDTO.EvaluationBuilder()
+      .setIDAcademic(resultSet.getString("id_academic"))
+      .setIDProject(resultSet.getInt("id_project"))
+      .setIDStudent(resultSet.getString("id_student"))
+      .setContentGrade(resultSet.getString("content_grade"))
+      .setFeedback(resultSet.getString("feedback"))
+      .setSkillGrade(resultSet.getString("skill_grade"))
+      .setRequirementsGrade(resultSet.getString("requirements_grade"))
+      .setWritingGrade(resultSet.getString("writing_grade"))
+      .setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime())
+      .build();
+  }
+
+  @Override
+  public void createOne(EvaluationDTO evaluationDTO) throws SQLException {
+    try (
+      Connection connection = getConnection();
+      PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
+    ) {
+      statement.setString(1, evaluationDTO.getIDAcademic());
+      statement.setInt(2, evaluationDTO.getIDProject());
+      statement.setString(3, evaluationDTO.getIDStudent());
+      statement.setInt(4, evaluationDTO.getContentGrade());
+      statement.setString(5, evaluationDTO.getFeedback());
+      statement.setInt(6, evaluationDTO.getRequirementsGrade());
+      statement.setInt(7, evaluationDTO.getSkillGrade());
+      statement.setInt(8, evaluationDTO.getWritingGrade());
+      statement.executeUpdate();
     }
+  }
 
-    @Override
-    public void createOne(EvaluationDTO evaluationDTO) throws SQLException {
-        try (Connection conn = getConnection();
-             PreparedStatement stmt = conn.prepareStatement(CREATE_QUERY)) {
-            stmt.setString(1, evaluationDTO.getIDStudent());
-            stmt.setInt(2, evaluationDTO.getIDProject());
-            stmt.setString(3, evaluationDTO.getIDAcademic());
-            stmt.setInt(4, evaluationDTO.getSkillGrade());
-            stmt.setInt(5, evaluationDTO.getContentGrade());
-            stmt.setInt(6, evaluationDTO.getWritingGrade());
-            stmt.setInt(7, evaluationDTO.getRequirementsGrade());
-            stmt.setString(8, evaluationDTO.getFeedback());
-            stmt.executeUpdate();
-        }
+  @Override
+  public List<EvaluationDTO> getAll() throws SQLException {
+    try (
+      Connection connection = getConnection();
+      PreparedStatement statement = connection.prepareStatement(GET_ALL_QUERY);
+      ResultSet resultSet = statement.executeQuery()
+    ) {
+      List<EvaluationDTO> list = new ArrayList<>();
+
+      while (resultSet.next()) {
+        list.add(createDTOInstanceFromResultSet(resultSet));
+      }
+
+      return list;
     }
+  }
 
-    @Override
-    public List<EvaluationDTO> getAll() throws SQLException {
-        try (Connection conn = getConnection();
-             PreparedStatement stmt = conn.prepareStatement(GET_ALL_QUERY);
-             ResultSet rs = stmt.executeQuery()) {
-            List<EvaluationDTO> list = new ArrayList<>();
-            while (rs.next()) {
-                list.add(createDTOInstanceFromResultSet(rs));
-            }
-            return list;
+  @Override
+  public EvaluationDTO getOne(FilterEvaluation filter) throws SQLException {
+    try (
+      Connection connection = getConnection();
+      PreparedStatement statement = connection.prepareStatement(GET_QUERY)
+    ) {
+      statement.setString(1, filter.getIDAcademic());
+      statement.setInt(2, filter.getIDProject());
+      statement.setString(3, filter.getIDStudent());
+
+      try (ResultSet resultSet = statement.executeQuery()) {
+        if (resultSet.next()) {
+          return createDTOInstanceFromResultSet(resultSet);
         }
+      }
+
+      return null;
     }
+  }
 
-    @Override
-    public EvaluationDTO getOne(String idStudent) throws SQLException {
-        try (Connection connection = getConnection();
-             PreparedStatement stmt = connection.prepareStatement(GET_QUERY)) {
-            stmt.setString(1, idStudent);
-            try (ResultSet resultSet = stmt.executeQuery()) {
-                if (resultSet.next()) {
-                    return createDTOInstanceFromResultSet(resultSet);
-                }
-            }
-            return null;
-        }
+  @Override
+  public void updateOne(EvaluationDTO evaluationDTO, FilterEvaluation filter) throws SQLException {
+    try (
+      Connection connection = getConnection();
+      PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
+    ) {
+      statement.setInt(1, evaluationDTO.getContentGrade());
+      statement.setString(2, evaluationDTO.getFeedback());
+      statement.setInt(3, evaluationDTO.getRequirementsGrade());
+      statement.setInt(4, evaluationDTO.getSkillGrade());
+      statement.setInt(5, evaluationDTO.getWritingGrade());
+      statement.setString(6, filter.getIDAcademic());
+      statement.setInt(7, filter.getIDProject());
+      statement.setString(8, filter.getIDStudent());
+      statement.executeUpdate();
     }
+  }
 
-    @Override
-    public void updateOne(EvaluationDTO evaluationDTO, String unusedKey) throws SQLException {
-        try (Connection connection = getConnection();
-             PreparedStatement stmt = connection.prepareStatement(UPDATE_QUERY)) {
-            stmt.setString(1, evaluationDTO.getIDAcademic());
-            stmt.setInt(2, evaluationDTO.getSkillGrade());
-            stmt.setInt(3, evaluationDTO.getContentGrade());
-            stmt.setInt(4, evaluationDTO.getWritingGrade());
-            stmt.setInt(5, evaluationDTO.getRequirementsGrade());
-            stmt.setString(6, evaluationDTO.getFeedback());
-            stmt.setString(7, evaluationDTO.getIDStudent());
-            stmt.setInt(8, evaluationDTO.getIDProject());
-            stmt.executeUpdate();
-        }
+  @Override
+  public void deleteOne(FilterEvaluation filter) throws SQLException {
+    try (
+      Connection connection = getConnection();
+      PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)
+    ) {
+      statement.setString(1, filter.getIDAcademic());
+      statement.setInt(2, filter.getIDProject());
+      statement.setString(3, filter.getIDStudent());
+      statement.executeUpdate();
     }
-
-    @Override
-    public void deleteOne(String compositeKey) throws SQLException {
-        String[] keys = compositeKey.split("-");
-        if (keys.length != 2) {
-            throw new IllegalArgumentException("Expected composite key in format 'id_student-id_project'");
-        }
-
-        try (Connection conn = getConnection();
-             PreparedStatement stmt = conn.prepareStatement(DELETE_QUERY)) {
-            stmt.setString(1, keys[0]);
-            stmt.setInt(2, Integer.parseInt(keys[1]));
-            stmt.executeUpdate();
-        }
-    }
+  }
 }
