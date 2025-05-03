@@ -3,9 +3,6 @@ package org.example.gui.controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -14,12 +11,10 @@ import org.example.business.dto.ProjectDTO;
 import org.example.business.dao.ProjectDAO;
 import org.example.gui.AlertDialog;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Objects;
 
-public class ReviewProjectListController {
+public class ReviewProjectListController extends Router {
   private static final ProjectDAO PROJECT_DAO = new ProjectDAO();
   @FXML
   private TableView<ProjectDTO> tableProject;
@@ -58,36 +53,12 @@ public class ReviewProjectListController {
     }
   }
 
-  public void navigateToLandingPage() {
-    try {
-      LandingPageController.navigateToLandingPage(
-        (Stage) tableProject.getScene().getWindow()
-      );
-    } catch (IOException e) {
-      AlertDialog.showError(
-        "No ha sido posible navegar a página de inicio."
-      );
-    }
-  }
-
   public void navigateToRegisterProjectPage() {
-    try {
-      RegisterProjectController.navigateToRegisterProjectPage(
-        (Stage) tableProject.getScene().getWindow()
-      );
-    } catch (IOException e) {
-      AlertDialog.showError(
-        "No ha sido posible navegar a página de registro de proyectos."
-      );
-    }
+    navigateFromThisPageTo("Registrar Proyecto", "RegisterProjectPage");
   }
 
-  public static void navigateToProjectListPage(Stage currentStage) throws IOException {
-    Parent newView = FXMLLoader.load(Objects.requireNonNull(ReviewProjectListController.class.getResource("/org/example/ReviewProjectListPage.fxml")));
-    Scene newScene = new Scene(newView);
-
-    currentStage.setScene(newScene);
-    currentStage.show();
+  public static void navigateToProjectListPage(Stage currentStage) {
+    navigateTo(currentStage, "Listado de Proyectos" , "ReviewProjectListPage");
   }
 
   @FXML

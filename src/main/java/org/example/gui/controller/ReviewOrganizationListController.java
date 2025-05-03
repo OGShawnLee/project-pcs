@@ -3,9 +3,6 @@ package org.example.gui.controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -14,12 +11,10 @@ import org.example.business.dto.OrganizationDTO;
 import org.example.business.dao.OrganizationDAO;
 import org.example.gui.AlertDialog;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Objects;
 
-public class ReviewOrganizationListController {
+public class ReviewOrganizationListController extends Router {
   private static final OrganizationDAO ORGANIZATION_DAO = new OrganizationDAO();
   @FXML
   private TableView<OrganizationDTO> tableOrganization;
@@ -55,36 +50,12 @@ public class ReviewOrganizationListController {
     }
   }
 
-  public void navigateToLandingPage() {
-    try {
-      LandingPageController.navigateToLandingPage(
-        (Stage) tableOrganization.getScene().getWindow()
-      );
-    } catch (IOException e) {
-      AlertDialog.showError(
-        "No ha sido posible navegar a página de inicio."
-      );
-    }
-  }
-
   public void navigateToRegisterOrganizationPage() {
-    try {
-      RegisterOrganizationController.navigateToRegisterOrganizationPage(
-        (Stage) tableOrganization.getScene().getWindow()
-      );
-    } catch (IOException e) {
-      AlertDialog.showError(
-        "No ha sido posible navegar a página de registro de proyectos."
-      );
-    }
+    navigateFromThisPageTo("Registrar Organización", "RegisterOrganizationPage");
   }
 
-  public static void navigateToOrganizationListPage(Stage currentStage) throws IOException {
-    Parent newView = FXMLLoader.load(Objects.requireNonNull(ReviewProjectListController.class.getResource("/org/example/ReviewOrganizationListPage.fxml")));
-    Scene newScene = new Scene(newView);
-
-    currentStage.setScene(newScene);
-    currentStage.show();
+  public static void navigateToOrganizationListPage(Stage currentStage) {
+    navigateTo(currentStage, "Listado de Acádemicos", "ReviewOrganizationListPage");
   }
 
   @FXML

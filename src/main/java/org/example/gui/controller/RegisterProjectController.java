@@ -2,25 +2,16 @@ package org.example.gui.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 import org.example.business.dto.ProjectDTO;
 import org.example.business.dao.ProjectDAO;
 import org.example.gui.AlertDialog;
 
-import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Objects;
 
-public class RegisterProjectController {
+public class RegisterProjectController extends Router {
   private final ProjectDAO PROJECT_DAO = new ProjectDAO();
-  @FXML
-  private AnchorPane container;
   @FXML
   private TextField fieldName;
   @FXML
@@ -49,22 +40,6 @@ public class RegisterProjectController {
   }
 
   public void navigateToProjectList() {
-    try {
-      ReviewProjectListController.navigateToProjectListPage(
-        (Stage) container.getScene().getWindow()
-      );
-    } catch (IOException e) {
-      AlertDialog.showError(
-        "No ha sido posible navegar a página de lista de académicos."
-      );
-    }
-  }
-
-  public static void navigateToRegisterProjectPage(Stage currentStage) throws IOException {
-    Parent newView = FXMLLoader.load(Objects.requireNonNull(RegisterProjectController.class.getResource("/org/example/RegisterProjectPage.fxml")));
-    Scene newScene = new Scene(newView);
-
-    currentStage.setScene(newScene);
-    currentStage.show();
+    ReviewProjectListController.navigateToProjectListPage(getScene());
   }
 }

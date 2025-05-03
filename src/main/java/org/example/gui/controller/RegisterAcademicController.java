@@ -2,28 +2,19 @@ package org.example.gui.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 import org.example.business.dto.AcademicDTO;
 import org.example.business.dto.AccountDTO;
 import org.example.business.dao.AcademicDAO;
 import org.example.business.dao.AccountDAO;
 import org.example.gui.AlertDialog;
 
-import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Objects;
 
-public class RegisterAcademicController {
+public class RegisterAcademicController extends Router {
   private final AccountDAO ACCOUNT_DAO = new AccountDAO();
   private final AcademicDAO ACADEMIC_DAO = new AcademicDAO();
-  @FXML
-  private AnchorPane container;
   @FXML
   private TextField fieldIDAcademic;
   @FXML
@@ -78,22 +69,6 @@ public class RegisterAcademicController {
   }
 
   public void navigateToAcademicList() {
-    try {
-      ReviewAcademicListController.navigateToAcademicListPage(
-        (Stage) container.getScene().getWindow()
-      );
-    } catch (IOException e) {
-      AlertDialog.showError(
-        "No ha sido posible navegar a página de lista de académicos."
-      );
-    }
-  }
-
-  public static void navigateToRegisterAcademicPage(Stage currentStage) throws IOException {
-    Parent newView = FXMLLoader.load(Objects.requireNonNull(RegisterAcademicController.class.getResource("/org/example/RegisterAcademicPage.fxml")));
-    Scene newScene = new Scene(newView);
-
-    currentStage.setScene(newScene);
-    currentStage.show();
+    ReviewAcademicListController.navigateToAcademicListPage(getScene());
   }
 }

@@ -3,9 +3,6 @@ package org.example.gui.controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -14,12 +11,10 @@ import org.example.business.dto.AcademicDTO;
 import org.example.business.dao.AcademicDAO;
 import org.example.gui.AlertDialog;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Objects;
 
-public class ReviewAcademicListController {
+public class ReviewAcademicListController extends Router {
   private static final AcademicDAO ACADEMIC_DAO = new AcademicDAO();
   @FXML
   private TableView<AcademicDTO> tableAcademic;
@@ -61,36 +56,12 @@ public class ReviewAcademicListController {
     }
   }
 
-  public void navigateToLandingPage() {
-    try {
-      LandingPageController.navigateToLandingPage(
-        (Stage) tableAcademic.getScene().getWindow()
-      );
-    } catch (IOException e) {
-      AlertDialog.showError(
-        "No ha sido posible navegar a página de inicio."
-      );
-    }
-  }
-
   public void navigateToRegisterAcademicPage() {
-    try {
-      RegisterAcademicController.navigateToRegisterAcademicPage(
-        (Stage) tableAcademic.getScene().getWindow()
-      );
-    } catch (IOException e) {
-      AlertDialog.showError(
-        "No ha sido posible navegar a página de registro de académicos."
-      );
-    }
+    navigateFromThisPageTo("Registrar Académico", "RegisterAcademicPage");
   }
 
-  public static void navigateToAcademicListPage(Stage currentStage) throws IOException {
-    Parent newView = FXMLLoader.load(Objects.requireNonNull(ReviewAcademicListController.class.getResource("/org/example/ReviewAcademicListPage.fxml")));
-    Scene newScene = new Scene(newView);
-
-    currentStage.setScene(newScene);
-    currentStage.show();
+  public static void navigateToAcademicListPage(Stage currentStage) {
+    navigateTo(currentStage, "Lista de Académicos", "ReviewAcademicListPage");
   }
 
   @FXML
