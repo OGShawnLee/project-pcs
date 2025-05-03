@@ -78,7 +78,7 @@ package org.example.db.dao;
       }
 
       @Override
-      public void updateOne(EnrollmentDTO dataObject, FilterEnrollment filter) throws SQLException, UnsupportedOperationException {
+      public void updateOne(EnrollmentDTO dataObject) throws SQLException, UnsupportedOperationException {
         // TODO: IMPLEMENT METHOD IF NEEDED
         throw new UnsupportedOperationException("EnrollmentDAO: Update Method Not Implemented");
       }

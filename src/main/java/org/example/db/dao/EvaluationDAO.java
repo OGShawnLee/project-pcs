@@ -90,19 +90,19 @@ public class EvaluationDAO extends DAOPattern<EvaluationDTO, FilterEvaluation> {
   }
 
   @Override
-  public void updateOne(EvaluationDTO evaluationDTO, FilterEvaluation filter) throws SQLException {
+  public void updateOne(EvaluationDTO dataObject) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
     ) {
-      statement.setInt(1, evaluationDTO.getContentGrade());
-      statement.setString(2, evaluationDTO.getFeedback());
-      statement.setInt(3, evaluationDTO.getRequirementsGrade());
-      statement.setInt(4, evaluationDTO.getSkillGrade());
-      statement.setInt(5, evaluationDTO.getWritingGrade());
-      statement.setString(6, filter.getIDAcademic());
-      statement.setInt(7, filter.getIDProject());
-      statement.setString(8, filter.getIDStudent());
+      statement.setInt(1, dataObject.getContentGrade());
+      statement.setString(2, dataObject.getFeedback());
+      statement.setInt(3, dataObject.getRequirementsGrade());
+      statement.setInt(4, dataObject.getSkillGrade());
+      statement.setInt(5, dataObject.getWritingGrade());
+      statement.setString(6, dataObject.getIDAcademic());
+      statement.setInt(7, dataObject.getIDProject());
+      statement.setString(8, dataObject.getIDStudent());
       statement.executeUpdate();
     }
   }

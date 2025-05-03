@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 public class ProjectRequestDTO {
   private final String idStudent;
-  private final String idProject;
+  private final int idProject;
   private final String state;
   private final String reasonOfState;
   private final LocalDateTime createdAt;
@@ -23,7 +23,7 @@ public class ProjectRequestDTO {
     return idStudent;
   }
 
-  public String getIDProject() {
+  public int getIDProject() {
     return idProject;
   }
 
@@ -41,7 +41,7 @@ public class ProjectRequestDTO {
 
   public static class ProjectRequestBuilder {
     protected String idStudent;
-    protected String idProject;
+    protected int idProject;
     protected String state;
     protected String reasonOfState;
     protected LocalDateTime createdAt;
@@ -51,7 +51,7 @@ public class ProjectRequestDTO {
       return this;
     }
 
-    public ProjectRequestBuilder setIDProject(String idProject) {
+    public ProjectRequestBuilder setIDProject(int idProject) {
       this.idProject = idProject;
       return this;
     }

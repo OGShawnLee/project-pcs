@@ -23,7 +23,7 @@ public class ProjectRequestDAO extends DAOPattern<ProjectRequestDTO, FilterProje
   public ProjectRequestDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
     return new ProjectRequestDTO.ProjectRequestBuilder()
       .setIDStudent(resultSet.getString("id_student"))
-      .setIDProject(resultSet.getString("id_project"))
+      .setIDProject(resultSet.getInt("id_project"))
       .setState(resultSet.getString("state"))
       .setReasonOfState(resultSet.getString("reason_of_state"))
       .setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime())
@@ -37,7 +37,7 @@ public class ProjectRequestDAO extends DAOPattern<ProjectRequestDTO, FilterProje
       PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
     ) {
       statement.setString(1, dataObject.getIDStudent());
-      statement.setString(2, dataObject.getIDProject());
+      statement.setInt(2, dataObject.getIDProject());
       statement.setString(3, dataObject.getState());
       statement.setString(4, dataObject.getReasonOfState());
       statement.executeUpdate();
@@ -83,15 +83,15 @@ public class ProjectRequestDAO extends DAOPattern<ProjectRequestDTO, FilterProje
   }
 
   @Override
-  public void updateOne(ProjectRequestDTO dataObject, FilterProject filter) throws SQLException {
+  public void updateOne(ProjectRequestDTO dataObject) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
     ) {
       statement.setString(1, dataObject.getState());
       statement.setString(2, dataObject.getReasonOfState());
-      statement.setString(3, filter.getIDStudent());
-      statement.setInt(4, filter.getIDProject());
+      statement.setString(3, dataObject.getIDStudent());
+      statement.setInt(4, dataObject.getIDProject());
       statement.executeUpdate();
     }
   }

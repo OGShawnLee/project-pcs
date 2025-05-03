@@ -113,14 +113,7 @@ public class EvaluationDAOTest {
         .setFeedback("This project is good, but it can be improved.")
         .build();
 
-      EVALUATION_DAO.updateOne(
-        updatedEvaluation,
-        new FilterEvaluation(
-          EVALUATION_DTO.getIDProject(),
-          EVALUATION_DTO.getIDStudent(),
-          EVALUATION_DTO.getIDAcademic()
-        )
-      );
+      EVALUATION_DAO.updateOne(updatedEvaluation);
 
       EvaluationDTO retrievedEvaluation = EVALUATION_DAO.getOne(
         new FilterEvaluation(

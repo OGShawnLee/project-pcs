@@ -86,18 +86,17 @@ public class AcademicDAO extends DAOPattern<AcademicDTO, String> {
   }
 
   @Override
-  public void updateOne(AcademicDTO dataObject, String OriginalID) throws SQLException {
+  public void updateOne(AcademicDTO dataObject) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
     ) {
-      statement.setString(1, dataObject.getID());
-      statement.setString(2, dataObject.getName());
-      statement.setString(3, dataObject.getPaternalLastName());
-      statement.setString(4, dataObject.getMaternalLastName());
-      statement.setString(5, dataObject.getRole());
-      statement.setString(6, dataObject.getState());
-      statement.setString(7, OriginalID);
+      statement.setString(1, dataObject.getName());
+      statement.setString(2, dataObject.getPaternalLastName());
+      statement.setString(3, dataObject.getMaternalLastName());
+      statement.setString(4, dataObject.getRole());
+      statement.setString(5, dataObject.getState());
+      statement.setString(6, dataObject.getID());
       statement.executeUpdate();
     }
   }

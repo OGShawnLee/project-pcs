@@ -99,7 +99,7 @@ public class SelfEvaluationDAO extends DAOPattern<SelfEvaluationDTO, String> {
   }
 
   @Override
-  public void updateOne(SelfEvaluationDTO dataObject, String originalID) throws SQLException {
+  public void updateOne(SelfEvaluationDTO dataObject) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)

@@ -16,7 +16,7 @@ public class PracticeDAO extends DAOPattern<PracticeDTO, FilterPractice> {
   private static final String GET_ALL_QUERY = "SELECT * FROM Practice";
   private static final String GET_QUERY = "SELECT * FROM Practice WHERE id_student = ? AND id_project = ?";
   private static final String UPDATE_QUERY =
-    "UPDATE Practice SET id_project = ?, reason_of_assignation = ? WHERE id_student = ? AND id_project = ?";
+    "UPDATE Practice SET reason_of_assignation = ? WHERE id_student = ? AND id_project = ?";
   private static final String DELETE_QUERY = "DELETE FROM Practice WHERE id_student = ? AND id_project = ?";
 
   @Override
@@ -80,15 +80,14 @@ public class PracticeDAO extends DAOPattern<PracticeDTO, FilterPractice> {
   }
 
   @Override
-  public void updateOne(PracticeDTO dataObject, FilterPractice filter) throws SQLException {
+  public void updateOne(PracticeDTO dataObject) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
     ) {
-      statement.setInt(1, dataObject.getIDProject());
-      statement.setString(2, dataObject.getReasonOfAssignation());
-      statement.setString(3, filter.getIDStudent());
-      statement.setInt(4, filter.getIDPractice());
+      statement.setString(1, dataObject.getReasonOfAssignation());
+      statement.setString(2, dataObject.getIDStudent());
+      statement.setInt(3, dataObject.getIDProject());
       statement.executeUpdate();
     }
   }

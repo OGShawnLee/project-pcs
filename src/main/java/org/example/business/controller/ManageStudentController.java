@@ -106,10 +106,9 @@ public class ManageStudentController {
             }
 
             ACCOUNT_DAO.updateOne(
-                    new AccountDTO(dataObjectStudent.getEmail(), dataObjectStudent.getID()),
-                    previousStudent.getEmail()
+                    new AccountDTO(dataObjectStudent.getEmail(), dataObjectStudent.getID())
             );
-            STUDENT_DAO.updateOne(dataObjectStudent, previousStudent.getID());
+            STUDENT_DAO.updateOne(dataObjectStudent);
 
             String newNRC = fieldNRC.getText().trim();
             if (!newNRC.isEmpty()) {

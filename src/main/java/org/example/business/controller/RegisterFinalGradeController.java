@@ -59,7 +59,7 @@ public class RegisterFinalGradeController {
                     .build();
 
             StudentDAO studentDAO = new StudentDAO();
-            studentDAO.updateOne(updatedStudent, currentStudent.getID());
+            studentDAO.updateOne(updatedStudent);
 
             AlertDialog.showSuccess("La calificación fue asignada correctamente.");
             goToReviewStudentsPage();

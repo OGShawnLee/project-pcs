@@ -83,17 +83,16 @@ public class CourseDAO extends DAOPattern<CourseDTO, String> {
   }
 
   @Override
-  public void updateOne(CourseDTO dataObject, String originalNRC) throws SQLException {
+  public void updateOne(CourseDTO dataObject) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
     ) {
-      statement.setString(1, dataObject.getNRC());
       statement.setString(1, dataObject.getIDAcademic());
       statement.setString(2, dataObject.getSection());
       statement.setDate(3, Common.fromLocalDateTime(dataObject.getStartedAt()));
       statement.setDate(4, Common.fromLocalDateTime(dataObject.getEndedAt()));
-      statement.setString(5, originalNRC);
+      statement.setString(5, dataObject.getNRC());
       statement.executeUpdate();
     }
   }

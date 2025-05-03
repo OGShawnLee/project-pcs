@@ -94,7 +94,9 @@ public class PracticeDAOTest {
         .setReasonOfAssignation("Updated reason of assignation")
         .build();
 
-      PRACTICE_DAO.updateOne(updatedPractice);
+      PRACTICE_DAO.updateOne(
+        updatedPractice
+      );
 
       PracticeDTO retrievedPractice = PRACTICE_DAO.getOne(
         new FilterPractice(StudentDAOTest.STUDENT_DTO.getID(), ProjectDAOTest.PROJECT_DTO.getID())

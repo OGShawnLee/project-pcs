@@ -90,21 +90,18 @@ public class StudentDAO extends DAOPattern<StudentDTO, String> {
   }
 
   @Override
-  public void updateOne(StudentDTO dataObject, String originalID) throws SQLException {
+  public void updateOne(StudentDTO dataObject) throws SQLException {
     try (
-            Connection connection = getConnection();
-            PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
+      Connection connection = getConnection();
+      PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
     ) {
-      statement.setString(1, dataObject.getID());
       statement.setString(1, dataObject.getName());
       statement.setString(2, dataObject.getPaternalLastName());
       statement.setString(3, dataObject.getMaternalLastName());
       statement.setString(4, dataObject.getState());
-      statement.setString(5, dataObject.getFinalGrade());
-      statement.setString(6, originalID);
-
-      int rowsAffected = statement.executeUpdate();
-      System.out.println("Filas actualizadas: " + rowsAffected);
+      statement.setInt(5, Integer.parseInt((dataObject.getFinalGrade())));
+      statement.setString(6, dataObject.getID());
+      statement.executeUpdate();
     }
   }
 
