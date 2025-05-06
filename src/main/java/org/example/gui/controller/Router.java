@@ -4,12 +4,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.example.gui.AlertDialog;
 
 import java.io.IOException;
 import java.util.Objects;
+import java.util.function.Function;
 
 public abstract class Router {
   @FXML
@@ -41,5 +43,39 @@ public abstract class Router {
     } catch (IOException e) {
       AlertDialog.showError("No ha sido posible navegar a: " + pageName + " debido a un error de sistema.");
     }
+  }
+
+  protected static <T> void navigateToManagePage(
+    Stage currentStage,
+    String pageName,
+    String resourceFileName,
+    T dataObject
+  ) {
+    try {
+      FXMLLoader loader = new FXMLLoader(
+        Objects.requireNonNull(Router.class.getResource("/org/example/" + resourceFileName + ".fxml"))
+      );
+      Parent newView = loader.load();
+      Scene newScene = new Scene(newView);
+
+      ManageController<T> controller = loader.getController();
+      controller.initialize(dataObject);
+
+      currentStage.setScene(newScene);
+      currentStage.show();
+    } catch (IOException e) {
+      AlertDialog.showError("No ha sido posible navegar a: " + pageName + " debido a un error de sistema.");
+    }
+  }
+
+  protected <T> void setRowDoubleClickHandler(TableView<T> tableView, Function<T, Void> handler) {
+    tableView.setOnMouseClicked(event -> {
+      if (event.getClickCount() == 2) {
+        T selectedItem = tableView.getSelectionModel().getSelectedItem();
+        if (selectedItem != null) {
+          handler.apply(selectedItem);
+        }
+      }
+    });
   }
 }

@@ -64,8 +64,24 @@ public class ReviewAcademicListController extends Router {
     navigateTo(currentStage, "Lista de Académicos", "ReviewAcademicListPage");
   }
 
+  public void navigateToManageAcademicPage(AcademicDTO currentAcademic) {
+    navigateToManagePage(
+      getScene(),
+      "Gestionar Académico",
+      "ManageAcademicPage",
+      currentAcademic
+    );
+  }
+
   @FXML
   private void initialize() {
     loadAcademicList();
+    setRowDoubleClickHandler(
+      tableAcademic,
+      academic -> {
+        navigateToManageAcademicPage(academic);
+        return null;
+      }
+    );
   }
 }
