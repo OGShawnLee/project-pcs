@@ -61,8 +61,24 @@ public class ReviewProjectListController extends Router {
     navigateTo(currentStage, "Listado de Proyectos" , "ReviewProjectListPage");
   }
 
+  public void navigateToManageProjectPage(ProjectDTO currentProject) {
+    navigateToManagePage(
+      getScene(),
+      "Modificar Proyecto",
+      "ManageProjectPage",
+      currentProject
+    );
+  }
+
   @FXML
   private void initialize() {
     loadProjectList();
+    setRowDoubleClickHandler(
+      tableProject,
+      currentProject -> {
+        navigateToManageProjectPage(currentProject);
+        return null;
+      }
+    );
   }
 }
