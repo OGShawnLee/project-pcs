@@ -58,8 +58,24 @@ public class ReviewOrganizationListController extends Router {
     navigateTo(currentStage, "Listado de Acádemicos", "ReviewOrganizationListPage");
   }
 
+  public void navigateToManageOrganizationPage(OrganizationDTO currentOrganization) {
+    navigateToManagePage(
+      getScene(),
+      "Gestionar Organización",
+      "ManageOrganizationPage",
+      currentOrganization
+    );
+  }
+
   @FXML
   private void initialize() {
     loadProjectList();
+    setRowDoubleClickHandler(
+      tableOrganization,
+      organization -> {
+        navigateToManageOrganizationPage(organization);
+        return null;
+      }
+    );
   }
 }
