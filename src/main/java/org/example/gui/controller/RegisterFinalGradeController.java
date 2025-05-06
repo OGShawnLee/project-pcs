@@ -10,7 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.example.business.dto.StudentDTO;
 import org.example.business.dao.StudentDAO;
-import org.example.gui.AlertDialog;
+import org.example.gui.Modal;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -30,21 +30,21 @@ public class RegisterFinalGradeController {
         if (currentStudent != null) {
             finalGradeField.setText(String.valueOf(student.getFinalGrade()));  // Establece la calificación actual
         } else {
-            AlertDialog.showError("El estudiante no está disponible.");
+            Modal.displayError("El estudiante no está disponible.");
         }
     }
 
     @FXML
     public void updateStudentFinalGrade(ActionEvent event) throws IOException {
         if (currentStudent == null) {
-            AlertDialog.showError("No se ha seleccionado un estudiante.");
+            Modal.displayError("No se ha seleccionado un estudiante.");
             return;
         }
         try {
             int newFinalGrade = Integer.parseInt(finalGradeField.getText());
 
             if (newFinalGrade < 0 || newFinalGrade > 10) {
-                AlertDialog.showError("La calificación final debe estar entre 0 y 10.");
+                Modal.displayError("La calificación final debe estar entre 0 y 10.");
                 return;
             }
 
@@ -61,13 +61,13 @@ public class RegisterFinalGradeController {
             StudentDAO studentDAO = new StudentDAO();
             studentDAO.updateOne(updatedStudent);
 
-            AlertDialog.showSuccess("La calificación fue asignada correctamente.");
+            Modal.displaySuccess("La calificación fue asignada correctamente.");
             goToReviewStudentsPage();
 
         } catch (NumberFormatException e) {
-            AlertDialog.showError("La calificación ingresada no es válida.");
+            Modal.displayError("La calificación ingresada no es válida.");
         } catch (SQLException e){
-            AlertDialog.showError("No se pudieron actualizar los datos.");
+            Modal.displayError("No se pudieron actualizar los datos.");
         }
     }
 

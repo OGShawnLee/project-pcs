@@ -5,7 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import org.example.business.dto.StudentDTO;
 import org.example.business.dao.StudentDAO;
-import org.example.gui.AlertDialog;
+import org.example.gui.Modal;
 
 import java.sql.SQLException;
 
@@ -53,10 +53,10 @@ public class GestionStudentController {
 
             studentDAO.updateOne(updatedStudent);
 
-            AlertDialog.showSuccess("Datos actualizados correctamente.");
+            Modal.displaySuccess("Datos actualizados correctamente.");
 
         } catch (SQLException e) {
-            AlertDialog.showError("No se pudieron actualizar los datos.");
+            Modal.displayError("No se pudieron actualizar los datos.");
         }
     }
 }

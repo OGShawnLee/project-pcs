@@ -16,7 +16,7 @@ import org.example.business.dto.EvaluationDTO;
 import org.example.business.dao.EnrollmentDAO;
 import org.example.business.dao.EvaluationDAO;
 import org.example.business.dao.StudentDAO;
-import org.example.gui.AlertDialog;
+import org.example.gui.Modal;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -110,7 +110,7 @@ public class ReviewEvaluationListController {
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
-            AlertDialog.showError("No se pudo cargar la vista de detalles.");
+            Modal.displayError("No se pudo cargar la vista de detalles.");
         }
     }
 
@@ -120,7 +120,7 @@ public class ReviewEvaluationListController {
             ObservableList<EvaluationDTO> observableList = FXCollections.observableArrayList(evaluationList);
             evaluationTable.setItems(observableList);
         } catch (SQLException e) {
-            AlertDialog.showError("No se pudo mostrar los datos debido a un error en el sistema");
+            Modal.displayError("No se pudo mostrar los datos debido a un error en el sistema");
         }
     }
 
@@ -131,7 +131,7 @@ public class ReviewEvaluationListController {
             ObservableList<EvaluationDTO> observableList = FXCollections.observableArrayList(evaluationList);
             evaluationTable.setItems(observableList);
         } catch (SQLException e) {
-            AlertDialog.showError("No se pudo actualizar la tabla debido a un error en el sistema.");
+            Modal.displayError("No se pudo actualizar la tabla debido a un error en el sistema.");
         }
     }
 

@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 import org.example.business.dto.EvaluationDTO;
 import org.example.business.Validator;
 import org.example.business.dao.EvaluationDAO;
-import org.example.gui.AlertDialog;
+import org.example.gui.Modal;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -52,7 +52,7 @@ public class RegisterEvaluationController {
             String feedback = fieldFeedback.getText().trim();
 
             if (idStudent.isEmpty() || idAcademic.isEmpty()) {
-                AlertDialog.showError("ID del estudiante y del académico son obligatorios.");
+                Modal.displayError("ID del estudiante y del académico son obligatorios.");
                 return;
             }
 
@@ -74,15 +74,15 @@ public class RegisterEvaluationController {
                     .build();
 
             EVALUATION_DAO.createOne(evaluation);
-            AlertDialog.showSuccess("Evaluación registrada correctamente.");
+            Modal.displaySuccess("Evaluación registrada correctamente.");
             returnToMainPage(event);
 
         } catch (NumberFormatException e) {
-            AlertDialog.showError("Asegúrate de ingresar números válidos en los campos de calificación y proyecto.");
+            Modal.displayError("Asegúrate de ingresar números válidos en los campos de calificación y proyecto.");
         } catch (SQLException e) {
-            AlertDialog.showError("Error al registrar la evaluación en la base de datos.");
+            Modal.displayError("Error al registrar la evaluación en la base de datos.");
         } catch (IllegalArgumentException e) {
-            AlertDialog.showError(e.getMessage());
+            Modal.displayError(e.getMessage());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

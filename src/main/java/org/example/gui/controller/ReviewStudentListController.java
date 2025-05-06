@@ -19,7 +19,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.example.business.dto.StudentDTO;
 import org.example.business.dao.StudentDAO;
-import org.example.gui.AlertDialog;
+import org.example.gui.Modal;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -69,7 +69,7 @@ public class ReviewStudentListController {
             ObservableList<StudentDTO> observableList = FXCollections.observableArrayList(studentList);
             studentTable.setItems(observableList);
         } catch (SQLException e) {
-            AlertDialog.showError("No se pudo mostrar los datos debido a un error en el sistema");
+            Modal.displayError("No se pudo mostrar los datos debido a un error en el sistema");
         }
     }
 
@@ -83,7 +83,7 @@ public class ReviewStudentListController {
             ObservableList<StudentDTO> observableList = FXCollections.observableArrayList(filteredList);
             studentTable.setItems(observableList);
         } catch (SQLException e) {
-            AlertDialog.showError("Error al filtrar por estado");
+            Modal.displayError("Error al filtrar por estado");
         }
     }
 
@@ -93,7 +93,7 @@ public class ReviewStudentListController {
             ObservableList<StudentDTO> observableList = FXCollections.observableArrayList(studentList);
             studentTable.setItems(observableList);
         } catch (SQLException e) {
-            AlertDialog.showError("No se pudo actualizar la tabla debido a un error en el sistema.");
+            Modal.displayError("No se pudo actualizar la tabla debido a un error en el sistema.");
         }
     }
 

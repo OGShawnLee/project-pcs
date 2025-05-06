@@ -9,7 +9,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import org.example.business.dto.AcademicDTO;
 import org.example.business.dao.AcademicDAO;
-import org.example.gui.AlertDialog;
+import org.example.gui.Modal;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -50,7 +50,7 @@ public class ReviewAcademicListController extends Controller {
       ObservableList<AcademicDTO> observableAcademicList = FXCollections.observableList(academicList);
       tableAcademic.setItems(observableAcademicList);
     } catch (SQLException e) {
-      AlertDialog.showError(
+      Modal.displayError(
         "No ha sido posible cargar información de académicos debido a un error de sistema."
       );
     }

@@ -16,7 +16,7 @@ import org.example.business.dao.AccountDAO;
 import org.example.business.dao.EnrollmentDAO;
 import org.example.business.dao.StudentDAO;
 import org.example.business.dao.filter.FilterEnrollment;
-import org.example.gui.AlertDialog;
+import org.example.gui.Modal;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -68,7 +68,7 @@ public class ManageStudentController {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            AlertDialog.showError("No se pudo cargar el NRC del estudiante.");
+            Modal.displayError("No se pudo cargar el NRC del estudiante.");
         }
 
         String state = student.getState();
@@ -95,13 +95,13 @@ public class ManageStudentController {
 
             AccountDTO existingAccount = ACCOUNT_DAO.getOne(dataObjectStudent.getEmail());
             if (existingAccount != null && !dataObjectStudent.getEmail().equals(previousStudent.getEmail())) {
-                AlertDialog.showError("No ha sido posible actualizar al estudiante debido a que ya existe una cuenta con ese correo electrónico.");
+                Modal.displayError("No ha sido posible actualizar al estudiante debido a que ya existe una cuenta con ese correo electrónico.");
                 return;
             }
 
             StudentDTO existingStudent = STUDENT_DAO.getOne(dataObjectStudent.getID());
             if (existingStudent != null && !existingStudent.getID().equals(previousStudent.getID())) {
-                AlertDialog.showError("No ha sido posible actualizar al estudiante debido a que ya existe un estudiante con la misma ID de Estudiante.");
+                Modal.displayError("No ha sido posible actualizar al estudiante debido a que ya existe un estudiante con la misma ID de Estudiante.");
                 return;
             }
 
@@ -124,13 +124,13 @@ public class ManageStudentController {
                 enrollmentDAO.createOne(newEnrollment);
             }
 
-            AlertDialog.showSuccess("Estudiante actualizado exitosamente.");
+            Modal.displaySuccess("Estudiante actualizado exitosamente.");
             returnToReviewStudentsPage(event);
         } catch (IllegalArgumentException e) {
-            AlertDialog.showError(e.getMessage());
+            Modal.displayError(e.getMessage());
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            AlertDialog.showError("No ha sido posible actualizar al estudiante debido a un error de sistema.");
+            Modal.displayError("No ha sido posible actualizar al estudiante debido a un error de sistema.");
         }
     }
 

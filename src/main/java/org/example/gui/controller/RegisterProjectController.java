@@ -6,7 +6,7 @@ import javafx.scene.control.TextField;
 
 import org.example.business.dto.ProjectDTO;
 import org.example.business.dao.ProjectDAO;
-import org.example.gui.AlertDialog;
+import org.example.gui.Modal;
 
 import java.sql.SQLException;
 
@@ -31,11 +31,11 @@ public class RegisterProjectController extends Controller {
         .build();
 
       PROJECT_DAO.createOne(dataObjectProject);
-      AlertDialog.showSuccess("El proyecto ha sido registrado exitosamente.");
+      Modal.displaySuccess("El proyecto ha sido registrado exitosamente.");
     } catch (IllegalArgumentException e) {
-      AlertDialog.showError(e.getMessage());
+      Modal.displayError(e.getMessage());
     } catch (SQLException e) {
-      AlertDialog.showError("No ha sido posible registrar el proyecto debido a un error de sistema.");
+      Modal.displayError("No ha sido posible registrar el proyecto debido a un error de sistema.");
     }
   }
 

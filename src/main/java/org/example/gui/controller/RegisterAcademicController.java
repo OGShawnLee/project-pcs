@@ -8,7 +8,7 @@ import org.example.business.dto.AcademicDTO;
 import org.example.business.dto.AccountDTO;
 import org.example.business.dao.AcademicDAO;
 import org.example.business.dao.AccountDAO;
-import org.example.gui.AlertDialog;
+import org.example.gui.Modal;
 
 import java.sql.SQLException;
 
@@ -47,24 +47,24 @@ public class RegisterAcademicController extends Controller {
 
       AccountDTO existingAccount = ACCOUNT_DAO.getOne(dataObjectAcademic.getEmail());
       if (existingAccount != null) {
-        AlertDialog.showError("No ha sido posible registrar el académico debido a que ya existe una cuenta con ese correo electrónico.");
+        Modal.displayError("No ha sido posible registrar el académico debido a que ya existe una cuenta con ese correo electrónico.");
         return;
       }
 
       AcademicDTO existingAcademic = ACADEMIC_DAO.getOne(dataObjectAcademic.getID());
       if (existingAcademic != null) {
-        AlertDialog.showError("No ha sido posible registrar el académico debido a que ya existe un académico con la misma ID de Trabajador.");
+        Modal.displayError("No ha sido posible registrar el académico debido a que ya existe un académico con la misma ID de Trabajador.");
         return;
       }
 
       ACCOUNT_DAO.createOne(new AccountDTO(dataObjectAcademic.getEmail(), dataObjectAcademic.getID()));
       ACADEMIC_DAO.createOne(dataObjectAcademic);
-      AlertDialog.showSuccess("El académico ha sido registrado exitosamente.");
+      Modal.displaySuccess("El académico ha sido registrado exitosamente.");
     } catch (IllegalArgumentException e) {
-      AlertDialog.showError(e.getMessage());
+      Modal.displayError(e.getMessage());
     } catch (SQLException e) {
       System.out.println(e.getMessage());
-      AlertDialog.showError("No ha sido posible registrar el académico debido a un error de sistema.");
+      Modal.displayError("No ha sido posible registrar el académico debido a un error de sistema.");
     }
   }
 

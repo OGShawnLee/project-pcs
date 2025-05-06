@@ -9,7 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.example.business.dto.StudentDTO;
 import org.example.business.dao.StudentDAO;
-import org.example.gui.AlertDialog;
+import org.example.gui.Modal;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -31,7 +31,7 @@ public class InsertToFinalGradeController extends InsertIdController {
 
         try {
             if (studentId.isEmpty()) {
-                AlertDialog.showError("Por favor, ingrese un ID de estudiante.");
+                Modal.displayError("Por favor, ingrese un ID de estudiante.");
                 return;
             }
 
@@ -39,7 +39,7 @@ public class InsertToFinalGradeController extends InsertIdController {
             StudentDTO student = studentDAO.getOne(studentId);
 
             if (student == null) {
-                AlertDialog.showError("No se encontró un estudiante con ese ID.");
+                Modal.displayError("No se encontró un estudiante con ese ID.");
                 return;
             }
 
@@ -59,7 +59,7 @@ public class InsertToFinalGradeController extends InsertIdController {
                 stage.close();
             }
         } catch (IOException e) {
-            AlertDialog.showError("Se produjo un error, intente más tarde.");
+            Modal.displayError("Se produjo un error, intente más tarde.");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

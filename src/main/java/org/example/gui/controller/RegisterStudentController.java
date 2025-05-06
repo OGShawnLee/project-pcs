@@ -17,7 +17,7 @@ import org.example.business.dao.AccountDAO;
 import org.example.business.dao.CourseDAO;
 import org.example.business.dao.EnrollmentDAO;
 import org.example.business.dao.StudentDAO;
-import org.example.gui.AlertDialog;
+import org.example.gui.Modal;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -55,26 +55,26 @@ public class RegisterStudentController {
 
         AccountDTO existingAccount = ACCOUNT_DAO.getOne(dataObjectStudent.getEmail());
         if (existingAccount != null) {
-            AlertDialog.showError("No ha sido posible registrar al estudiante debido a que ya existe una cuenta con ese correo electrónico.");
+            Modal.displayError("No ha sido posible registrar al estudiante debido a que ya existe una cuenta con ese correo electrónico.");
             return;
         }
 
         StudentDTO existingStudent = STUDENT_DAO.getOne(dataObjectStudent.getID());
         if (existingStudent != null) {
-            AlertDialog.showError("No ha sido posible registrar al estudiante debido a que ya existe un estudiante con la misma ID de Trabajador.");
+            Modal.displayError("No ha sido posible registrar al estudiante debido a que ya existe un estudiante con la misma ID de Trabajador.");
             return;
         }
 
         String nrc = fieldNRC.getText().trim();
         if (nrc.isEmpty()) {
-            AlertDialog.showError("Debe ingresar un NRC.");
+            Modal.displayError("Debe ingresar un NRC.");
             return;
         }
 
         CourseDAO courseDAO = new CourseDAO();
         CourseDTO course = courseDAO.getOne(nrc);
         if (course == null) {
-            AlertDialog.showError("El NRC ingresado no existe en el sistema.");
+            Modal.displayError("El NRC ingresado no existe en el sistema.");
             return;
         }
 
@@ -85,13 +85,13 @@ public class RegisterStudentController {
                 .setIDStudent(dataObjectStudent.getID())
                 .build();
         ENROLLMENT_DAO.createOne(enrollment);
-        AlertDialog.showSuccess("Estudiante registrado exitosamente.");
+        Modal.displaySuccess("Estudiante registrado exitosamente.");
         returnToReviewStudentsPage(event);
       } catch (IllegalArgumentException e) {
-        AlertDialog.showError(e.getMessage());
+        Modal.displayError(e.getMessage());
       } catch (SQLException e) {
         System.out.println(e.getMessage());
-        AlertDialog.showError("No ha sido posible registrar al estudiante debido a un error de sistema.");
+        Modal.displayError("No ha sido posible registrar al estudiante debido a un error de sistema.");
       } catch (IOException e) {
           throw new RuntimeException(e);
       }

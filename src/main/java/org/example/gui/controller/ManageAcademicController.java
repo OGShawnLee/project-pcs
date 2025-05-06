@@ -5,7 +5,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import org.example.business.dao.AcademicDAO;
 import org.example.business.dto.AcademicDTO;
-import org.example.gui.AlertDialog;
+import org.example.gui.Modal;
 
 import java.sql.SQLException;
 
@@ -54,12 +54,12 @@ public class ManageAcademicController extends ManageController<AcademicDTO> {
         .build();
 
       ACADEMIC_DAO.updateOne(updatedAcademic);
-      AlertDialog.showSuccess("La organización ha sido actualizada con exito.");
+      Modal.displaySuccess("La organización ha sido actualizada con exito.");
       navigateToAcademicList();
     } catch (IllegalArgumentException e) {
-      AlertDialog.showError(e.getMessage());
+      Modal.displayError(e.getMessage());
     } catch (SQLException e) {
-      AlertDialog.showError("No ha sido posible actualizar la organización debido a un error de sistema.");
+      Modal.displayError("No ha sido posible actualizar la organización debido a un error de sistema.");
     }
   }
 

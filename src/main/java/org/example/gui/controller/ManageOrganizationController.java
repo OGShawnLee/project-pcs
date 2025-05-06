@@ -5,7 +5,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import org.example.business.dao.OrganizationDAO;
 import org.example.business.dto.OrganizationDTO;
-import org.example.gui.AlertDialog;
+import org.example.gui.Modal;
 
 import java.sql.SQLException;
 
@@ -48,12 +48,12 @@ public class ManageOrganizationController extends ManageController<OrganizationD
         .build();
 
       ORGANIZATION_DAO.updateOne(updatedOrganization);
-      AlertDialog.showSuccess("La organización ha sido actualizada con éxito.");
+      Modal.displaySuccess("La organización ha sido actualizada con éxito.");
       navigateToOrganizationList();
     } catch (IllegalArgumentException e) {
-      AlertDialog.showError(e.getMessage());
+      Modal.displayError(e.getMessage());
     } catch (SQLException e) {
-      AlertDialog.showError("No ha sido posible actualizar la organización debido a un error de sistema.");
+      Modal.displayError("No ha sido posible actualizar la organización debido a un error de sistema.");
     }
   }
 

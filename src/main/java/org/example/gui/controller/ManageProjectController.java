@@ -5,7 +5,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import org.example.business.dao.ProjectDAO;
 import org.example.business.dto.ProjectDTO;
-import org.example.gui.AlertDialog;
+import org.example.gui.Modal;
 
 import java.sql.SQLException;
 
@@ -50,12 +50,12 @@ public class ManageProjectController extends ManageController<ProjectDTO> {
         .build();
 
       PROJECT_DAO.updateOne(updatedProject);
-      AlertDialog.showSuccess("El proyecto ha sido actualizado con éxito.");
+      Modal.displaySuccess("El proyecto ha sido actualizado con éxito.");
       navigateToProjectList();
     } catch (IllegalArgumentException e) {
-      AlertDialog.showError(e.getMessage());
+      Modal.displayError(e.getMessage());
     } catch (SQLException e) {
-      AlertDialog.showError("No ha sido posible actualizar el proyecto debido a un error de sistema.");
+      Modal.displayError("No ha sido posible actualizar el proyecto debido a un error de sistema.");
     }
   }
 

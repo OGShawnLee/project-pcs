@@ -9,7 +9,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import org.example.business.dto.ProjectDTO;
 import org.example.business.dao.ProjectDAO;
-import org.example.gui.AlertDialog;
+import org.example.gui.Modal;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -47,7 +47,7 @@ public class ReviewProjectListController extends Controller {
       ObservableList<ProjectDTO> observableProjectList = FXCollections.observableList(projectList);
       tableProject.setItems(observableProjectList);
     } catch (SQLException e) {
-      AlertDialog.showError(
+      Modal.displayError(
         "No ha sido posible cargar información de académicos debido a un error de sistema."
       );
     }

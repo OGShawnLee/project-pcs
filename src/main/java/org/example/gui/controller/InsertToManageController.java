@@ -8,7 +8,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.example.business.dto.StudentDTO;
 import org.example.business.dao.StudentDAO;
-import org.example.gui.AlertDialog;
+import org.example.gui.Modal;
 
 import javafx.scene.control.TextField;
 import java.io.IOException;
@@ -33,7 +33,7 @@ public class InsertToManageController extends InsertIdController {
             StudentDTO student = dao.getOne(idStudent);
 
             if (student == null) {
-                AlertDialog.showError("Estudiante no encontrado");
+                Modal.displayError("Estudiante no encontrado");
                 Parent gestionView = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(
                   "/org/example/ReviewStudentListPage.fxml"
                 )));
@@ -63,7 +63,7 @@ public class InsertToManageController extends InsertIdController {
             }
 
         } catch (SQLException | IOException e) {
-            AlertDialog.showError("No se pudo cargar la gestion debido a un error del sistema");
+            Modal.displayError("No se pudo cargar la gestion debido a un error del sistema");
         }
     }
 }

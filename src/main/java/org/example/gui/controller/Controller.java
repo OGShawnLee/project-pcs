@@ -7,7 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import org.example.gui.AlertDialog;
+import org.example.gui.Modal;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -41,7 +41,7 @@ public abstract class Controller {
       currentStage.setScene(newScene);
       currentStage.show();
     } catch (IOException e) {
-      AlertDialog.showError("No ha sido posible navegar a: " + pageName + " debido a un error de sistema.");
+      Modal.displayError("No ha sido posible navegar a: " + pageName + " debido a un error de sistema.");
     }
   }
 
@@ -64,7 +64,7 @@ public abstract class Controller {
       currentStage.setScene(newScene);
       currentStage.show();
     } catch (IOException e) {
-      AlertDialog.showError("No ha sido posible navegar a: " + pageName + " debido a un error de sistema.");
+      Modal.displayError("No ha sido posible navegar a: " + pageName + " debido a un error de sistema.");
     }
   }
 
