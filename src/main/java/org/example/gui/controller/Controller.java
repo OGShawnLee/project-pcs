@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.function.Function;
 
-public abstract class Router {
+public abstract class Controller {
   @FXML
   protected AnchorPane container;
 
@@ -33,7 +33,7 @@ public abstract class Router {
     try {
       Parent newView = FXMLLoader.load(
         Objects.requireNonNull(
-          Router.class.getResource("/org/example/" + resourceFileName + ".fxml")
+          Controller.class.getResource("/org/example/" + resourceFileName + ".fxml")
         )
       );
       Scene newScene = new Scene(newView);
@@ -53,7 +53,7 @@ public abstract class Router {
   ) {
     try {
       FXMLLoader loader = new FXMLLoader(
-        Objects.requireNonNull(Router.class.getResource("/org/example/" + resourceFileName + ".fxml"))
+        Objects.requireNonNull(Controller.class.getResource("/org/example/" + resourceFileName + ".fxml"))
       );
       Parent newView = loader.load();
       Scene newScene = new Scene(newView);

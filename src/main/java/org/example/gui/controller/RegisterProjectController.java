@@ -10,7 +10,7 @@ import org.example.gui.AlertDialog;
 
 import java.sql.SQLException;
 
-public class RegisterProjectController extends Router {
+public class RegisterProjectController extends Controller {
   private final ProjectDAO PROJECT_DAO = new ProjectDAO();
   @FXML
   private TextField fieldName;

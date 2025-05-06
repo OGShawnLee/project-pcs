@@ -2,7 +2,7 @@ package org.example.gui.controller;
 
 import javafx.stage.Stage;
 
-public class LandingPageController extends Router {
+public class LandingPageController extends Controller {
   public void navigateToReviewAcademicListPage() {
       ReviewAcademicListController.navigateToAcademicListPage(getScene());
   }

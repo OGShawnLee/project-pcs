@@ -14,7 +14,7 @@ import org.example.gui.AlertDialog;
 import java.sql.SQLException;
 import java.util.List;
 
-public class ReviewProjectListController extends Router {
+public class ReviewProjectListController extends Controller {
   private static final ProjectDAO PROJECT_DAO = new ProjectDAO();
   @FXML
   private TableView<ProjectDTO> tableProject;

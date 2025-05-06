@@ -12,7 +12,7 @@ import org.example.gui.AlertDialog;
 
 import java.sql.SQLException;
 
-public class RegisterAcademicController extends Router {
+public class RegisterAcademicController extends Controller {
   private final AccountDAO ACCOUNT_DAO = new AccountDAO();
   private final AcademicDAO ACADEMIC_DAO = new AcademicDAO();
   @FXML

@@ -14,7 +14,7 @@ import org.example.gui.AlertDialog;
 import java.sql.SQLException;
 import java.util.List;
 
-public class ReviewAcademicListController extends Router {
+public class ReviewAcademicListController extends Controller {
   private static final AcademicDAO ACADEMIC_DAO = new AcademicDAO();
   @FXML
   private TableView<AcademicDTO> tableAcademic;
