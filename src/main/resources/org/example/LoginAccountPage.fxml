@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.gui.controller.LoginAccountController">
+   <children>
+      <TextField fx:id="txtEmail" layoutX="150.0" layoutY="143.0" prefHeight="25.0" prefWidth="301.0" />
+      <PasswordField fx:id="txtPassword" layoutX="150.0" layoutY="209.0" prefHeight="25.0" prefWidth="301.0" />
+      <Label layoutX="150.0" layoutY="126.0" text="Cuenta" />
+      <Label layoutX="150.0" layoutY="192.0" text="Contraseña" />
+      <Label layoutX="217.0" layoutY="46.0" text="Inicio de Sesión">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Button layoutX="258.0" layoutY="287.0" mnemonicParsing="false" text="Iniciar sesión" onAction="#handleLogin" />
+   </children>
+</Pane>
