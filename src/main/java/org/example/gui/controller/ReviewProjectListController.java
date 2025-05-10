@@ -3,6 +3,8 @@ package org.example.gui.controller;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -53,6 +55,15 @@ public class ReviewProjectListController extends Controller {
     }
   }
 
+  public void navigateToAssignPage(ProjectDTO currentProject) {
+    navigateToManagePage(
+      getScene(),
+      "Asignar Proyecto",
+      "AssignProjectPage",
+      currentProject
+    );
+  }
+
   public void navigateToRegisterProjectPage() {
     navigateFromThisPageTo("Registrar Proyecto", "RegisterProjectPage");
   }
@@ -70,15 +81,40 @@ public class ReviewProjectListController extends Controller {
     );
   }
 
+  private void createContextMenuHandler() {
+    ContextMenu menu = new ContextMenu();
+
+    MenuItem itemAssign = new MenuItem("Asignar Proyecto");
+    itemAssign.setOnAction(event -> {
+      ProjectDTO currentProject = tableProject.getSelectionModel().getSelectedItem();
+      if (currentProject != null) {
+        navigateToAssignPage(currentProject);
+      }
+    });
+
+    MenuItem itemEdit = new MenuItem("Gestionar Proyecto");
+    itemEdit.setOnAction(event -> {
+      ProjectDTO currentProject = tableProject.getSelectionModel().getSelectedItem();
+      if (currentProject != null) {
+        navigateToManageProjectPage(currentProject);
+      }
+    });
+
+    menu.getItems().addAll(itemAssign, itemEdit);
+
+    tableProject.setOnContextMenuRequested(event -> {
+      ProjectDTO currentProject = tableProject.getSelectionModel().getSelectedItem();
+      if (currentProject != null) {
+        menu.show(tableProject, event.getScreenX(), event.getScreenY());
+      } else {
+        menu.hide();
+      }
+    });
+  }
+
   @FXML
   private void initialize() {
     loadProjectList();
-    setRowDoubleClickHandler(
-      tableProject,
-      currentProject -> {
-        navigateToManageProjectPage(currentProject);
-        return null;
-      }
-    );
+    createContextMenuHandler();
   }
 }

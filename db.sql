@@ -151,6 +151,22 @@ CREATE TABLE MonthlyReport (
     FOREIGN KEY (id_project) REFERENCES Project(id_project) ON DELETE CASCADE
 );
 
+# TODO: Add to the Diagram and Dictionary
+CREATE OR REPLACE VIEW StudentPractice AS
+SELECT
+    Student.id_student,
+    Student.email,
+    Student.name,
+    Student.paternal_last_name,
+    Student.maternal_last_name,
+    Student.created_at,
+    Student.state,
+    Student.final_grade,
+    Practice.id_project,
+    Practice.reason_of_assignation
+FROM Student
+JOIN Practice ON Student.id_student = Practice.id_student;
+
 CREATE USER practice_admin@localhost IDENTIFIED BY 'ADMIN';
 CREATE ROLE practice_admin_role;
 GRANT SELECT, INSERT, UPDATE, DELETE ON Practice.* TO practice_admin@localhost;

@@ -69,6 +69,24 @@ public class StudentDAO extends DAOPattern<StudentDTO, String> {
     }
   }
 
+  public List<StudentDTO> getAllWithNoProject() throws SQLException {
+    try (
+      Connection connection = getConnection();
+      PreparedStatement statement = connection.prepareStatement(
+        "SELECT * FROM Student WHERE id_student NOT IN (SELECT id_student FROM Practice) AND state = 'ACTIVE'"
+      );
+      ResultSet resultSet = statement.executeQuery()
+    ) {
+      ArrayList<StudentDTO> list = new ArrayList<>();
+
+      while (resultSet.next()) {
+        list.add(createDTOInstanceFromResultSet(resultSet));
+      }
+
+      return list;
+    }
+  }
+
   @Override
   public StudentDTO getOne(String filter) throws SQLException {
     try (
