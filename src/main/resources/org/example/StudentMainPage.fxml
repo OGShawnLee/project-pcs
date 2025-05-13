@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.gui.controller.StudentMainController">
+   <children>
+      <Button layoutX="66.0" layoutY="81.0" mnemonicParsing="false" onAction="#handleReviewStudentProjectAction" prefHeight="25.0" prefWidth="180.0" text="Mi Proyecto" />
+      <Button layoutX="66.0" layoutY="124.0" mnemonicParsing="false" onAction="#handleRegisterProjectRequestAction" prefHeight="25.0" prefWidth="180.0" text="Solicitar Proyecto" />
+      <Button layoutX="66.0" layoutY="165.0" mnemonicParsing="false" onAction="#handleUpdateStudentAction" prefHeight="25.0" prefWidth="180.0" text="Actualizar Datos" />
+      <Button layoutX="66.0" layoutY="208.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="180.0" text="Cronograma de actividades" />
+      <Button layoutX="322.0" layoutY="81.0" mnemonicParsing="false" onAction="#handleRegisterSelfEvaluationAction" prefHeight="25.0" prefWidth="180.0" text="Registrar Autoevaluacion" />
+      <Button layoutX="322.0" layoutY="124.0" mnemonicParsing="false" onAction="#handleRegisterMonthlyReportAction" prefHeight="25.0" prefWidth="180.0" text="Registrar Reporte Mensual" />
+      <Label layoutX="160.0" layoutY="27.0" text="Menu Principal Estudiante">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

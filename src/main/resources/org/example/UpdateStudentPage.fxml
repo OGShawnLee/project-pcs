@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="408.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.gui.controller.UpdateStudentController">
+   <children>
+      <Button layoutX="253.0" layoutY="352.0" mnemonicParsing="false" onAction="#updateStudentData" prefHeight="25.0" prefWidth="70.0" text="Actualizar" />
+      <Label layoutX="61.0" layoutY="93.0" text="Apellido Paterno" />
+      <TextField fx:id="paternalSurnameField" layoutX="59.0" layoutY="110.0" prefHeight="25.0" prefWidth="453.0" />
+      <Label layoutX="256.0" layoutY="36.0" text="Mi Perfil">
+         <font>
+            <Font size="24.0" />
+         </font></Label>
+      <Label layoutX="61.0" layoutY="158.0" text="Apellido Materno" />
+      <TextField fx:id="maternalSurnameField" layoutX="61.0" layoutY="175.0" prefHeight="25.0" prefWidth="453.0" />
+      <Label layoutX="61.0" layoutY="223.0" text="Nombre" />
+      <TextField fx:id="nameField" layoutX="59.0" layoutY="240.0" prefHeight="25.0" prefWidth="453.0" />
+      <Label layoutX="59.0" layoutY="284.0" text="Contraseña" />
+      <TextField fx:id="passwordField" layoutX="59.0" layoutY="301.0" prefHeight="25.0" prefWidth="453.0" />
+      <Button layoutX="57.0" layoutY="41.0" mnemonicParsing="false" onAction="#returnToMainPage" text="Volver" />
+   </children>
+</Pane>

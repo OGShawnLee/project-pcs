@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<Pane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.gui.controller.ReviewStudentProjectController">
+    <children>
+        <AnchorPane>
+            <children>
+                <Label layoutX="232.0" layoutY="45.0" text="Mi Proyecto">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </Label>
+
+                <Label layoutX="43.0" layoutY="117.0" text="Nombre del Proyecto:" />
+                <Label fx:id="labelProjectName" layoutX="250.0" layoutY="117.0" text="-" />
+
+                <Label layoutX="43.0" layoutY="158.0" text="Nombre de la Organización vinculada:" />
+                <Label fx:id="labelOrganization" layoutX="290.0" layoutY="158.0" text="-" />
+
+                <Label layoutX="43.0" layoutY="200.0" text="Correo organización vinculada:" />
+                <Label fx:id="labelEmail" layoutX="290.0" layoutY="200.0" text="-" />
+
+                <Label layoutX="43.0" layoutY="242.0" text="Metodología:" />
+                <Label fx:id="labelMethodology" layoutX="150.0" layoutY="242.0" text="-" />
+
+                <Label layoutX="43.0" layoutY="281.0" text="Sector:" />
+                <Label fx:id="labelSector" layoutX="150.0" layoutY="281.0" text="-" />
+            <Button layoutX="43.0" layoutY="50.0" mnemonicParsing="false" onAction="#returnToMainPage" text="Volver" />
+            </children>
+        </AnchorPane>
+    </children>
+</Pane>

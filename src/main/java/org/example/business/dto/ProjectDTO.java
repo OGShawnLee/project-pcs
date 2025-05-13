@@ -80,7 +80,7 @@ public class ProjectDTO {
     }
 
     public ProjectBuilder setMethodology(String methodology) throws IllegalArgumentException {
-      this.methodology = Validator.getValidFlexibleName(methodology, "Metodología", 3, 128);
+      this.methodology = Validator.getValidFlexibleName(methodology, "Metodología", 2, 128);
       return this;
     }
 

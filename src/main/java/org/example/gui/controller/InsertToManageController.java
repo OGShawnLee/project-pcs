@@ -62,7 +62,9 @@ public class InsertToManageController extends InsertIdController {
                 stage.close();
             }
 
-        } catch (SQLException | IOException e) {
+        } catch (SQLException e) {
+            Modal.displayError("No se pudo cargar la gestion debido a un error del sistema");
+        } catch (IOException e) {
             Modal.displayError("No se pudo cargar la gestion debido a un error del sistema");
         }
     }
