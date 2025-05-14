@@ -4,6 +4,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -46,7 +48,6 @@ public class LoginAccountController {
                 if (academic != null) {
                     Session.startSession(academic);
                     String role = academic.getRole();
-                    System.out.println("ROL OBTENIDO: [" + role + "]");
                     switch (role.trim().toLowerCase()) {
                         case "professor":
                             openMainPage("/org/example/AcademicMainPage.fxml");
@@ -74,7 +75,7 @@ public class LoginAccountController {
 
                 Modal.displayError("La cuanta a la que intenta acceder no es estudiante ni academico");
             } else {
-                Modal.displayError("Usuario y/o contraseña no validas");
+                Modal.displayError("Usuario y/o contraseña inexistentes");
             }
         } catch (SQLException e) {
             Modal.displayError("Ocurrio un error de conexión con la base de datos");
