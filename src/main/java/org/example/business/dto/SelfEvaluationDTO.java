@@ -1,5 +1,6 @@
 package org.example.business.dto;
 
+import org.example.business.Validator;
 import java.time.LocalDateTime;
 
 public class SelfEvaluationDTO {
@@ -91,48 +92,48 @@ public class SelfEvaluationDTO {
       return this;
     }
 
-    public SelfEvaluationBuilder SetFollowUpGrade(int followUpGrade) {
-      this.followUpGrade = followUpGrade;
+    public SelfEvaluationBuilder setFollowUpGrade(int followUpGrade) {
+      this.followUpGrade = Validator.getValidGrade(followUpGrade);
       return this;
     }
 
-    public SelfEvaluationBuilder SetSafetyGrade(int safetyGrade) {
-      this.safetyGrade = safetyGrade;
+    public SelfEvaluationBuilder setSafetyGrade(int safetyGrade) {
+      this.safetyGrade = Validator.getValidGrade(safetyGrade);
       return this;
     }
 
     public SelfEvaluationBuilder setKnowledgeApplicationGrade(int knowledgeApplicationGrade) {
-      this.knowledgeApplicationGrade = knowledgeApplicationGrade;
+      this.knowledgeApplicationGrade = Validator.getValidGrade(knowledgeApplicationGrade);
       return this;
     }
 
     public SelfEvaluationBuilder setInterestingGrade(int interestingGrade) {
-      this.interestingGrade = interestingGrade;
+      this.interestingGrade = Validator.getValidGrade(interestingGrade);
       return this;
     }
 
     public SelfEvaluationBuilder setProductivityGrade(int productivityGrade) {
-      this.productivityGrade = productivityGrade;
+      this.productivityGrade = Validator.getValidGrade(productivityGrade);
       return this;
     }
 
     public SelfEvaluationBuilder setCongruentGrade(int congruentGrade) {
-      this.congruentGrade = congruentGrade;
+      this.congruentGrade = Validator.getValidGrade(congruentGrade);
       return this;
     }
 
     public SelfEvaluationBuilder setInformedByOrganization(int informedByOrganization) {
-      this.informedByOrganization = informedByOrganization;
+      this.informedByOrganization = Validator.getValidGrade(informedByOrganization);
       return this;
     }
 
     public SelfEvaluationBuilder setRegulatedByOrganization(int regulatedByOrganization) {
-      this.regulatedByOrganization = regulatedByOrganization;
+      this.regulatedByOrganization = Validator.getValidGrade(regulatedByOrganization);
       return this;
     }
 
     public SelfEvaluationBuilder setImportanceForProfessionalDevelopment(int importanceForProfessionalDevelopment) {
-      this.importanceForProfessionalDevelopment = importanceForProfessionalDevelopment;
+      this.importanceForProfessionalDevelopment = Validator.getValidGrade(importanceForProfessionalDevelopment);
       return this;
     }
 

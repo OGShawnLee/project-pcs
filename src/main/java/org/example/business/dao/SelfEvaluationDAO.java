@@ -28,8 +28,8 @@ public class SelfEvaluationDAO extends DAOPattern<SelfEvaluationDTO, String> {
   protected SelfEvaluationDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
     return new SelfEvaluationDTO.SelfEvaluationBuilder()
       .setIDStudent(resultSet.getString("id_student"))
-      .SetFollowUpGrade(resultSet.getInt("follow_up_grade"))
-      .SetSafetyGrade(resultSet.getInt("safety_grade"))
+      .setFollowUpGrade(resultSet.getInt("follow_up_grade"))
+      .setSafetyGrade(resultSet.getInt("safety_grade"))
       .setKnowledgeApplicationGrade(resultSet.getInt("knowledge_application_grade"))
       .setInterestingGrade(resultSet.getInt("interesting_grade"))
       .setProductivityGrade(resultSet.getInt("productivity_grade"))
