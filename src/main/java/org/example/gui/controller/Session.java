@@ -1,18 +1,18 @@
 package org.example.gui.controller;
 
 public class Session {
-    private static Object usuarioActual;
+    private static Object currentUser;
 
-    public static void startSession(Object usuario) {
-        usuarioActual = usuario;
+    public static void startSession(Object user) {
+        currentUser = user;
     }
 
-    public static Object getActualUser() {
-        return usuarioActual;
+    public static Object getCurrentUser() {
+        return currentUser;
     }
 
     public static void closeSession() {
-        usuarioActual = null;
+        currentUser = null;
     }
 }
 
