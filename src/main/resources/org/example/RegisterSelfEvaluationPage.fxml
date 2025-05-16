@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<ScrollPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.gui.controller.RegisterSelfEvaluationController">
+    <content>
+        <AnchorPane prefHeight="660.0" prefWidth="585.0">
+            <Label layoutX="214.0" layoutY="45.0" text="Autoevaluacion">
+                <font>
+                    <Font size="24.0" />
+                </font>
+            </Label>
+            <Label layoutX="43.0" layoutY="93.0" text="Favor de completar los siguientes campos" />
+            <Label layoutX="43.0" layoutY="125.0" text="Follow-up Grade" />
+            <ComboBox fx:id="followUpGrade" layoutX="43.0" layoutY="145.0" prefHeight="25.0" prefWidth="160.0" promptText="Selecciona un número" />
+            <Label layoutX="43.0" layoutY="175.0" text="Safety Grade" />
+            <ComboBox fx:id="safetyGrade" layoutX="43.0" layoutY="195.0" prefHeight="25.0" prefWidth="160.0" promptText="Selecciona un número" />
+            <Label layoutX="43.0" layoutY="225.0" text="Knowledge Application Grade" />
+            <ComboBox fx:id="knowledgeApplicationGrade" layoutX="43.0" layoutY="245.0" prefHeight="25.0" prefWidth="160.0" promptText="Selecciona un número" />
+            <Label layoutX="43.0" layoutY="275.0" text="Interesting Grade" />
+            <ComboBox fx:id="interestingGrade" layoutX="43.0" layoutY="295.0" prefHeight="25.0" prefWidth="160.0" promptText="Selecciona un número" />
+            <Label layoutX="43.0" layoutY="325.0" text="Productivity Grade" />
+            <ComboBox fx:id="productivityGrade" layoutX="43.0" layoutY="345.0" prefHeight="25.0" prefWidth="160.0" promptText="Selecciona un número" />
+            <Label layoutX="43.0" layoutY="375.0" text="Congruent Grade" />
+            <ComboBox fx:id="congruentGrade" layoutX="43.0" layoutY="395.0" prefHeight="25.0" prefWidth="160.0" promptText="Selecciona un número" />
+            <Label layoutX="43.0" layoutY="425.0" text="Informed by Organization" />
+            <ComboBox fx:id="informedByOrganization" layoutX="43.0" layoutY="445.0" prefHeight="25.0" prefWidth="160.0" promptText="Selecciona un número" />
+            <Label layoutX="43.0" layoutY="475.0" text="Regulated by Organization" />
+            <ComboBox fx:id="regulatedByOrganization" layoutX="43.0" layoutY="495.0" prefHeight="25.0" prefWidth="160.0" promptText="Selecciona un número" />
+            <Label layoutX="43.0" layoutY="525.0" text="Importance for Professional Development" />
+            <ComboBox fx:id="importanceForProfessionalDevelopment" layoutX="43.0" layoutY="545.0" prefHeight="25.0" prefWidth="160.0" promptText="Selecciona un número" />
+            <Button layoutX="43.0" layoutY="595.0" onAction="#handleRegisterSelfEvaluation" prefHeight="25.0" prefWidth="125.0" text="Registrar Evaluacion" />
+            <Button layoutX="43.0" layoutY="50.0" mnemonicParsing="false" onAction="#returnToMainPage" text="Volver" />
+        </AnchorPane>
+    </content>
+</ScrollPane>
