@@ -41,12 +41,7 @@ public class AccountDAOTest {
   void testCreateOneAccount() {
     assertDoesNotThrow(() -> {
       createOneTestAcademicAccount();
-
-      AccountDTO createdAccount = ACCOUNT_DAO.getOne(ACADEMIC_ACCOUNT_DTO.email());
-
-      Assertions.assertNotNull(createdAccount);
-      Assertions.assertEquals(ACADEMIC_ACCOUNT_DTO.email(), createdAccount.email());
-      Assertions.assertEquals(ACADEMIC_ACCOUNT_DTO.password(), createdAccount.password());
+      Assertions.assertEquals(ACADEMIC_ACCOUNT_DTO, ACCOUNT_DAO.getOne(ACADEMIC_ACCOUNT_DTO.email()));
     });
   }
 
@@ -66,12 +61,7 @@ public class AccountDAOTest {
   void testGetOneAccount() {
     assertDoesNotThrow(() -> {
       createOneTestAcademicAccount();
-
-      AccountDTO account = ACCOUNT_DAO.getOne(ACADEMIC_ACCOUNT_DTO.email());
-
-      Assertions.assertNotNull(account);
-      Assertions.assertEquals(ACADEMIC_ACCOUNT_DTO.email(), account.email());
-      Assertions.assertEquals(ACADEMIC_ACCOUNT_DTO.password(), account.password());
+      Assertions.assertEquals(ACADEMIC_ACCOUNT_DTO, ACCOUNT_DAO.getOne(ACADEMIC_ACCOUNT_DTO.email()));
     });
   }
 
@@ -83,10 +73,7 @@ public class AccountDAOTest {
       AccountDTO updatedAccount = new AccountDTO(ACADEMIC_ACCOUNT_DTO.email(), "SecurePassword");
       ACCOUNT_DAO.updateOne(updatedAccount);
 
-      AccountDTO account = ACCOUNT_DAO.getOne(ACADEMIC_ACCOUNT_DTO.email());
-      Assertions.assertNotNull(account);
-      Assertions.assertEquals(updatedAccount.email(), account.email());
-      Assertions.assertEquals(updatedAccount.password(), account.password());
+      Assertions.assertEquals(updatedAccount, ACCOUNT_DAO.getOne(ACADEMIC_ACCOUNT_DTO.email()));
     });
   }
 

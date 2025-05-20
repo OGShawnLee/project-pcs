@@ -21,6 +21,7 @@ public class AcademicDAOTest {
     .setPaternalLastName("Doe")
     .setMaternalLastName("Smith")
     .setRole("PROFESSOR")
+    .setState("ACTIVE")
     .build();
 
   public static void createOneTestAcademic() throws SQLException {
@@ -42,17 +43,7 @@ public class AcademicDAOTest {
   public void testCreateOneAcademic() {
     assertDoesNotThrow(() -> {
       createOneTestAcademic();
-
-      AcademicDTO createdAcademic = ACADEMIC_DAO.getOne(ACADEMIC_DTO.getID());
-
-      Assertions.assertNotNull(createdAcademic);
-      Assertions.assertEquals(ACADEMIC_DTO.getID(), createdAcademic.getID());
-      Assertions.assertEquals(ACADEMIC_DTO.getEmail(), createdAcademic.getEmail());
-      Assertions.assertEquals(ACADEMIC_DTO.getName(), createdAcademic.getName());
-      Assertions.assertEquals(ACADEMIC_DTO.getPaternalLastName(), createdAcademic.getPaternalLastName());
-      Assertions.assertEquals(ACADEMIC_DTO.getMaternalLastName(), createdAcademic.getMaternalLastName());
-      Assertions.assertEquals(ACADEMIC_DTO.getRole(), createdAcademic.getRole());
-      Assertions.assertInstanceOf(LocalDateTime.class, createdAcademic.getCreatedAt());
+      Assertions.assertEquals(ACADEMIC_DTO, ACADEMIC_DAO.getOne(ACADEMIC_DTO.getID()));
     });
   }
 
@@ -72,10 +63,7 @@ public class AcademicDAOTest {
   public void testGetOneAcademic() {
     assertDoesNotThrow(() -> {
       createOneTestAcademic();
-
-      AcademicDTO academic = ACADEMIC_DAO.getOne(ACADEMIC_DTO.getID());
-
-      Assertions.assertNotNull(academic);
+      Assertions.assertEquals(ACADEMIC_DTO, ACADEMIC_DAO.getOne(ACADEMIC_DTO.getID()));
     });
   }
 
@@ -93,14 +81,10 @@ public class AcademicDAOTest {
         .setState("RETIRED")
         .setRole(ACADEMIC_DTO.getRole())
         .build();
+
       ACADEMIC_DAO.updateOne(updatedAcademic);
 
-      AcademicDTO academic = ACADEMIC_DAO.getOne(updatedAcademic.getID());
-      Assertions.assertEquals(updatedAcademic.getName(), academic.getName());
-      Assertions.assertEquals(updatedAcademic.getPaternalLastName(), academic.getPaternalLastName());
-      Assertions.assertEquals(updatedAcademic.getMaternalLastName(), academic.getMaternalLastName());
-      Assertions.assertEquals(updatedAcademic.getState(), academic.getState());
-      Assertions.assertEquals(updatedAcademic.getRole(), academic.getRole());
+      Assertions.assertEquals(updatedAcademic, ACADEMIC_DAO.getOne(updatedAcademic.getID()));
     });
   }
 
@@ -118,10 +102,9 @@ public class AcademicDAOTest {
         .setRole("EVALUATOR")
         .setState("ACTIVE")
         .build();
-      ACADEMIC_DAO.updateOne(updatedAcademic);
 
-      AcademicDTO academic = ACADEMIC_DAO.getOne(updatedAcademic.getID());
-      Assertions.assertEquals(updatedAcademic.getRole(), academic.getRole());
+      ACADEMIC_DAO.updateOne(updatedAcademic);
+      Assertions.assertEquals(updatedAcademic, ACADEMIC_DAO.getOne(updatedAcademic.getID()));
 
       updatedAcademic = new AcademicDTO.AcademicBuilder()
         .setID(ACADEMIC_DTO.getID())
@@ -134,8 +117,7 @@ public class AcademicDAOTest {
         .build();
 
       ACADEMIC_DAO.updateOne(updatedAcademic);
-      academic = ACADEMIC_DAO.getOne(updatedAcademic.getID());
-      Assertions.assertEquals(updatedAcademic.getRole(), academic.getRole());
+      Assertions.assertEquals(updatedAcademic, ACADEMIC_DAO.getOne(updatedAcademic.getID()));
     });
   }
 

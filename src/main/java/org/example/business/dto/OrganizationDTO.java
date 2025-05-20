@@ -51,6 +51,22 @@ public class OrganizationDTO {
     return createdAt;
   }
 
+  @Override
+  public boolean equals(Object instance) {
+    if (this == instance) return true;
+    if (instance == null || getClass() != instance.getClass()) return false;
+
+    OrganizationDTO that = (OrganizationDTO) instance;
+
+    return
+      email.equals(that.email) &&
+      name.equals(that.name) &&
+      representativeFullName.equals(that.representativeFullName) &&
+      colony.equals(that.colony) &&
+      street.equals(that.street) &&
+      state.equals(that.state);
+  }
+
   public static class OrganizationBuilder {
     protected String email;
     protected String name;

@@ -56,10 +56,7 @@ public class EnrollmentDAOTest {
         )
       );
 
-      Assertions.assertNotNull(createdEnrollment);
-      Assertions.assertEquals(ENROLLMENT_DTO.getIDCourse(), createdEnrollment.getIDCourse());
-      Assertions.assertEquals(ENROLLMENT_DTO.getIDStudent(), createdEnrollment.getIDStudent());
-      Assertions.assertInstanceOf(LocalDateTime.class, createdEnrollment.getCreatedAt());
+      Assertions.assertEquals(ENROLLMENT_DTO, createdEnrollment);
     });
   }
 
@@ -68,10 +65,10 @@ public class EnrollmentDAOTest {
     assertDoesNotThrow(() -> {
       createOneTestEnrollment();
 
-      List<EnrollmentDTO> createdEnrollment = ENROLLMENT_DAO.getAll();
+      List<EnrollmentDTO> enrollmentList = ENROLLMENT_DAO.getAll();
 
-      Assertions.assertNotNull(createdEnrollment);
-      Assertions.assertFalse(createdEnrollment.isEmpty());
+      Assertions.assertNotNull(enrollmentList);
+      Assertions.assertFalse(enrollmentList.isEmpty());
     });
   }
 
@@ -87,7 +84,7 @@ public class EnrollmentDAOTest {
         )
       );
 
-      Assertions.assertNotNull(createdEnrollment);
+      Assertions.assertEquals(ENROLLMENT_DTO, createdEnrollment);
     });
   }
 

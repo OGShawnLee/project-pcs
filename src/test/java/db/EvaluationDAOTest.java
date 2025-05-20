@@ -62,7 +62,6 @@ public class EvaluationDAOTest {
         )
       );
 
-      assertNotNull(createdEvaluation);
       assertEquals(EVALUATION_DTO, createdEvaluation);
     });
   }
@@ -92,7 +91,6 @@ public class EvaluationDAOTest {
         )
       );
 
-      assertNotNull(retrievedEvaluation);
       assertEquals(EVALUATION_DTO, retrievedEvaluation);
     });
   }
@@ -123,7 +121,6 @@ public class EvaluationDAOTest {
         )
       );
 
-      assertNotNull(retrievedEvaluation);
       assertEquals(updatedEvaluation, retrievedEvaluation);
     });
   }

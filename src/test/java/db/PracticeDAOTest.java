@@ -48,10 +48,7 @@ public class PracticeDAOTest {
         new FilterPractice(StudentDAOTest.STUDENT_DTO.getID(), ProjectDAOTest.PROJECT_DTO.getID())
       );
 
-      Assertions.assertNotNull(createdPractice);
-      Assertions.assertEquals(practice.getIDStudent(), createdPractice.getIDStudent());
-      Assertions.assertEquals(practice.getIDProject(), createdPractice.getIDProject());
-      Assertions.assertEquals(practice.getReasonOfAssignation(), createdPractice.getReasonOfAssignation());
+      Assertions.assertEquals(practice, createdPractice);
     });
   }
 
@@ -76,10 +73,7 @@ public class PracticeDAOTest {
         new FilterPractice(StudentDAOTest.STUDENT_DTO.getID(), ProjectDAOTest.PROJECT_DTO.getID())
       );
 
-      Assertions.assertNotNull(createdPractice);
-      Assertions.assertEquals(practice.getIDStudent(), createdPractice.getIDStudent());
-      Assertions.assertEquals(practice.getIDProject(), createdPractice.getIDProject());
-      Assertions.assertEquals(practice.getReasonOfAssignation(), createdPractice.getReasonOfAssignation());
+      Assertions.assertEquals(practice, createdPractice);
     });
   }
 

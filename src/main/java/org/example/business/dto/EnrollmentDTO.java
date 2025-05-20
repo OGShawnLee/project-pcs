@@ -25,6 +25,16 @@ public class EnrollmentDTO {
     return createdAt;
   }
 
+  @Override
+  public boolean equals(Object instance) {
+    if (this == instance) return true;
+    if (instance == null || getClass() != instance.getClass()) return false;
+
+    EnrollmentDTO that = (EnrollmentDTO) instance;
+
+    return idCourse.equals(that.idCourse) && idStudent.equals(that.idStudent);
+  }
+
   public static class EnrollmentBuilder {
     protected String idCourse;
     protected String idStudent;

@@ -17,6 +17,7 @@ public class ProjectDAOTest {
     .setIDOrganization(OrganizationDAOTest.ORGANIZATION_DTO.getEmail())
     .setName("Bard AI Reborn")
     .setMethodology("Agile")
+    .setState("ACTIVE")
     .setSector("PRIVATE")
     .build();
 
@@ -39,15 +40,7 @@ public class ProjectDAOTest {
   public void testCreateOneProject() {
     assertDoesNotThrow(() -> {
       createOneTestProject();
-
-      ProjectDTO createdProject = PROJECT_DAO.getOne(PROJECT_DTO.getID());
-
-      Assertions.assertNotNull(createdProject);
-      Assertions.assertEquals(PROJECT_DTO.getID(), createdProject.getID());
-      Assertions.assertEquals(PROJECT_DTO.getIDOrganization(), createdProject.getIDOrganization());
-      Assertions.assertEquals(PROJECT_DTO.getName(), createdProject.getName());
-      Assertions.assertEquals(PROJECT_DTO.getMethodology(), createdProject.getMethodology());
-      Assertions.assertEquals(PROJECT_DTO.getSector(), createdProject.getSector());
+      Assertions.assertEquals(PROJECT_DTO, PROJECT_DAO.getOne(PROJECT_DTO.getID()));
     });
   }
 
@@ -67,15 +60,7 @@ public class ProjectDAOTest {
   public void testGetOneProject() {
     assertDoesNotThrow(() -> {
       createOneTestProject();
-
-      ProjectDTO retrievedProject = PROJECT_DAO.getOne(PROJECT_DTO.getID());
-
-      Assertions.assertNotNull(retrievedProject);
-      Assertions.assertEquals(PROJECT_DTO.getID(), retrievedProject.getID());
-      Assertions.assertEquals(PROJECT_DTO.getIDOrganization(), retrievedProject.getIDOrganization());
-      Assertions.assertEquals(PROJECT_DTO.getName(), retrievedProject.getName());
-      Assertions.assertEquals(PROJECT_DTO.getMethodology(), retrievedProject.getMethodology());
-      Assertions.assertEquals(PROJECT_DTO.getSector(), retrievedProject.getSector());
+      Assertions.assertEquals(PROJECT_DTO, PROJECT_DAO.getOne(PROJECT_DTO.getID()));
     });
   }
 
@@ -95,13 +80,7 @@ public class ProjectDAOTest {
 
       PROJECT_DAO.updateOne(updatedProject);
 
-      ProjectDTO retrievedProject = PROJECT_DAO.getOne(PROJECT_DTO.getID());
-
-      Assertions.assertNotNull(retrievedProject);
-      Assertions.assertEquals(updatedProject.getID(), retrievedProject.getID());
-      Assertions.assertEquals(updatedProject.getMethodology(), retrievedProject.getMethodology());
-      Assertions.assertEquals(updatedProject.getSector(), retrievedProject.getSector());
-      Assertions.assertEquals(updatedProject.getState(), retrievedProject.getState());
+      Assertions.assertEquals(updatedProject, PROJECT_DAO.getOne(PROJECT_DTO.getID()));
     });
   }
 
@@ -121,13 +100,7 @@ public class ProjectDAOTest {
 
       PROJECT_DAO.updateOne(updatedProject);
 
-      ProjectDTO retrievedProject = PROJECT_DAO.getOne(PROJECT_DTO.getID());
-
-      Assertions.assertNotNull(retrievedProject);
-      Assertions.assertEquals(updatedProject.getID(), retrievedProject.getID());
-      Assertions.assertEquals(updatedProject.getMethodology(), retrievedProject.getMethodology());
-      Assertions.assertEquals(updatedProject.getSector(), retrievedProject.getSector());
-      Assertions.assertEquals(updatedProject.getState(), retrievedProject.getState());
+      Assertions.assertEquals(updatedProject, PROJECT_DAO.getOne(PROJECT_DTO.getID()));
 
       updatedProject = new ProjectDTO.ProjectBuilder()
         .setID(PROJECT_DTO.getID())
@@ -139,11 +112,8 @@ public class ProjectDAOTest {
         .build();
 
       PROJECT_DAO.updateOne(updatedProject);
-      retrievedProject = PROJECT_DAO.getOne(PROJECT_DTO.getID());
-      Assertions.assertNotNull(retrievedProject);
-      Assertions.assertEquals(updatedProject.getID(), retrievedProject.getID());
-      Assertions.assertEquals(updatedProject.getMethodology(), retrievedProject.getMethodology());
-      Assertions.assertEquals(updatedProject.getSector(), retrievedProject.getSector());
+
+      Assertions.assertEquals(updatedProject, PROJECT_DAO.getOne(PROJECT_DTO.getID()));
     });
   }
 
