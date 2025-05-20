@@ -20,6 +20,16 @@ public class AcademicDTO extends Person {
     return role;
   }
 
+  @Override
+  public boolean equals(Object instance) {
+    if (this == instance) return true;
+    if (instance == null || getClass() != instance.getClass()) return false;
+
+    AcademicDTO that = (AcademicDTO) instance;
+
+    return id.equals(that.id) && role.equals(that.role) && super.equals(that);
+  }
+
   public static class AcademicBuilder extends PersonBuilder<AcademicBuilder> {
     private String id;
     private String role;

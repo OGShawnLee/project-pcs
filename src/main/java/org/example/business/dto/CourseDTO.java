@@ -37,6 +37,16 @@ public class CourseDTO {
     return endedAt;
   }
 
+  @Override
+  public boolean equals(Object instance) {
+    if (this == instance) return true;
+    if (instance == null || getClass() != instance.getClass()) return false;
+
+    CourseDTO that = (CourseDTO) instance;
+
+    return nrc.equals(that.nrc) && idAcademic.equals(that.idAcademic) && section.equals(that.section);
+  }
+
   public static class CourseBuilder {
     protected String nrc;
     protected String idAcademic;

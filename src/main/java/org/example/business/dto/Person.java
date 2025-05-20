@@ -45,6 +45,21 @@ public abstract class Person {
     return createdAt;
   }
 
+  @Override
+  public boolean equals(Object instance) {
+    if (this == instance) return true;
+    if (instance == null || getClass() != instance.getClass()) return false;
+
+    Person that = (Person) instance;
+
+    return
+      name.equals(that.name) &&
+      paternalLastName.equals(that.paternalLastName) &&
+      maternalLastName.equals(that.maternalLastName) &&
+      email.equals(that.email) &&
+      state.equals(that.state);
+  }
+
   public static abstract class PersonBuilder<T extends PersonBuilder<T>> {
     protected String name;
     protected String paternalLastName;

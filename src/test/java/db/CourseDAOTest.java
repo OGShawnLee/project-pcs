@@ -41,15 +41,7 @@ public class CourseDAOTest {
   public void testCreateOneCourse() {
     assertDoesNotThrow(() -> {
       createOneTestCourse();
-
-      CourseDTO createdCourse = COURSE_DAO.getOne(COURSE_DTO.getNRC());
-
-      Assertions.assertNotNull(createdCourse);
-      Assertions.assertEquals(COURSE_DTO.getNRC(), createdCourse.getNRC());
-      Assertions.assertEquals(COURSE_DTO.getIDAcademic(), createdCourse.getIDAcademic());
-      Assertions.assertEquals(COURSE_DTO.getSection(), createdCourse.getSection());
-      Assertions.assertInstanceOf(LocalDateTime.class, createdCourse.getStartedAt());
-      Assertions.assertInstanceOf(LocalDateTime.class, createdCourse.getEndedAt());
+      Assertions.assertEquals(COURSE_DTO, COURSE_DAO.getOne(COURSE_DTO.getNRC()));
     });
   }
 
@@ -69,15 +61,7 @@ public class CourseDAOTest {
   public void testGetOneCourse() {
     assertDoesNotThrow(() -> {
       createOneTestCourse();
-
-      CourseDTO createdCourse = COURSE_DAO.getOne(COURSE_DTO.getNRC());
-
-      Assertions.assertNotNull(createdCourse);
-      Assertions.assertEquals(COURSE_DTO.getNRC(), createdCourse.getNRC());
-      Assertions.assertEquals(COURSE_DTO.getIDAcademic(), createdCourse.getIDAcademic());
-      Assertions.assertEquals(COURSE_DTO.getSection(), createdCourse.getSection());
-      Assertions.assertInstanceOf(LocalDateTime.class, createdCourse.getStartedAt());
-      Assertions.assertInstanceOf(LocalDateTime.class, createdCourse.getEndedAt());
+      Assertions.assertEquals(COURSE_DTO, COURSE_DAO.getOne(COURSE_DTO.getNRC()));
     });
   }
 
@@ -96,11 +80,7 @@ public class CourseDAOTest {
 
       COURSE_DAO.updateOne(updatedCourse);
 
-      CourseDTO course = COURSE_DAO.getOne(COURSE_DTO.getNRC());
-
-      Assertions.assertEquals(updatedCourse.getSection(), course.getSection());
-      Assertions.assertInstanceOf(LocalDateTime.class, course.getStartedAt());
-      Assertions.assertInstanceOf(LocalDateTime.class, course.getEndedAt());
+      Assertions.assertEquals(updatedCourse, COURSE_DAO.getOne(updatedCourse.getNRC()));
     });
   }
 

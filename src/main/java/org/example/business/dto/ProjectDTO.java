@@ -51,6 +51,22 @@ public class ProjectDTO {
     return sector;
   }
 
+  @Override
+  public boolean equals(Object instance) {
+    if (this == instance) return true;
+    if (instance == null || getClass() != instance.getClass()) return false;
+
+    ProjectDTO that = (ProjectDTO) instance;
+
+    return
+      id == that.id &&
+        idOrganization.equals(that.idOrganization) &&
+        name.equals(that.name) &&
+        methodology.equals(that.methodology) &&
+        state.equals(that.state) &&
+        sector.equals(that.sector);
+  }
+
   public LocalDateTime getCreatedAt() {
     return createdAt;
   }

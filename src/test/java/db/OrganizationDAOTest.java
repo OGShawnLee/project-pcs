@@ -20,6 +20,7 @@ public class OrganizationDAOTest {
     .setRepresentativeFullName("Bill Gates")
     .setColony("Redmond")
     .setStreet("Microsoft Way")
+    .setState("ACTIVE")
     .build();
 
   public static void createOneTestOrganization() throws SQLException {
@@ -39,16 +40,7 @@ public class OrganizationDAOTest {
   public void testCreateOneOrganization() {
     assertDoesNotThrow(() -> {
       createOneTestOrganization();
-
-      OrganizationDTO createdOrganization = ORGANIZATION_DAO.getOne(ORGANIZATION_DTO.getEmail());
-
-      Assertions.assertNotNull(createdOrganization);
-      Assertions.assertEquals(ORGANIZATION_DTO.getEmail(), createdOrganization.getEmail());
-      Assertions.assertEquals(ORGANIZATION_DTO.getName(), createdOrganization.getName());
-      Assertions.assertEquals(ORGANIZATION_DTO.getRepresentativeFullName(), createdOrganization.getRepresentativeFullName());
-      Assertions.assertEquals(ORGANIZATION_DTO.getColony(), createdOrganization.getColony());
-      Assertions.assertEquals(ORGANIZATION_DTO.getStreet(), createdOrganization.getStreet());
-      Assertions.assertInstanceOf(LocalDateTime.class, createdOrganization.getCreatedAt());
+      Assertions.assertEquals(ORGANIZATION_DTO, ORGANIZATION_DAO.getOne(ORGANIZATION_DTO.getEmail()));
     });
   }
 
@@ -68,10 +60,7 @@ public class OrganizationDAOTest {
   public void testGetOneOrganization() {
     assertDoesNotThrow(() -> {
       createOneTestOrganization();
-
-      OrganizationDTO createdOrganization = ORGANIZATION_DAO.getOne(ORGANIZATION_DTO.getEmail());
-
-      Assertions.assertNotNull(createdOrganization);
+      Assertions.assertEquals(ORGANIZATION_DTO, ORGANIZATION_DAO.getOne(ORGANIZATION_DTO.getEmail()));
     });
   }
 
@@ -90,13 +79,7 @@ public class OrganizationDAOTest {
         .build();
 
       ORGANIZATION_DAO.updateOne(updatedOrganization);
-
-      OrganizationDTO organization = ORGANIZATION_DAO.getOne(ORGANIZATION_DTO.getEmail());
-      Assertions.assertEquals(updatedOrganization.getName(), organization.getName());
-      Assertions.assertEquals(updatedOrganization.getRepresentativeFullName(), organization.getRepresentativeFullName());
-      Assertions.assertEquals(updatedOrganization.getColony(), organization.getColony());
-      Assertions.assertEquals(updatedOrganization.getStreet(), organization.getStreet());
-      Assertions.assertEquals(updatedOrganization.getState(), organization.getState());
+      Assertions.assertEquals(updatedOrganization, ORGANIZATION_DAO.getOne(updatedOrganization.getEmail()));
     });
   }
 

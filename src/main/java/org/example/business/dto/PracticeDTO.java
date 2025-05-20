@@ -21,6 +21,16 @@ public class PracticeDTO {
     return idProject;
   }
 
+  @Override
+  public boolean equals(Object instance) {
+    if (this == instance) return true;
+    if (instance == null || getClass() != instance.getClass()) return false;
+
+    PracticeDTO that = (PracticeDTO) instance;
+
+    return idProject == that.idProject && idStudent.equals(that.idStudent) && reasonOfAssignation.equals(that.reasonOfAssignation);
+  }
+
   public String getReasonOfAssignation() {
     return reasonOfAssignation;
   }

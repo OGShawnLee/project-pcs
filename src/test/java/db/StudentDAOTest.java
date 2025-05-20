@@ -21,6 +21,7 @@ public class StudentDAOTest {
     .setPaternalLastName("Doe")
     .setMaternalLastName("Smith")
     .setFinalGrade(10)
+    .setState("ACTIVE")
     .build();
 
   public static void createOneTestStudent() throws SQLException {
@@ -42,16 +43,7 @@ public class StudentDAOTest {
   public void testCreateOneStudent() {
     assertDoesNotThrow(() -> {
       createOneTestStudent();
-
-      StudentDTO createdStudent = STUDENT_DAO.getOne(STUDENT_DTO.getID());
-
-      Assertions.assertNotNull(createdStudent);
-      Assertions.assertEquals(STUDENT_DTO.getID(), createdStudent.getID());
-      Assertions.assertEquals(STUDENT_DTO.getEmail(), createdStudent.getEmail());
-      Assertions.assertEquals(STUDENT_DTO.getName(), createdStudent.getName());
-      Assertions.assertEquals(STUDENT_DTO.getPaternalLastName(), createdStudent.getPaternalLastName());
-      Assertions.assertEquals(STUDENT_DTO.getMaternalLastName(), createdStudent.getMaternalLastName());
-      Assertions.assertInstanceOf(LocalDateTime.class, createdStudent.getCreatedAt());
+      Assertions.assertEquals(STUDENT_DTO, STUDENT_DAO.getOne(STUDENT_DTO.getID()));
     });
   }
 
@@ -71,10 +63,7 @@ public class StudentDAOTest {
   public void testGetOneStudent() {
     assertDoesNotThrow(() -> {
       createOneTestStudent();
-
-      StudentDTO student = STUDENT_DAO.getOne(STUDENT_DTO.getID());
-
-      Assertions.assertNotNull(student);
+      Assertions.assertEquals(STUDENT_DTO, STUDENT_DAO.getOne(STUDENT_DTO.getID()));
     });
   }
 
@@ -94,10 +83,7 @@ public class StudentDAOTest {
         .build();
       STUDENT_DAO.updateOne(updatedStudent);
 
-      StudentDTO student = STUDENT_DAO.getOne(updatedStudent.getID());
-      Assertions.assertEquals(updatedStudent.getName(), student.getName());
-      Assertions.assertEquals(updatedStudent.getPaternalLastName(), student.getPaternalLastName());
-      Assertions.assertEquals(updatedStudent.getMaternalLastName(), student.getMaternalLastName());
+      Assertions.assertEquals(updatedStudent, STUDENT_DAO.getOne(STUDENT_DTO.getID()));
     });
   }
 

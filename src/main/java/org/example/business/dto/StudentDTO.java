@@ -20,6 +20,16 @@ public class StudentDTO extends Person {
     return finalGrade;
   }
 
+  @Override
+  public boolean equals(Object instance) {
+    if (this == instance) return true;
+    if (instance == null || getClass() != instance.getClass()) return false;
+
+    StudentDTO that = (StudentDTO) instance;
+
+    return id.equals(that.id) && finalGrade == that.finalGrade && super.equals(that);
+  }
+
   public static class StudentBuilder extends PersonBuilder<StudentBuilder> {
     private String id;
     private int finalGrade;
