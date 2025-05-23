@@ -9,10 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -25,6 +22,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 public class ReviewStudentListController {
 
@@ -83,7 +81,7 @@ public class ReviewStudentListController {
             ObservableList<StudentDTO> observableList = FXCollections.observableArrayList(filteredList);
             studentTable.setItems(observableList);
         } catch (SQLException e) {
-            Modal.displayError("Error al filtrar por estado");
+            Modal.displayError("Error al filtrar por estado debido a la conexion de la base de datos");
         }
     }
 
@@ -108,44 +106,75 @@ public class ReviewStudentListController {
     }
 
     @FXML
-    public void openManageStudent(ActionEvent actionEvent) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/InsertId.fxml"));
+    public void openManageStudent(ActionEvent event) {
+        Optional<String> result = Modal.promptText(
+                "Buscar estudiante",
+                "Ingrese la matrícula del estudiante",
+                "Matrícula:"
+        );
 
-        InsertToManageController controller = new InsertToManageController();
-        Stage reviewStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        controller.setReviewStage(reviewStage);
-        loader.setController(controller);
+        result.ifPresent(idStudent -> {
+            try {
+                StudentDAO dao = new StudentDAO();
+                StudentDTO student = dao.getOne(idStudent);
 
-        Parent newView = loader.load();
-        Stage stage = new Stage();
-        stage.setScene(new Scene(newView));
-        stage.setTitle("");
-        stage.initStyle(StageStyle.UNDECORATED);
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setOnCloseRequest(Event::consume);
-        controller.setStage(stage);
-        stage.show();
+                if (student == null) {
+                    Modal.displayError("Estudiante no encontrado");
+
+                    changeScene("/org/example/ReviewStudentListPage.fxml", event);
+                    return;
+                }
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/ManageStudentPage.fxml"));
+                Parent manageView = loader.load();
+
+                ManageStudentController controller = loader.getController();
+                controller.setStudent(student);
+                changeScene(manageView, event);
+            } catch (SQLException e) {
+                Modal.displayError("Error al buscar el estudiante en la base de datos.");
+            } catch (IOException e) {
+                Modal.displayError("Error al cargar la vista de gestión del estudiante.");
+            }
+        });
     }
+
+
+
 
     @FXML
-    public void openFinalGradeStudent(ActionEvent actionEvent) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/InsertId.fxml"));
+    public void openFinalGradeStudent(ActionEvent event) {
+        Optional<String> result = Modal.promptText(
+                "Buscar estudiante",
+                "Ingrese la matrícula del estudiante",
+                "Matrícula:"
+        );
 
-        InsertToFinalGradeController controller = new InsertToFinalGradeController();
-        Stage reviewStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        controller.setReviewStage(reviewStage);
-        loader.setController(controller);
+        result.ifPresent(idStudent -> {
+            try {
+                StudentDAO dao = new StudentDAO();
+                StudentDTO student = dao.getOne(idStudent);
 
-        Parent newView = loader.load();
-        Stage stage = new Stage();
-        stage.setScene(new Scene(newView));
-        stage.setTitle("");
-        stage.initStyle(StageStyle.UNDECORATED);
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setOnCloseRequest(Event::consume);
-        controller.setStage(stage);
-        stage.show();
+                if (student == null) {
+                    Modal.displayError("Estudiante no encontrado");
+                    changeScene("/org/example/ReviewStudentListPage.fxml", event);
+                    return;
+                }
+
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/FinalGradeStudentPage.fxml"));
+                Parent gradeView = loader.load();
+
+                RegisterFinalGradeController controller = loader.getController();
+                controller.setStudent(student);
+
+                changeScene(gradeView, event);
+            } catch (SQLException e) {
+                Modal.displayError("Error al buscar el estudiante en la base de datos.");
+            } catch (IOException e) {
+                Modal.displayError("Error al cargar la vista de calificaciones finales.");
+            }
+        });
     }
+
 
     @FXML
     public void initialize() {
@@ -163,4 +192,22 @@ public class ReviewStudentListController {
         stateView.setValue("Todos");
         showTableStudents();
     }
+
+    private void changeScene(Object source, ActionEvent event) throws IOException {
+        Parent view;
+
+        if (source instanceof String path) {
+            view = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(path)));
+        } else if (source instanceof Parent parent) {
+            view = parent;
+        } else {
+            throw new IllegalArgumentException("Tipo de argumento no válido para cambiar de escena.");
+        }
+
+        Scene newScene = new Scene(view);
+        Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        currentStage.setScene(newScene);
+        currentStage.show();
+    }
+
 }
