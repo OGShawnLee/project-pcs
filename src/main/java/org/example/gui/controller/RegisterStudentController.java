@@ -22,6 +22,7 @@ import org.example.gui.Modal;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Objects;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class RegisterStudentController {
     private final AccountDAO ACCOUNT_DAO = new AccountDAO();
@@ -78,7 +79,8 @@ public class RegisterStudentController {
             return;
         }
 
-        ACCOUNT_DAO.createOne(new AccountDTO(dataObjectStudent.getEmail(), dataObjectStudent.getID()));
+        String hashedPassword = BCrypt.hashpw(dataObjectStudent.getID(), BCrypt.gensalt());
+        ACCOUNT_DAO.createOne(new AccountDTO(dataObjectStudent.getEmail(), hashedPassword));
         STUDENT_DAO.createOne(dataObjectStudent);
         EnrollmentDTO enrollment = new EnrollmentDTO.EnrollmentBuilder()
                 .setIDCourse(nrc)

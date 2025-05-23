@@ -74,7 +74,7 @@ public class ReviewEvaluationListController {
                 fullName = student.getName() + " " + student.getPaternalLastName() + " " + student.getMaternalLastName();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            Modal.displayError("No ha sido posible conectar con los datos del estudiante, debido a un error de conexion con la base de datos");
         }
         return fullName;
     }
@@ -91,7 +91,7 @@ public class ReviewEvaluationListController {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            Modal.displayError("No ha sido posible conectar con la materia asignada, debido a un error de conexion con la base de datos");
         }
         return nrc;
     }
@@ -120,7 +120,7 @@ public class ReviewEvaluationListController {
             ObservableList<EvaluationDTO> observableList = FXCollections.observableArrayList(evaluationList);
             evaluationTable.setItems(observableList);
         } catch (SQLException e) {
-            Modal.displayError("No se pudo mostrar los datos debido a un error en el sistema");
+            Modal.displayError("No se pudo mostrar los datos debido a un error en la base de datos");
         }
     }
 

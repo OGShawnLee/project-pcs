@@ -11,6 +11,8 @@ import org.example.business.dao.StudentDAO;
 import org.example.business.dto.AccountDTO;
 import org.example.business.dto.StudentDTO;
 import org.example.gui.Modal;
+import org.mindrot.jbcrypt.BCrypt;
+
 import java.sql.SQLException;
 
 public class UpdateStudentController {
@@ -34,17 +36,6 @@ public class UpdateStudentController {
             paternalSurnameField.setText(student.getPaternalLastName());
             maternalSurnameField.setText(student.getMaternalLastName());
             nameField.setText(student.getName());
-
-            try {
-                AccountDTO account = new AccountDAO().getOne(student.getEmail());
-                if (account != null) {
-                    passwordField.setText(account.password());
-                } else {
-                    Modal.displayError("No se encontró una cuenta asociada al estudiante.");
-                }
-            } catch (SQLException e) {
-                Modal.displayError("Error al obtener la contraseña del estudiante: ");
-            }
         } else {
             Modal.displayError("Usuario en sesión no es un estudiante válido.");
         }
@@ -69,7 +60,8 @@ public class UpdateStudentController {
             new StudentDAO().updateOne(updatedStudent);
 
             String newPassword = passwordField.getText();
-            AccountDTO updatedAccount = new AccountDTO(updatedStudent.getEmail(), newPassword);
+            String hashedPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
+            AccountDTO updatedAccount = new AccountDTO(updatedStudent.getEmail(), hashedPassword);
             new AccountDAO().updateOne(updatedAccount);
 
             Session.startSession(updatedStudent);

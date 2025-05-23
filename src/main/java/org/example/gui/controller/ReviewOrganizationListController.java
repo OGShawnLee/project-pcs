@@ -45,7 +45,7 @@ public class ReviewOrganizationListController extends Controller {
       tableOrganization.setItems(observableOrganizationList);
     } catch (SQLException e) {
       Modal.displayError(
-        "No ha sido posible cargar información de académicos debido a un error de sistema."
+        "No ha sido posible cargar información de académicos debido a un error de la base de datos."
       );
     }
   }
