@@ -68,7 +68,7 @@ public class ManageStudentController {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            Modal.displayError("No se pudo cargar el NRC del estudiante.");
+            Modal.displayError("No se pudo cargar el NRC del estudiante debido a un error de conexion con la base de datos");
         }
 
         String state = student.getState();
@@ -105,8 +105,7 @@ public class ManageStudentController {
                 return;
             }
 
-            ACCOUNT_DAO.updateOne(
-                    new AccountDTO(dataObjectStudent.getEmail(), dataObjectStudent.getID())
+            ACCOUNT_DAO.updateOne(new AccountDTO(dataObjectStudent.getEmail(), dataObjectStudent.getID())
             );
             STUDENT_DAO.updateOne(dataObjectStudent);
 
@@ -130,7 +129,7 @@ public class ManageStudentController {
             Modal.displayError(e.getMessage());
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            Modal.displayError("No ha sido posible actualizar al estudiante debido a un error de sistema.");
+            Modal.displayError("No ha sido posible actualizar al estudiante debido a un error de conexion con la base de datos.");
         }
     }
 

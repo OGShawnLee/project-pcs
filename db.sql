@@ -7,7 +7,7 @@ USE Practice;
 # TODO: Add to the Diagram and Dictionary
 CREATE TABLE Account (
     email VARCHAR(128) NOT NULL,
-    password VARCHAR(32) NOT NULL,
+    password VARCHAR(64) NOT NULL,
     PRIMARY KEY (email)
 );
 

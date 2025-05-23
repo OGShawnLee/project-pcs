@@ -9,6 +9,7 @@ import org.example.business.dto.AccountDTO;
 import org.example.business.dao.AcademicDAO;
 import org.example.business.dao.AccountDAO;
 import org.example.gui.Modal;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.SQLException;
 
@@ -56,8 +57,8 @@ public class RegisterAcademicController extends Controller {
         Modal.displayError("No ha sido posible registrar el académico debido a que ya existe un académico con la misma ID de Trabajador.");
         return;
       }
-
-      ACCOUNT_DAO.createOne(new AccountDTO(dataObjectAcademic.getEmail(), dataObjectAcademic.getID()));
+      String hashedPassword = BCrypt.hashpw(dataObjectAcademic.getID(), BCrypt.gensalt());
+      ACCOUNT_DAO.createOne(new AccountDTO(dataObjectAcademic.getEmail(), hashedPassword));
       ACADEMIC_DAO.createOne(dataObjectAcademic);
       Modal.displaySuccess("El académico ha sido registrado exitosamente.");
     } catch (IllegalArgumentException e) {
