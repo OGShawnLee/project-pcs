@@ -1,6 +1,9 @@
 package org.example.gui;
 
 import javafx.scene.control.Alert;
+import javafx.scene.control.TextInputDialog;
+
+import java.util.Optional;
 
 public class Modal {
   public static void displayError(String message) {
@@ -17,5 +20,13 @@ public class Modal {
     alert.setHeaderText("Registro Exitoso");
     alert.setContentText(message);
     alert.showAndWait();
+  }
+
+  public static Optional<String> promptText(String title, String header, String content) {
+    TextInputDialog dialog = new TextInputDialog();
+    dialog.setTitle(title);
+    dialog.setHeaderText(header);
+    dialog.setContentText(content);
+    return dialog.showAndWait();
   }
 }
