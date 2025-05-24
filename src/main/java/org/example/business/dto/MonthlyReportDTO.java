@@ -49,6 +49,21 @@ public class MonthlyReportDTO {
     return createdAt;
   }
 
+  @Override
+  public boolean equals(Object instance) {
+    if (this == instance) return true;
+    if (instance == null || getClass() != instance.getClass()) return false;
+
+    MonthlyReportDTO that = (MonthlyReportDTO) instance;
+
+    return idProject == that.idProject &&
+           month == that.month &&
+           year == that.year &&
+           workedHours == that.workedHours &&
+           idStudent.equals(that.idStudent) &&
+           report.equals(that.report);
+  }
+
   public static class MonthlyReportBuilder {
     protected int idProject;
     protected String idStudent;
