@@ -39,6 +39,20 @@ public class ProjectRequestDTO {
     return createdAt;
   }
 
+  @Override
+  public boolean equals(Object instance) {
+    if (this == instance) return true;
+    if (instance == null || getClass() != instance.getClass()) return false;
+
+    ProjectRequestDTO that = (ProjectRequestDTO) instance;
+
+    return
+      idProject == that.idProject &&
+      idStudent.equals(that.idStudent) &&
+      state.equals(that.state) &&
+      reasonOfState.equals(that.reasonOfState);
+  }
+
   public static class ProjectRequestBuilder {
     protected String idStudent;
     protected int idProject;
