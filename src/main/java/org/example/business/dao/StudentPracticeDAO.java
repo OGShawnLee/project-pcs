@@ -38,8 +38,7 @@ public class StudentPracticeDAO {
   public static List<StudentPracticeDTO> getAllByProjectID(int idProject) throws SQLException {
     try (
       Connection connection = DBConnector.getConnection();
-      PreparedStatement statement = connection.prepareStatement(
-        GET_ALL_BY_PROJECT_ID);
+      PreparedStatement statement = connection.prepareStatement(GET_ALL_BY_PROJECT_ID);
     ) {
       statement.setInt(1, idProject);
 

@@ -24,6 +24,7 @@ public class PracticeDAOTest {
       .setIDProject(ProjectDAOTest.PROJECT_DTO.getID())
       .setReasonOfAssignation("Student has a good background working with the required technologies")
       .build();
+
     PRACTICE_DAO.createOne(dataObject);
     return dataObject;
   }
