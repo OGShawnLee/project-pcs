@@ -22,7 +22,7 @@ public class MonthlyReportDAO extends DAOPattern<MonthlyReportDTO, FilterMonthly
     "DELETE FROM MonthlyReport WHERE id_project = ? AND id_student = ? AND month = ? AND year = ?";
 
   @Override
-  public MonthlyReportDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
+  MonthlyReportDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
     return new MonthlyReportDTO.MonthlyReportBuilder()
       .setIDProject(resultSet.getInt("id_project"))
       .setIDStudent(resultSet.getString("id_student"))

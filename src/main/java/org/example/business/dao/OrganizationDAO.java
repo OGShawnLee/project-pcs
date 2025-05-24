@@ -19,7 +19,7 @@ public class OrganizationDAO extends DAOPattern<OrganizationDTO, String> {
   private static final String DELETE_QUERY = "DELETE FROM Organization WHERE email = ?";
 
   @Override
-  protected OrganizationDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
+  OrganizationDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
     return new OrganizationDTO.OrganizationBuilder()
       .setEmail(resultSet.getString("email"))
       .setName(resultSet.getString("name"))

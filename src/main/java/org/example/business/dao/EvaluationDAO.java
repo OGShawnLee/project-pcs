@@ -20,7 +20,7 @@ public class EvaluationDAO extends DAOPattern<EvaluationDTO, FilterEvaluation> {
   private static final String DELETE_QUERY = "DELETE FROM Evaluation WHERE id_academic = ? AND id_project = ? AND id_student = ?";
 
   @Override
-  public EvaluationDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
+  EvaluationDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
     return new EvaluationDTO.EvaluationBuilder()
       .setIDAcademic(resultSet.getString("id_academic"))
       .setIDProject(resultSet.getInt("id_project"))

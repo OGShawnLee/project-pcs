@@ -20,7 +20,7 @@ public class CourseDAO extends DAOPattern<CourseDTO, String> {
   private static final String DELETE_QUERY = "DELETE FROM Course WHERE nrc = ?";
 
   @Override
-  public CourseDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
+  CourseDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
     return new CourseDTO.CourseBuilder()
       .setNRC(resultSet.getString("nrc"))
       .setIDAcademic(resultSet.getString("id_academic"))

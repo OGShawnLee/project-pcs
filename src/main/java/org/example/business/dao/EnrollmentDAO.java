@@ -19,7 +19,7 @@ package org.example.business.dao;
       private static final String DELETE_QUERY = "DELETE FROM Enrollment WHERE id_student = ? and id_course = ?";
 
       @Override
-      protected EnrollmentDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
+      EnrollmentDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
         return new EnrollmentDTO.EnrollmentBuilder()
           .setIDCourse(resultSet.getString("id_course"))
           .setIDStudent(resultSet.getString("id_student"))

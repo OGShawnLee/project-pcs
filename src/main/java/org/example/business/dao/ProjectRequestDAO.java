@@ -20,7 +20,7 @@ public class ProjectRequestDAO extends DAOPattern<ProjectRequestDTO, FilterProje
   private static final String DELETE_QUERY = "DELETE FROM ProjectRequest WHERE id_student = ? AND id_project = ?";
 
   @Override
-  public ProjectRequestDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
+  ProjectRequestDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
     return new ProjectRequestDTO.ProjectRequestBuilder()
       .setIDStudent(resultSet.getString("id_student"))
       .setIDProject(resultSet.getInt("id_project"))

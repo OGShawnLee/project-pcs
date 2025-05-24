@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StudentDAO extends DAOPattern<StudentDTO, String> {
-  protected static final String CREATE_QUERY =
+  private static final String CREATE_QUERY =
     "INSERT INTO Student (id_student, email, name, paternal_last_name, maternal_last_name, final_grade) VALUES (?, ?, ?, ?, ?, ?)";
   private static final String GET_ALL_QUERY =
     "SELECT * FROM Student";
@@ -22,7 +22,7 @@ public class StudentDAO extends DAOPattern<StudentDTO, String> {
     "DELETE FROM Student WHERE id_student = ?";
 
   @Override
-  protected StudentDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
+  StudentDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
     return new StudentDTO.StudentBuilder()
       .setID(resultSet.getString("id_student"))
       .setEmail(resultSet.getString("email"))

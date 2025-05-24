@@ -19,7 +19,7 @@ public class ProjectDAO extends DAOPattern<ProjectDTO, Integer> {
   private static final String DELETE_QUERY = "DELETE FROM Project WHERE id_project = ?";
 
   @Override
-  protected ProjectDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
+  ProjectDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
     return new ProjectDTO.ProjectBuilder()
       .setID(resultSet.getInt("id_project"))
       .setIDOrganization(resultSet.getString("id_organization"))

@@ -12,7 +12,7 @@ public abstract class DAOPattern<T, F> {
     return DBConnector.getConnection();
   }
 
-  protected abstract T createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException;
+  abstract T createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException;
 
   public abstract void createOne(T dataObject) throws SQLException;
 

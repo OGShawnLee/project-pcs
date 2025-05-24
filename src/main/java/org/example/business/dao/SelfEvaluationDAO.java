@@ -25,7 +25,7 @@ public class SelfEvaluationDAO extends DAOPattern<SelfEvaluationDTO, String> {
   private static final String DELETE_QUERY = "DELETE FROM SelfEvaluation WHERE id_student = ?";
 
   @Override
-  protected SelfEvaluationDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
+  SelfEvaluationDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
     return new SelfEvaluationDTO.SelfEvaluationBuilder()
       .setIDStudent(resultSet.getString("id_student"))
       .setFollowUpGrade(resultSet.getInt("follow_up_grade"))

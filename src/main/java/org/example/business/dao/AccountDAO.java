@@ -17,7 +17,7 @@ public class AccountDAO extends DAOPattern<AccountDTO, String> {
   private static final String DELETE_QUERY = "DELETE FROM Account WHERE email = ?";
 
   @Override
-  protected AccountDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
+  AccountDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
     return new AccountDTO(resultSet.getString("email"), resultSet.getString("password"));
   }
 

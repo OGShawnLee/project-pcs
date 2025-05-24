@@ -19,7 +19,7 @@ public class AcademicDAO extends DAOPattern<AcademicDTO, String> {
   private static final String DELETE_QUERY = "DELETE FROM Academic WHERE id_academic = ?";
 
   @Override
-  protected AcademicDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
+  AcademicDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
     return new AcademicDTO.AcademicBuilder()
       .setID(resultSet.getString("id_academic"))
       .setEmail(resultSet.getString("email"))

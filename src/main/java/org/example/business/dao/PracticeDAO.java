@@ -20,7 +20,7 @@ public class PracticeDAO extends DAOPattern<PracticeDTO, FilterPractice> {
   private static final String DELETE_QUERY = "DELETE FROM Practice WHERE id_student = ? AND id_project = ?";
 
   @Override
-  protected PracticeDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
+  PracticeDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
     return new PracticeDTO.PracticeBuilder()
       .setIDStudent(resultSet.getString("id_student"))
       .setIDProject(resultSet.getInt("id_project"))
