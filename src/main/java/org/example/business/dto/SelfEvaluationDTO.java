@@ -74,6 +74,25 @@ public class SelfEvaluationDTO {
     return createdAt;
   }
 
+  @Override
+  public boolean equals(Object instance) {
+    if (this == instance) return true;
+    if (instance == null || getClass() != instance.getClass()) return false;
+
+    SelfEvaluationDTO that = (SelfEvaluationDTO) instance;
+
+    return followUpGrade == that.followUpGrade &&
+           safetyGrade == that.safetyGrade &&
+           knowledgeApplicationGrade == that.knowledgeApplicationGrade &&
+           interestingGrade == that.interestingGrade &&
+           productivityGrade == that.productivityGrade &&
+           congruentGrade == that.congruentGrade &&
+           informedByOrganization == that.informedByOrganization &&
+           regulatedByOrganization == that.regulatedByOrganization &&
+           importanceForProfessionalDevelopment == that.importanceForProfessionalDevelopment &&
+           idStudent.equals(that.idStudent);
+  }
+
   public static class SelfEvaluationBuilder {
     protected String idStudent;
     protected int followUpGrade;
