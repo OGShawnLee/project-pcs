@@ -4,6 +4,13 @@ CREATE DATABASE IF NOT EXISTS Practice;
 
 USE Practice;
 
+# TODO: Add to the Diagrama and Dictinary
+CREATE TABLE Configuration (
+    name ENUM('EVALUATION-ENABLED') NOT NULL,
+    value TEXT NOT NULL,
+    PRIMARY KEY (name)
+);
+
 # TODO: Add to the Diagram and Dictionary
 CREATE TABLE Account (
     email VARCHAR(128) NOT NULL,

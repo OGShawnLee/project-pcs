@@ -199,4 +199,25 @@ public class Validator {
 
     throw new IllegalArgumentException("ID de Trabajador debe ser una cadena de texto de 5 carácteres de letras o digitos.");
   }
+
+  public static String getValidConfigurationName(String name) throws IllegalArgumentException {
+    String finalName = getValidString(name, "Nombre de Configuración");
+
+    if (finalName.equals("EVALUATION-ENABLED")) {
+      return finalName;
+    }
+
+    throw new IllegalArgumentException("Nombre de Configuración debe ser 'ENABLE-EVALUATION'.");
+  }
+
+  public static String getValidConfigurationValue(String name, String value) {
+    String finalName = getValidConfigurationName(name);
+    String finalValue = getValidString(value, "Valor de Configuración");
+
+    if (finalName.equals("EVALUATION-ENABLED") && (finalValue.equals("true") || finalValue.equals("false"))) {
+      return finalValue;
+    }
+
+    throw new IllegalArgumentException("Valor de Configuración debe ser 'true' o 'false' para 'ENABLE-EVALUATION'.");
+  }
 }

@@ -16,7 +16,8 @@
                 onMouseClicked="#navigateToReviewOrganizationListPage"/>
         <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="242.0" text="Proyectos"
                 onMouseClicked="#navigateToReviewProjectListPage"/>
-        <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="242.0" text="Estudiantes"/>
+        <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="242.0" text="Configuración"
+                onMouseClicked="#openConfigurationModal"/>
       </children>
     </VBox>
   </children>
