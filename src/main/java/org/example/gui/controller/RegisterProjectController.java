@@ -35,7 +35,7 @@ public class RegisterProjectController extends Controller {
     } catch (IllegalArgumentException e) {
       Modal.displayError(e.getMessage());
     } catch (SQLException e) {
-      Modal.displayError("No ha sido posible registrar el proyecto debido a un error de sistema.");
+      Modal.displayError("No ha sido posible registrar proyecto debido a un error en el sistema.");
     }
   }
 

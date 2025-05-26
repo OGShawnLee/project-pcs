@@ -47,7 +47,7 @@ public class RegisterOrganizationController extends Controller {
     } catch (IllegalArgumentException e) {
       Modal.displayError(e.getMessage());
     } catch (SQLException e) {
-      Modal.displayError("No ha sido posible registrar la organización debido a un error de sistema.");
+      Modal.displayError("No ha sido posible registrar organización debido a un error en el sistema.");
     }
   }
 

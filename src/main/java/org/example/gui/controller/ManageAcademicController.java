@@ -54,12 +54,12 @@ public class ManageAcademicController extends ManageController<AcademicDTO> {
         .build();
 
       ACADEMIC_DAO.updateOne(updatedAcademic);
-      Modal.displaySuccess("La organización ha sido actualizada con exito.");
+      Modal.displaySuccess("El académico ha sido actualizado exitosamente.");
       navigateToAcademicList();
     } catch (IllegalArgumentException e) {
       Modal.displayError(e.getMessage());
     } catch (SQLException e) {
-      Modal.displayError("No ha sido posible actualizar la organización debido a un error de sistema.");
+      Modal.displayError("No ha sido posible actualizar académico debido a un error en el sistema.");
     }
   }
 

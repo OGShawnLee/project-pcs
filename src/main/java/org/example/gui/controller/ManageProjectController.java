@@ -50,12 +50,12 @@ public class ManageProjectController extends ManageController<ProjectDTO> {
         .build();
 
       PROJECT_DAO.updateOne(updatedProject);
-      Modal.displaySuccess("El proyecto ha sido actualizado con éxito.");
+      Modal.displaySuccess("El proyecto ha sido actualizado exitosamente.");
       navigateToProjectList();
     } catch (IllegalArgumentException e) {
       Modal.displayError(e.getMessage());
     } catch (SQLException e) {
-      Modal.displayError("No ha sido posible actualizar el proyecto debido a un error de sistema.");
+      Modal.displayError("No ha sido posible actualizar proyecto debido a un error en el sistema.");
     }
   }
 

@@ -93,7 +93,7 @@ public class AssignProjectController extends ManageController<ProjectDTO> {
       }
     } catch (SQLException e) {
       Modal.displayError(
-        "No ha sido posible cargar información de estudiantes debido a un error de sistema." + e.getMessage()
+        "No ha sido posible cargar información de estudiantes debido a un error en el sistema." + e.getMessage()
       );
     }
   }
@@ -115,7 +115,7 @@ public class AssignProjectController extends ManageController<ProjectDTO> {
           .build()
       );
 
-      Modal.displaySuccess("Proyecto asignado a " + student.getName() + " correctamente.");
+      Modal.displaySuccess("El proyecto ha asignado a " + student.getName() + " exitosamente.");
     }
   }
 
@@ -132,7 +132,7 @@ public class AssignProjectController extends ManageController<ProjectDTO> {
         new FilterPractice(studentPractice.getStudentDTO().getID(), getCurrentDataObject().getID())
       );
 
-      Modal.displaySuccess("Proyecto desasignado de " + studentPractice.getStudentDTO().getName() + " correctamente.");
+      Modal.displaySuccess("El proyecto ha sido desasignado a " + studentPractice.getStudentDTO().getName() + " exitosamente.");
     }
   }
 
@@ -150,7 +150,7 @@ public class AssignProjectController extends ManageController<ProjectDTO> {
       Modal.displayError(e.getMessage());
     } catch (SQLException e) {
       Modal.displayError(
-        "No ha sido posible asignar el proyecto debido a un error de sistema." + e.getMessage()
+        "No ha sido posible guardar asignación del proyecto debido a un error en el sistema." + e.getMessage()
       );
     }
   }

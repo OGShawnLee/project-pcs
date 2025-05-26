@@ -53,7 +53,7 @@ public class ManageOrganizationController extends ManageController<OrganizationD
     } catch (IllegalArgumentException e) {
       Modal.displayError(e.getMessage());
     } catch (SQLException e) {
-      Modal.displayError("No ha sido posible actualizar la organización debido a un error de sistema.");
+      Modal.displayError("No ha sido posible actualizar organización debido a un error en el sistema.");
     }
   }
 

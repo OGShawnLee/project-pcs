@@ -48,13 +48,13 @@ public class RegisterAcademicController extends Controller {
 
       AccountDTO existingAccount = ACCOUNT_DAO.getOne(dataObjectAcademic.getEmail());
       if (existingAccount != null) {
-        Modal.displayError("No ha sido posible registrar el académico debido a que ya existe una cuenta con ese correo electrónico.");
+        Modal.displayError("No ha sido posible registrar académico debido a que ya existe una cuenta con ese correo electrónico.");
         return;
       }
 
       AcademicDTO existingAcademic = ACADEMIC_DAO.getOne(dataObjectAcademic.getID());
       if (existingAcademic != null) {
-        Modal.displayError("No ha sido posible registrar el académico debido a que ya existe un académico con la misma ID de Trabajador.");
+        Modal.displayError("No ha sido posible registrar académico debido a que ya existe un académico con la misma ID de Trabajador.");
         return;
       }
       String hashedPassword = BCrypt.hashpw(dataObjectAcademic.getID(), BCrypt.gensalt());
@@ -65,7 +65,7 @@ public class RegisterAcademicController extends Controller {
       Modal.displayError(e.getMessage());
     } catch (SQLException e) {
       System.out.println(e.getMessage());
-      Modal.displayError("No ha sido posible registrar el académico debido a un error de sistema.");
+      Modal.displayError("No ha sido posible registrar académico debido a un error en el sistema.");
     }
   }
 

@@ -50,7 +50,7 @@ public class ReviewProjectListController extends Controller {
       tableProject.setItems(observableProjectList);
     } catch (SQLException e) {
       Modal.displayError(
-        "No ha sido posible cargar información de académicos debido a un error en la base de datos."
+        "No ha sido posible cargar información de proyectos debido a un error en el sistema."
       );
     }
   }
