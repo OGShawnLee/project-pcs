@@ -1,6 +1,5 @@
 package org.example.gui.controller;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
@@ -21,7 +20,7 @@ public class RegisterProjectController extends Controller {
   @FXML
   private TextField fieldSector;
 
-  public void handleRegisterProject(ActionEvent event) {
+  public void handleRegister() {
     try {
       ProjectDTO dataObjectProject = new ProjectDTO.ProjectBuilder()
         .setIDOrganization(fieldEmail.getText())

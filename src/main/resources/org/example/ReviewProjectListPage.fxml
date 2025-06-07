@@ -27,7 +27,7 @@
             <children>
               <Button mnemonicParsing="false" onMouseClicked="#navigateToLandingPage" text="Volver a Inicio"
                       HBox.hgrow="ALWAYS"/>
-              <Button mnemonicParsing="false" onMouseClicked="#navigateToRegisterProjectPage"
+              <Button mnemonicParsing="false" onMouseClicked="#handleOpenRegisterProjectModal"
                       text="Registrar Proyecto"/>
             </children>
           </HBox>

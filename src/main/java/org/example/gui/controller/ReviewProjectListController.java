@@ -35,19 +35,29 @@ public class ReviewProjectListController extends Controller {
   @FXML
   private TableColumn<ProjectDTO, String> columnCreatedAt;
 
-  private void loadProjectList() {
+  public void initialize() {
+    loadProjectList();
+    loadTableColumns();
+    createContextMenuHandler();
+  }
+
+  private void loadTableColumns() {
     columnID.setCellValueFactory(new PropertyValueFactory<>("ID"));
-    columnName.setCellValueFactory(new PropertyValueFactory<>("name"));
     columnEmail.setCellValueFactory(new PropertyValueFactory<>("IDOrganization"));
+    columnName.setCellValueFactory(new PropertyValueFactory<>("name"));
     columnMethodology.setCellValueFactory(new PropertyValueFactory<>("methodology"));
     columnSector.setCellValueFactory(new PropertyValueFactory<>("sector"));
     columnState.setCellValueFactory(new PropertyValueFactory<>("state"));
     columnCreatedAt.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
+  }
 
+  private void loadProjectList() {
     try {
-      List<ProjectDTO> projectList = PROJECT_DAO.getAll();
-      ObservableList<ProjectDTO> observableProjectList = FXCollections.observableList(projectList);
-      tableProject.setItems(observableProjectList);
+      tableProject.setItems(
+        FXCollections.observableList(
+          PROJECT_DAO.getAll()
+        )
+      );
     } catch (SQLException e) {
       Modal.displayError(
         "No ha sido posible cargar información de proyectos debido a un error en el sistema."
@@ -64,8 +74,12 @@ public class ReviewProjectListController extends Controller {
     );
   }
 
-  public void navigateToRegisterProjectPage() {
-    navigateFromThisPageTo("Registrar Proyecto", "RegisterProjectPage");
+  public void handleOpenRegisterProjectModal() {
+    Modal.display(
+      "Registrar Proyecto",
+      "RegisterProjectModal",
+      this::loadProjectList
+    );
   }
 
   public static void navigateToProjectListPage(Stage currentStage) {
@@ -110,11 +124,5 @@ public class ReviewProjectListController extends Controller {
         menu.hide();
       }
     });
-  }
-
-  @FXML
-  private void initialize() {
-    loadProjectList();
-    createContextMenuHandler();
   }
 }

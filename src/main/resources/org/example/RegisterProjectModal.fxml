@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="720.0" prefWidth="720.0" stylesheets="@main.css" xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.gui.controller.RegisterProjectController">
+  <children>
+    <VBox layoutX="200.0" layoutY="180.0" prefWidth="320.0" spacing="16.0">
+      <children>
+        <Label styleClass="title" text="Registrar Proyecto">
+          <VBox.margin>
+            <Insets/>
+          </VBox.margin>
+          <padding>
+            <Insets bottom="8.0"/>
+          </padding>
+        </Label>
+        <VBox spacing="8.0">
+          <children>
+            <Label styleClass="label" text="Nombre"/>
+            <TextField fx:id="fieldName" promptText="Introduzca el Nombre del Proyecto" styleClass="input"/>
+          </children>
+        </VBox>
+        <VBox spacing="8.0">
+          <children>
+            <Label styleClass="label" text="Correo Electrónico"/>
+            <TextField fx:id="fieldEmail" promptText="Introduzca el Correo Electrónico de la Organización"
+                       styleClass="input"/>
+          </children>
+        </VBox>
+        <VBox spacing="8.0">
+          <children>
+            <Label styleClass="label" text="Metodología"/>
+            <TextField fx:id="fieldMethodology" promptText="Introduzca la Metodología del Proyecto" styleClass="input"/>
+          </children>
+        </VBox>
+        <VBox spacing="8.0">
+          <children>
+            <Label styleClass="label" text="Sector"/>
+            <TextField fx:id="fieldSector" promptText="Introduzca el Sector de la Proyecto" styleClass="input"/>
+          </children>
+        </VBox>
+        <HBox>
+          <children>
+            <Button mnemonicParsing="false" onAction="#handleRegister" prefWidth="320.0" styleClass="button"
+                    text="Registrar Proyecto"/>
+          </children>
+        </HBox>
+      </children>
+    </VBox>
+  </children>
+</AnchorPane>
