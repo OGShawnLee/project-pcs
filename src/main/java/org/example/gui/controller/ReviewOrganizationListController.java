@@ -31,18 +31,28 @@ public class ReviewOrganizationListController extends Controller {
   @FXML
   private TableColumn<OrganizationDTO, String> columnCreatedAt;
 
-  private void loadProjectList() {
+  public void initialize() {
+    loadTableColumns();
+    loadProjectList();
+    loadRowDoubleClickHandler();
+  }
+
+  public void loadTableColumns() {
     columnName.setCellValueFactory(new PropertyValueFactory<>("name"));
     columnEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
     columnRepresentativeFullName.setCellValueFactory(new PropertyValueFactory<>("representativeFullName"));
     columnColony.setCellValueFactory(new PropertyValueFactory<>("colony"));
     columnStreet.setCellValueFactory(new PropertyValueFactory<>("street"));
     columnCreatedAt.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
+  }
 
+  private void loadProjectList() {
     try {
-      List<OrganizationDTO> projectList = ORGANIZATION_DAO.getAll();
-      ObservableList<OrganizationDTO> observableOrganizationList = FXCollections.observableList(projectList);
-      tableOrganization.setItems(observableOrganizationList);
+      tableOrganization.setItems(
+        FXCollections.observableList(
+          ORGANIZATION_DAO.getAll()
+        )
+      );
     } catch (SQLException e) {
       Modal.displayError(
         "No ha sido posible cargar información de organizaciones debido a un error en el sistema."
@@ -50,8 +60,22 @@ public class ReviewOrganizationListController extends Controller {
     }
   }
 
-  public void navigateToRegisterOrganizationPage() {
-    navigateFromThisPageTo("Registrar Organización", "RegisterOrganizationPage");
+  private void loadRowDoubleClickHandler() {
+    setRowDoubleClickHandler(
+      tableOrganization,
+      organization -> {
+        navigateToManageOrganizationPage(organization);
+        return null;
+      }
+    );
+  }
+
+  public void handleOpenRegisterOrganizationModal() {
+    Modal.display(
+      "Registrar Organización",
+      "RegisterOrganizationModal",
+      this::loadProjectList
+    );
   }
 
   public static void navigateToOrganizationListPage(Stage currentStage) {
@@ -64,18 +88,6 @@ public class ReviewOrganizationListController extends Controller {
       "Gestionar Organización",
       "ManageOrganizationPage",
       currentOrganization
-    );
-  }
-
-  @FXML
-  private void initialize() {
-    loadProjectList();
-    setRowDoubleClickHandler(
-      tableOrganization,
-      organization -> {
-        navigateToManageOrganizationPage(organization);
-        return null;
-      }
     );
   }
 }

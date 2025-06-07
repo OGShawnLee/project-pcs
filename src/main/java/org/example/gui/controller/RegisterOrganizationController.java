@@ -23,7 +23,7 @@ public class RegisterOrganizationController extends Controller {
   @FXML
   private TextField fieldStreet;
 
-  public void handleRegisterOrganization(ActionEvent event) {
+  public void handleRegister() {
     try {
       OrganizationDTO dataObjectOrganization = new OrganizationDTO.OrganizationBuilder()
         .setEmail(fieldEmail.getText())
