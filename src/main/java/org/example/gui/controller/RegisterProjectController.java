@@ -22,23 +22,19 @@ public class RegisterProjectController extends Controller {
 
   public void handleRegister() {
     try {
-      ProjectDTO dataObjectProject = new ProjectDTO.ProjectBuilder()
+      ProjectDTO projectDTO = new ProjectDTO.ProjectBuilder()
         .setIDOrganization(fieldEmail.getText())
         .setName(fieldName.getText())
         .setMethodology(fieldMethodology.getText())
         .setSector(fieldSector.getText())
         .build();
 
-      PROJECT_DAO.createOne(dataObjectProject);
+      PROJECT_DAO.createOne(projectDTO);
       Modal.displaySuccess("El proyecto ha sido registrado exitosamente.");
     } catch (IllegalArgumentException e) {
       Modal.displayError(e.getMessage());
     } catch (SQLException e) {
       Modal.displayError("No ha sido posible registrar proyecto debido a un error en el sistema.");
     }
-  }
-
-  public void navigateToProjectList() {
-    ReviewProjectListController.navigateToProjectListPage(getScene());
   }
 }

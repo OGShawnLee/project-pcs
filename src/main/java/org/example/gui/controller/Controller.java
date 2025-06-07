@@ -4,9 +4,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+
 import org.example.gui.Modal;
 
 import java.io.IOException;
@@ -19,6 +21,11 @@ public abstract class Controller {
 
   protected Stage getScene() {
     return (Stage) container.getScene().getWindow();
+  }
+
+  protected static void loadRecordState(ComboBox<String> fieldState) {
+    fieldState.getItems().setAll("Activo", "Inactivo");
+    fieldState.setValue("Activo");
   }
 
   public void navigateToLandingPage() {

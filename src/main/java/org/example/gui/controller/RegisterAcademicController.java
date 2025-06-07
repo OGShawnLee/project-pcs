@@ -1,9 +1,9 @@
 package org.example.gui.controller;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+
 import org.example.business.dto.AcademicDTO;
 import org.example.business.dto.AccountDTO;
 import org.example.business.dao.AcademicDAO;
@@ -30,13 +30,17 @@ public class RegisterAcademicController extends Controller {
   private ComboBox<String> fieldRole;
 
   public void initialize() {
+    loadRoleComboBox(fieldRole);
+  }
+
+  public static void loadRoleComboBox(ComboBox<String> fieldRole) {
     fieldRole.getItems().addAll("Evaluador", "Evaluador y Profesor", "Profesor");
     fieldRole.setValue("Profesor");
   }
 
   public void handleRegister() {
     try {
-      AcademicDTO dataObjectAcademic = new AcademicDTO.AcademicBuilder()
+      AcademicDTO academicDTO = new AcademicDTO.AcademicBuilder()
         .setID(fieldIDAcademic.getText())
         .setEmail(fieldEmail.getText())
         .setName(fieldName.getText())
@@ -45,21 +49,21 @@ public class RegisterAcademicController extends Controller {
         .setRole(fieldRole.getValue())
         .build();
 
-      AccountDTO existingAccount = ACCOUNT_DAO.getOne(dataObjectAcademic.getEmail());
-      if (existingAccount != null) {
+      AccountDTO existingAccountDTO = ACCOUNT_DAO.getOne(academicDTO.getEmail());
+      if (existingAccountDTO != null) {
         Modal.displayError("No ha sido posible registrar académico debido a que ya existe una cuenta con ese correo electrónico.");
         return;
       }
 
-      AcademicDTO existingAcademic = ACADEMIC_DAO.getOne(dataObjectAcademic.getID());
-      if (existingAcademic != null) {
+      AcademicDTO existingAcademicDTO = ACADEMIC_DAO.getOne(academicDTO.getID());
+      if (existingAcademicDTO != null) {
         Modal.displayError("No ha sido posible registrar académico debido a que ya existe un académico con la misma ID de Trabajador.");
         return;
       }
 
-      String hashedPassword = BCrypt.hashpw(dataObjectAcademic.getID(), BCrypt.gensalt());
-      ACCOUNT_DAO.createOne(new AccountDTO(dataObjectAcademic.getEmail(), hashedPassword));
-      ACADEMIC_DAO.createOne(dataObjectAcademic);
+      String hashedPassword = BCrypt.hashpw(academicDTO.getID(), BCrypt.gensalt());
+      ACCOUNT_DAO.createOne(new AccountDTO(academicDTO.getEmail(), hashedPassword));
+      ACADEMIC_DAO.createOne(academicDTO);
       Modal.displaySuccess("El académico ha sido registrado exitosamente.");
     } catch (IllegalArgumentException e) {
       Modal.displayError(e.getMessage());

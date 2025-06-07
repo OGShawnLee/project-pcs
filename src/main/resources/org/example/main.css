@@ -1,4 +1,4 @@
-.button, .input, .label, .title {
+.button, .column, .input, .label, .title {
     -fx-font-family: "Geist";
 }
 

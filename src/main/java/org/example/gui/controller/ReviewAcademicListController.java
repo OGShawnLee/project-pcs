@@ -38,7 +38,6 @@ public class ReviewAcademicListController extends Controller {
   private void initialize() {
     loadTableColumns();
     loadAcademicList();
-    loadRowDoubleClickHandler();
   }
 
   private void loadTableColumns() {
@@ -66,16 +65,6 @@ public class ReviewAcademicListController extends Controller {
     }
   }
 
-  private void loadRowDoubleClickHandler() {
-    setRowDoubleClickHandler(
-      tableAcademic,
-      (academic) -> {
-        navigateToManageAcademicPage(academic);
-        return null;
-      }
-    );
-  }
-
   public void handleOpenRegisterAcademicModal() {
     Modal.display(
       "Registrar Académico",
@@ -84,16 +73,20 @@ public class ReviewAcademicListController extends Controller {
     );
   }
 
-  public static void navigateToAcademicListPage(Stage currentStage) {
-    navigateTo(currentStage, "Lista de Académicos", "ReviewAcademicListPage");
+  public void handleManageAcademic() {
+    AcademicDTO selectedAcademic = tableAcademic.getSelectionModel().getSelectedItem();
+
+    if (selectedAcademic == null) return;
+
+    Modal.displayManageModal(
+      "Gestionar Académico",
+      "ManageAcademicModal",
+      this::loadAcademicList,
+      selectedAcademic
+    );
   }
 
-  public void navigateToManageAcademicPage(AcademicDTO currentAcademic) {
-    navigateToManagePage(
-      getScene(),
-      "Gestionar Académico",
-      "ManageAcademicPage",
-      currentAcademic
-    );
+  public static void navigateToAcademicListPage(Stage currentStage) {
+    navigateTo(currentStage, "Lista de Académicos", "ReviewAcademicListPage");
   }
 }

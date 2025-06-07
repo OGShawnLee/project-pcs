@@ -1,6 +1,5 @@
 package org.example.gui.controller;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
@@ -25,7 +24,7 @@ public class RegisterOrganizationController extends Controller {
 
   public void handleRegister() {
     try {
-      OrganizationDTO dataObjectOrganization = new OrganizationDTO.OrganizationBuilder()
+      OrganizationDTO organizationDTO = new OrganizationDTO.OrganizationBuilder()
         .setEmail(fieldEmail.getText())
         .setName(fieldName.getText())
         .setRepresentativeFullName(fieldRepresentative.getText())
@@ -33,25 +32,21 @@ public class RegisterOrganizationController extends Controller {
         .setStreet(fieldStreet.getText())
         .build();
 
-      OrganizationDTO dataObjectExistingOrganization = ORGANIZATION_DAO.getOne(dataObjectOrganization.getEmail());
+      OrganizationDTO existingOrganizationDTO = ORGANIZATION_DAO.getOne(organizationDTO.getEmail());
 
-      if (dataObjectExistingOrganization != null) {
+      if (existingOrganizationDTO != null) {
         Modal.displayError(
           "No ha sido posible registrar la organización debido a que ya existe una organización registrada con ese correo electrónico."
         );
         return;
       }
 
-      ORGANIZATION_DAO.createOne(dataObjectOrganization);
+      ORGANIZATION_DAO.createOne(organizationDTO);
       Modal.displaySuccess("La organización ha sido registrada exitosamente.");
     } catch (IllegalArgumentException e) {
       Modal.displayError(e.getMessage());
     } catch (SQLException e) {
       Modal.displayError("No ha sido posible registrar organización debido a un error en el sistema.");
     }
-  }
-
-  public void navigateToOrganizationList() {
-    ReviewOrganizationListController.navigateToOrganizationListPage(getScene());
   }
 }

@@ -3,6 +3,7 @@ package org.example.gui.controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+
 import org.example.business.dao.AcademicDAO;
 import org.example.business.dto.AcademicDTO;
 import org.example.gui.Modal;
@@ -26,24 +27,27 @@ public class ManageAcademicController extends ManageController<AcademicDTO> {
   @FXML
   private ComboBox<String> fieldState;
 
-  public void initialize(AcademicDTO currentAcademic) {
-    fieldIDAcademic.setText(currentAcademic.getID());
-    fieldEmail.setText(currentAcademic.getEmail());
-    fieldName.setText(currentAcademic.getName());
-    fieldPaternalLastName.setText(currentAcademic.getPaternalLastName());
-    fieldMaternalLastName.setText(currentAcademic.getMaternalLastName());
-    fieldRole.setValue(currentAcademic.getRole());
-    fieldState.setValue(currentAcademic.getState());
-    fieldRole.getItems().addAll("Evaluador", "Evaluador y Profesor", "Profesor");
-    fieldState.getItems().addAll("Activo", "Inactivo");
-    fieldIDAcademic.setEditable(false);
+  @Override
+  public void initialize(AcademicDTO dataObject) {
+    super.initialize(dataObject);
+    RegisterAcademicController.loadRoleComboBox(fieldRole);
+    loadRecordState(fieldState);
+    loadDataObjectFields();
   }
 
-  @Override
-  @FXML
-  protected void handleUpdateCurrentDataObject() {
+  public void loadDataObjectFields() {
+    fieldIDAcademic.setText(getCurrentDataObject().getID());
+    fieldEmail.setText(getCurrentDataObject().getEmail());
+    fieldName.setText(getCurrentDataObject().getName());
+    fieldPaternalLastName.setText(getCurrentDataObject().getPaternalLastName());
+    fieldMaternalLastName.setText(getCurrentDataObject().getMaternalLastName());
+    fieldRole.setValue(getCurrentDataObject().getRole());
+    fieldState.setValue(getCurrentDataObject().getState());
+  }
+
+  public void handleUpdateCurrentDataObject() {
     try {
-      AcademicDTO updatedAcademic = new AcademicDTO.AcademicBuilder()
+      AcademicDTO academicDTO = new AcademicDTO.AcademicBuilder()
         .setID(fieldIDAcademic.getText())
         .setEmail(fieldEmail.getText())
         .setName(fieldName.getText())
@@ -53,18 +57,12 @@ public class ManageAcademicController extends ManageController<AcademicDTO> {
         .setState(fieldState.getValue())
         .build();
 
-      ACADEMIC_DAO.updateOne(updatedAcademic);
+      ACADEMIC_DAO.updateOne(academicDTO);
       Modal.displaySuccess("El académico ha sido actualizado exitosamente.");
-      navigateToAcademicList();
     } catch (IllegalArgumentException e) {
       Modal.displayError(e.getMessage());
     } catch (SQLException e) {
       Modal.displayError("No ha sido posible actualizar académico debido a un error en el sistema.");
     }
-  }
-
-  @FXML
-  private void navigateToAcademicList() {
-    ReviewAcademicListController.navigateToAcademicListPage(getScene());
   }
 }
