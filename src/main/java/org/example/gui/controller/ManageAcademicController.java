@@ -45,6 +45,7 @@ public class ManageAcademicController extends ManageController<AcademicDTO> {
     fieldState.setValue(getCurrentDataObject().getState());
   }
 
+  @Override
   public void handleUpdateCurrentDataObject() {
     try {
       AcademicDTO academicDTO = new AcademicDTO.AcademicBuilder()

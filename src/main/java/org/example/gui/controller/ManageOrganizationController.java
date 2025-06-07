@@ -3,6 +3,7 @@ package org.example.gui.controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+
 import org.example.business.dao.OrganizationDAO;
 import org.example.business.dto.OrganizationDTO;
 import org.example.gui.Modal;
@@ -24,19 +25,24 @@ public class ManageOrganizationController extends ManageController<OrganizationD
   @FXML
   private ComboBox<String> fieldState;
 
+  @Override
   public void initialize(OrganizationDTO currentOrganization) {
-    fieldName.setText(currentOrganization.getName());
-    fieldEmail.setText(currentOrganization.getEmail());
-    fieldRepresentative.setText(currentOrganization.getRepresentativeFullName());
-    fieldColony.setText(currentOrganization.getColony());
-    fieldStreet.setText(currentOrganization.getStreet());
-    fieldState.setValue(currentOrganization.getState());
-    fieldState.getItems().addAll("Activo", "Inactivo");
+    super.initialize(currentOrganization);
+    loadRecordState(fieldState);
+    loadDataObjectFields();
+  }
+
+  public void loadDataObjectFields() {
+    fieldName.setText(getCurrentDataObject().getName());
+    fieldEmail.setText(getCurrentDataObject().getEmail());
+    fieldRepresentative.setText(getCurrentDataObject().getRepresentativeFullName());
+    fieldColony.setText(getCurrentDataObject().getColony());
+    fieldStreet.setText(getCurrentDataObject().getStreet());
+    fieldState.setValue(getCurrentDataObject().getState());
   }
 
   @Override
-  @FXML
-  protected void handleUpdateCurrentDataObject() {
+  public void handleUpdateCurrentDataObject() {
     try {
       OrganizationDTO updatedOrganization = new OrganizationDTO.OrganizationBuilder()
         .setEmail(fieldEmail.getText())
@@ -49,15 +55,10 @@ public class ManageOrganizationController extends ManageController<OrganizationD
 
       ORGANIZATION_DAO.updateOne(updatedOrganization);
       Modal.displaySuccess("La organización ha sido actualizada con éxito.");
-      navigateToOrganizationList();
     } catch (IllegalArgumentException e) {
       Modal.displayError(e.getMessage());
     } catch (SQLException e) {
       Modal.displayError("No ha sido posible actualizar organización debido a un error en el sistema.");
     }
-  }
-
-  public void navigateToOrganizationList() {
-    ReviewOrganizationListController.navigateToOrganizationListPage(getScene());
   }
 }

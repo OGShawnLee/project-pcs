@@ -33,8 +33,7 @@ public class ReviewOrganizationListController extends Controller {
 
   public void initialize() {
     loadTableColumns();
-    loadProjectList();
-    loadRowDoubleClickHandler();
+    loadOrganizationList();
   }
 
   public void loadTableColumns() {
@@ -46,7 +45,7 @@ public class ReviewOrganizationListController extends Controller {
     columnCreatedAt.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
   }
 
-  private void loadProjectList() {
+  private void loadOrganizationList() {
     try {
       tableOrganization.setItems(
         FXCollections.observableList(
@@ -60,34 +59,28 @@ public class ReviewOrganizationListController extends Controller {
     }
   }
 
-  private void loadRowDoubleClickHandler() {
-    setRowDoubleClickHandler(
-      tableOrganization,
-      organization -> {
-        navigateToManageOrganizationPage(organization);
-        return null;
-      }
-    );
-  }
-
   public void handleOpenRegisterOrganizationModal() {
     Modal.display(
       "Registrar Organización",
       "RegisterOrganizationModal",
-      this::loadProjectList
+      this::loadOrganizationList
+    );
+  }
+
+  public void handleManageOrganization() {
+    OrganizationDTO selectedOrganization = tableOrganization.getSelectionModel().getSelectedItem();
+
+    if (selectedOrganization == null) return;
+
+    Modal.displayManageModal(
+      "Gestionar Organización",
+      "ManageOrganizationModal",
+      this::loadOrganizationList,
+      selectedOrganization
     );
   }
 
   public static void navigateToOrganizationListPage(Stage currentStage) {
     navigateTo(currentStage, "Listado de Acádemicos", "ReviewOrganizationListPage");
-  }
-
-  public void navigateToManageOrganizationPage(OrganizationDTO currentOrganization) {
-    navigateToManagePage(
-      getScene(),
-      "Gestionar Organización",
-      "ManageOrganizationPage",
-      currentOrganization
-    );
   }
 }
