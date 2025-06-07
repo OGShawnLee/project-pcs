@@ -1,0 +1,12 @@
+.button, .input, .label, .title {
+    -fx-font-family: "Geist";
+}
+
+.title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.button, .input {
+    -fx-pref-height: 32px;
+}

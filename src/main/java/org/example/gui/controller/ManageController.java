@@ -7,7 +7,7 @@ public abstract class ManageController<T> extends Controller {
     return currentDataObject;
   }
 
-  protected void initialize(T dataObject) {
+  public void initialize(T dataObject) {
     this.currentDataObject = dataObject;
   }
 

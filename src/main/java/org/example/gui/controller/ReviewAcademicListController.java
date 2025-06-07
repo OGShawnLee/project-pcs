@@ -1,18 +1,17 @@
 package org.example.gui.controller;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+
 import org.example.business.dto.AcademicDTO;
 import org.example.business.dao.AcademicDAO;
 import org.example.gui.Modal;
 
 import java.sql.SQLException;
-import java.util.List;
 
 public class ReviewAcademicListController extends Controller {
   private static final AcademicDAO ACADEMIC_DAO = new AcademicDAO();
@@ -35,20 +34,31 @@ public class ReviewAcademicListController extends Controller {
   @FXML
   private TableColumn<AcademicDTO, String> columnCreatedAt;
 
-  private void loadAcademicList() {
+  @FXML
+  private void initialize() {
+    loadTableColumns();
+    loadAcademicList();
+    loadRowDoubleClickHandler();
+  }
+
+  private void loadTableColumns() {
     columnID.setCellValueFactory(new PropertyValueFactory<>("ID"));
-    columnName.setCellValueFactory(new PropertyValueFactory<>("name"));
     columnEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+    columnName.setCellValueFactory(new PropertyValueFactory<>("name"));
     columnPaternalLastName.setCellValueFactory(new PropertyValueFactory<>("paternalLastName"));
     columnMaternalLastName.setCellValueFactory(new PropertyValueFactory<>("maternalLastName"));
     columnRole.setCellValueFactory(new PropertyValueFactory<>("role"));
     columnState.setCellValueFactory(new PropertyValueFactory<>("state"));
     columnCreatedAt.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
+  }
 
+  private void loadAcademicList() {
     try {
-      List<AcademicDTO> academicList = ACADEMIC_DAO.getAll();
-      ObservableList<AcademicDTO> observableAcademicList = FXCollections.observableList(academicList);
-      tableAcademic.setItems(observableAcademicList);
+      tableAcademic.setItems(
+        FXCollections.observableList(
+          ACADEMIC_DAO.getAll()
+        )
+      );
     } catch (SQLException e) {
       Modal.displayError(
         "No ha sido posible cargar información de académicos debido a un error de sistema."
@@ -56,8 +66,22 @@ public class ReviewAcademicListController extends Controller {
     }
   }
 
-  public void navigateToRegisterAcademicPage() {
-    navigateFromThisPageTo("Registrar Académico", "RegisterAcademicPage");
+  private void loadRowDoubleClickHandler() {
+    setRowDoubleClickHandler(
+      tableAcademic,
+      (academic) -> {
+        navigateToManageAcademicPage(academic);
+        return null;
+      }
+    );
+  }
+
+  public void handleOpenRegisterAcademicModal() {
+    Modal.display(
+      "Registrar Académico",
+      "RegisterAcademicModal",
+      this::loadAcademicList
+    );
   }
 
   public static void navigateToAcademicListPage(Stage currentStage) {
@@ -70,18 +94,6 @@ public class ReviewAcademicListController extends Controller {
       "Gestionar Académico",
       "ManageAcademicPage",
       currentAcademic
-    );
-  }
-
-  @FXML
-  private void initialize() {
-    loadAcademicList();
-    setRowDoubleClickHandler(
-      tableAcademic,
-      academic -> {
-        navigateToManageAcademicPage(academic);
-        return null;
-      }
     );
   }
 }

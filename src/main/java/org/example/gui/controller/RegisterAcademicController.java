@@ -29,13 +29,12 @@ public class RegisterAcademicController extends Controller {
   @FXML
   private ComboBox<String> fieldRole;
 
-  @FXML
   public void initialize() {
     fieldRole.getItems().addAll("Evaluador", "Evaluador y Profesor", "Profesor");
     fieldRole.setValue("Profesor");
   }
 
-  public void handleRegisterAcademic(ActionEvent event) {
+  public void handleRegister() {
     try {
       AcademicDTO dataObjectAcademic = new AcademicDTO.AcademicBuilder()
         .setID(fieldIDAcademic.getText())
@@ -57,6 +56,7 @@ public class RegisterAcademicController extends Controller {
         Modal.displayError("No ha sido posible registrar académico debido a que ya existe un académico con la misma ID de Trabajador.");
         return;
       }
+
       String hashedPassword = BCrypt.hashpw(dataObjectAcademic.getID(), BCrypt.gensalt());
       ACCOUNT_DAO.createOne(new AccountDTO(dataObjectAcademic.getEmail(), hashedPassword));
       ACADEMIC_DAO.createOne(dataObjectAcademic);
@@ -67,9 +67,5 @@ public class RegisterAcademicController extends Controller {
       System.out.println(e.getMessage());
       Modal.displayError("No ha sido posible registrar académico debido a un error en el sistema.");
     }
-  }
-
-  public void navigateToAcademicList() {
-    ReviewAcademicListController.navigateToAcademicListPage(getScene());
   }
 }

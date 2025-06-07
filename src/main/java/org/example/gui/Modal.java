@@ -8,18 +8,28 @@ import javafx.scene.control.TextInputDialog;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import org.example.gui.controller.ManageController;
+
 import java.io.IOException;
 import java.util.Objects;
 import java.util.Optional;
 
 public class Modal {
   public static void display(String title, String resourceFileName) {
+    display(title, resourceFileName, null);
+  }
+
+  public static void display(String title, String resourceFileName, Runnable onClose) {
     try {
       Parent root = FXMLLoader.load(
         Objects.requireNonNull(Modal.class.getResource("/org/example/" + resourceFileName + ".fxml"))
       );
       Scene newScene = new Scene(root);
       Stage modalStage = new Stage();
+
+      if (onClose != null) {
+        modalStage.setOnHidden(event -> onClose.run());
+      }
 
       modalStage.setTitle(title);
       modalStage.setScene(newScene);
@@ -28,6 +38,33 @@ public class Modal {
       modalStage.showAndWait();
     } catch (IOException e) {
       Modal.displayError("No ha sido posible cargar modal.");
+    }
+  }
+
+  public static <T> void displayManageModal(String title, String resourceFileName, Runnable onClose, T dataObject) {
+    try {
+      FXMLLoader loader = new FXMLLoader(
+        Objects.requireNonNull(Modal.class.getResource("/org/example/" + resourceFileName + ".fxml"))
+      );
+
+      Parent root = loader.load();
+      Scene newScene = new Scene(root);
+      Stage modalStage = new Stage();
+
+      if (onClose != null) {
+        modalStage.setOnHidden(event -> onClose.run());
+      }
+
+      ManageController<T> controller = loader.getController();
+      controller.initialize(dataObject);
+
+      modalStage.setTitle(title);
+      modalStage.setScene(newScene);
+      modalStage.setResizable(false);
+      modalStage.initModality(Modality.APPLICATION_MODAL);
+      modalStage.showAndWait();
+    } catch (IOException e) {
+      displayError("No ha sido posible cargar el modal de gestión.");
     }
   }
 

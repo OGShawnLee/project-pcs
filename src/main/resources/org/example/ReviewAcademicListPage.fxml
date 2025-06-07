@@ -26,7 +26,7 @@
           <HBox alignment="CENTER_LEFT" fillHeight="false" spacing="32.0" VBox.vgrow="ALWAYS">
             <children>
               <Button mnemonicParsing="false" onMouseClicked="#navigateToLandingPage" text="Volver a Inicio"/>
-              <Button mnemonicParsing="false" onMouseClicked="#navigateToRegisterAcademicPage"
+              <Button mnemonicParsing="false" onMouseClicked="#handleOpenRegisterAcademicModal"
                       text="Registrar Académico" HBox.hgrow="ALWAYS"/>
             </children>
           </HBox>
