@@ -16,7 +16,7 @@ import org.example.gui.Modal;
 import java.sql.SQLException;
 import java.util.List;
 
-public class ReviewProjectListController extends Controller {
+public class ReviewProjectListController extends ReviewListController {
   private static final ProjectDAO PROJECT_DAO = new ProjectDAO();
   @FXML
   private TableView<ProjectDTO> tableProject;
@@ -35,13 +35,15 @@ public class ReviewProjectListController extends Controller {
   @FXML
   private TableColumn<ProjectDTO, String> columnCreatedAt;
 
+  @Override
   public void initialize() {
-    loadProjectList();
+    loadDataList();
     loadTableColumns();
     createContextMenuHandler();
   }
 
-  private void loadTableColumns() {
+  @Override
+  public void loadTableColumns() {
     columnID.setCellValueFactory(new PropertyValueFactory<>("ID"));
     columnEmail.setCellValueFactory(new PropertyValueFactory<>("IDOrganization"));
     columnName.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -51,7 +53,8 @@ public class ReviewProjectListController extends Controller {
     columnCreatedAt.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
   }
 
-  private void loadProjectList() {
+  @Override
+  public void loadDataList() {
     try {
       tableProject.setItems(
         FXCollections.observableList(
@@ -78,7 +81,7 @@ public class ReviewProjectListController extends Controller {
     Modal.display(
       "Registrar Proyecto",
       "RegisterProjectModal",
-      this::loadProjectList
+      this::loadDataList
     );
   }
 

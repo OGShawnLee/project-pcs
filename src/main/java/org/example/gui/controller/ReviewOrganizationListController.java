@@ -1,7 +1,6 @@
 package org.example.gui.controller;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -12,9 +11,8 @@ import org.example.business.dao.OrganizationDAO;
 import org.example.gui.Modal;
 
 import java.sql.SQLException;
-import java.util.List;
 
-public class ReviewOrganizationListController extends Controller {
+public class ReviewOrganizationListController extends ReviewListController {
   private static final OrganizationDAO ORGANIZATION_DAO = new OrganizationDAO();
   @FXML
   private TableView<OrganizationDTO> tableOrganization;
@@ -31,11 +29,7 @@ public class ReviewOrganizationListController extends Controller {
   @FXML
   private TableColumn<OrganizationDTO, String> columnCreatedAt;
 
-  public void initialize() {
-    loadTableColumns();
-    loadOrganizationList();
-  }
-
+  @Override
   public void loadTableColumns() {
     columnName.setCellValueFactory(new PropertyValueFactory<>("name"));
     columnEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
@@ -45,7 +39,8 @@ public class ReviewOrganizationListController extends Controller {
     columnCreatedAt.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
   }
 
-  private void loadOrganizationList() {
+  @Override
+  public void loadDataList() {
     try {
       tableOrganization.setItems(
         FXCollections.observableList(
@@ -63,7 +58,7 @@ public class ReviewOrganizationListController extends Controller {
     Modal.display(
       "Registrar Organización",
       "RegisterOrganizationModal",
-      this::loadOrganizationList
+      this::loadDataList
     );
   }
 
@@ -75,7 +70,7 @@ public class ReviewOrganizationListController extends Controller {
     Modal.displayManageModal(
       "Gestionar Organización",
       "ManageOrganizationModal",
-      this::loadOrganizationList,
+      this::loadDataList,
       selectedOrganization
     );
   }

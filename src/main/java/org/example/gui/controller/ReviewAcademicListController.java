@@ -13,7 +13,7 @@ import org.example.gui.Modal;
 
 import java.sql.SQLException;
 
-public class ReviewAcademicListController extends Controller {
+public class ReviewAcademicListController extends ReviewListController {
   private static final AcademicDAO ACADEMIC_DAO = new AcademicDAO();
   @FXML
   private TableView<AcademicDTO> tableAcademic;
@@ -34,13 +34,8 @@ public class ReviewAcademicListController extends Controller {
   @FXML
   private TableColumn<AcademicDTO, String> columnCreatedAt;
 
-  @FXML
-  private void initialize() {
-    loadTableColumns();
-    loadAcademicList();
-  }
-
-  private void loadTableColumns() {
+  @Override
+  public void loadTableColumns() {
     columnID.setCellValueFactory(new PropertyValueFactory<>("ID"));
     columnEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
     columnName.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -51,7 +46,8 @@ public class ReviewAcademicListController extends Controller {
     columnCreatedAt.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
   }
 
-  private void loadAcademicList() {
+  @Override
+  public void loadDataList() {
     try {
       tableAcademic.setItems(
         FXCollections.observableList(
@@ -69,7 +65,7 @@ public class ReviewAcademicListController extends Controller {
     Modal.display(
       "Registrar Académico",
       "RegisterAcademicModal",
-      this::loadAcademicList
+      this::loadDataList
     );
   }
 
@@ -81,7 +77,7 @@ public class ReviewAcademicListController extends Controller {
     Modal.displayManageModal(
       "Gestionar Académico",
       "ManageAcademicModal",
-      this::loadAcademicList,
+      this::loadDataList,
       selectedAcademic
     );
   }
