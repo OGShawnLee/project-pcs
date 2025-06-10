@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 public class OrganizationDAOTest {
   public static final OrganizationDAO ORGANIZATION_DAO = new OrganizationDAO();
   public static final OrganizationDTO ORGANIZATION_DTO = new OrganizationDTO.OrganizationBuilder()
-    .setEmail("microsoft@outlook.com")
+    .setEmail("microsoftest@outlook.com")
     .setName("Microsoft")
     .setRepresentativeFullName("Bill Gates")
     .setColony("Redmond")

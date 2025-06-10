@@ -78,6 +78,18 @@ public class AccountDAOTest {
   }
 
   @Test
+  void testUpdateOnAccountRole() {
+    assertDoesNotThrow(() -> {
+      createOneTestAcademicAccount();
+
+      AccountDTO updatedAccount = new AccountDTO(ACADEMIC_ACCOUNT_DTO.email(), ACADEMIC_ACCOUNT_DTO.password(), AccountDTO.Role.ACADEMIC_EVALUATOR);
+      ACCOUNT_DAO.updateOne(updatedAccount);
+
+      Assertions.assertEquals(updatedAccount, ACCOUNT_DAO.getOne(ACADEMIC_ACCOUNT_DTO.email()));
+    });
+  }
+
+  @Test
   void testDeleteOneAccount() {
     assertDoesNotThrow(() -> {
       createOneTestAcademicAccount();

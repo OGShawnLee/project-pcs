@@ -20,7 +20,7 @@ public class AcademicDAOTest {
     .setName("John")
     .setPaternalLastName("Doe")
     .setMaternalLastName("Smith")
-    .setRole("PROFESSOR")
+    .setRole(AcademicDTO.Role.ACADEMIC)
     .setState("ACTIVE")
     .build();
 
@@ -99,7 +99,7 @@ public class AcademicDAOTest {
         .setName(ACADEMIC_DTO.getName())
         .setPaternalLastName(ACADEMIC_DTO.getPaternalLastName())
         .setMaternalLastName(ACADEMIC_DTO.getMaternalLastName())
-        .setRole("EVALUATOR")
+        .setRole(AcademicDTO.Role.ACADEMIC_EVALUATOR)
         .setState("ACTIVE")
         .build();
 
@@ -112,7 +112,7 @@ public class AcademicDAOTest {
         .setName(ACADEMIC_DTO.getName())
         .setPaternalLastName(ACADEMIC_DTO.getPaternalLastName())
         .setMaternalLastName(ACADEMIC_DTO.getMaternalLastName())
-        .setRole("EVALUATOR-PROFESSOR")
+        .setRole(AcademicDTO.Role.ACADEMIC_EVALUATOR)
         .setState("ACTIVE")
         .build();
 
