@@ -28,6 +28,8 @@ public class ReviewOrganizationListController extends ReviewListController imple
   @FXML
   private TableColumn<OrganizationDTO, String> columnStreet;
   @FXML
+  private TableColumn<OrganizationDTO, String> columnState;
+  @FXML
   private TableColumn<OrganizationDTO, String> columnCreatedAt;
 
   @Override
@@ -37,6 +39,7 @@ public class ReviewOrganizationListController extends ReviewListController imple
     columnRepresentativeFullName.setCellValueFactory(new PropertyValueFactory<>("representativeFullName"));
     columnColony.setCellValueFactory(new PropertyValueFactory<>("colony"));
     columnStreet.setCellValueFactory(new PropertyValueFactory<>("street"));
+    columnState.setCellValueFactory(new PropertyValueFactory<>("state"));
     columnCreatedAt.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
   }
 
