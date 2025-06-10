@@ -7,6 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.ComboBox?>
 
 <AnchorPane fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
             prefHeight="720.0" prefWidth="720.0" stylesheets="@main.css" xmlns="http://javafx.com/javafx/23.0.1"
@@ -30,9 +31,10 @@
         </VBox>
         <VBox spacing="8.0">
           <children>
-            <Label styleClass="label" text="Correo Electrónico"/>
-            <TextField fx:id="fieldEmail" promptText="Introduzca el Correo Electrónico de la Organización"
-                       styleClass="input"/>
+            <Label styleClass="label" text="Organización"/>
+            <ComboBox fx:id="comboBoxOrganization" maxWidth="1.7976931348623157E308"
+                      promptText="Seleccione una Organización"
+                      styleClass="input"/>
           </children>
         </VBox>
         <VBox spacing="8.0">
@@ -44,7 +46,8 @@
         <VBox spacing="8.0">
           <children>
             <Label styleClass="label" text="Sector"/>
-            <TextField fx:id="fieldSector" promptText="Introduzca el Sector de la Proyecto" styleClass="input"/>
+            <ComboBox fx:id="comboBoxSector" maxWidth="1.7976931348623157E308" promptText="Seleccione un Sector"
+                      styleClass="input"/>
           </children>
         </VBox>
         <HBox>

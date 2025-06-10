@@ -52,6 +52,11 @@ public class OrganizationDTO {
   }
 
   @Override
+  public String toString() {
+    return name + " (" + email + ")";
+  }
+
+  @Override
   public boolean equals(Object instance) {
     if (this == instance) return true;
     if (instance == null || getClass() != instance.getClass()) return false;
