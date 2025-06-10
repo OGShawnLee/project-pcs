@@ -66,7 +66,7 @@ public class RegisterAcademicController extends Controller {
         new AccountDTO(
           academicDTO.getEmail(),
           AuthClient.getInstance().createGeneratedHashedPassword(academicDTO.getID()),
-          AccountDTO.Role.ACADEMIC
+          AccountDTO.Role.fromAcademicRole(academicDTO.getRole())
         )
       );
       ACADEMIC_DAO.createOne(academicDTO);

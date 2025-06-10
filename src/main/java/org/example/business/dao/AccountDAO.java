@@ -13,7 +13,7 @@ public class AccountDAO extends DAOPattern<AccountDTO, String> {
   private static final String CREATE_QUERY = "INSERT INTO Account (email, password, role) VALUES (?, ?, ?)";
   private static final String GET_QUERY = "SELECT * FROM Account WHERE email = ?";
   private static final String GET_ALL_QUERY = "SELECT * FROM Account";
-  private static final String UPDATE_QUERY = "UPDATE Account SET password = ? WHERE email = ?";
+  private static final String UPDATE_QUERY = "UPDATE Account SET password = ?, role = ? WHERE email = ?";
   private static final String DELETE_QUERY = "DELETE FROM Account WHERE email = ?";
   private static final String CHECK_COORDINATOR_ACCOUNT = "SELECT COUNT(*) FROM Account WHERE role = 'COORDINATOR'";
 
@@ -83,7 +83,8 @@ public class AccountDAO extends DAOPattern<AccountDTO, String> {
       PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
     ) {
       statement.setString(1, dataObject.password());
-      statement.setString(2, dataObject.email());
+      statement.setString(2, dataObject.role().toString());
+      statement.setString(3, dataObject.email());
       statement.executeUpdate();
     }
   }

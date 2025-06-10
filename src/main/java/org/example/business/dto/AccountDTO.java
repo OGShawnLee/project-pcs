@@ -9,7 +9,15 @@ public record AccountDTO(String email, String password, Role role) {
     ACADEMIC,
     ACADEMIC_EVALUATOR,
     EVALUATOR,
-    STUDENT
+    STUDENT;
+
+    public static Role fromAcademicRole(AcademicDTO.Role academicRole) {
+      return switch (academicRole) {
+        case ACADEMIC -> Role.ACADEMIC;
+        case ACADEMIC_EVALUATOR -> Role.ACADEMIC_EVALUATOR;
+        case EVALUATOR -> Role.EVALUATOR;
+      };
+    }
   }
 
   public AccountDTO(String email, String password, Role role) {
