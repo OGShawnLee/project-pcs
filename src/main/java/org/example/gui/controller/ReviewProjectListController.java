@@ -2,8 +2,6 @@ package org.example.gui.controller;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -37,7 +35,6 @@ public class ReviewProjectListController extends ReviewListController implements
   public void initialize() {
     loadDataList();
     loadTableColumns();
-    createContextMenuHandler();
   }
 
   @Override
@@ -96,15 +93,6 @@ public class ReviewProjectListController extends ReviewListController implements
     }
   }
 
-  public void navigateToAssignPage(ProjectDTO currentProject) {
-    navigateToManagePage(
-      getScene(),
-      "Asignar Proyecto",
-      "AssignProjectPage",
-      currentProject
-    );
-  }
-
   public void handleOpenRegisterProjectModal() {
     Modal.display(
       "Registrar Proyecto",
@@ -113,47 +101,33 @@ public class ReviewProjectListController extends ReviewListController implements
     );
   }
 
-  public static void navigateToProjectListPage(Stage currentStage) {
-    navigateTo(currentStage, "Listado de Proyectos", "ReviewProjectListPage");
-  }
+  public void handleManageProject() {
+    ProjectDTO selectedProject = tableProject.getSelectionModel().getSelectedItem();
 
-  public void navigateToManageProjectPage(ProjectDTO currentProject) {
-    navigateToManagePage(
-      getScene(),
-      "Modificar Proyecto",
-      "ManageProjectPage",
-      currentProject
+    if (selectedProject == null) return;
+
+    Modal.displayManageModal(
+      "Gestionar Projecto",
+      "ManageProjectModal",
+      this::loadDataList,
+      selectedProject
     );
   }
 
-  private void createContextMenuHandler() {
-    ContextMenu menu = new ContextMenu();
+  public void handleManageProjectPractice() {
+    ProjectDTO selectedProject = tableProject.getSelectionModel().getSelectedItem();
 
-    MenuItem itemAssign = new MenuItem("Asignar Proyecto");
-    itemAssign.setOnAction(event -> {
-      ProjectDTO currentProject = tableProject.getSelectionModel().getSelectedItem();
-      if (currentProject != null) {
-        navigateToAssignPage(currentProject);
-      }
-    });
+    if (selectedProject == null) return;
 
-    MenuItem itemEdit = new MenuItem("Gestionar Proyecto");
-    itemEdit.setOnAction(event -> {
-      ProjectDTO currentProject = tableProject.getSelectionModel().getSelectedItem();
-      if (currentProject != null) {
-        navigateToManageProjectPage(currentProject);
-      }
-    });
+    Modal.displayManageModal(
+      "Gestionar Proyecto",
+      "AssignProjectPage",
+      this::loadDataList,
+      selectedProject
+    );
+  }
 
-    menu.getItems().addAll(itemAssign, itemEdit);
-
-    tableProject.setOnContextMenuRequested(event -> {
-      ProjectDTO currentProject = tableProject.getSelectionModel().getSelectedItem();
-      if (currentProject != null) {
-        menu.show(tableProject, event.getScreenX(), event.getScreenY());
-      } else {
-        menu.hide();
-      }
-    });
+  public static void navigateToProjectListPage(Stage currentStage) {
+    navigateTo(currentStage, "Listado de Proyectos", "ReviewProjectListPage");
   }
 }

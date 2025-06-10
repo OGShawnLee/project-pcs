@@ -11,11 +11,11 @@
 
 <AnchorPane fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
             prefHeight="720.0" prefWidth="720.0" stylesheets="@main.css" xmlns="http://javafx.com/javafx/23.0.1"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.gui.controller.ManageOrganizationController">
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.gui.controller.ManageProjectController">
   <children>
-    <VBox layoutX="200.0" layoutY="113.0" prefWidth="320.0" spacing="16.0">
+    <VBox layoutX="200.0" layoutY="109.0" prefWidth="320.0" spacing="16.0">
       <children>
-        <Label styleClass="title" text="Gestionar Organización">
+        <Label styleClass="title" text="Gestionar Proyecto">
           <VBox.margin>
             <Insets/>
           </VBox.margin>
@@ -25,49 +25,48 @@
         </Label>
         <VBox spacing="8.0">
           <children>
+            <Label styleClass="label" text="ID del Proyecto"/>
+            <TextField fx:id="fieldIDProject" disable="true" editable="false"
+                       promptText="Introduzca el Nombre del Proyecto" styleClass="input"/>
+          </children>
+        </VBox>
+        <VBox spacing="8.0">
+          <children>
             <Label styleClass="label" text="Nombre"/>
-            <TextField fx:id="fieldName" promptText="Introduzca el Nombre de la Organización" styleClass="input"/>
+            <TextField fx:id="fieldName" promptText="Introduzca el Nombre del Proyecto" styleClass="input"/>
           </children>
         </VBox>
         <VBox spacing="8.0">
           <children>
-            <Label styleClass="label" text="Correo Electrónico"/>
-            <TextField fx:id="fieldEmail" disable="true" editable="false"
-                       promptText="Introduzca el Correo Electrónico de la Organización" styleClass="input"/>
+            <Label styleClass="label" text="Organización"/>
+            <ComboBox fx:id="comboBoxOrganization" maxWidth="1.7976931348623157E308" promptText="Eliga una Organización"
+                      styleClass="input"/>
           </children>
         </VBox>
         <VBox spacing="8.0">
           <children>
-            <Label styleClass="label" text="Representante"/>
-            <TextField fx:id="fieldRepresentative"
-                       promptText="Introduzca el Nombre del Representante de la Organización" styleClass="input"/>
+            <Label styleClass="label" text="Metodología"/>
+            <TextField fx:id="fieldMethodology" promptText="Introduzca la Metodología del Proyecto" styleClass="input"/>
           </children>
         </VBox>
         <VBox spacing="8.0">
           <children>
-            <Label styleClass="label" text="Colonia"/>
-            <TextField fx:id="fieldColony" promptText="Introduzca la Colonia donde se ubica la Organización"
-                       styleClass="input"/>
-          </children>
-        </VBox>
-        <VBox spacing="8.0">
-          <children>
-            <Label styleClass="label" text="Calle"/>
-            <TextField fx:id="fieldStreet" promptText="Introduzca la Calle donde se ubica la Organización"
-                       styleClass="input"/>
+            <Label styleClass="label" text="Sector"/>
+            <ComboBox fx:id="comboBoxSector" maxWidth="1.7976931348623157E308" promptText="Seleccione un Sector"
+                      styleClass="input"/>
           </children>
         </VBox>
         <VBox spacing="8.0">
           <children>
             <Label text="Estado"/>
-            <ComboBox fx:id="fieldState" maxWidth="1.7976931348623157E308" promptText="Activo / Inactivo"
+            <ComboBox fx:id="comboBoxState" maxWidth="1.7976931348623157E308" promptText="Activo / Inactivo"
                       styleClass="input"/>
           </children>
         </VBox>
         <HBox>
           <children>
             <Button mnemonicParsing="false" onAction="#handleUpdateCurrentDataObject" prefWidth="320.0"
-                    styleClass="button" text="Actualizar Organización"/>
+                    styleClass="button" text="Actualizar Proyecto"/>
           </children>
         </HBox>
       </children>

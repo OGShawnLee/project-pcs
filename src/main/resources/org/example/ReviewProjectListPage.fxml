@@ -26,7 +26,9 @@
               <Button mnemonicParsing="false" onMouseClicked="#handleOpenRegisterProjectModal"
                       text="Registrar Proyecto" styleClass="button"/>
               <Button mnemonicParsing="false" onMouseClicked="#handleManageProject"
-                      text="Editar Académico" styleClass="button"/>
+                      text="Editar Proyecto" styleClass="button"/>
+              <Button mnemonicParsing="false" onMouseClicked="#handleManageProjectPractice"
+                      text="Gestionar Asignación" styleClass="button"/>
             </HBox>
             <HBox alignment="CENTER_LEFT" spacing="16.0">
               <Button mnemonicParsing="false" onMouseClicked="#loadDataList"
