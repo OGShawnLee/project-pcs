@@ -1,34 +1,20 @@
 package org.example.gui.controller;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.example.business.dto.AccountDTO;
-import org.example.business.dto.EnrollmentDTO;
 import org.example.business.dto.StudentDTO;
 import org.example.business.dao.AccountDAO;
-import org.example.business.dao.EnrollmentDAO;
 import org.example.business.dao.StudentDAO;
-import org.example.business.dao.filter.FilterEnrollment;
 import org.example.gui.Modal;
 
-import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Objects;
+import java.util.Optional;
 
-public class ManageStudentController {
+public class ManageStudentController extends ManageController<StudentDTO> {
 
-    private final AccountDAO ACCOUNT_DAO = new AccountDAO();
-    private final StudentDAO STUDENT_DAO = new StudentDAO();
-
-    @FXML
-    private TextField fieldIDStudent;
     @FXML
     private TextField fieldName;
     @FXML
@@ -39,106 +25,109 @@ public class ManageStudentController {
     private TextField fieldEmail;
     @FXML
     private ComboBox<String> stateComboBox;
-    @FXML
-    private TextField fieldNRC;
 
-    private StudentDTO previousStudent;
+    private final AccountDAO ACCOUNT_DAO = new AccountDAO();
+    private final StudentDAO STUDENT_DAO = new StudentDAO();
 
     @FXML
     public void initialize() {
         stateComboBox.getItems().addAll("Activo", "Archivado");
     }
 
-    public void setStudent(StudentDTO student) {
-        this.previousStudent = student;
+    @Override
+    protected void initialize(StudentDTO student) {
+        super.initialize(student);
+        loadStudentData(student);
+    }
 
-        fieldIDStudent.setText(student.getID());
+    private void loadStudentData(StudentDTO student) {
         fieldName.setText(student.getName());
         fieldPaternalLastName.setText(student.getPaternalLastName());
         fieldMaternalLastName.setText(student.getMaternalLastName());
         fieldEmail.setText(student.getEmail());
 
-        EnrollmentDAO enrollmentDAO = new EnrollmentDAO();
-        try {
-            var enrollment = enrollmentDAO.getOne(
-                    new FilterEnrollment(previousStudent.getID(), null)
-            );
-            if (enrollment != null) {
-                fieldNRC.setText(enrollment.getIDCourse());
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            Modal.displayError("No se pudo cargar el NRC del estudiante debido a un error de conexion con la base de datos");
-        }
-
         String state = student.getState();
-        if (state.equalsIgnoreCase("ACTIVE")) {
+        if ("ACTIVE".equalsIgnoreCase(state)) {
             stateComboBox.setValue("Activo");
-        } else if (state.equalsIgnoreCase("RETIRED")) {
+        } else if ("RETIRED".equalsIgnoreCase(state)) {
             stateComboBox.setValue("Archivado");
         }
     }
 
-    public void handleUpdateStudent(ActionEvent event) throws IOException {
-        String selectedState = stateComboBox.getValue();
-        String internalState = selectedState.equalsIgnoreCase("Activo") ? "ACTIVE" : "RETIRED";
+
+    @FXML
+    @Override
+    protected void handleUpdateCurrentDataObject() {
         try {
-            StudentDTO dataObjectStudent = new StudentDTO.StudentBuilder()
+            String selectedState = stateComboBox.getValue();
+            String internalState = selectedState.equalsIgnoreCase("Activo") ? "ACTIVE" : "RETIRED";
+
+            StudentDTO previousStudent = getCurrentDataObject();
+
+            StudentDTO updatedStudent = new StudentDTO.StudentBuilder()
+                    .setID(previousStudent.getID())
+                    .setName(fieldName.getText())
                     .setPaternalLastName(fieldPaternalLastName.getText())
                     .setMaternalLastName(fieldMaternalLastName.getText())
-                    .setName(fieldName.getText())
-                    .setID(fieldIDStudent.getText())
                     .setEmail(fieldEmail.getText())
                     .setState(internalState)
                     .setFinalGrade(previousStudent.getFinalGrade())
                     .build();
 
-            AccountDTO existingAccount = ACCOUNT_DAO.getOne(dataObjectStudent.getEmail());
-            if (existingAccount != null && !dataObjectStudent.getEmail().equals(previousStudent.getEmail())) {
-                Modal.displayError("No ha sido posible actualizar al estudiante debido a que ya existe una cuenta con ese correo electrónico.");
+            AccountDTO existingAccount = ACCOUNT_DAO.getOne(updatedStudent.getEmail());
+            if (existingAccount != null && !updatedStudent.getEmail().equals(previousStudent.getEmail())) {
+                Modal.displayError("Ya existe una cuenta con ese correo electrónico.");
                 return;
             }
 
-            StudentDTO existingStudent = STUDENT_DAO.getOne(dataObjectStudent.getID());
+            StudentDTO existingStudent = STUDENT_DAO.getOne(updatedStudent.getID());
             if (existingStudent != null && !existingStudent.getID().equals(previousStudent.getID())) {
-                Modal.displayError("No ha sido posible actualizar al estudiante debido a que ya existe un estudiante con la misma ID de Estudiante.");
+                Modal.displayError("Ya existe un estudiante con la misma ID.");
                 return;
             }
 
-            ACCOUNT_DAO.updateOne(new AccountDTO(dataObjectStudent.getEmail(), dataObjectStudent.getID())
-            );
-            STUDENT_DAO.updateOne(dataObjectStudent);
-
-            String newNRC = fieldNRC.getText().trim();
-            if (!newNRC.isEmpty()) {
-                EnrollmentDAO enrollmentDAO = new EnrollmentDAO();
-                var existingEnrollment = enrollmentDAO.getOne(new FilterEnrollment(previousStudent.getID(), null));
-                if (existingEnrollment != null) {
-                    enrollmentDAO.deleteOne(new FilterEnrollment(previousStudent.getID(), existingEnrollment.getIDCourse()));
-                }
-                EnrollmentDTO newEnrollment = new EnrollmentDTO.EnrollmentBuilder()
-                        .setIDCourse(newNRC)
-                        .setIDStudent(dataObjectStudent.getID())
-                        .build();
-                enrollmentDAO.createOne(newEnrollment);
-            }
+            ACCOUNT_DAO.updateOne(new AccountDTO(updatedStudent.getEmail(), updatedStudent.getID()));
+            STUDENT_DAO.updateOne(updatedStudent);
 
             Modal.displaySuccess("Estudiante actualizado exitosamente.");
-            returnToReviewStudentsPage(event);
+            navigateToStudentList();
+
+        } catch (SQLException e) {
+            Modal.displayError("Error en la conexión con la base de datos.");
         } catch (IllegalArgumentException e) {
             Modal.displayError(e.getMessage());
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            Modal.displayError("No ha sido posible actualizar al estudiante debido a un error de conexion con la base de datos.");
         }
     }
 
     @FXML
-    public void returnToReviewStudentsPage(ActionEvent event) throws IOException {
-        Parent newView = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/example/ReviewStudentListPage.fxml")));
-        Scene newScene = new Scene(newView);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(newScene);
-        stage.show();
+    private void handleDeleteStudent() {
+        StudentDTO student = getCurrentDataObject();
+
+        Optional<Boolean> confirmation = Modal.promptConfirmation(
+                "Confirmar eliminación",
+                "¿Deseas eliminar al estudiante?",
+                "Esta acción eliminará permanentemente el estudiante, su cuenta y su inscripción (enrollment)."
+        );
+
+        if (confirmation.isEmpty() || !confirmation.get()) return;
+
+        try {
+
+            ACCOUNT_DAO.deleteOne(student.getEmail());
+
+            STUDENT_DAO.deleteOne(student.getID());
+
+            Modal.displaySuccess("Estudiante eliminado correctamente.");
+            navigateToStudentList();
+
+        } catch (SQLException e) {
+            Modal.displayError("No se pudo eliminar el estudiante por un error en la base de datos.");
+        }
+    }
+
+
+
+    public void navigateToStudentList() {
+        ReviewStudentListController.navigateToStudentListPage(getScene());
     }
 }

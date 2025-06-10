@@ -4,7 +4,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="217.0" prefWidth="479.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.gui.controller.RegisterFinalGradeController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="217.0"
+            prefWidth="479.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
+            fx:id="container" fx:controller="org.example.gui.controller.RegisterFinalGradeController">
    <children>
       <Label layoutX="31.0" layoutY="45.0" text="Inserte la calificacion que desea asignar">
          <font>
@@ -12,6 +14,7 @@
          </font>
       </Label>
       <TextField fx:id="finalGradeField" layoutX="165.0" layoutY="120.0" />
-      <Button fx:id="registerFinalGradeButton" layoutX="213.0" layoutY="167.0" mnemonicParsing="false" onAction="#updateStudentFinalGrade" text="Aceptar" />
+      <Button layoutX="213.0" layoutY="167.0" mnemonicParsing="false" onAction="#handleUpdateCurrentDataObject" text="Aceptar" />
+      <Button layoutX="14.0" layoutY="167.0" mnemonicParsing="false" onAction="#navigateToStudentList" text="Volver" />
    </children>
-</Pane>
+</AnchorPane>

@@ -1,4 +1,4 @@
-package org.example.gui.controller;
+package org.example.gui;
 
 public class Session {
     private static Object currentUser;

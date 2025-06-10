@@ -9,7 +9,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.example.business.dto.EvaluationDTO;
-import org.example.business.Validator;
 import org.example.business.dao.EvaluationDAO;
 import org.example.gui.Modal;
 
@@ -18,7 +17,7 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class RegisterEvaluationController {
+public class RegisterEvaluationController extends Controller{
 
     private final EvaluationDAO EVALUATION_DAO = new EvaluationDAO();
 
@@ -56,11 +55,6 @@ public class RegisterEvaluationController {
                 return;
             }
 
-            int skillGrade = Validator.getValidGrade(skillGradeStr);
-            int contentGrade = Validator.getValidGrade(contentGradeStr);
-            int writingGrade = Validator.getValidGrade(writingGradeStr);
-            int requirementsGrade = Validator.getValidGrade(requirementsGradeStr);
-
             EvaluationDTO evaluation = new EvaluationDTO.EvaluationBuilder()
                     .setIDProject(idProject)
                     .setIDStudent(idStudent)
@@ -95,5 +89,9 @@ public class RegisterEvaluationController {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(newScene);
         stage.show();
+    }
+
+    public static void navigateToRegisterEvaluationPage(Stage currentStage) {
+        navigateTo(currentStage, "Registrar evaluación", "RegisterEvaluationPage");
     }
 }

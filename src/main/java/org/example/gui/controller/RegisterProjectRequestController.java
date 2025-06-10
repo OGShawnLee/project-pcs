@@ -6,12 +6,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.CheckBoxTableCell;
@@ -22,14 +17,14 @@ import org.example.business.dto.ProjectRequestDTO;
 import org.example.business.dao.ProjectRequestDAO;
 import org.example.business.dto.StudentDTO;
 import org.example.gui.Modal;
+import org.example.gui.Session;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class RegisterProjectRequestController {
+public class RegisterProjectRequestController extends Controller{
 
     @FXML
     private TableView<ProjectDTO> projectRequestTable;
@@ -38,7 +33,7 @@ public class RegisterProjectRequestController {
     @FXML
     private TableColumn<ProjectDTO, String> emailColumn;
     @FXML
-    private TableColumn<ProjectDTO, String> metodologyColumn;
+    private TableColumn<ProjectDTO, String> methodologyColumn;
     @FXML
     private TableColumn<ProjectDTO, String> sectorColumn;
     @FXML
@@ -56,7 +51,7 @@ public class RegisterProjectRequestController {
 
         nameColumn.setCellValueFactory(cd -> new SimpleStringProperty(cd.getValue().getName()));
         emailColumn.setCellValueFactory(cd -> new SimpleStringProperty(cd.getValue().getIDOrganization()));
-        metodologyColumn.setCellValueFactory(cd -> new SimpleStringProperty(cd.getValue().getMethodology()));
+        methodologyColumn.setCellValueFactory(cd -> new SimpleStringProperty(cd.getValue().getMethodology()));
         sectorColumn.setCellValueFactory(cd -> new SimpleStringProperty(cd.getValue().getSector()));
 
         checkBoxColumn.setCellValueFactory(cellData -> {
@@ -88,7 +83,7 @@ public class RegisterProjectRequestController {
     }
 
     @FXML
-    public void handleRegisterProjectRequest (ActionEvent event) {
+    public void handleRegisterProjectRequest () {
         Object user = Session.getCurrentUser();
         if (!(user instanceof StudentDTO student)) {
             Modal.displayError("Solo es una solicitud de proyecto por estudiante.");
@@ -113,11 +108,9 @@ public class RegisterProjectRequestController {
                 PROJECT_REQUEST_DAO.createOne(newRequest);
             }
             Modal.displaySuccess("La autoevaluacion ha sido registrada exitosamente.");
-            returnToMainPage(event);
+            StudentMainController.navigateToStudentMain(getScene());
         } catch (SQLException e) {
             Modal.displayError("No ha sido posible registrar la organización debido a un error de sistema.");
-        } catch (IOException e) {
-            Modal.displayError("Ha ocurrido un error al cargar la pagina");
         }
     }
 
@@ -131,13 +124,11 @@ public class RegisterProjectRequestController {
         }
     }
 
-    @FXML
-    public void returnToMainPage(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/StudentMainPage.fxml"));
-        Parent root = loader.load();
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.setTitle("Menu Principal");
-        stage.show();
+    public void goBack() {
+        StudentMainController.navigateToStudentMain(getScene());
+    }
+
+    public static void navigateToRegisterProjectRequest(Stage currentStage) {
+        navigateTo(currentStage, "Registrar Solicitud de Proyecto", "RegisterProjectRequestPage");
     }
 }

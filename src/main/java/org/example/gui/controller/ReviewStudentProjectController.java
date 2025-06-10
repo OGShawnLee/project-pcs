@@ -1,11 +1,7 @@
 package org.example.gui.controller;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import org.example.business.dao.PracticeDAO;
@@ -16,10 +12,10 @@ import org.example.business.dto.StudentDTO;
 import org.example.business.dao.OrganizationDAO;
 import org.example.business.dto.OrganizationDTO;
 import org.example.gui.Modal;
+import org.example.gui.Session;
 
-import java.io.IOException;
 
-public class ReviewStudentProjectController {
+public class ReviewStudentProjectController extends Controller{
 
     @FXML
     private Label labelProjectName;
@@ -52,19 +48,7 @@ public class ReviewStudentProjectController {
             }
 
             ProjectDTO myProject = new ProjectDAO().getOne(practice.getIDProject());
-
-            if (myProject == null) {
-                Modal.displayError("El proyecto asignado no pudo ser encontrado.");
-                return;
-            }
-
-            OrganizationDAO organizationDAO = new OrganizationDAO();
-            OrganizationDTO organization = organizationDAO.getOne(myProject.getIDOrganization());
-
-            if (organization == null) {
-                Modal.displayError("No se encontró la organización vinculada al proyecto.");
-                return;
-            }
+            OrganizationDTO organization = new OrganizationDAO().getOne(myProject.getIDOrganization());
 
             labelProjectName.setText(myProject.getName());
             labelOrganization.setText(organization.getName());
@@ -77,14 +61,12 @@ public class ReviewStudentProjectController {
         }
     }
 
-    @FXML
-    public void returnToMainPage(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/StudentMainPage.fxml"));
-        Parent root = loader.load();
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.setTitle("Menu Principal");
-        stage.show();
+    public void navigateToStudentMain() {
+        StudentMainController.navigateToStudentMain(getScene());
+    }
+
+    public static void navigateToUpdateStudent(Stage currentStage) {
+        navigateTo(currentStage, "Proyecto de Estudiante", "ReviewStudentProjectPage");
     }
 
 }

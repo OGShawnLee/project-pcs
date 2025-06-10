@@ -4,8 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.gui.controller.LoginAccountController" prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="org.example.gui.controller.LoginAccountController" fx:id="container" prefHeight="400.0" prefWidth="600.0">
    <children>
       <Label layoutX="230.0" layoutY="50.0" text="Inicio de Sesión">
          <font>

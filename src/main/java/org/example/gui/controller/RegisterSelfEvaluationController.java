@@ -1,24 +1,19 @@
 package org.example.gui.controller;
 
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 import org.example.business.dao.SelfEvaluationDAO;
 import org.example.business.dto.SelfEvaluationDTO;
 import org.example.business.dto.StudentDTO;
 import org.example.gui.Modal;
+import org.example.gui.Session;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.stream.IntStream;
 
-public class RegisterSelfEvaluationController {
+public class RegisterSelfEvaluationController extends Controller{
     @FXML
     private ComboBox<Integer> followUpGrade;
     @FXML
@@ -58,8 +53,7 @@ public class RegisterSelfEvaluationController {
         importanceForProfessionalDevelopment.setItems(numbers);
     }
 
-    @FXML
-    public void handleRegisterSelfEvaluation(ActionEvent event) {
+    public void handleRegisterSelfEvaluation() {
         Object user = Session.getCurrentUser();
         if (!(user instanceof StudentDTO student)) {
             Modal.displayError("Solo un estudiante puede registrar su autoevaluación.");
@@ -91,23 +85,19 @@ public class RegisterSelfEvaluationController {
 
             SELF_EVALUATION_DAO.createOne(dataObjectSelfEvaluation);
             Modal.displaySuccess("La autoevaluacion ha sido registrada exitosamente.");
-            returnToMainPage(event);
+            StudentMainController.navigateToStudentMain(getScene());
         } catch (IllegalArgumentException e) {
             Modal.displayError(e.getMessage());
         } catch (SQLException e) {
             Modal.displayError("No ha sido posible registrar la organización debido a un error de sistema.");
-        } catch (IOException e) {
-            Modal.displayError("Ha ocurrido un error al cargar la pagina");
         }
     }
 
-    @FXML
-    public void returnToMainPage(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/StudentMainPage.fxml"));
-        Parent root = loader.load();
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.setTitle("Menu Principal");
-        stage.show();
+    public void goBack() {
+        StudentMainController.navigateToStudentMain(getScene());
+    }
+
+    public static void navigateToRegisterSelfEvaluation(Stage currentStage) {
+        navigateTo(currentStage, "Registro de autoevaluacion", "RegisterSelfEvaluationPage");
     }
 }

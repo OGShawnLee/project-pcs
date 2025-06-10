@@ -6,7 +6,7 @@
 
 <ScrollPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.gui.controller.RegisterSelfEvaluationController">
     <content>
-        <AnchorPane prefHeight="660.0" prefWidth="585.0">
+        <AnchorPane fx:id="container" prefHeight="660.0" prefWidth="585.0">
             <Label layoutX="214.0" layoutY="45.0" text="Autoevaluacion">
                 <font>
                     <Font size="24.0" />
@@ -32,7 +32,7 @@
             <Label layoutX="43.0" layoutY="525.0" text="Importance for Professional Development" />
             <ComboBox fx:id="importanceForProfessionalDevelopment" layoutX="43.0" layoutY="545.0" prefHeight="25.0" prefWidth="160.0" promptText="Selecciona un número" />
             <Button layoutX="43.0" layoutY="595.0" onAction="#handleRegisterSelfEvaluation" prefHeight="25.0" prefWidth="125.0" text="Registrar Evaluacion" />
-            <Button layoutX="43.0" layoutY="50.0" mnemonicParsing="false" onAction="#returnToMainPage" text="Volver" />
+            <Button layoutX="43.0" layoutY="50.0" mnemonicParsing="false" onAction="#goBack" text="Volver" />
         </AnchorPane>
     </content>
 </ScrollPane>

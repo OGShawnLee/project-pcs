@@ -4,9 +4,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<Pane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
+<AnchorPane xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="org.example.gui.controller.StudentMainController"
-      prefHeight="400.0" prefWidth="600.0">
+      prefHeight="400.0" prefWidth="600.0" fx:id="container">
     <children>
         <Label layoutX="160.0" layoutY="40.0" text="Menú Principal Estudiante">
             <font>
@@ -14,19 +14,19 @@
             </font>
         </Label>
 
-        <Button layoutX="50.0" layoutY="120.0" mnemonicParsing="false" text="Actualizar datos"
-                onAction="#handleUpdateStudentAction" />
+        <Button layoutX="50.0" layoutY="120.0" mnemonicParsing="false" text="Actualizar mis datos"
+                onAction="#handleUpdateStudent" />
 
         <Button layoutX="50.0" layoutY="170.0" mnemonicParsing="false" text="Ver proyecto"
-                onAction="#handleReviewStudentProjectAction" />
+                onAction="#handleReviewStudentProject" />
 
         <Button layoutX="50.0" layoutY="220.0" mnemonicParsing="false" text="Registrar autoevaluación"
-                onAction="#handleRegisterSelfEvaluationAction" />
+                onAction="#navigateToRegisterSelfEvaluation" />
 
         <Button layoutX="350.0" layoutY="120.0" mnemonicParsing="false" text="Solicitar proyecto"
-                onAction="#handleRegisterProjectRequestAction" />
+                onAction="#handleRegisterProjectRequest" />
 
         <Button layoutX="350.0" layoutY="170.0" mnemonicParsing="false" text="Registrar reporte mensual"
                 onAction="#handleRegisterMonthlyReportAction" />
     </children>
-</Pane>
+</AnchorPane>

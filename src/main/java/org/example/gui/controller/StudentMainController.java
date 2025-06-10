@@ -1,68 +1,147 @@
 package org.example.gui.controller;
 
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.example.business.dao.PracticeDAO;
-import org.example.business.dao.ProjectDAO;
-import org.example.business.dto.StudentDTO;
+import org.example.business.dao.*;
+import org.example.business.dao.filter.FilterProject;
+import org.example.business.dto.*;
 import org.example.gui.Modal;
+import org.example.gui.Session;
 
-import java.io.IOException;
+import java.sql.SQLException;
 
-public class StudentMainController {
+public class StudentMainController extends Controller{
 
-    @FXML
-    private void handleUpdateStudentAction(ActionEvent event) throws IOException {
-        changeScene("/org/example/UpdateStudentPage.fxml", event);
-    }
-
-    @FXML
-    private void handleReviewStudentProjectAction(ActionEvent event) throws IOException {
+    public void handleUpdateStudent(){
         try {
-            StudentDTO student = (StudentDTO) Session.getCurrentUser();
-            PracticeDAO practiceDAO = new PracticeDAO();
+            Object currentUser = Session.getCurrentUser();
+            StudentDAO studentDAO = new StudentDAO();
 
-            boolean hasProject = practiceDAO.getAll().stream()
-                    .anyMatch(practice -> practice.getIDStudent().equals(student.getID()));
-
-            if (hasProject) {
-                changeScene("/org/example/ReviewStudentProjectPage.fxml", event);
-            } else {
-                Modal.displayError("Actualmente no tienes un proyecto asignado.");
+            if (currentUser instanceof StudentDTO studentSession) {
+                StudentDTO student = studentDAO.getOne(studentSession.getID());
+                Controller.navigateToManagePage(
+                        getScene(),
+                        "Gestión de estudiante",
+                        "UpdateStudentPage",
+                        student
+                );
             }
 
-        } catch (Exception e) {
-            Modal.displayError("Ocurrió un error al verificar tu proyecto.");
+        } catch (SQLException e) {
+            Modal.displayError("Error al buscar el estudiante en la base de datos.");
+
         }
     }
 
-    @FXML
-    private void handleRegisterSelfEvaluationAction(ActionEvent event) throws IOException {
-        changeScene("/org/example/RegisterSelfEvaluationPage.fxml", event);
+    public void handleReviewStudentProject(){
+        try {
+            Object user = Session.getCurrentUser();
+            if (!(user instanceof StudentDTO studentDTO)) {
+                Modal.displayError("El usuario actual no es un estudiante.");
+                return;
+            }
+
+            PracticeDAO practiceDAO = new PracticeDAO();
+            PracticeDTO practice = practiceDAO.getAll().stream()
+                    .filter(practiceDTO -> practiceDTO.getIDStudent().equals(studentDTO.getID()))
+                    .findFirst()
+                    .orElse(null);
+
+            if (practice == null) {
+                Modal.displayError("No tienes un proyecto asignado actualmente.");
+                return;
+            }
+
+            ProjectDTO myProject = new ProjectDAO().getOne(practice.getIDProject());
+            if (myProject == null) {
+                Modal.displayError("El proyecto asignado no pudo ser encontrado.");
+                return;
+            }
+
+            ReviewStudentProjectController.navigateToUpdateStudent(getScene());
+
+        } catch (SQLException e) {
+            Modal.displayError("Ocurrion un error al intentar obtener El proyecto");
+        }
+        ReviewStudentProjectController.navigateToUpdateStudent(getScene());
     }
 
-    @FXML
-    private void handleRegisterProjectRequestAction(ActionEvent event) throws IOException {
-        changeScene("/org/example/RegisterProjectRequestPage.fxml", event);
+    public void navigateToRegisterSelfEvaluation() {
+        try {
+            Object user = Session.getCurrentUser();
+            if (!(user instanceof StudentDTO currentStudent)) {
+                Modal.displayError("Solo los estudiantes pueden registrar evaluaciones.");
+                return;
+            }
+
+            String studentId = currentStudent.getID();
+
+            SelfEvaluationDAO selfEvaluationDAO = new SelfEvaluationDAO();
+            SelfEvaluationDTO selfEvaluationDTO = selfEvaluationDAO.getOne(studentId);
+
+            if (selfEvaluationDTO == null) {
+                RegisterSelfEvaluationController.navigateToRegisterSelfEvaluation(getScene());
+            } else {
+                Modal.displayError("Ya has realizado tu evaluacion");
+            }
+
+        } catch (SQLException e){
+            Modal.displayError("Ocurrio un error al intentar acceder a la base de datos");
+        }
+
     }
 
-    @FXML
-    private void handleRegisterMonthlyReportAction(ActionEvent event) throws IOException {
-        changeScene("/org/example/RegisterMonthlyReportPage.fxml", event);
+    public void handleRegisterProjectRequest() {
+        try {
+            Object user = Session.getCurrentUser();
+            if (!(user instanceof StudentDTO currentStudent)) {
+                Modal.displayError("Solo los estudiantes pueden registrar proyectos.");
+                return;
+            }
+
+            String studentId = currentStudent.getID();
+
+            PracticeDAO practiceDAO = new PracticeDAO();
+            PracticeDTO practice = practiceDAO.getAll().stream()
+                    .filter(p -> p.getIDStudent().equals(studentId))
+                    .findFirst()
+                    .orElse(null);
+
+            if (practice == null) {
+                RegisterProjectRequestController.navigateToRegisterProjectRequest(getScene());
+                return;
+            }
+
+            ProjectDAO projectDAO = new ProjectDAO();
+            ProjectDTO projectDTO = projectDAO.getOne(practice.getIDProject());
+
+            if (projectDTO != null) {
+                Modal.displayError("Ya tienes un proyecto asignado");
+                return;
+            }
+
+            FilterProject filterProject = new FilterProject(projectDTO.getID(), studentId);
+
+            ProjectRequestDAO requestDAO = new ProjectRequestDAO();
+            ProjectRequestDTO existingRequest = requestDAO.getOne(filterProject);
+
+            if (existingRequest != null) {
+                Modal.displayError("Ya realizaste una solicitud de projecto de proyecto.");
+            } else {
+                RegisterProjectRequestController.navigateToRegisterProjectRequest(getScene());
+            }
+
+        } catch (SQLException e) {
+            Modal.displayError("Ha ocurrido un error con la base de datos");
+        }
     }
 
-    private void changeScene(String path, ActionEvent event) throws IOException {
-        Parent newSceneParent = FXMLLoader.load(getClass().getResource(path));
-        Scene newScene = new Scene(newSceneParent);
-        Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        currentStage.setScene(newScene);
-        currentStage.show();
+
+
+    public void handleRegisterMonthlyReportAction(){
+
     }
 
-
+    public static void navigateToStudentMain(Stage currentStage) {
+        navigateTo(currentStage, "Página de Inicio Estudiante", "StudentMainPage");
+    }
 }

@@ -2,34 +2,39 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.text.Font?>
 
-<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="460.0" prefWidth="924.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.gui.controller.ReviewStudentListController">
-  <content>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="500.0" prefWidth="1000.0">
-         <children>
-            <AnchorPane layoutX="421.0" layoutY="74.0" />
-            <Label layoutX="345.0" layoutY="25.0" text="Lista de Estudiantes">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Label>
-            <Button fx:id="registerStudentButton" layoutX="43.0" layoutY="87.0" mnemonicParsing="false" onAction="#openRegisterStudent" prefWidth="167.0" text="Registrar Estudiante" />
-            <Button fx:id="manageStudentButton" layoutX="239.0" layoutY="87.0" mnemonicParsing="false" onAction="#openManageStudent" prefWidth="166.0" text="Gestionar Estudiante" />
-            <TableView fx:id="studentTable" layoutX="11.0" layoutY="125.0" onSort="#showTableStudents" prefHeight="450.0" prefWidth="877.0">
-              <columns>
-                <TableColumn fx:id="idColumn" editable="false" minWidth="-1.0" prefWidth="125.0" text="Matricula" />
-                <TableColumn fx:id="paternalLastNameColumn" editable="false" minWidth="-1.0" prefWidth="125.0" text="Apellido Paterno" />
-                <TableColumn fx:id="maternalLastNameColumn" editable="false" minWidth="-1.0" prefWidth="125.0" text="Apellido Materno" />
-                <TableColumn fx:id="nameColumn" editable="false" minWidth="-1.0" prefWidth="125.0" text="Nombre" />
-                <TableColumn fx:id="emailColumn" editable="false" minWidth="-1.0" prefWidth="125.0" text="Correo" />
-                <TableColumn fx:id="createdAtColumn" editable="false" minWidth="-1.0" prefWidth="125.0" text="Fecha de Registro" />
-                <TableColumn fx:id="finalGradeColumn" editable="false" minWidth="-1.0" prefWidth="125.0" text="Calificacion Final" />
-                <TableColumn fx:id="stateColumn" minWidth="-1.0" prefWidth="125.0" text="Estado" />
-              </columns>
-            </TableView>
-            <ComboBox fx:id="stateView" layoutX="705.0" layoutY="87.0" prefWidth="150.0" promptText="Todos" />
-            <Button layoutX="474.0" layoutY="87.0" mnemonicParsing="false" onAction="#openFinalGradeStudent" text="Registrar Calificacion Final" />
-         </children></AnchorPane>
-  </content>
-</ScrollPane>
+<AnchorPane prefHeight="720.0" prefWidth="1280.0"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.example.gui.controller.ReviewStudentListController"
+            fx:id="container">
+
+    <children>
+        <Label layoutX="480.0" layoutY="20.0" text="Lista de Estudiantes">
+            <font>
+                <Font size="24.0"/>
+            </font>
+        </Label>
+
+        <ComboBox fx:id="stateView" layoutX="50.0" layoutY="70.0" prefWidth="200.0"/>
+
+        <Button layoutX="270.0" layoutY="70.0" text="Registrar Estudiante" onAction="#openRegisterStudent"/>
+        <Button layoutX="450.0" layoutY="70.0" text="Gestionar Estudiante" onAction="#openManageStudent"/>
+        <Button layoutX="630.0" layoutY="70.0" text="Registrar Calificación Final" onAction="#openFinalGradeStudent"/>
+        <Button layoutX="810.0" layoutY="70.0" text="Volver al Menú" onAction="#goBackToMenu"/>
+
+        <TableView fx:id="studentTable" layoutX="50.0" layoutY="120.0" prefWidth="1180.0" prefHeight="560.0">
+            <columns>
+                <TableColumn fx:id="idColumn" text="Matrícula" prefWidth="100.0"/>
+                <TableColumn fx:id="nameColumn" text="Nombre" prefWidth="150.0"/>
+                <TableColumn fx:id="paternalLastNameColumn" text="Apellido Paterno" prefWidth="150.0"/>
+                <TableColumn fx:id="maternalLastNameColumn" text="Apellido Materno" prefWidth="150.0"/>
+                <TableColumn fx:id="emailColumn" text="Correo" prefWidth="200.0"/>
+                <TableColumn fx:id="createdAtColumn" text="Fecha Registro" prefWidth="150.0"/>
+                <TableColumn fx:id="finalGradeColumn" text="Calificación Final" prefWidth="130.0"/>
+                <TableColumn fx:id="stateColumn" text="Estado" prefWidth="100.0"/>
+            </columns>
+        </TableView>
+    </children>
+</AnchorPane>

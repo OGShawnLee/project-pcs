@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<Pane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.gui.controller.ReviewStudentProjectController">
+<AnchorPane fx:id="container" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.gui.controller.ReviewStudentProjectController">
     <children>
         <AnchorPane>
             <children>
@@ -28,8 +28,8 @@
 
                 <Label layoutX="43.0" layoutY="281.0" text="Sector:" />
                 <Label fx:id="labelSector" layoutX="150.0" layoutY="281.0" text="-" />
-                <Button layoutX="43.0" layoutY="50.0" mnemonicParsing="false" onAction="#returnToMainPage" text="Volver" />
+                <Button layoutX="43.0" layoutY="50.0" mnemonicParsing="false" onAction="#navigateToStudentMain" text="Volver" />
             </children>
         </AnchorPane>
     </children>
-</Pane>
+</AnchorPane>

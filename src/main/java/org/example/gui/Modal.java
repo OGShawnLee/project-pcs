@@ -4,6 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextInputDialog;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -53,5 +54,15 @@ public class Modal {
     dialog.setHeaderText(header);
     dialog.setContentText(content);
     return dialog.showAndWait();
+  }
+
+  public static Optional<Boolean> promptConfirmation(String title, String header, String content) {
+    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+    alert.setTitle(title);
+    alert.setHeaderText(header);
+    alert.setContentText(content);
+
+    Optional<ButtonType> result = alert.showAndWait();
+    return result.map(button -> button == ButtonType.OK);
   }
 }
