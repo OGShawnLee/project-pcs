@@ -1,7 +1,6 @@
 package org.example.gui.controller;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
@@ -14,9 +13,8 @@ import org.example.business.dao.ProjectDAO;
 import org.example.gui.Modal;
 
 import java.sql.SQLException;
-import java.util.List;
 
-public class ReviewProjectListController extends ReviewListController {
+public class ReviewProjectListController extends ReviewListController implements FilterableByStateController {
   private static final ProjectDAO PROJECT_DAO = new ProjectDAO();
   @FXML
   private TableView<ProjectDTO> tableProject;
@@ -68,6 +66,36 @@ public class ReviewProjectListController extends ReviewListController {
     }
   }
 
+  @Override
+  public void loadDataListByActiveState() {
+    try {
+      tableProject.setItems(
+        FXCollections.observableList(
+          PROJECT_DAO.getAllByState("ACTIVE")
+        )
+      );
+    } catch (SQLException e) {
+      Modal.displayError(
+        "No ha sido posible cargar información de proyectos activos debido a un error en el sistema."
+      );
+    }
+  }
+
+  @Override
+  public void loadDataListByInactiveState() {
+    try {
+      tableProject.setItems(
+        FXCollections.observableList(
+          PROJECT_DAO.getAllByState("INACTIVE")
+        )
+      );
+    } catch (SQLException e) {
+      Modal.displayError(
+        "No ha sido posible cargar información de proyectos inactivos debido a un error en el sistema."
+      );
+    }
+  }
+
   public void navigateToAssignPage(ProjectDTO currentProject) {
     navigateToManagePage(
       getScene(),
@@ -86,7 +114,7 @@ public class ReviewProjectListController extends ReviewListController {
   }
 
   public static void navigateToProjectListPage(Stage currentStage) {
-    navigateTo(currentStage, "Listado de Proyectos" , "ReviewProjectListPage");
+    navigateTo(currentStage, "Listado de Proyectos", "ReviewProjectListPage");
   }
 
   public void navigateToManageProjectPage(ProjectDTO currentProject) {

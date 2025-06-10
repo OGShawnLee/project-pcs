@@ -13,7 +13,7 @@ import org.example.gui.Modal;
 
 import java.sql.SQLException;
 
-public class ReviewAcademicListController extends ReviewListController {
+public class ReviewAcademicListController extends ReviewListController implements FilterableByStateController {
   private static final AcademicDAO ACADEMIC_DAO = new AcademicDAO();
   @FXML
   private TableView<AcademicDTO> tableAcademic;
@@ -57,6 +57,36 @@ public class ReviewAcademicListController extends ReviewListController {
     } catch (SQLException e) {
       Modal.displayError(
         "No ha sido posible cargar información de académicos debido a un error de sistema."
+      );
+    }
+  }
+
+  @Override
+  public void loadDataListByActiveState() {
+    try {
+      tableAcademic.setItems(
+        FXCollections.observableList(
+          ACADEMIC_DAO.getAllByState("ACTIVE")
+        )
+      );
+    } catch (SQLException e) {
+      Modal.displayError(
+        "No ha sido posible cargar información de académicos activos debido a un error de sistema."
+      );
+    }
+  }
+
+  @Override
+  public void loadDataListByInactiveState() {
+    try {
+      tableAcademic.setItems(
+        FXCollections.observableList(
+          ACADEMIC_DAO.getAllByState("RETIRED")
+        )
+      );
+    } catch (SQLException e) {
+      Modal.displayError(
+        "No ha sido posible cargar información de académicos inactivos debido a un error de sistema."
       );
     }
   }

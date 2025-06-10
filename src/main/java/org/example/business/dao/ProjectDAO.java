@@ -14,6 +14,7 @@ public class ProjectDAO extends DAOPattern<ProjectDTO, Integer> {
     "INSERT INTO Project (id_organization, name, methodology, sector) VALUES (?, ?, ?, ?)";
   private static final String GET_ALL_QUERY = "SELECT * FROM Project";
   private static final String GET_QUERY = "SELECT * FROM Project WHERE id_project = ?";
+  private static final String GET_ALL_BY_STATE = "SELECT * FROM Project WHERE state = ?";
   private static final String UPDATE_QUERY =
     "UPDATE Project SET id_organization = ?, name = ?, methodology = ?, state = ?, sector = ? WHERE id_project = ?";
   private static final String DELETE_QUERY = "DELETE FROM Project WHERE id_project = ?";
@@ -64,6 +65,24 @@ public class ProjectDAO extends DAOPattern<ProjectDTO, Integer> {
 
       while (resultSet.next()) {
         list.add(createDTOInstanceFromResultSet(resultSet));
+      }
+
+      return list;
+    }
+  }
+
+  public List<ProjectDTO> getAllByState(String state) throws SQLException {
+    try (
+      Connection connection = getConnection();
+      PreparedStatement statement = connection.prepareStatement(GET_ALL_BY_STATE)
+    ) {
+      statement.setString(1, state);
+      List<ProjectDTO> list = new ArrayList<>();
+
+      try (ResultSet resultSet = statement.executeQuery()) {
+        while (resultSet.next()) {
+          list.add(createDTOInstanceFromResultSet(resultSet));
+        }
       }
 
       return list;

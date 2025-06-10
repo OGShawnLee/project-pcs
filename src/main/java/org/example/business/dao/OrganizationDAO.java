@@ -13,6 +13,7 @@ public class OrganizationDAO extends DAOPattern<OrganizationDTO, String> {
   private static final String CREATE_QUERY =
     "INSERT INTO Organization (email, name, representative_full_name, colony, street) VALUES (?, ?, ?, ?, ?)";
   private static final String GET_ALL_QUERY = "SELECT * FROM Organization";
+  private static final String GET_ALL_BY_STATE_QUERY = "SELECT * FROM Organization WHERE state = ?";
   private static final String GET_QUERY = "SELECT * FROM Organization WHERE email = ?";
   private static final String UPDATE_QUERY =
     "UPDATE Organization SET name = ?, representative_full_name = ?, colony = ?, street = ?, state = ? WHERE email = ?";
@@ -57,6 +58,24 @@ public class OrganizationDAO extends DAOPattern<OrganizationDTO, String> {
 
       while (resultSet.next()) {
         list.add(createDTOInstanceFromResultSet(resultSet));
+      }
+
+      return list;
+    }
+  }
+
+  public List<OrganizationDTO> getAllByState(String state) throws SQLException {
+    try (
+      Connection connection = getConnection();
+      PreparedStatement statement = connection.prepareStatement(GET_ALL_BY_STATE_QUERY)
+    ) {
+      statement.setString(1, state);
+      List<OrganizationDTO> list = new ArrayList<>();
+
+      try (ResultSet resultSet = statement.executeQuery()) {
+        while (resultSet.next()) {
+          list.add(createDTOInstanceFromResultSet(resultSet));
+        }
       }
 
       return list;

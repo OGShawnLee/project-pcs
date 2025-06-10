@@ -13,6 +13,7 @@ public class AcademicDAO extends DAOPattern<AcademicDTO, String> {
   private static final String CREATE_QUERY =
     "INSERT INTO Academic (id_academic, email, name, paternal_last_name, maternal_last_name, role) VALUES (?, ?, ?, ?, ?, ?)";
   private static final String GET_ALL_QUERY = "SELECT * FROM Academic";
+  private static final String GET_ALL_BY_STATE_QUERY = "SELECT * FROM Academic WHERE state = ?";
   private static final String GET_QUERY = "SELECT * FROM Academic WHERE id_academic = ?";
   private static final String UPDATE_QUERY =
     "UPDATE Academic SET name = ?, paternal_last_name = ?, maternal_last_name = ?, role = ?, state = ? WHERE id_academic = ?";
@@ -59,6 +60,24 @@ public class AcademicDAO extends DAOPattern<AcademicDTO, String> {
 
       while (resultSet.next()) {
         list.add(createDTOInstanceFromResultSet(resultSet));
+      }
+
+      return list;
+    }
+  }
+
+  public List<AcademicDTO> getAllByState(String state) throws SQLException {
+    try (
+      Connection connection = getConnection();
+      PreparedStatement statement = connection.prepareStatement(GET_ALL_BY_STATE_QUERY)
+    ) {
+      statement.setString(1, state);
+      List<AcademicDTO> list = new ArrayList<>();
+
+      try (ResultSet resultSet = statement.executeQuery()) {
+        while (resultSet.next()) {
+          list.add(createDTOInstanceFromResultSet(resultSet));
+        }
       }
 
       return list;
