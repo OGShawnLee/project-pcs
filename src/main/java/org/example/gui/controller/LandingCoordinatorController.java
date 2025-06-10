@@ -27,6 +27,10 @@ public class LandingCoordinatorController extends LandingController {
     Modal.display("Registrar Organización", "RegisterOrganizationModal");
   }
 
+  public void handleOpenReviewStats() {
+    Modal.display("Estadísticas", "ReviewStatsModal");
+  }
+
   public void handleOpenManageConfiguration() {
     Modal.display("Configuración", "ManageConfigurationModal");
   }

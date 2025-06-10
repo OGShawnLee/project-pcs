@@ -37,6 +37,7 @@ public class Modal {
       modalStage.initModality(Modality.APPLICATION_MODAL);
       modalStage.showAndWait();
     } catch (IOException e) {
+      e.printStackTrace();
       Modal.displayError("No ha sido posible cargar modal.");
     }
   }

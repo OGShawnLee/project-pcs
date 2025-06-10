@@ -57,6 +57,9 @@
           <Button onAction="#handleOpenRegisterProject" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
                   prefWidth="160.0" styleClass="button" text="Registrar Proyecto"/>
         </HBox>
+        <Button onAction="#handleOpenReviewStats" maxWidth="1.7976931348623157E308"
+                mnemonicParsing="false"
+                styleClass="button" text="Generar Estadísticas"/>
         <Button onAction="#handleOpenManageConfiguration" maxWidth="1.7976931348623157E308"
                 mnemonicParsing="false"
                 styleClass="button" text="Gestionar Configuración"/>

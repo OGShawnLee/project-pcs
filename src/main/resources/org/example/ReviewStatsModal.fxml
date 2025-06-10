@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="720.0" prefWidth="720.0" stylesheets="@main.css" xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.gui.controller.ReviewStatsController">
+  <children>
+    <VBox layoutX="200.0" layoutY="180.0" prefWidth="320.0" spacing="16.0">
+      <children>
+        <Label styleClass="title" text="Reporte de Estadísticas">
+          <VBox.margin>
+            <Insets/>
+          </VBox.margin>
+          <padding>
+            <Insets bottom="8.0"/>
+          </padding>
+        </Label>
+        <HBox spacing="8.0">
+          <children>
+            <Label styleClass="label" text="Total de Académicos"/>
+            <Text fx:id="textTotalAcademics" styleClass="input" />
+          </children>
+        </HBox>
+        <HBox spacing="8.0">
+          <children>
+            <Label styleClass="label" text="Total de Evaluadores"/>
+            <Text fx:id="textTotalEvaluators" styleClass="input" />
+          </children>
+        </HBox>
+        <HBox spacing="8.0">
+          <children>
+            <Label styleClass="label" text="Total de Organizaciones"/>
+            <Text fx:id="textTotalOrganizations" styleClass="input" />
+          </children>
+        </HBox>
+        <HBox spacing="8.0">
+          <children>
+            <Label styleClass="label" text="Total de Solicitudes de Proyecto"/>
+            <Text fx:id="textTotalProjectRequests" styleClass="input" />
+          </children>
+        </HBox>
+        <HBox spacing="8.0">
+          <children>
+            <Label styleClass="label" text="Total de Evaluaciones"/>
+            <Text fx:id="textTotalEvaluations" styleClass="input" />
+          </children>
+        </HBox>
+        <HBox spacing="8.0">
+          <children>
+            <Label styleClass="label" text="Total de Autoevaluaciones"/>
+            <Text fx:id="textTotalSelfEvaluations" styleClass="input" />
+          </children>
+        </HBox>
+        <HBox spacing="8.0">
+          <children>
+            <Label styleClass="label" text="Total de Reportes Mensuales"/>
+            <Text fx:id="textTotalMonthlyReports" styleClass="input" />
+          </children>
+        </HBox>
+        <HBox spacing="8.0">
+          <children>
+            <Label styleClass="label" text="Total de Proyectos"/>
+            <Text fx:id="textTotalProjects" styleClass="input" />
+          </children>
+        </HBox>
+        <HBox spacing="8.0">
+          <children>
+            <Label styleClass="label" text="Total de Cursos"/>
+            <Text fx:id="textTotalCourses" styleClass="input" />
+          </children>
+        </HBox>
+        <HBox spacing="8.0">
+          <children>
+            <Label styleClass="label" text="Total de Estudiantes"/>
+            <Text fx:id="textTotalStudents" styleClass="input" />
+          </children>
+        </HBox>
+      </children>
+    </VBox>
+  </children>
+</AnchorPane>
