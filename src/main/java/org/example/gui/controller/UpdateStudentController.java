@@ -81,7 +81,7 @@ public class UpdateStudentController {
 
     @FXML
     public void returnToMainPage(ActionEvent event) throws Exception {
-        javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(getClass().getResource("/org/example/StudentMainPage.fxml"));
+        javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(getClass().getResource("/org/example/LandingStudentPage.fxml"));
         javafx.scene.Parent root = loader.load();
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new javafx.scene.Scene(root));

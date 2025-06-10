@@ -133,7 +133,7 @@ public class RegisterProjectRequestController {
 
     @FXML
     public void returnToMainPage(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/StudentMainPage.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/LandingStudentPage.fxml"));
         Parent root = loader.load();
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(root));
