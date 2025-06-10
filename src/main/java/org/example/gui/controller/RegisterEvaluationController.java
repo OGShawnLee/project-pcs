@@ -90,7 +90,7 @@ public class RegisterEvaluationController {
 
     @FXML
     public void returnToMainPage(ActionEvent event) throws IOException {
-        Parent newView = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/example/EvaluatorMainPage.fxml")));
+        Parent newView = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/example/LandingEvaluatorPage.fxml")));
         Scene newScene = new Scene(newView);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(newScene);
