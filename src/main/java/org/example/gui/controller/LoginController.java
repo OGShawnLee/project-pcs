@@ -56,6 +56,11 @@ public class LoginController extends Controller {
     String password = Validator.getValidText(passwordField.getText(), "Contraseña");
     AccountDTO accountDTO = ACCOUNT_DAO.getOne(displayName);
 
+    if (accountDTO == null) {
+      Modal.displayError("No existe una cuenta con este nombre de usuario.");
+      return;
+    }
+
     if (accountDTO.hasPasswordMatch(password)) {
       AuthClient.getInstance().setCurrentUser(accountDTO);
       navigateToLandingPage();
