@@ -13,8 +13,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class AccountDAOTest {
   public static final AccountDAO ACCOUNT_DAO = new AccountDAO();
-  public static final AccountDTO ACADEMIC_ACCOUNT_DTO = new AccountDTO("smith@uv.mx", "123Password");
-  public static final AccountDTO STUDENT_ACCOUNT_DTO = new AccountDTO("zS18014115@estudiantes.uv.mx", "Password123");
+  public static final AccountDTO ACADEMIC_ACCOUNT_DTO = new AccountDTO("smith@uv.mx", "123Password", AccountDTO.Role.ACADEMIC);
+  public static final AccountDTO STUDENT_ACCOUNT_DTO = new AccountDTO("zS18014115@estudiantes.uv.mx", "Password123", AccountDTO.Role.STUDENT);
 
   public static void createOneTestAcademicAccount() throws SQLException {
     ACCOUNT_DAO.createOne(ACADEMIC_ACCOUNT_DTO);
@@ -70,7 +70,7 @@ public class AccountDAOTest {
     assertDoesNotThrow(() -> {
       createOneTestAcademicAccount();
 
-      AccountDTO updatedAccount = new AccountDTO(ACADEMIC_ACCOUNT_DTO.email(), "SecurePassword");
+      AccountDTO updatedAccount = new AccountDTO(ACADEMIC_ACCOUNT_DTO.email(), "SecurePassword", AccountDTO.Role.ACADEMIC);
       ACCOUNT_DAO.updateOne(updatedAccount);
 
       Assertions.assertEquals(updatedAccount, ACCOUNT_DAO.getOne(ACADEMIC_ACCOUNT_DTO.email()));

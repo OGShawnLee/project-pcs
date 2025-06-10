@@ -27,7 +27,7 @@ public class AcademicDAO extends DAOPattern<AcademicDTO, String> {
       .setPaternalLastName(resultSet.getString("paternal_last_name"))
       .setMaternalLastName(resultSet.getString("maternal_last_name"))
       .setState(resultSet.getString("state"))
-      .setRole(resultSet.getString("role"))
+      .setRole(AcademicDTO.Role.valueOf(resultSet.getString("role")))
       .setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime())
       .build();
   }
@@ -43,7 +43,7 @@ public class AcademicDAO extends DAOPattern<AcademicDTO, String> {
       statement.setString(3, dataObject.getName());
       statement.setString(4, dataObject.getPaternalLastName());
       statement.setString(5, dataObject.getMaternalLastName());
-      statement.setString(6, dataObject.getRole());
+      statement.setString(6, dataObject.getRole().toString());
       statement.executeUpdate();
     }
   }
@@ -94,7 +94,7 @@ public class AcademicDAO extends DAOPattern<AcademicDTO, String> {
       statement.setString(1, dataObject.getName());
       statement.setString(2, dataObject.getPaternalLastName());
       statement.setString(3, dataObject.getMaternalLastName());
-      statement.setString(4, dataObject.getRole());
+      statement.setString(4, dataObject.getRole().toString());
       statement.setString(5, dataObject.getState());
       statement.setString(6, dataObject.getID());
       statement.executeUpdate();

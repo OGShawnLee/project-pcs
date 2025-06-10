@@ -46,7 +46,7 @@ public class UpdateStudentController {
         if (loggedStudent == null) return;
 
         try {
-            StudentDTO updatedStudent = new StudentDTO.StudentBuilder()
+            StudentDTO studentDTO = new StudentDTO.StudentBuilder()
                     .setID(loggedStudent.getID())
                     .setEmail(loggedStudent.getEmail())
                     .setName(nameField.getText())
@@ -57,15 +57,15 @@ public class UpdateStudentController {
                     .setFinalGrade(loggedStudent.getFinalGrade())
                     .build();
 
-            new StudentDAO().updateOne(updatedStudent);
+            new StudentDAO().updateOne(studentDTO);
 
             String newPassword = passwordField.getText();
             String hashedPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
-            AccountDTO updatedAccount = new AccountDTO(updatedStudent.getEmail(), hashedPassword);
+            AccountDTO updatedAccount = new AccountDTO(studentDTO.getEmail(), hashedPassword, AccountDTO.Role.STUDENT);
             new AccountDAO().updateOne(updatedAccount);
 
-            Session.startSession(updatedStudent);
-            loggedStudent = updatedStudent;
+            Session.startSession(studentDTO);
+            loggedStudent = studentDTO;
 
             Modal.displaySuccess("Datos y contraseña actualizados correctamente");
             returnToMainPage(event);

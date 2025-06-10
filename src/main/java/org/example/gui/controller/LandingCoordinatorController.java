@@ -1,26 +1,33 @@
 package org.example.gui.controller;
 
-import javafx.stage.Stage;
 import org.example.gui.Modal;
 
-public class LandingPageController extends Controller {
+public class LandingCoordinatorController extends LandingController {
   public void navigateToReviewAcademicListPage() {
     ReviewAcademicListController.navigateToAcademicListPage(getScene());
+  }
+
+  public void handleOpenRegisterAcademic() {
+    Modal.display("Registrar Académico", "RegisterAcademicModal");
   }
 
   public void navigateToReviewProjectListPage() {
     ReviewProjectListController.navigateToProjectListPage(getScene());
   }
 
+  public void handleOpenRegisterProject() {
+    Modal.display("Registrar Proyecto", "RegisterProjectModal");
+  }
+
   public void navigateToReviewOrganizationListPage() {
     ReviewOrganizationListController.navigateToOrganizationListPage(getScene());
   }
 
-  public static void navigateToLandingPage(Stage currentStage) {
-    navigateTo(currentStage, "Página de Inicio", "LandingPage");
+  public void handleOpenRegisterOrganization() {
+    Modal.display("Registrar Organización", "RegisterOrganizationModal");
   }
 
-  public void openConfigurationModal() {
+  public void handleOpenManageConfiguration() {
     Modal.display("Configuración", "ManageConfigurationModal");
   }
 }

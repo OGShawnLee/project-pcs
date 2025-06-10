@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 
 import javafx.stage.Stage;
+import org.example.business.auth.AuthClient;
 import org.example.business.dto.AccountDTO;
 import org.example.business.dto.CourseDTO;
 import org.example.business.dto.StudentDTO;
@@ -45,7 +46,7 @@ public class RegisterStudentController {
 
     public void handleRegisterStudent(ActionEvent event) {
       try{
-        StudentDTO dataObjectStudent = new StudentDTO.StudentBuilder()
+        StudentDTO studentDTO = new StudentDTO.StudentBuilder()
                 .setPaternalLastName(fieldPaternalLastName.getText())
                 .setMaternalLastName(fieldMaternalLastName.getText())
                 .setName(fieldName.getText())
@@ -54,13 +55,13 @@ public class RegisterStudentController {
                 .setFinalGrade(0)
                 .build();
 
-        AccountDTO existingAccount = ACCOUNT_DAO.getOne(dataObjectStudent.getEmail());
+        AccountDTO existingAccount = ACCOUNT_DAO.getOne(studentDTO.getEmail());
         if (existingAccount != null) {
             Modal.displayError("No ha sido posible registrar al estudiante debido a que ya existe una cuenta con ese correo electrónico.");
             return;
         }
 
-        StudentDTO existingStudent = STUDENT_DAO.getOne(dataObjectStudent.getID());
+        StudentDTO existingStudent = STUDENT_DAO.getOne(studentDTO.getID());
         if (existingStudent != null) {
             Modal.displayError("No ha sido posible registrar al estudiante debido a que ya existe un estudiante con la misma ID de Trabajador.");
             return;
@@ -79,12 +80,17 @@ public class RegisterStudentController {
             return;
         }
 
-        String hashedPassword = BCrypt.hashpw(dataObjectStudent.getID(), BCrypt.gensalt());
-        ACCOUNT_DAO.createOne(new AccountDTO(dataObjectStudent.getEmail(), hashedPassword));
-        STUDENT_DAO.createOne(dataObjectStudent);
+        ACCOUNT_DAO.createOne(
+          new AccountDTO(
+            studentDTO.getEmail(),
+            AuthClient.getInstance().createGeneratedHashedPassword(studentDTO.getID()),
+            AccountDTO.Role.STUDENT
+          )
+        );
+        STUDENT_DAO.createOne(studentDTO);
         EnrollmentDTO enrollment = new EnrollmentDTO.EnrollmentBuilder()
                 .setIDCourse(nrc)
-                .setIDStudent(dataObjectStudent.getID())
+                .setIDStudent(studentDTO.getID())
                 .build();
         ENROLLMENT_DAO.createOne(enrollment);
         Modal.displaySuccess("Estudiante registrado exitosamente.");

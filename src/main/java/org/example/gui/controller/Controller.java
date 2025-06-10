@@ -9,6 +9,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+import org.example.business.auth.AuthClient;
 import org.example.gui.Modal;
 
 import java.io.IOException;
@@ -29,7 +30,13 @@ public abstract class Controller {
   }
 
   public void navigateToLandingPage() {
-    LandingPageController.navigateToLandingPage(getScene());
+    switch (AuthClient.getInstance().getCurrentUser().role()) {
+      case ACADEMIC -> navigateFromThisPageTo("Landing Page", "LandingAcademicPage");
+      case ACADEMIC_EVALUATOR -> navigateFromThisPageTo("Landing Page", "LandingAcademicEvaluatorPage");
+      case EVALUATOR -> navigateFromThisPageTo("Landing Page", "LandingEvaluatorPage");
+      case COORDINATOR -> navigateFromThisPageTo("Landing Page", "LandingCoordinatorPage");
+      case STUDENT -> navigateFromThisPageTo("Landing Page", "LandingStudentPage");
+    }
   }
 
   protected void navigateFromThisPageTo(String pageName, String resourceFileName) {
@@ -48,6 +55,7 @@ public abstract class Controller {
       currentStage.setScene(newScene);
       currentStage.show();
     } catch (IOException e) {
+      e.printStackTrace();
       Modal.displayError("No ha sido posible navegar a: " + pageName + " debido a un error de sistema.");
     }
   }

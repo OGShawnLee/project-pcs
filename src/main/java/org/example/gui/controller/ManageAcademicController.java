@@ -23,7 +23,7 @@ public class ManageAcademicController extends ManageController<AcademicDTO> {
   @FXML
   private TextField fieldMaternalLastName;
   @FXML
-  private ComboBox<String> fieldRole;
+  private ComboBox<AcademicDTO.Role> fieldRole;
   @FXML
   private ComboBox<String> fieldState;
 

@@ -3,8 +3,14 @@ package org.example.business.dto;
 import org.example.business.Validator;
 
 public class AcademicDTO extends Person {
+  public enum Role {
+    ACADEMIC,
+    ACADEMIC_EVALUATOR,
+    EVALUATOR
+  }
+
   private final String id;
-  private final String role;
+  private final Role role;
 
   public AcademicDTO(AcademicBuilder builder) {
     super(builder);
@@ -16,7 +22,7 @@ public class AcademicDTO extends Person {
     return id;
   }
 
-  public String getRole() {
+  public Role getRole() {
     return role;
   }
 
@@ -32,15 +38,15 @@ public class AcademicDTO extends Person {
 
   public static class AcademicBuilder extends PersonBuilder<AcademicBuilder> {
     private String id;
-    private String role;
+    private Role role;
 
     public AcademicBuilder setID(String id) throws IllegalArgumentException {
       this.id = Validator.getValidWorkerID(id);
       return this;
     }
 
-    public AcademicBuilder setRole(String role) throws IllegalArgumentException {
-      this.role = Validator.getValidAcademicRole(role);
+    public AcademicBuilder setRole(Role role) throws IllegalArgumentException {
+      this.role = role;
       return this;
     }
 

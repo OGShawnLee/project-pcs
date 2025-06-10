@@ -83,7 +83,7 @@ public class ManageStudentController {
         String selectedState = stateComboBox.getValue();
         String internalState = selectedState.equalsIgnoreCase("Activo") ? "ACTIVE" : "RETIRED";
         try {
-            StudentDTO dataObjectStudent = new StudentDTO.StudentBuilder()
+            StudentDTO studentDTO = new StudentDTO.StudentBuilder()
                     .setPaternalLastName(fieldPaternalLastName.getText())
                     .setMaternalLastName(fieldMaternalLastName.getText())
                     .setName(fieldName.getText())
@@ -93,21 +93,26 @@ public class ManageStudentController {
                     .setFinalGrade(previousStudent.getFinalGrade())
                     .build();
 
-            AccountDTO existingAccount = ACCOUNT_DAO.getOne(dataObjectStudent.getEmail());
-            if (existingAccount != null && !dataObjectStudent.getEmail().equals(previousStudent.getEmail())) {
+            AccountDTO existingAccount = ACCOUNT_DAO.getOne(studentDTO.getEmail());
+            if (existingAccount != null && !studentDTO.getEmail().equals(previousStudent.getEmail())) {
                 Modal.displayError("No ha sido posible actualizar al estudiante debido a que ya existe una cuenta con ese correo electrónico.");
                 return;
             }
 
-            StudentDTO existingStudent = STUDENT_DAO.getOne(dataObjectStudent.getID());
+            StudentDTO existingStudent = STUDENT_DAO.getOne(studentDTO.getID());
             if (existingStudent != null && !existingStudent.getID().equals(previousStudent.getID())) {
                 Modal.displayError("No ha sido posible actualizar al estudiante debido a que ya existe un estudiante con la misma ID de Estudiante.");
                 return;
             }
 
-            ACCOUNT_DAO.updateOne(new AccountDTO(dataObjectStudent.getEmail(), dataObjectStudent.getID())
+            ACCOUNT_DAO.updateOne(
+              new AccountDTO(
+                studentDTO.getEmail(),
+                studentDTO.getID(),
+                AccountDTO.Role.STUDENT
+              )
             );
-            STUDENT_DAO.updateOne(dataObjectStudent);
+            STUDENT_DAO.updateOne(studentDTO);
 
             String newNRC = fieldNRC.getText().trim();
             if (!newNRC.isEmpty()) {
@@ -118,7 +123,7 @@ public class ManageStudentController {
                 }
                 EnrollmentDTO newEnrollment = new EnrollmentDTO.EnrollmentBuilder()
                         .setIDCourse(newNRC)
-                        .setIDStudent(dataObjectStudent.getID())
+                        .setIDStudent(studentDTO.getID())
                         .build();
                 enrollmentDAO.createOne(newEnrollment);
             }

@@ -76,6 +76,15 @@ public class Modal {
     alert.showAndWait();
   }
 
+  public static void displayInformation(String message) {
+    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    alert.setTitle("Información");
+    alert.setHeaderText("Información del Sistema");
+    alert.setContentText(message);
+    alert.showAndWait();
+  }
+
+
   public static void displaySuccess(String message) {
     Alert alert = new Alert(Alert.AlertType.INFORMATION);
     alert.setTitle("Éxito");

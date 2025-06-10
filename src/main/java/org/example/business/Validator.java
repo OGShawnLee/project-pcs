@@ -154,6 +154,15 @@ public class Validator {
     throw new IllegalArgumentException("Estado debe ser uno de los siguientes: Activo, Inactivo.");
   }
 
+  public static String getValidPassword(String password) throws IllegalArgumentException {
+    if (isValidString(password, 8, 64)) {
+      return password.trim();
+    }
+
+    throw new IllegalArgumentException("Contraseña debe ser una cadena de texto entre 8 y 64 carácteres.");
+
+  }
+
   public static String getValidProjectRequestState(String value) throws IllegalArgumentException {
     String finalValue = getValidName(value, "Estado de Solicitud");
 

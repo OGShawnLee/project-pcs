@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 
+import org.example.business.auth.AuthClient;
 import org.example.business.dto.AcademicDTO;
 import org.example.business.dto.AccountDTO;
 import org.example.business.dao.AcademicDAO;
@@ -27,15 +28,15 @@ public class RegisterAcademicController extends Controller {
   @FXML
   private TextField fieldMaternalLastName;
   @FXML
-  private ComboBox<String> fieldRole;
+  private ComboBox<AcademicDTO.Role> fieldRole;
 
   public void initialize() {
     loadRoleComboBox(fieldRole);
   }
 
-  public static void loadRoleComboBox(ComboBox<String> fieldRole) {
-    fieldRole.getItems().addAll("Evaluador", "Evaluador y Profesor", "Profesor");
-    fieldRole.setValue("Profesor");
+  public static void loadRoleComboBox(ComboBox<AcademicDTO.Role> fieldRole) {
+    fieldRole.getItems().addAll(AcademicDTO.Role.values());
+    fieldRole.setValue(AcademicDTO.Role.ACADEMIC);
   }
 
   public void handleRegister() {
@@ -61,8 +62,13 @@ public class RegisterAcademicController extends Controller {
         return;
       }
 
-      String hashedPassword = BCrypt.hashpw(academicDTO.getID(), BCrypt.gensalt());
-      ACCOUNT_DAO.createOne(new AccountDTO(academicDTO.getEmail(), hashedPassword));
+      ACCOUNT_DAO.createOne(
+        new AccountDTO(
+          academicDTO.getEmail(),
+          AuthClient.getInstance().createGeneratedHashedPassword(academicDTO.getID()),
+          AccountDTO.Role.ACADEMIC
+        )
+      );
       ACADEMIC_DAO.createOne(academicDTO);
       Modal.displaySuccess("El académico ha sido registrado exitosamente.");
     } catch (IllegalArgumentException e) {
