@@ -8,79 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 public class ValidatorTest {
   @Test
-  public void testGetAcademicRole() {
-    assertDoesNotThrow(
-      () -> {
-        String[] roles = {"EVALUATOR", "EVALUATOR-PROFESSOR", "PROFESSOR"};
-        for (String role : roles) {
-          Assertions.assertEquals(
-            role,
-            Validator.getValidAcademicRole(role),
-            "Valid academic role should be returned"
-          );
-        }
-      }
-    );
-  }
-
-  @Test
-  public void testGetAcademicRoleWithSpaces() {
-    assertDoesNotThrow(
-      () -> {
-        Assertions.assertEquals(
-          "EVALUATOR",
-          Validator.getValidAcademicRole("   Evaluador   "),
-          "Valid academic role should be returned with spaces trimmed"
-        );
-      }
-    );
-  }
-
-  @Test
-  public void testGetAcademicRoleWithNull() {
-    Assertions.assertThrows(
-      IllegalArgumentException.class,
-      () -> Validator.getValidAcademicRole(null),
-      "Academic role cannot be null"
-    );
-  }
-
-  @Test
-  public void testGetAcademicRoleWithEmpty() {
-    Assertions.assertThrows(
-      IllegalArgumentException.class,
-      () -> Validator.getValidAcademicRole(""),
-      "Academic role cannot be empty"
-    );
-  }
-
-  @Test
-  public void testGetAcademicRoleWithInvalidValue() {
-    Assertions.assertThrows(
-      IllegalArgumentException.class,
-      () -> Validator.getValidAcademicRole("InvalidRole"),
-      "Academic role must be one of the following: Evaluador, Evaluador-Profesor, Profesor"
-    );
-  }
-
-  @Test
-  public void testGetAcademicRoleWithSpanishLabel() {
-    assertDoesNotThrow(
-      () -> {
-        String[] roles = {"EVALUATOR", "EVALUATOR-PROFESSOR", "PROFESSOR"};
-        String[] spanishLabels = {"Evaluador", "Evaluador y Profesor", "Profesor"};
-        for (int i = 0; i < roles.length; i++) {
-          Assertions.assertEquals(
-            roles[i],
-            Validator.getValidAcademicRole(spanishLabels[i]),
-            "Valid academic role should be returned with Spanish label"
-          );
-        }
-      }
-    );
-  }
-
-  @Test
   public void testGetEmail() {
     assertDoesNotThrow(
       () -> {
@@ -690,13 +617,26 @@ public class ValidatorTest {
 
   @Test
   public void testGetValidWorkerIDWithLetters() {
-    Assertions.assertDoesNotThrow(
+    Assertions.assertThrows(
+      IllegalArgumentException.class,
+      () -> Validator.getValidWorkerID("ABCDE"),
+      "Worker ID must be a string up to 5 digits"
+    );
+  }
+
+  @Test
+  public void testGetValidWorkerIDWithVariableLength() {
+    final String[] WORKER_IDS = {"1", "12", "123", "1234", "12345"};
+
+    assertDoesNotThrow(
       () -> {
-        Assertions.assertEquals(
-          "ABCDE",
-          Validator.getValidWorkerID("ABCDE"),
-          "Valid worker ID should be returned"
-        );
+        for (String workerID : WORKER_IDS) {
+          Assertions.assertEquals(
+            workerID,
+            Validator.getValidWorkerID(workerID),
+            "Valid worker ID should be returned"
+          );
+        }
       }
     );
   }
@@ -705,8 +645,8 @@ public class ValidatorTest {
   public void testGetValidWorkerIDWithInvalidLength() {
     Assertions.assertThrows(
       IllegalArgumentException.class,
-      () -> Validator.getValidWorkerID("1234"),
-      "Worker ID must be a string of 5 digits"
+      () -> Validator.getValidWorkerID("123456"),
+      "Worker ID must be a string up to 5 digits"
     );
   }
 
@@ -720,6 +660,28 @@ public class ValidatorTest {
         "Worker ID cannot contain special characters"
       );
     }
+  }
+
+  @Test
+  public void testGetValidWorkerIDWithAllZeros() {
+    Assertions.assertThrows(
+      IllegalArgumentException.class,
+      () -> Validator.getValidWorkerID("00000"),
+      "Worker ID cannot be all zeros"
+    );
+  }
+
+  @Test
+  public void testGetValidWorkerIDWithZeroPadding() {
+    assertDoesNotThrow(
+      () -> {
+        Assertions.assertEquals(
+          "10",
+          Validator.getValidWorkerID("00010"),
+          "Valid worker ID with zero padding should be returned"
+        );
+      }
+    );
   }
 
   @Test

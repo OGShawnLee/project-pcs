@@ -4,7 +4,7 @@ public class Validator {
   private static final String EMAIL_REGEX = "^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
   private static final String ENROLLMENT_REGEX = "^[0-9]{8}$";
   private static final String NAME_REGEX_SPANISH = "^[A-Za-zÑñÁáÉéÍíÓóÚúÜü\\s]+$";
-  private static final String WORKER_ID_REGEX = "^[A-Z0-9]{5}$";
+  private static final String WORKER_ID_REGEX = "^(?!0+$)[0-9]{1,5}$";
   private static final String FLEXIBLE_NAME_REGEX = "^[A-Za-zÑñÁáÉéÍíÓóÚúÜü0-9\\s\\-_/.:]+$";
   private static final String GRADE_REGEX = "^(10|[0-9])$";
 
@@ -27,32 +27,6 @@ public class Validator {
 
     String trimmedString = value.trim();
     return trimmedString.length() >= minLength && trimmedString.length() <= maxLength;
-  }
-
-  public static String getValidAcademicRole(String value) throws IllegalArgumentException   {
-    String finalValue = getValidString(value, "Rol de Académico");
-
-    if (
-      finalValue.equals("EVALUATOR") ||
-      finalValue.equals("EVALUATOR-PROFESSOR") ||
-      finalValue.equals("PROFESSOR")
-    ) {
-      return finalValue;
-    }
-
-    if (finalValue.equals("Evaluador")) {
-      return "EVALUATOR";
-    }
-
-    if (finalValue.equals("Evaluador y Profesor")) {
-      return "EVALUATOR-PROFESSOR";
-    }
-
-    if (finalValue.equals("Profesor")) {
-      return "PROFESSOR";
-    }
-
-    throw new IllegalArgumentException("Rol académico debe ser uno de los siguientes: Evaluador, Evaluador-Profesor, Profesor.");
   }
 
   public static String getValidEmail(String value) throws IllegalArgumentException {
@@ -177,7 +151,7 @@ public class Validator {
 
   public static String getValidWorkerID(String value) throws IllegalArgumentException {
     if (isValidString(value) && value.trim().matches(WORKER_ID_REGEX)) {
-      return value.trim();
+      return value.replaceFirst("^0+(?!$)", "").trim();
     }
 
     throw new IllegalArgumentException("ID de Trabajador debe ser una cadena de texto de 5 carácteres de letras o digitos.");

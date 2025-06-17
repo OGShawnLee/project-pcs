@@ -50,7 +50,7 @@ CREATE TABLE Student
 
 CREATE TABLE Academic
 (
-    id_academic        CHAR(5)                                              NOT NULL,
+    id_academic        VARCHAR(5)                                           NOT NULL,
     email              VARCHAR(128)                                         NOT NULL,
     name               VARCHAR(64)                                          NOT NULL,
     paternal_last_name VARCHAR(64)                                          NOT NULL,
