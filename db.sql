@@ -40,7 +40,7 @@ CREATE TABLE Student
     email              VARCHAR(128)               NOT NULL,
     name               VARCHAR(64)                NOT NULL,
     paternal_last_name VARCHAR(64)                NOT NULL,
-    maternal_last_name VARCHAR(64)                NOT NULL,
+    maternal_last_name VARCHAR(64),
     created_at         TIMESTAMP                  NOT NULL DEFAULT NOW(),
     state              ENUM ('ACTIVE', 'RETIRED') NOT NULL DEFAULT 'ACTIVE',
     final_grade        INT CHECK (final_grade >= 0 AND final_grade <= 10),
@@ -50,10 +50,12 @@ CREATE TABLE Student
 
 DROP TRIGGER IF EXISTS before_delete_student;
 CREATE TRIGGER before_delete_student
-    BEFORE DELETE ON Student
+    BEFORE DELETE
+    ON Student
     FOR EACH ROW
 BEGIN
-    DELETE FROM Account
+    DELETE
+    FROM Account
     WHERE email = OLD.email;
 END;
 
@@ -63,7 +65,7 @@ CREATE TABLE Academic
     email              VARCHAR(128)                                         NOT NULL,
     name               VARCHAR(64)                                          NOT NULL,
     paternal_last_name VARCHAR(64)                                          NOT NULL,
-    maternal_last_name VARCHAR(64)                                          NOT NULL,
+    maternal_last_name VARCHAR(64),
     created_at         TIMESTAMP                                            NOT NULL DEFAULT NOW(),
     state              ENUM ('ACTIVE', 'RETIRED')                           NOT NULL DEFAULT 'ACTIVE',
     role               ENUM ('ACADEMIC', 'ACADEMIC_EVALUATOR', 'EVALUATOR') NOT NULL,

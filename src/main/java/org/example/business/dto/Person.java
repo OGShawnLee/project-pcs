@@ -83,6 +83,10 @@ public abstract class Person {
     }
 
     public T setMaternalLastName(String maternalLastName) throws IllegalArgumentException {
+      if (maternalLastName == null || maternalLastName.isEmpty()) {
+        return self();
+      }
+
       this.maternalLastName = Validator.getValidName(maternalLastName, "Apellido Materno", 3, 64);
       return self();
     }
