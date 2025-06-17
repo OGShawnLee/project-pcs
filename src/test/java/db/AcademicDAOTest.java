@@ -2,6 +2,7 @@ package db;
 
 import org.example.business.dto.AcademicDTO;
 import org.example.business.dao.AcademicDAO;
+import org.example.business.dto.AccountDTO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -25,12 +26,10 @@ public class AcademicDAOTest {
     .build();
 
   public static void createOneTestAcademic() throws SQLException {
-    AccountDAOTest.createOneTestAcademicAccount();
     ACADEMIC_DAO.createOne(ACADEMIC_DTO);
   }
 
   public static void deleteOneTestAcademic() throws SQLException {
-    AccountDAOTest.deleteOneTestAcademicAccount();
     ACADEMIC_DAO.deleteOne(ACADEMIC_DTO.getID());
   }
 
@@ -104,6 +103,8 @@ public class AcademicDAOTest {
         .build();
 
       ACADEMIC_DAO.updateOne(updatedAcademic);
+      AccountDTO updatedAccount = AccountDAOTest.ACCOUNT_DAO.getOne(ACADEMIC_DTO.getEmail());
+      Assertions.assertEquals(updatedAccount.role().toString(), updatedAcademic.getRole().toString());
       Assertions.assertEquals(updatedAcademic, ACADEMIC_DAO.getOne(updatedAcademic.getID()));
 
       updatedAcademic = new AcademicDTO.AcademicBuilder()
@@ -116,7 +117,10 @@ public class AcademicDAOTest {
         .setState("ACTIVE")
         .build();
 
+
       ACADEMIC_DAO.updateOne(updatedAcademic);
+      updatedAccount = AccountDAOTest.ACCOUNT_DAO.getOne(ACADEMIC_DTO.getEmail());
+      Assertions.assertEquals(updatedAccount.role().toString(), updatedAcademic.getRole().toString());
       Assertions.assertEquals(updatedAcademic, ACADEMIC_DAO.getOne(updatedAcademic.getID()));
     });
   }

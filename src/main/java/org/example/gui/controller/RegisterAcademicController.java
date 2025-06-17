@@ -62,13 +62,6 @@ public class RegisterAcademicController extends Controller {
         return;
       }
 
-      ACCOUNT_DAO.createOne(
-        new AccountDTO(
-          academicDTO.getEmail(),
-          AuthClient.getInstance().createGeneratedHashedPassword(academicDTO.getID()),
-          AccountDTO.Role.fromAcademicRole(academicDTO.getRole())
-        )
-      );
       ACADEMIC_DAO.createOne(academicDTO);
       Modal.displaySuccess("El académico ha sido registrado exitosamente.");
     } catch (IllegalArgumentException e) {

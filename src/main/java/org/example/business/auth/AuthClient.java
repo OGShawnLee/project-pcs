@@ -26,8 +26,4 @@ public class AuthClient {
   public void setCurrentUser(AccountDTO currentUser) {
     this.currentUser = currentUser;
   }
-
-  public String createGeneratedHashedPassword(String plain) {
-    return BCrypt.hashpw(plain + "@Password", BCrypt.gensalt());
-  }
 }

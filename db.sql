@@ -48,6 +48,15 @@ CREATE TABLE Student
     FOREIGN KEY (email) REFERENCES Account (email) ON DELETE CASCADE
 );
 
+DROP TRIGGER IF EXISTS before_delete_student;
+CREATE TRIGGER before_delete_student
+    BEFORE DELETE ON Student
+    FOR EACH ROW
+BEGIN
+    DELETE FROM Account
+    WHERE email = OLD.email;
+END;
+
 CREATE TABLE Academic
 (
     id_academic        VARCHAR(5)                                           NOT NULL,
@@ -61,6 +70,84 @@ CREATE TABLE Academic
     PRIMARY KEY (id_academic),
     FOREIGN KEY (email) REFERENCES Account (email) ON DELETE CASCADE
 );
+
+DROP TRIGGER IF EXISTS before_delete_academic;
+CREATE TRIGGER before_delete_academic
+    BEFORE DELETE
+    ON Academic
+    FOR EACH ROW
+BEGIN
+    DELETE
+    FROM Account
+    WHERE email = OLD.email;
+END;
+
+DROP TRIGGER IF EXISTS after_update_academic;
+CREATE TRIGGER after_update_academic
+    BEFORE UPDATE
+    ON Academic
+    FOR EACH ROW
+BEGIN
+    IF OLD.role != NEW.role THEN
+        UPDATE Account
+        SET role = NEW.role
+        WHERE email = OLD.email;
+    END IF;
+END;
+
+DROP PROCEDURE IF EXISTS create_academic;
+CREATE PROCEDURE create_academic(
+    IN in_id_academic VARCHAR(5),
+    IN in_email VARCHAR(128),
+    IN in_name VARCHAR(64),
+    IN in_paternal_last_name VARCHAR(64),
+    IN in_maternal_last_name VARCHAR(64),
+    IN in_password VARCHAR(64),
+    IN in_role ENUM ('ACADEMIC', 'ACADEMIC_EVALUATOR', 'EVALUATOR')
+)
+BEGIN
+    START TRANSACTION;
+    IF (SELECT EXISTS(SELECT 1 FROM Account WHERE email = in_email)) THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Duplicate Email';
+    END IF;
+
+    IF (SELECT EXISTS(SELECT 1 FROM Academic WHERE id_academic = in_id_academic)) THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Duplicate Academic ID';
+    END IF;
+
+    INSERT INTO Account (email, password, role)
+    VALUES (in_email, in_password, in_role);
+    INSERT INTO Academic (id_academic, email, name, paternal_last_name, maternal_last_name, role)
+    VALUES (in_id_academic, in_email, in_name, in_paternal_last_name, in_maternal_last_name, in_role);
+    COMMIT;
+END;
+
+DROP PROCEDURE IF EXISTS create_student;
+CREATE PROCEDURE create_student(
+    IN in_id_student VARCHAR(8),
+    IN in_email VARCHAR(128),
+    IN in_name VARCHAR(64),
+    IN in_paternal_last_name VARCHAR(64),
+    IN in_maternal_last_name VARCHAR(64),
+    IN in_password VARCHAR(64)
+)
+BEGIN
+    START TRANSACTION;
+
+    IF (SELECT EXISTS(SELECT 1 FROM Account WHERE email = in_email)) THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Duplicate Email';
+    END IF;
+
+    IF (SELECT EXISTS(SELECT 1 FROM Student WHERE id_student = in_id_student)) THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Duplicate Student ID';
+    END IF;
+
+    INSERT INTO Account (email, password, role)
+    VALUES (in_email, in_password, 'STUDENT');
+    INSERT INTO Student (id_student, email, name, paternal_last_name, maternal_last_name)
+    VALUES (in_id_student, in_email, in_name, in_paternal_last_name, in_maternal_last_name);
+    COMMIT;
+END;
 
 CREATE TABLE Course
 (

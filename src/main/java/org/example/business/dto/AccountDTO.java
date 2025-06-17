@@ -1,6 +1,7 @@
 package org.example.business.dto;
 
 import org.example.business.Validator;
+
 import org.mindrot.jbcrypt.BCrypt;
 
 public record AccountDTO(String email, String password, Role role) {
@@ -38,5 +39,9 @@ public record AccountDTO(String email, String password, Role role) {
 
   public boolean hasPasswordMatch(String candidate) {
     return BCrypt.checkpw(candidate, this.password);
+  }
+
+  public static String getGeneratedHashedPassword(String plain) {
+    return BCrypt.hashpw(plain + "@Password", BCrypt.gensalt());
   }
 }

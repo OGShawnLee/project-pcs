@@ -1,17 +1,15 @@
 package org.example.business.dao;
 
+import org.example.business.dto.AccountDTO;
 import org.example.business.dto.StudentDTO;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class StudentDAO extends DAOPattern<StudentDTO, String> {
   private static final String CREATE_QUERY =
-    "INSERT INTO Student (id_student, email, name, paternal_last_name, maternal_last_name, final_grade) VALUES (?, ?, ?, ?, ?, ?)";
+    "CALL create_student(?, ?, ?, ?, ?, ?)";
   private static final String GET_ALL_QUERY =
     "SELECT * FROM Student";
   private static final String GET_QUERY =
@@ -36,17 +34,17 @@ public class StudentDAO extends DAOPattern<StudentDTO, String> {
   }
 
   @Override
-  public void createOne(StudentDTO dataObject) throws SQLException {
+  public void createOne(StudentDTO studentDTO) throws SQLException {
     try (
       Connection connection = getConnection();
-      PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
+      CallableStatement statement = connection.prepareCall(CREATE_QUERY)
     ) {
-      statement.setString(1, dataObject.getID());
-      statement.setString(2, dataObject.getEmail());
-      statement.setString(3, dataObject.getName());
-      statement.setString(4, dataObject.getPaternalLastName());
-      statement.setString(5, dataObject.getMaternalLastName());
-      statement.setInt(6, dataObject.getFinalGrade());
+      statement.setString(1, studentDTO.getID());
+      statement.setString(2, studentDTO.getEmail());
+      statement.setString(3, studentDTO.getName());
+      statement.setString(4, studentDTO.getPaternalLastName());
+      statement.setString(5, studentDTO.getMaternalLastName());
+      statement.setString(6, AccountDTO.getGeneratedHashedPassword(studentDTO.getID()));
 
       statement.executeUpdate();
     }
@@ -95,30 +93,30 @@ public class StudentDAO extends DAOPattern<StudentDTO, String> {
     ) {
       statement.setString(1, filter);
 
-      StudentDTO dataObject = null;
+      StudentDTO studentDTO = null;
 
       try (ResultSet resultSet = statement.executeQuery()) {
         if (resultSet.next()) {
-          dataObject = createDTOInstanceFromResultSet(resultSet);
+          studentDTO = createDTOInstanceFromResultSet(resultSet);
         }
       }
 
-      return dataObject;
+      return studentDTO;
     }
   }
 
   @Override
-  public void updateOne(StudentDTO dataObject) throws SQLException {
+  public void updateOne(StudentDTO studentDTO) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
     ) {
-      statement.setString(1, dataObject.getName());
-      statement.setString(2, dataObject.getPaternalLastName());
-      statement.setString(3, dataObject.getMaternalLastName());
-      statement.setString(4, dataObject.getState());
-      statement.setInt(5, dataObject.getFinalGrade());
-      statement.setString(6, dataObject.getID());
+      statement.setString(1, studentDTO.getName());
+      statement.setString(2, studentDTO.getPaternalLastName());
+      statement.setString(3, studentDTO.getMaternalLastName());
+      statement.setString(4, studentDTO.getState());
+      statement.setInt(5, studentDTO.getFinalGrade());
+      statement.setString(6, studentDTO.getID());
       statement.executeUpdate();
     }
   }

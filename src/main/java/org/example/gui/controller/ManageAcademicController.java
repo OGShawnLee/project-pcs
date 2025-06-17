@@ -5,16 +5,13 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 
 import org.example.business.dao.AcademicDAO;
-import org.example.business.dao.AccountDAO;
 import org.example.business.dto.AcademicDTO;
-import org.example.business.dto.AccountDTO;
 import org.example.gui.Modal;
 
 import java.sql.SQLException;
 
 public class ManageAcademicController extends ManageController<AcademicDTO> {
   private final AcademicDAO ACADEMIC_DAO = new AcademicDAO();
-  private final AccountDAO ACCOUNT_DAO = new AccountDAO();
   @FXML
   private TextField fieldIDAcademic;
   @FXML
@@ -51,21 +48,6 @@ public class ManageAcademicController extends ManageController<AcademicDTO> {
   @Override
   public void handleUpdateCurrentDataObject() {
     try {
-      System.out.println(getCurrentDataObject().getRole());
-      System.out.println(fieldRole.getValue());
-
-      if (getCurrentDataObject().getRole() != fieldRole.getValue()) {
-        AccountDTO accountDTO = ACCOUNT_DAO.getOne(getCurrentDataObject().getEmail());
-        System.out.println("Updating account role from " + accountDTO.role() + " to " + fieldRole.getValue());
-        ACCOUNT_DAO.updateOne(
-          new AccountDTO(
-            accountDTO.email(),
-            accountDTO.password(),
-            AccountDTO.Role.fromAcademicRole(fieldRole.getValue())
-          )
-        );
-      }
-
       AcademicDTO academicDTO = new AcademicDTO.AcademicBuilder()
         .setID(fieldIDAcademic.getText())
         .setEmail(fieldEmail.getText())

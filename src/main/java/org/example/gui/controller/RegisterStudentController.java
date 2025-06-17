@@ -80,13 +80,6 @@ public class RegisterStudentController {
             return;
         }
 
-        ACCOUNT_DAO.createOne(
-          new AccountDTO(
-            studentDTO.getEmail(),
-            AuthClient.getInstance().createGeneratedHashedPassword(studentDTO.getID()),
-            AccountDTO.Role.STUDENT
-          )
-        );
         STUDENT_DAO.createOne(studentDTO);
         EnrollmentDTO enrollment = new EnrollmentDTO.EnrollmentBuilder()
                 .setIDCourse(nrc)

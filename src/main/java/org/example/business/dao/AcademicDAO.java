@@ -1,17 +1,14 @@
 package org.example.business.dao;
 
 import org.example.business.dto.AcademicDTO;
+import org.example.business.dto.AccountDTO;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class AcademicDAO extends DAOPattern<AcademicDTO, String> {
-  private static final String CREATE_QUERY =
-    "INSERT INTO Academic (id_academic, email, name, paternal_last_name, maternal_last_name, role) VALUES (?, ?, ?, ?, ?, ?)";
+  private static final String CREATE_QUERY = "CALL create_academic(?, ?, ?, ?, ?, ?, ?)";
   private static final String GET_ALL_QUERY = "SELECT * FROM Academic";
   private static final String GET_ALL_BY_STATE_QUERY = "SELECT * FROM Academic WHERE state = ?";
   private static final String GET_QUERY = "SELECT * FROM Academic WHERE id_academic = ?";
@@ -34,17 +31,18 @@ public class AcademicDAO extends DAOPattern<AcademicDTO, String> {
   }
 
   @Override
-  public void createOne(AcademicDTO dataObject) throws SQLException {
+  public void createOne(AcademicDTO academicDTO) throws SQLException {
     try (
       Connection connection = getConnection();
-      PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
+      CallableStatement statement = connection.prepareCall(CREATE_QUERY)
     ) {
-      statement.setString(1, dataObject.getID());
-      statement.setString(2, dataObject.getEmail());
-      statement.setString(3, dataObject.getName());
-      statement.setString(4, dataObject.getPaternalLastName());
-      statement.setString(5, dataObject.getMaternalLastName());
-      statement.setString(6, dataObject.getRole().toString());
+      statement.setString(1, academicDTO.getID());
+      statement.setString(2, academicDTO.getEmail());
+      statement.setString(3, academicDTO.getName());
+      statement.setString(4, academicDTO.getPaternalLastName());
+      statement.setString(5, academicDTO.getMaternalLastName());
+      statement.setString(6, AccountDTO.getGeneratedHashedPassword(academicDTO.getID()));
+      statement.setString(7, academicDTO.getRole().toString());
       statement.executeUpdate();
     }
   }
@@ -92,30 +90,30 @@ public class AcademicDAO extends DAOPattern<AcademicDTO, String> {
     ) {
       statement.setString(1, id);
 
-      AcademicDTO dataObject = null;
+      AcademicDTO academicDTO = null;
 
       try (ResultSet resultSet = statement.executeQuery()) {
         if (resultSet.next()) {
-          dataObject = createDTOInstanceFromResultSet(resultSet);
+          academicDTO = createDTOInstanceFromResultSet(resultSet);
         }
       }
 
-      return dataObject;
+      return academicDTO;
     }
   }
 
   @Override
-  public void updateOne(AcademicDTO dataObject) throws SQLException {
+  public void updateOne(AcademicDTO academicDTO) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
     ) {
-      statement.setString(1, dataObject.getName());
-      statement.setString(2, dataObject.getPaternalLastName());
-      statement.setString(3, dataObject.getMaternalLastName());
-      statement.setString(4, dataObject.getRole().toString());
-      statement.setString(5, dataObject.getState());
-      statement.setString(6, dataObject.getID());
+      statement.setString(1, academicDTO.getName());
+      statement.setString(2, academicDTO.getPaternalLastName());
+      statement.setString(3, academicDTO.getMaternalLastName());
+      statement.setString(4, academicDTO.getRole().toString());
+      statement.setString(5, academicDTO.getState());
+      statement.setString(6, academicDTO.getID());
       statement.executeUpdate();
     }
   }

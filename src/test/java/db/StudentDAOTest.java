@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,17 +19,14 @@ public class StudentDAOTest {
     .setName("Shawn")
     .setPaternalLastName("Doe")
     .setMaternalLastName("Smith")
-    .setFinalGrade(10)
     .setState("ACTIVE")
     .build();
 
   public static void createOneTestStudent() throws SQLException {
-    AccountDAOTest.createOneTestStudentAccount();
     STUDENT_DAO.createOne(STUDENT_DTO);
   }
 
   public static void deleteOneTestStudent() throws SQLException {
-    AccountDAOTest.deleteOneTestStudentAccount();
     STUDENT_DAO.deleteOne(STUDENT_DTO.getID());
   }
 

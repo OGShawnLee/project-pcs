@@ -69,7 +69,7 @@ public class ReviewStudentProjectController {
             labelProjectName.setText(myProject.getName());
             labelOrganization.setText(organization.getName());
             labelMethodology.setText(myProject.getMethodology());
-            labelSector.setText(myProject.getSector());
+            labelSector.setText(myProject.getSector().toString());
             labelEmail.setText(myProject.getIDOrganization());
 
         } catch (Exception e) {
