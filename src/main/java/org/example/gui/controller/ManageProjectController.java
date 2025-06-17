@@ -3,8 +3,10 @@ package org.example.gui.controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+
 import org.example.business.dao.OrganizationDAO;
 import org.example.business.dao.ProjectDAO;
+import org.example.business.dao.ProjectSector;
 import org.example.business.dto.OrganizationDTO;
 import org.example.business.dto.ProjectDTO;
 import org.example.gui.Modal;
@@ -24,7 +26,7 @@ public class ManageProjectController extends ManageController<ProjectDTO> {
   @FXML
   private TextField fieldMethodology;
   @FXML
-  private ComboBox<String> comboBoxSector;
+  private ComboBox<ProjectSector> comboBoxSector;
   @FXML
   private ComboBox<String> comboBoxState;
 

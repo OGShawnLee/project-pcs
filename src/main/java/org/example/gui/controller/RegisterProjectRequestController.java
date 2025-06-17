@@ -15,8 +15,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.CheckBoxTableCell;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import org.example.business.dao.ProjectDAO;
+import org.example.business.dao.ProjectSector;
 import org.example.business.dto.ProjectDTO;
 import org.example.business.dto.ProjectRequestDTO;
 import org.example.business.dao.ProjectRequestDAO;
@@ -40,7 +42,7 @@ public class RegisterProjectRequestController {
     @FXML
     private TableColumn<ProjectDTO, String> metodologyColumn;
     @FXML
-    private TableColumn<ProjectDTO, String> sectorColumn;
+    private TableColumn<ProjectDTO, ProjectSector> sectorColumn;
     @FXML
     private TableColumn<ProjectDTO, Boolean> checkBoxColumn;
 
@@ -57,7 +59,7 @@ public class RegisterProjectRequestController {
         nameColumn.setCellValueFactory(cd -> new SimpleStringProperty(cd.getValue().getName()));
         emailColumn.setCellValueFactory(cd -> new SimpleStringProperty(cd.getValue().getIDOrganization()));
         metodologyColumn.setCellValueFactory(cd -> new SimpleStringProperty(cd.getValue().getMethodology()));
-        sectorColumn.setCellValueFactory(cd -> new SimpleStringProperty(cd.getValue().getSector()));
+        sectorColumn.setCellValueFactory(new PropertyValueFactory<>("sector"));
 
         checkBoxColumn.setCellValueFactory(cellData -> {
             ProjectDTO projectDTO = cellData.getValue();

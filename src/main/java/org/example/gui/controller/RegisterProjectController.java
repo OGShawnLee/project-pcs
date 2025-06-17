@@ -5,6 +5,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 
 import org.example.business.dao.OrganizationDAO;
+import org.example.business.dao.ProjectSector;
 import org.example.business.dto.OrganizationDTO;
 import org.example.business.dto.ProjectDTO;
 import org.example.business.dao.ProjectDAO;
@@ -23,16 +24,16 @@ public class RegisterProjectController extends Controller {
   @FXML
   private TextField fieldMethodology;
   @FXML
-  private ComboBox<String> comboBoxSector;
+  private ComboBox<ProjectSector> comboBoxSector;
 
   public void initialize() {
     loadComboBoxOrganization();
     loadComboBoxSector(comboBoxSector);
   }
 
-  public static void loadComboBoxSector(ComboBox<String> comboBoxSector) {
-    comboBoxSector.getItems().addAll("Público", "Privado", "Social");
-    comboBoxSector.setValue("Público");
+  public static void loadComboBoxSector(ComboBox<ProjectSector> comboBoxSector) {
+    comboBoxSector.getItems().addAll(ProjectSector.values());
+    comboBoxSector.setValue(ProjectSector.PUBLIC);
   }
 
   public void loadComboBoxOrganization() {
@@ -41,12 +42,11 @@ public class RegisterProjectController extends Controller {
 
       if (organizationList.isEmpty()) {
         Modal.displayError("No existe una organización. Por favor, registre una organización antes de registrar un proyecto.");
-        Modal.display("Registrar Organización", "RegisterProjectModal", this::loadComboBoxOrganization);
         return;
       }
 
       comboBoxOrganization.getItems().addAll(organizationList);
-      comboBoxOrganization.setValue(organizationList.get(0));
+      comboBoxOrganization.setValue(organizationList.getFirst());
     } catch (SQLException e) {
       Modal.displayError("No ha sido posible cargar las organizaciones debido a un error en el sistema.");
     }

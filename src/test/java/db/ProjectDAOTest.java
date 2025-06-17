@@ -1,5 +1,6 @@
 package db;
 
+import org.example.business.dao.ProjectSector;
 import org.example.business.dto.ProjectDTO;
 import org.example.business.dao.ProjectDAO;
 import org.junit.jupiter.api.AfterEach;
@@ -18,7 +19,7 @@ public class ProjectDAOTest {
     .setName("Bard AI Reborn")
     .setMethodology("Agile")
     .setState("ACTIVE")
-    .setSector("PRIVATE")
+    .setSector(ProjectSector.PRIVATE)
     .build();
 
   public static void createOneTestProject() throws SQLException {
@@ -94,7 +95,7 @@ public class ProjectDAOTest {
         .setIDOrganization(OrganizationDAOTest.ORGANIZATION_DTO.getEmail())
         .setName(PROJECT_DTO.getName())
         .setMethodology(PROJECT_DTO.getMethodology())
-        .setSector("PRIVATE")
+        .setSector(ProjectSector.PRIVATE)
         .setState("ACTIVE")
         .build();
 
@@ -107,7 +108,7 @@ public class ProjectDAOTest {
         .setIDOrganization(OrganizationDAOTest.ORGANIZATION_DTO.getEmail())
         .setName(PROJECT_DTO.getName())
         .setMethodology(PROJECT_DTO.getMethodology())
-        .setSector("SOCIAL")
+        .setSector(ProjectSector.SOCIAL)
         .setState("ACTIVE")
         .build();
 

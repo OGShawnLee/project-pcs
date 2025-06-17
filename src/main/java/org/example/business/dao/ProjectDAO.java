@@ -27,26 +27,26 @@ public class ProjectDAO extends DAOPattern<ProjectDTO, Integer> {
       .setName(resultSet.getString("name"))
       .setMethodology(resultSet.getString("methodology"))
       .setState(resultSet.getString("state"))
-      .setSector(resultSet.getString("sector"))
+      .setSector(ProjectSector.valueOf(resultSet.getString("sector")))
       .setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime())
       .build();
   }
 
   @Override
-  public void createOne(ProjectDTO dataObject) throws SQLException {
+  public void createOne(ProjectDTO projectDTO) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(CREATE_QUERY, PreparedStatement.RETURN_GENERATED_KEYS)
     ) {
-      statement.setString(1, dataObject.getIDOrganization());
-      statement.setString(2, dataObject.getName());
-      statement.setString(3, dataObject.getMethodology());
-      statement.setString(4, dataObject.getSector());
+      statement.setString(1, projectDTO.getIDOrganization());
+      statement.setString(2, projectDTO.getName());
+      statement.setString(3, projectDTO.getMethodology());
+      statement.setString(4, projectDTO.getSector().toString());
       statement.executeUpdate();
 
       try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
         if (generatedKeys.next()) {
-          dataObject.setID(generatedKeys.getInt(1));
+          projectDTO.setID(generatedKeys.getInt(1));
         } else {
           throw new SQLException("Creating project failed, no ID obtained.");
         }
@@ -97,30 +97,30 @@ public class ProjectDAO extends DAOPattern<ProjectDTO, Integer> {
     ) {
       statement.setInt(1, id);
 
-      ProjectDTO dataObject = null;
+      ProjectDTO projectDTO = null;
 
       try (ResultSet resultSet = statement.executeQuery()) {
         if (resultSet.next()) {
-          dataObject = createDTOInstanceFromResultSet(resultSet);
+          projectDTO = createDTOInstanceFromResultSet(resultSet);
         }
       }
 
-      return dataObject;
+      return projectDTO;
     }
   }
 
   @Override
-  public void updateOne(ProjectDTO dataObject) throws SQLException {
+  public void updateOne(ProjectDTO projectDTO) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
     ) {
-      statement.setString(1, dataObject.getIDOrganization());
-      statement.setString(2, dataObject.getName());
-      statement.setString(3, dataObject.getMethodology());
-      statement.setString(4, dataObject.getState());
-      statement.setString(5, dataObject.getSector());
-      statement.setInt(6, dataObject.getID());
+      statement.setString(1, projectDTO.getIDOrganization());
+      statement.setString(2, projectDTO.getName());
+      statement.setString(3, projectDTO.getMethodology());
+      statement.setString(4, projectDTO.getState());
+      statement.setString(5, projectDTO.getSector().toString());
+      statement.setInt(6, projectDTO.getID());
       statement.executeUpdate();
     }
   }

@@ -1,6 +1,7 @@
 package org.example.business.dto;
 
 import org.example.business.Validator;
+import org.example.business.dao.ProjectSector;
 
 import java.time.LocalDateTime;
 
@@ -10,7 +11,7 @@ public class ProjectDTO {
   private final String name;
   private final String methodology;
   private final String state;
-  private final String sector;
+  private final ProjectSector sector;
   private final LocalDateTime createdAt;
 
   public ProjectDTO(ProjectBuilder builder) {
@@ -47,7 +48,7 @@ public class ProjectDTO {
     return state;
   }
 
-  public String getSector() {
+  public ProjectSector getSector() {
     return sector;
   }
 
@@ -77,7 +78,7 @@ public class ProjectDTO {
     protected String name;
     protected String methodology;
     protected String state;
-    protected String sector;
+    protected ProjectSector sector;
     protected LocalDateTime createdAt;
 
     public ProjectBuilder setID(int id) {
@@ -105,8 +106,8 @@ public class ProjectDTO {
       return this;
     }
 
-    public ProjectBuilder setSector(String sector) throws IllegalArgumentException {
-      this.sector = Validator.getValidProjectSector(sector);
+    public ProjectBuilder setSector(ProjectSector sector) throws IllegalArgumentException {
+      this.sector = sector;
       return this;
     }
 
