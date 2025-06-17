@@ -110,32 +110,6 @@ public class Validator {
     );
   }
 
-  public static String getValidProjectSector(String value) throws IllegalArgumentException {
-    String finalValue = getValidName(value, "Sector");
-
-    if (
-      finalValue.equals("PUBLIC") ||
-      finalValue.equals("PRIVATE") ||
-      finalValue.equals("SOCIAL")
-    ) {
-      return finalValue;
-    }
-
-    if (finalValue.equals("Público")) {
-      return "PUBLIC";
-    }
-
-    if (finalValue.equals("Privado")) {
-      return "PRIVATE";
-    }
-
-    if (finalValue.equals("Social")) {
-      return "SOCIAL";
-    }
-
-    throw new IllegalArgumentException("Sector debe ser uno de los siguientes: Público, Privado, Social.");
-  }
-
   public static String getValidState(String value) throws IllegalArgumentException {
     String finalValue = getValidName(value, "Estado");
 
