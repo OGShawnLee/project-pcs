@@ -218,15 +218,4 @@ public class Validator {
 
     throw new IllegalArgumentException("Nombre de Configuración debe ser 'ENABLE-EVALUATION'.");
   }
-
-  public static String getValidConfigurationValue(String name, String value) {
-    String finalName = getValidConfigurationName(name);
-    String finalValue = getValidString(value, "Valor de Configuración");
-
-    if (finalName.equals("EVALUATION-ENABLED") && (finalValue.equals("true") || finalValue.equals("false"))) {
-      return finalValue;
-    }
-
-    throw new IllegalArgumentException("Valor de Configuración debe ser 'true' o 'false' para 'ENABLE-EVALUATION'.");
-  }
 }

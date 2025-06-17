@@ -10,15 +10,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ConfigurationDAO extends DAOPattern<ConfigurationDTO, String> {
-  private static final String CREATE_QUERY = "INSERT INTO Configuration (name, value) VALUES (?, ?)";
+  private static final String CREATE_QUERY = "INSERT INTO Configuration (name, enabled) VALUES (?, ?)";
   private static final String GET_QUERY = "SELECT * FROM Configuration WHERE name = ?";
   private static final String GET_ALL_QUERY = "SELECT * FROM Configuration";
-  private static final String UPDATE_QUERY = "UPDATE Configuration SET value = ? WHERE name = ?";
+  private static final String UPDATE_QUERY = "UPDATE Configuration SET enabled = ? WHERE name = ?";
   private static final String DELETE_QUERY = "DELETE FROM Configuration WHERE name = ?";
 
   @Override
   ConfigurationDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
-    return new ConfigurationDTO(resultSet.getString("name"), resultSet.getString("value"));
+    return new ConfigurationDTO(resultSet.getString("name"), resultSet.getBoolean("enabled"));
   }
 
   @Override
@@ -28,7 +28,7 @@ public class ConfigurationDAO extends DAOPattern<ConfigurationDTO, String> {
       PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
     ) {
       statement.setString(1, dataObject.name());
-      statement.setString(2, dataObject.value());
+      statement.setBoolean(2, dataObject.enabled());
       statement.executeUpdate();
     }
   }
@@ -76,7 +76,7 @@ public class ConfigurationDAO extends DAOPattern<ConfigurationDTO, String> {
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
     ) {
-      statement.setString(1, dataObject.value());
+      statement.setBoolean(1, dataObject.enabled());
       statement.setString(2, dataObject.name());
       statement.executeUpdate();
     }

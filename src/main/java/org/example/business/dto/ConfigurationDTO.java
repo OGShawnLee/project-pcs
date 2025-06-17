@@ -2,10 +2,10 @@ package org.example.business.dto;
 
 import org.example.business.Validator;
 
-public record ConfigurationDTO(String name, String value) {
-  public ConfigurationDTO(String name, String value) {
+public record ConfigurationDTO(String name, boolean enabled) {
+  public ConfigurationDTO(String name, boolean enabled) {
     this.name = Validator.getValidConfigurationName(name);
-    this.value = Validator.getValidConfigurationValue(name, value);
+    this.enabled = enabled;
   }
 
   @Override
@@ -15,6 +15,6 @@ public record ConfigurationDTO(String name, String value) {
 
     ConfigurationDTO that = (ConfigurationDTO) instance;
 
-    return name.equals(that.name) && value.equals(that.value);
+    return name.equals(that.name) && enabled == that.enabled;
   }
 }

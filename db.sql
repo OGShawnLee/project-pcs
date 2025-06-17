@@ -8,7 +8,7 @@ USE Practice;
 CREATE TABLE Configuration
 (
     name  ENUM ('EVALUATION-ENABLED') NOT NULL,
-    value VARCHAR(32)                 NOT NULL,
+    enabled BOOLEAN NOT NULL DEFAULT FALSE,
     PRIMARY KEY (name)
 );
 
