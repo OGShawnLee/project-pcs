@@ -1,13 +1,8 @@
 package org.example.business.dto;
 
-import org.example.business.Validator;
+import org.example.business.dao.Configuration;
 
-public record ConfigurationDTO(String name, boolean enabled) {
-  public ConfigurationDTO(String name, boolean enabled) {
-    this.name = Validator.getValidConfigurationName(name);
-    this.enabled = enabled;
-  }
-
+public record ConfigurationDTO(Configuration name, boolean isEnabled) {
   @Override
   public boolean equals(Object instance) {
     if (this == instance) return true;
@@ -15,6 +10,6 @@ public record ConfigurationDTO(String name, boolean enabled) {
 
     ConfigurationDTO that = (ConfigurationDTO) instance;
 
-    return name.equals(that.name) && enabled == that.enabled;
+    return name.equals(that.name) && isEnabled == that.isEnabled;
   }
 }

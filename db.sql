@@ -7,10 +7,23 @@ USE Practice;
 # TODO: Add to the Diagrama and Dictinary
 CREATE TABLE Configuration
 (
-    name  ENUM ('EVALUATION-ENABLED') NOT NULL,
-    enabled BOOLEAN NOT NULL DEFAULT FALSE,
+    name       ENUM ('EVALUATION_ENABLED_FIRST', 'EVALUATION_ENABLED_SECOND', 'EVALUATION_ENABLED_FINAL') NOT NULL,
+    is_enabled BOOLEAN                                                                                    NOT NULL DEFAULT FALSE,
     PRIMARY KEY (name)
 );
+
+INSERT INTO Configuration (name)
+VALUES ('EVALUATION_ENABLED_FIRST'),
+       ('EVALUATION_ENABLED_SECOND'),
+       ('EVALUATION_ENABLED_FINAL');
+
+CREATE TRIGGER before_delete_configuration
+    BEFORE DELETE
+    ON Configuration
+    FOR EACH ROW
+BEGIN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Configuration is READ and UPDATE only';
+END;
 
 # TODO: Add to the Diagram and Dictionary
 CREATE TABLE Account
