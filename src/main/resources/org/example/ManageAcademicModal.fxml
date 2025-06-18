@@ -13,7 +13,7 @@
             prefHeight="720.0" prefWidth="720.0" stylesheets="@main.css" xmlns="http://javafx.com/javafx/23.0.1"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.gui.controller.ManageAcademicController">
   <children>
-    <VBox layoutX="200.0" layoutY="78.0" prefWidth="320.0" spacing="16.0">
+    <VBox layoutX="200.0" layoutY="38.0" prefWidth="320.0" spacing="16.0">
       <children>
         <Label styleClass="title" text="Gestionar Académico">
           <VBox.margin>
@@ -59,16 +59,23 @@
         </VBox>
         <VBox spacing="8.0">
           <children>
+            <Label styleClass="label" text="Número de Teléfono"/>
+            <TextField fx:id="fieldPhoneNumber" promptText="Introduzca el Número de Teléfono del Académico"
+                       styleClass="input"/>
+          </children>
+        </VBox>
+        <VBox spacing="8.0">
+          <children>
             <Label styleClass="label" text="Rol"/>
-            <ComboBox fx:id="fieldRole" maxWidth="1.7976931348623157E308"
-                      promptText="Evaluador / Profesor-Evaluador / Profesor" styleClass="input"/>
+            <ComboBox fx:id="fieldRole" maxWidth="1.7976931348623157E308" promptText="Seleccione el Rol del Académico"
+                      styleClass="input"/>
           </children>
         </VBox>
         <VBox spacing="8.0">
           <children>
             <Label text="Estado"/>
-            <ComboBox fx:id="fieldState" maxWidth="1.7976931348623157E308" promptText="Activo / Inactivo"
-                      styleClass="input"/>
+            <ComboBox fx:id="fieldState" maxWidth="1.7976931348623157E308"
+                      promptText="Seleccione el Estado del Académico" styleClass="input"/>
           </children>
         </VBox>
         <HBox>

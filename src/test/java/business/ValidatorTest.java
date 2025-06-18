@@ -1,6 +1,7 @@
 package business;
 
 import org.example.business.Validator;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -265,6 +266,141 @@ public class ValidatorTest {
         "Flexible name cannot contain special characters"
       );
     }
+  }
+
+  @Test
+  public void testGetValidPhoneNumber() {
+    assertDoesNotThrow(
+      () -> {
+        Assertions.assertEquals(
+          "1234567890",
+          Validator.getValidPhoneNumber("1234567890"),
+          "Valid phone number should be returned"
+        );
+      }
+    );
+  }
+
+  @Test
+  public void testGetValidNumberWithSign() {
+    assertDoesNotThrow(
+      () -> {
+        Assertions.assertEquals(
+          "+1234567890",
+          Validator.getValidPhoneNumber("+1234567890"),
+          "Valid phone number with sign should be returned"
+        );
+      }
+    );
+  }
+
+  @Test
+  public void testGetValidPhoneNumberWithSpaces() {
+    assertDoesNotThrow(
+      () -> {
+        Assertions.assertEquals(
+          "1234567890",
+          Validator.getValidPhoneNumber("   1234567890   "),
+          "Valid phone number should be returned with spaces trimmed"
+        );
+      }
+    );
+  }
+
+  @Test
+  public void testGetValidPhoneNumberWithNull() {
+    Assertions.assertThrows(
+      IllegalArgumentException.class,
+      () -> Validator.getValidPhoneNumber(null),
+      "Phone number cannot be null"
+    );
+  }
+
+  @Test
+  public void testGetValidPhoneNumberWithEmpty() {
+    Assertions.assertThrows(
+      IllegalArgumentException.class,
+      () -> Validator.getValidPhoneNumber(""),
+      "Phone number cannot be empty"
+    );
+  }
+
+  @Test
+  public void testGetValidPhoneNumberWithInvalidFormat() {
+    Assertions.assertThrows(
+      IllegalArgumentException.class,
+      () -> Validator.getValidPhoneNumber("invalid-phone-number"),
+      "Phone number must be in a valid format"
+    );
+  }
+
+  @Test
+  public void testGetValidPhoneNumberWithInvalidLength() {
+    Assertions.assertThrows(
+      IllegalArgumentException.class,
+      () -> Validator.getValidPhoneNumber("12345"),
+      "Phone number must be between 10 and 15 characters"
+    );
+  }
+
+  @Test
+  public void testGetValidPhoneNumberWithInvalidCharacters() {
+    String[] invalidCharacters = {"!", "#", "$", "%", "^", "&", "*", "(", ")", "=", "+", "{", "}", "[", "]", "|", "\\", ":", ";", "\"", "'", "<", ">", ",", "?", "/", "~"};
+    for (String invalidCharacter : invalidCharacters) {
+      Assertions.assertThrows(
+        IllegalArgumentException.class,
+        () -> Validator.getValidPhoneNumber("1234567890" + invalidCharacter),
+        "Phone number cannot contain special characters"
+      );
+    }
+  }
+
+  @Test
+  public void testGetValidPhoneNumberWithInvalidSign() {
+    Assertions.assertThrows(
+      IllegalArgumentException.class,
+      () -> Validator.getValidPhoneNumber("++1234567890"),
+      "Phone number cannot contain multiple signs"
+    );
+  }
+
+  @Test
+  public void testGetValidPhoneNumberWithInvalidSignPlacement() {
+    Assertions.assertThrows(
+      IllegalArgumentException.class,
+      () -> Validator.getValidPhoneNumber("123+4567890"),
+      "Phone number sign must be at the beginning"
+    );
+  }
+
+  @Test
+  public void testGetValidPhoneNumberWithDashes() {
+    final String[] VALID_PHONE_NUMBERS = { "1234567890", "123-456-7890", "+1234567890", "+123-456-7890" };
+
+    for (String phoneNumber : VALID_PHONE_NUMBERS) {
+      assertDoesNotThrow(
+        () -> {
+          Assertions.assertEquals(
+            phoneNumber.replace("-", ""),
+            Validator.getValidPhoneNumber(phoneNumber),
+            "Valid phone number with dashes should be returned"
+          );
+        }
+      );
+    }
+  }
+
+  @Test
+  public void testGetValidPhoneNumberWithInBetweenSpaces() {
+    assertDoesNotThrow(
+      () -> {
+        Assertions.assertEquals(
+          "1234567890",
+          Validator.getValidPhoneNumber("   123 456 7890   "),
+          "Valid phone number with spaces and dashes should be returned with spaces trimmed"
+        );
+      }
+    );
   }
 
   @Test

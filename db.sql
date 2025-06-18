@@ -43,6 +43,7 @@ CREATE TABLE Student
     maternal_last_name VARCHAR(64),
     created_at         TIMESTAMP                  NOT NULL DEFAULT NOW(),
     state              ENUM ('ACTIVE', 'RETIRED') NOT NULL DEFAULT 'ACTIVE',
+    phone_number       VARCHAR(16)                NOT NULL,
     final_grade        INT CHECK (final_grade >= 0 AND final_grade <= 10),
     PRIMARY KEY (id_student),
     FOREIGN KEY (email) REFERENCES Account (email) ON DELETE CASCADE
@@ -69,6 +70,7 @@ CREATE TABLE Academic
     created_at         TIMESTAMP                                            NOT NULL DEFAULT NOW(),
     state              ENUM ('ACTIVE', 'RETIRED')                           NOT NULL DEFAULT 'ACTIVE',
     role               ENUM ('ACADEMIC', 'ACADEMIC_EVALUATOR', 'EVALUATOR') NOT NULL,
+    phone_number       VARCHAR(16)                                          NOT NULL,
     PRIMARY KEY (id_academic),
     FOREIGN KEY (email) REFERENCES Account (email) ON DELETE CASCADE
 );
@@ -105,6 +107,7 @@ CREATE PROCEDURE create_academic(
     IN in_paternal_last_name VARCHAR(64),
     IN in_maternal_last_name VARCHAR(64),
     IN in_password VARCHAR(64),
+    IN in_phone_number VARCHAR(16),
     IN in_role ENUM ('ACADEMIC', 'ACADEMIC_EVALUATOR', 'EVALUATOR')
 )
 BEGIN
@@ -119,8 +122,8 @@ BEGIN
 
     INSERT INTO Account (email, password, role)
     VALUES (in_email, in_password, in_role);
-    INSERT INTO Academic (id_academic, email, name, paternal_last_name, maternal_last_name, role)
-    VALUES (in_id_academic, in_email, in_name, in_paternal_last_name, in_maternal_last_name, in_role);
+    INSERT INTO Academic (id_academic, email, name, paternal_last_name, maternal_last_name, phone_number, role)
+    VALUES (in_id_academic, in_email, in_name, in_paternal_last_name, in_maternal_last_name, in_phone_number, in_role);
     COMMIT;
 END;
 
@@ -131,7 +134,8 @@ CREATE PROCEDURE create_student(
     IN in_name VARCHAR(64),
     IN in_paternal_last_name VARCHAR(64),
     IN in_maternal_last_name VARCHAR(64),
-    IN in_password VARCHAR(64)
+    IN in_password VARCHAR(64),
+    IN in_phone_number VARCHAR(16)
 )
 BEGIN
     START TRANSACTION;
@@ -146,8 +150,8 @@ BEGIN
 
     INSERT INTO Account (email, password, role)
     VALUES (in_email, in_password, 'STUDENT');
-    INSERT INTO Student (id_student, email, name, paternal_last_name, maternal_last_name)
-    VALUES (in_id_student, in_email, in_name, in_paternal_last_name, in_maternal_last_name);
+    INSERT INTO Student (id_student, email, name, paternal_last_name, maternal_last_name, phone_number)
+    VALUES (in_id_student, in_email, in_name, in_paternal_last_name, in_maternal_last_name, in_phone_number);
     COMMIT;
 END;
 

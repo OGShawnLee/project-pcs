@@ -10,6 +10,7 @@ public abstract class Person {
   private final String maternalLastName;
   private final String email;
   private final String state;
+  private final String phoneNumber;
   private final LocalDateTime createdAt;
 
   public Person(PersonBuilder<?> builder) {
@@ -18,6 +19,7 @@ public abstract class Person {
     this.maternalLastName = builder.maternalLastName;
     this.email = builder.email;
     this.state = builder.state;
+    this.phoneNumber = builder.phoneNumber;
     this.createdAt = builder.createdAt;
   }
 
@@ -41,6 +43,10 @@ public abstract class Person {
     return state;
   }
 
+  public String getPhoneNumber() {
+    return phoneNumber;
+  }
+
   public LocalDateTime getCreatedAt() {
     return createdAt;
   }
@@ -57,7 +63,8 @@ public abstract class Person {
       paternalLastName.equals(that.paternalLastName) &&
       maternalLastName.equals(that.maternalLastName) &&
       email.equals(that.email) &&
-      state.equals(that.state);
+      state.equals(that.state) &&
+      phoneNumber.equals(that.phoneNumber);
   }
 
   public static abstract class PersonBuilder<T extends PersonBuilder<T>> {
@@ -66,6 +73,7 @@ public abstract class Person {
     protected String maternalLastName;
     protected String email;
     protected String state;
+    protected String phoneNumber;
     protected LocalDateTime createdAt;
 
     public T self() {
@@ -98,6 +106,11 @@ public abstract class Person {
 
     public T setState(String state) throws IllegalArgumentException {
       this.state = Validator.getValidState(state);
+      return self();
+    }
+
+    public T setPhoneNumber(String phoneNumber) throws IllegalArgumentException {
+      this.phoneNumber = Validator.getValidPhoneNumber(phoneNumber);
       return self();
     }
 

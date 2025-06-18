@@ -23,6 +23,8 @@ public class ManageAcademicController extends ManageController<AcademicDTO> {
   @FXML
   private TextField fieldMaternalLastName;
   @FXML
+  private TextField fieldPhoneNumber;
+  @FXML
   private ComboBox<AcademicDTO.Role> fieldRole;
   @FXML
   private ComboBox<String> fieldState;
@@ -42,6 +44,7 @@ public class ManageAcademicController extends ManageController<AcademicDTO> {
     fieldPaternalLastName.setText(getCurrentDataObject().getPaternalLastName());
     fieldMaternalLastName.setText(getCurrentDataObject().getMaternalLastName());
     fieldRole.setValue(getCurrentDataObject().getRole());
+    fieldPhoneNumber.setText(getCurrentDataObject().getPhoneNumber());
     fieldState.setValue(getCurrentDataObject().getState());
   }
 
@@ -55,6 +58,7 @@ public class ManageAcademicController extends ManageController<AcademicDTO> {
         .setPaternalLastName(fieldPaternalLastName.getText())
         .setMaternalLastName(fieldMaternalLastName.getText())
         .setRole(fieldRole.getValue())
+        .setPhoneNumber(fieldPhoneNumber.getText())
         .setState(fieldState.getValue())
         .build();
 

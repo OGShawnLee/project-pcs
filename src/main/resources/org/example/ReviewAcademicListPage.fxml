@@ -46,7 +46,8 @@
                            styleClass="column"/>
               <TableColumn fx:id="columnMaternalLastName" prefWidth="110.0" text="Apellido Materno"
                            styleClass="column"/>
-              <TableColumn fx:id="columnRole" prefWidth="200.0" text="Rol" styleClass="column"/>
+              <TableColumn fx:id="columnPhoneNumber" prefWidth="120.0" text="Teléfono" styleClass="column"/>
+              <TableColumn fx:id="columnRole" prefWidth="120.0" text="Rol" styleClass="column"/>
               <TableColumn fx:id="columnState" prefWidth="90.0" text="Estado" styleClass="column"/>
               <TableColumn fx:id="columnCreatedAt" prefWidth="160.0" text="Fecha de Registro" styleClass="column"/>
             </columns>

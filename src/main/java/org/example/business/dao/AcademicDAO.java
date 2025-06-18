@@ -13,12 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AcademicDAO extends DAOPattern<AcademicDTO, String> {
-  private static final String CREATE_QUERY = "CALL create_academic(?, ?, ?, ?, ?, ?, ?)";
+  private static final String CREATE_QUERY = "CALL create_academic(?, ?, ?, ?, ?, ?, ?, ?)";
   private static final String GET_ALL_QUERY = "SELECT * FROM Academic";
   private static final String GET_ALL_BY_STATE_QUERY = "SELECT * FROM Academic WHERE state = ?";
   private static final String GET_QUERY = "SELECT * FROM Academic WHERE id_academic = ?";
   private static final String UPDATE_QUERY =
-    "UPDATE Academic SET name = ?, paternal_last_name = ?, maternal_last_name = ?, role = ?, state = ? WHERE id_academic = ?";
+    "UPDATE Academic SET name = ?, paternal_last_name = ?, maternal_last_name = ?, phone_number = ?, role = ?, state = ? WHERE id_academic = ?";
   private static final String DELETE_QUERY = "DELETE FROM Academic WHERE id_academic = ?";
 
   @Override
@@ -29,6 +29,7 @@ public class AcademicDAO extends DAOPattern<AcademicDTO, String> {
       .setName(resultSet.getString("name"))
       .setPaternalLastName(resultSet.getString("paternal_last_name"))
       .setMaternalLastName(resultSet.getString("maternal_last_name"))
+      .setPhoneNumber(resultSet.getString("phone_number"))
       .setState(resultSet.getString("state"))
       .setRole(AcademicDTO.Role.valueOf(resultSet.getString("role")))
       .setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime())
@@ -47,7 +48,8 @@ public class AcademicDAO extends DAOPattern<AcademicDTO, String> {
       statement.setString(4, academicDTO.getPaternalLastName());
       statement.setString(5, academicDTO.getMaternalLastName());
       statement.setString(6, AccountDTO.getGeneratedHashedPassword(academicDTO.getID()));
-      statement.setString(7, academicDTO.getRole().toString());
+      statement.setString(7, academicDTO.getPhoneNumber());
+      statement.setString(8, academicDTO.getRole().toString());
       statement.executeUpdate();
     }
   }
@@ -116,9 +118,10 @@ public class AcademicDAO extends DAOPattern<AcademicDTO, String> {
       statement.setString(1, academicDTO.getName());
       statement.setString(2, academicDTO.getPaternalLastName());
       statement.setString(3, academicDTO.getMaternalLastName());
-      statement.setString(4, academicDTO.getRole().toString());
-      statement.setString(5, academicDTO.getState());
-      statement.setString(6, academicDTO.getID());
+      statement.setString(4, academicDTO.getPhoneNumber());
+      statement.setString(5, academicDTO.getRole().toString());
+      statement.setString(6, academicDTO.getState());
+      statement.setString(7, academicDTO.getID());
       statement.executeUpdate();
     }
   }

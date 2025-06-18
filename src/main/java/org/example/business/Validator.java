@@ -7,6 +7,7 @@ public class Validator {
   private static final String WORKER_ID_REGEX = "^(?!0+$)[0-9]{1,5}$";
   private static final String FLEXIBLE_NAME_REGEX = "^[A-Za-zÑñÁáÉéÍíÓóÚúÜü0-9\\s\\-_/.:]+$";
   private static final String GRADE_REGEX = "^(10|[0-9])$";
+  private static final String PHONE_NUMBER_REGEX = "^(\\+?\\d{1,3})?[-.\\s]?\\(?\\d{1,4}\\)?[-.\\s]?\\d{1,4}[-.\\s]?\\d{1,4}[-.\\s]?\\d{1,9}$";
 
   private static boolean isValidEmail(String email) {
     return isValidString(email) && email.trim().matches(EMAIL_REGEX);
@@ -100,6 +101,15 @@ public class Validator {
     }
 
     throw new IllegalArgumentException("Estado debe ser uno de los siguientes: Activo, Inactivo.");
+  }
+
+  public static String getValidPhoneNumber(String value) throws IllegalArgumentException {
+    if (isValidString(value, 10, 16) && value.trim().matches(PHONE_NUMBER_REGEX)) {
+      // Note: Normalize phone number by removing spaces and dashes.
+      return value.trim().replaceAll("[\\s\\-]", "");
+    }
+
+    throw new IllegalArgumentException("Número de Teléfono debe ser una cadena de texto con el formato correcto.");
   }
 
   public static String getValidPassword(String password) throws IllegalArgumentException {

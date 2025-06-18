@@ -28,6 +28,8 @@ public class RegisterAcademicController extends Controller {
   @FXML
   private TextField fieldMaternalLastName;
   @FXML
+  private TextField fieldPhoneNumber;
+  @FXML
   private ComboBox<AcademicDTO.Role> fieldRole;
 
   public void initialize() {
@@ -47,6 +49,7 @@ public class RegisterAcademicController extends Controller {
         .setName(fieldName.getText())
         .setPaternalLastName(fieldPaternalLastName.getText())
         .setMaternalLastName(fieldMaternalLastName.getText())
+        .setPhoneNumber(fieldPhoneNumber.getText())
         .setRole(fieldRole.getValue())
         .build();
 

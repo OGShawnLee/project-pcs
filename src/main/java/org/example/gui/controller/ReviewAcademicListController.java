@@ -28,6 +28,8 @@ public class ReviewAcademicListController extends ReviewListController implement
   @FXML
   private TableColumn<AcademicDTO, String> columnMaternalLastName;
   @FXML
+  private TableColumn<AcademicDTO, String> columnPhoneNumber;
+  @FXML
   private TableColumn<AcademicDTO, String> columnRole;
   @FXML
   private TableColumn<AcademicDTO, String> columnState;
@@ -41,6 +43,7 @@ public class ReviewAcademicListController extends ReviewListController implement
     columnName.setCellValueFactory(new PropertyValueFactory<>("name"));
     columnPaternalLastName.setCellValueFactory(new PropertyValueFactory<>("paternalLastName"));
     columnMaternalLastName.setCellValueFactory(new PropertyValueFactory<>("maternalLastName"));
+    columnPhoneNumber.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
     columnRole.setCellValueFactory(new PropertyValueFactory<>("role"));
     columnState.setCellValueFactory(new PropertyValueFactory<>("state"));
     columnCreatedAt.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
