@@ -19,6 +19,8 @@ public class StudentDAO extends DAOPattern<StudentDTO, String> {
     "SELECT * FROM Student";
   private static final String GET_QUERY =
     "SELECT * FROM Student WHERE id_student = ?";
+  private static final String GET_BY_EMAIL_QUERY =
+    "SELECT * FROM Student WHERE email = ?";
   private static final String UPDATE_QUERY =
     "UPDATE Student SET name = ?, paternal_last_name = ?, maternal_last_name = ?, phone_number = ?, state = ?, final_grade = ? WHERE id_student = ?";
   private static final String DELETE_QUERY =
@@ -93,12 +95,31 @@ public class StudentDAO extends DAOPattern<StudentDTO, String> {
   }
 
   @Override
-  public StudentDTO getOne(String filter) throws SQLException {
+  public StudentDTO getOne(String id) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_QUERY)
     ) {
-      statement.setString(1, filter);
+      statement.setString(1, id);
+
+      StudentDTO studentDTO = null;
+
+      try (ResultSet resultSet = statement.executeQuery()) {
+        if (resultSet.next()) {
+          studentDTO = createDTOInstanceFromResultSet(resultSet);
+        }
+      }
+
+      return studentDTO;
+    }
+  }
+
+  public StudentDTO getOneByEmail(String email) throws SQLException {
+    try (
+      Connection connection = getConnection();
+      PreparedStatement statement = connection.prepareStatement(GET_BY_EMAIL_QUERY)
+    ) {
+      statement.setString(1, email);
 
       StudentDTO studentDTO = null;
 

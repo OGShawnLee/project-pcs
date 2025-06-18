@@ -17,7 +17,7 @@ public class Validator {
     return isValidString(name, minLength, maxLength) && name.matches(NAME_REGEX_SPANISH);
   }
 
-  private static boolean isValidString(String string) {
+  public static boolean isValidString(String string) {
     return string != null && string.trim().length() > 0;
   }
 

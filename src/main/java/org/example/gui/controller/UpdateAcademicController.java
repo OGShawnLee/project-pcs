@@ -5,19 +5,19 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 import org.example.business.Validator;
-import org.example.business.dao.StudentDAO;
+import org.example.business.dao.AcademicDAO;
 import org.example.business.dao.AccountDAO;
-import org.example.business.dto.StudentDTO;
+import org.example.business.dto.AcademicDTO;
 import org.example.business.dto.AccountDTO;
 import org.example.gui.Modal;
 
 import java.sql.SQLException;
 
-public class UpdateStudentController extends ManageController<StudentDTO> {
+public class UpdateAcademicController extends ManageController<AcademicDTO> {
   private final AccountDAO ACCOUNT_DAO = new AccountDAO();
-  private final StudentDAO STUDENT_DAO = new StudentDAO();
+  private final AcademicDAO ACADEMIC_DAO = new AcademicDAO();
   @FXML
-  private TextField fieldIDStudent;
+  private TextField fieldIDAcademic;
   @FXML
   private TextField fieldEmail;
   @FXML
@@ -34,13 +34,13 @@ public class UpdateStudentController extends ManageController<StudentDTO> {
   private PasswordField fieldPasswordConfirm;
 
   @Override
-  public void initialize(StudentDTO currentUser) {
+  public void initialize(AcademicDTO currentUser) {
     super.initialize(currentUser);
     loadDataObjectFields();
   }
 
   public void loadDataObjectFields() {
-    fieldIDStudent.setText(getCurrentDataObject().getID());
+    fieldIDAcademic.setText(getCurrentDataObject().getID());
     fieldEmail.setText(getCurrentDataObject().getEmail());
     fieldName.setText(getCurrentDataObject().getName());
     fieldPaternalLastName.setText(getCurrentDataObject().getPaternalLastName());
@@ -71,33 +71,34 @@ public class UpdateStudentController extends ManageController<StudentDTO> {
     AccountDTO accountDTO = new AccountDTO(
       getCurrentDataObject().getEmail(),
       fieldPassword.getText(),
-      AccountDTO.Role.STUDENT
+      AccountDTO.Role.fromAcademicRole(getCurrentDataObject().getRole())
     );
     ACCOUNT_DAO.updateOne(accountDTO);
   }
 
-  private void handleStudentUpdate() throws SQLException {
-    StudentDTO studentDTO = new StudentDTO.StudentBuilder()
+  private void handleAcademicUpdate() throws SQLException {
+    AcademicDTO academicDTO = new AcademicDTO.AcademicBuilder()
       .setID(getCurrentDataObject().getID())
       .setEmail(getCurrentDataObject().getEmail())
       .setName(fieldName.getText())
       .setPaternalLastName(fieldPaternalLastName.getText())
       .setMaternalLastName(fieldMaternalLastName.getText())
       .setPhoneNumber(fieldPhoneNumber.getText())
+      .setRole(getCurrentDataObject().getRole())
       .setState(getCurrentDataObject().getState())
       .build();
 
-    STUDENT_DAO.updateOne(studentDTO);
+    ACADEMIC_DAO.updateOne(academicDTO);
   }
 
   @Override
   public void handleUpdateCurrentDataObject() {
     try {
       handlePasswordUpdate();
-      handleStudentUpdate();
+      handleAcademicUpdate();
 
       Modal.displaySuccess("Sus datos han sido actualizados exitosamente.");
-    } catch (IllegalArgumentException e) {
+    } catch (IllegalArgumentException e ){
       Modal.displayError(e.getMessage());
     } catch (SQLException e) {
       Modal.displayError("No ha sido posible actualizar sus datos debido a un error de sistema.");

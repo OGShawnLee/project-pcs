@@ -23,10 +23,12 @@
             <Insets bottom="8.0"/>
           </padding>
         </Label>
-        <HBox>
+        <HBox maxWidth="1.7976931348623157E308" spacing="16.0">
           <children>
-            <Button mnemonicParsing="false" onAction="#handleLogOut" prefWidth="320.0" styleClass="button"
+            <Button mnemonicParsing="false" onAction="#handleLogOut" prefWidth="140.0" styleClass="button"
                     text="Cerrar Sesión"/>
+            <Button mnemonicParsing="false" onAction="#handleOpenUpdateProfile" prefWidth="140.0"
+                    text="Gestionar Perfil"/>
           </children>
         </HBox>
       </children>

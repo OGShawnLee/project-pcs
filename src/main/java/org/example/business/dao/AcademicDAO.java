@@ -17,6 +17,7 @@ public class AcademicDAO extends DAOPattern<AcademicDTO, String> {
   private static final String GET_ALL_QUERY = "SELECT * FROM Academic";
   private static final String GET_ALL_BY_STATE_QUERY = "SELECT * FROM Academic WHERE state = ?";
   private static final String GET_QUERY = "SELECT * FROM Academic WHERE id_academic = ?";
+  private static final String GET_BY_EMAIL_QUERY = "SELECT * FROM Academic WHERE email = ?";
   private static final String UPDATE_QUERY =
     "UPDATE Academic SET name = ?, paternal_last_name = ?, maternal_last_name = ?, phone_number = ?, role = ?, state = ? WHERE id_academic = ?";
   private static final String DELETE_QUERY = "DELETE FROM Academic WHERE id_academic = ?";
@@ -96,6 +97,25 @@ public class AcademicDAO extends DAOPattern<AcademicDTO, String> {
       PreparedStatement statement = connection.prepareStatement(GET_QUERY)
     ) {
       statement.setString(1, id);
+
+      AcademicDTO academicDTO = null;
+
+      try (ResultSet resultSet = statement.executeQuery()) {
+        if (resultSet.next()) {
+          academicDTO = createDTOInstanceFromResultSet(resultSet);
+        }
+      }
+
+      return academicDTO;
+    }
+  }
+
+  public AcademicDTO getOneByEmail(String email) throws SQLException {
+    try (
+      Connection connection = getConnection();
+      PreparedStatement statement = connection.prepareStatement(GET_BY_EMAIL_QUERY)
+    ) {
+      statement.setString(1, email);
 
       AcademicDTO academicDTO = null;
 
