@@ -157,8 +157,8 @@ public class Validator {
     throw new IllegalArgumentException("Estado de Solicitud debe ser uno de los siguientes: Pendiente, Aceptada, Rechazada.");
   }
 
-  private static String getValidString(String value, String name) throws IllegalArgumentException {
-    if (isValidString(value, 3, 128)) {
+  public static String getValidString(String value, String name, int minLength, int maxLength) throws IllegalArgumentException {
+    if (isValidString(value, minLength, maxLength)) {
       return value.trim();
     }
 

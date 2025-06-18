@@ -17,8 +17,7 @@ public class OrganizationDAOTest {
     .setEmail("microsoftest@outlook.com")
     .setName("Microsoft")
     .setRepresentativeFullName("Bill Gates")
-    .setColony("Redmond")
-    .setStreet("Microsoft Way")
+    .setAddress("Redmond, Washington")
     .setPhoneNumber("+1 425-882-8080")
     .setState("ACTIVE")
     .build();
@@ -73,8 +72,7 @@ public class OrganizationDAOTest {
         .setEmail(ORGANIZATION_DTO.getEmail())
         .setName("Apple Inc.")
         .setRepresentativeFullName("Steve Jobs")
-        .setColony("Cupertino")
-        .setStreet("Infinite Loop")
+        .setAddress("Cupertino, California")
         .setPhoneNumber("+1 408-996-1010")
         .setState("RETIRED")
         .build();

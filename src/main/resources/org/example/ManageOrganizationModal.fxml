@@ -13,7 +13,7 @@
             prefHeight="720.0" prefWidth="720.0" stylesheets="@main.css" xmlns="http://javafx.com/javafx/23.0.1"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.gui.controller.ManageOrganizationController">
   <children>
-    <VBox layoutX="200.0" layoutY="73.0" prefWidth="320.0" spacing="16.0">
+    <VBox layoutX="200.0" layoutY="109.0" prefWidth="320.0" spacing="16.0">
       <children>
         <Label styleClass="title" text="Gestionar Organización">
           <VBox.margin>
@@ -45,15 +45,8 @@
         </VBox>
         <VBox spacing="8.0">
           <children>
-            <Label styleClass="label" text="Colonia"/>
-            <TextField fx:id="fieldColony" promptText="Introduzca la Colonia donde se ubica la Organización"
-                       styleClass="input"/>
-          </children>
-        </VBox>
-        <VBox spacing="8.0">
-          <children>
-            <Label styleClass="label" text="Calle"/>
-            <TextField fx:id="fieldStreet" promptText="Introduzca la Calle donde se ubica la Organización"
+            <Label styleClass="label" text="Dirección"/>
+            <TextField fx:id="fieldAddress" promptText="Introduzca la Dirección donde se ubica la Organización"
                        styleClass="input"/>
           </children>
         </VBox>

@@ -18,9 +18,7 @@ public class RegisterOrganizationController extends Controller {
   @FXML
   private TextField fieldRepresentative;
   @FXML
-  private TextField fieldColony;
-  @FXML
-  private TextField fieldStreet;
+  private TextField fieldAddress;
   @FXML
   private TextField fieldPhoneNumber;
 
@@ -30,8 +28,7 @@ public class RegisterOrganizationController extends Controller {
         .setEmail(fieldEmail.getText())
         .setName(fieldName.getText())
         .setRepresentativeFullName(fieldRepresentative.getText())
-        .setColony(fieldColony.getText())
-        .setStreet(fieldStreet.getText())
+        .setAddress(fieldAddress.getText())
         .setPhoneNumber(fieldPhoneNumber.getText())
         .build();
 

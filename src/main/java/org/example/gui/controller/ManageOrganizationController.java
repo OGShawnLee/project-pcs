@@ -19,9 +19,7 @@ public class ManageOrganizationController extends ManageController<OrganizationD
   @FXML
   private TextField fieldRepresentative;
   @FXML
-  private TextField fieldColony;
-  @FXML
-  private TextField fieldStreet;
+  private TextField fieldAddress;
   @FXML
   private ComboBox<String> fieldState;
   @FXML
@@ -38,8 +36,7 @@ public class ManageOrganizationController extends ManageController<OrganizationD
     fieldName.setText(getCurrentDataObject().getName());
     fieldEmail.setText(getCurrentDataObject().getEmail());
     fieldRepresentative.setText(getCurrentDataObject().getRepresentativeFullName());
-    fieldColony.setText(getCurrentDataObject().getColony());
-    fieldStreet.setText(getCurrentDataObject().getStreet());
+    fieldAddress.setText(getCurrentDataObject().getAddress());
     fieldPhoneNumber.setText(getCurrentDataObject().getPhoneNumber());
     fieldState.setValue(getCurrentDataObject().getState());
   }
@@ -51,8 +48,7 @@ public class ManageOrganizationController extends ManageController<OrganizationD
         .setEmail(fieldEmail.getText())
         .setName(fieldName.getText())
         .setRepresentativeFullName(fieldRepresentative.getText())
-        .setColony(fieldColony.getText())
-        .setStreet(fieldStreet.getText())
+        .setAddress(fieldAddress.getText())
         .setPhoneNumber(fieldPhoneNumber.getText())
         .setState(fieldState.getValue())
         .build();

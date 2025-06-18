@@ -182,24 +182,26 @@ CREATE TABLE Organization
     email                    VARCHAR(128)               NOT NULL,
     name                     VARCHAR(128)               NOT NULL,
     representative_full_name VARCHAR(128)               NOT NULL,
-    colony                   VARCHAR(128)               NOT NULL,
-    street                   VARCHAR(128)               NOT NULL,
+    address                  VARCHAR(256)               NOT NULL,
     state                    ENUM ('ACTIVE', 'RETIRED') NOT NULL DEFAULT 'ACTIVE',
-    phone_number              VARCHAR(16)                NOT NULL,
+    phone_number             VARCHAR(16)                NOT NULL,
     created_at               TIMESTAMP                  NOT NULL DEFAULT NOW(),
     PRIMARY KEY (email)
 );
 
 CREATE TABLE Project
 (
-    id_project      INT AUTO_INCREMENT                   NOT NULL,
-    id_organization VARCHAR(128)                         NOT NULL,
-    name            VARCHAR(128)                         NOT NULL,
-    methodology     VARCHAR(128)                         NOT NULL,
-    state           ENUM ('ACTIVE', 'RETIRED')           NOT NULL DEFAULT 'ACTIVE',
+    id_project       INT AUTO_INCREMENT                   NOT NULL,
+    id_organization  VARCHAR(128)                         NOT NULL,
+    name             VARCHAR(128)                         NOT NULL,
+    description      TEXT                                 NOT NULL,
+    department       VARCHAR(128)                         NOT NULL,
+    available_places INT                                  NOT NULL CHECK (available_places >= 0),
+    methodology      VARCHAR(128)                         NOT NULL,
+    state            ENUM ('ACTIVE', 'RETIRED')           NOT NULL DEFAULT 'ACTIVE',
     # TODO: Add to the Diagram
-    sector          ENUM ('PUBLIC', 'PRIVATE', 'SOCIAL') NOT NULL DEFAULT 'PRIVATE',
-    created_at      TIMESTAMP                            NOT NULL DEFAULT NOW(),
+    sector           ENUM ('PUBLIC', 'PRIVATE', 'SOCIAL') NOT NULL DEFAULT 'PRIVATE',
+    created_at       TIMESTAMP                            NOT NULL DEFAULT NOW(),
     PRIMARY KEY (id_project),
     FOREIGN KEY (id_organization) REFERENCES Organization (email) ON DELETE CASCADE
 );

@@ -24,9 +24,7 @@ public class ReviewOrganizationListController extends ReviewListController imple
   @FXML
   private TableColumn<OrganizationDTO, String> columnRepresentativeFullName;
   @FXML
-  private TableColumn<OrganizationDTO, String> columnColony;
-  @FXML
-  private TableColumn<OrganizationDTO, String> columnStreet;
+  private TableColumn<OrganizationDTO, String> columnAddress;
   @FXML
   private TableColumn<OrganizationDTO, String> columnPhoneNumber;
   @FXML
@@ -39,8 +37,7 @@ public class ReviewOrganizationListController extends ReviewListController imple
     columnName.setCellValueFactory(new PropertyValueFactory<>("name"));
     columnEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
     columnRepresentativeFullName.setCellValueFactory(new PropertyValueFactory<>("representativeFullName"));
-    columnColony.setCellValueFactory(new PropertyValueFactory<>("colony"));
-    columnStreet.setCellValueFactory(new PropertyValueFactory<>("street"));
+    columnAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
     columnPhoneNumber.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
     columnState.setCellValueFactory(new PropertyValueFactory<>("state"));
     columnCreatedAt.setCellValueFactory(new PropertyValueFactory<>("createdAt"));

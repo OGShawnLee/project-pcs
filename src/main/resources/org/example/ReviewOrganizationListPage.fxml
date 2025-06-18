@@ -42,8 +42,7 @@
               <TableColumn fx:id="columnName" prefWidth="140.0" styleClass="column" text="Nombre"/>
               <TableColumn fx:id="columnRepresentativeFullName" prefWidth="140.0" styleClass="column"
                            text="Representante"/>
-              <TableColumn fx:id="columnColony" prefWidth="140.0" styleClass="column" text="Colonia"/>
-              <TableColumn fx:id="columnStreet" prefWidth="120.0" styleClass="column" text="Calle"/>
+              <TableColumn fx:id="columnAddress" prefWidth="140.0" styleClass="column" text="Dirección"/>
               <TableColumn fx:id="columnPhoneNumber" prefWidth="120.0" styleClass="column" text="Teléfono"/>
               <TableColumn fx:id="columnState" prefWidth="100.0" styleClass="column" text="Estado"/>
               <TableColumn fx:id="columnCreatedAt" prefWidth="160.0" styleClass="column" text="Fecha de Registro"/>

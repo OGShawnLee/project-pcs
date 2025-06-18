@@ -8,8 +8,7 @@ public class OrganizationDTO {
   private final String email;
   private final String name;
   private final String representativeFullName;
-  private final String colony;
-  private final String street;
+  private final String address;
   private final String state;
   private final String phoneNumber;
   private final LocalDateTime createdAt;
@@ -18,8 +17,7 @@ public class OrganizationDTO {
     this.email = builder.email;
     this.name = builder.name;
     this.representativeFullName = builder.representativeFullName;
-    this.colony = builder.colony;
-    this.street = builder.street;
+    this.address = builder.address;
     this.phoneNumber = builder.phoneNumber;
     this.state = builder.state;
     this.createdAt = builder.createdAt;
@@ -37,12 +35,8 @@ public class OrganizationDTO {
     return representativeFullName;
   }
 
-  public String getColony() {
-    return colony;
-  }
-
-  public String getStreet() {
-    return street;
+  public String getAddress() {
+    return address;
   }
 
   public String getPhoneNumber() {
@@ -73,8 +67,7 @@ public class OrganizationDTO {
       email.equals(that.email) &&
       name.equals(that.name) &&
       representativeFullName.equals(that.representativeFullName) &&
-      colony.equals(that.colony) &&
-      street.equals(that.street) &&
+      address.equals(that.address) &&
       state.equals(that.state);
   }
 
@@ -82,8 +75,7 @@ public class OrganizationDTO {
     protected String email;
     protected String name;
     protected String representativeFullName;
-    protected String colony;
-    protected String street;
+    protected String address;
     protected String state;
     protected String phoneNumber;
     protected LocalDateTime createdAt;
@@ -103,13 +95,8 @@ public class OrganizationDTO {
       return this;
     }
 
-    public OrganizationBuilder setColony(String colony) {
-      this.colony = Validator.getValidFlexibleName(colony, "Colonia", 3, 128);
-      return this;
-    }
-
-    public OrganizationBuilder setStreet(String street) {
-      this.street = Validator.getValidFlexibleName(street, "Calle", 3, 128);
+    public OrganizationBuilder setAddress(String address) {
+      this.address = Validator.getValidString(address, "Dirección de Organización", 3, 256);
       return this;
     }
 

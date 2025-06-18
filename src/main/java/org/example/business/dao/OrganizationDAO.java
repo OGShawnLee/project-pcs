@@ -11,12 +11,12 @@ import java.util.List;
 
 public class OrganizationDAO extends DAOPattern<OrganizationDTO, String> {
   private static final String CREATE_QUERY =
-    "INSERT INTO Organization (email, name, representative_full_name, colony, street, phone_number) VALUES (?, ?, ?, ?, ?, ?)";
+    "INSERT INTO Organization (email, name, representative_full_name, address, phone_number) VALUES (?, ?, ?, ?, ?)";
   private static final String GET_ALL_QUERY = "SELECT * FROM Organization";
   private static final String GET_ALL_BY_STATE_QUERY = "SELECT * FROM Organization WHERE state = ?";
   private static final String GET_QUERY = "SELECT * FROM Organization WHERE email = ?";
   private static final String UPDATE_QUERY =
-    "UPDATE Organization SET name = ?, representative_full_name = ?, colony = ?, street = ?, phone_number = ?, state = ? WHERE email = ?";
+    "UPDATE Organization SET name = ?, representative_full_name = ?, address = ?, phone_number = ?, state = ? WHERE email = ?";
   private static final String DELETE_QUERY = "DELETE FROM Organization WHERE email = ?";
 
   @Override
@@ -25,8 +25,7 @@ public class OrganizationDAO extends DAOPattern<OrganizationDTO, String> {
       .setEmail(resultSet.getString("email"))
       .setName(resultSet.getString("name"))
       .setRepresentativeFullName(resultSet.getString("representative_full_name"))
-      .setColony(resultSet.getString("colony"))
-      .setStreet(resultSet.getString("street"))
+      .setAddress(resultSet.getString("address"))
       .setState(resultSet.getString("state"))
       .setPhoneNumber(resultSet.getString("phone_number"))
       .setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime())
@@ -42,9 +41,8 @@ public class OrganizationDAO extends DAOPattern<OrganizationDTO, String> {
       statement.setString(1, organizationDTO.getEmail());
       statement.setString(2, organizationDTO.getName());
       statement.setString(3, organizationDTO.getRepresentativeFullName());
-      statement.setString(4, organizationDTO.getColony());
-      statement.setString(5, organizationDTO.getStreet());
-      statement.setString(6, organizationDTO.getPhoneNumber());
+      statement.setString(4, organizationDTO.getAddress());
+      statement.setString(5, organizationDTO.getPhoneNumber());
       statement.executeUpdate();
     }
   }
@@ -112,11 +110,11 @@ public class OrganizationDAO extends DAOPattern<OrganizationDTO, String> {
     ) {
       statement.setString(1, organizationDTO.getName());
       statement.setString(2, organizationDTO.getRepresentativeFullName());
-      statement.setString(3, organizationDTO.getColony());
-      statement.setString(4, organizationDTO.getStreet());
-      statement.setString(5, organizationDTO.getPhoneNumber());
-      statement.setString(6, organizationDTO.getState());
-      statement.setString(7, organizationDTO.getEmail());
+      statement.setString(3, organizationDTO.getAddress());
+      statement.setString(4, organizationDTO.getPhoneNumber());
+      statement.setString(5, organizationDTO.getState());
+      statement.setString(6, organizationDTO.getEmail());
+
       statement.executeUpdate();
     }
   }

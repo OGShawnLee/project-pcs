@@ -14,13 +14,13 @@ import java.util.List;
 
 public class StudentDAO extends DAOPattern<StudentDTO, String> {
   private static final String CREATE_QUERY =
-    "CALL create_student(?, ?, ?, ?, ?, ?)";
+    "CALL create_student(?, ?, ?, ?, ?, ?, ?)";
   private static final String GET_ALL_QUERY =
     "SELECT * FROM Student";
   private static final String GET_QUERY =
     "SELECT * FROM Student WHERE id_student = ?";
   private static final String UPDATE_QUERY =
-    "UPDATE Student SET name = ?, paternal_last_name = ?, maternal_last_name = ?, state = ?, final_grade = ? WHERE id_student = ?";
+    "UPDATE Student SET name = ?, paternal_last_name = ?, maternal_last_name = ?, phone_number = ?, state = ?, final_grade = ? WHERE id_student = ?";
   private static final String DELETE_QUERY =
     "DELETE FROM Student WHERE id_student = ?";
 
@@ -33,6 +33,7 @@ public class StudentDAO extends DAOPattern<StudentDTO, String> {
       .setPaternalLastName(resultSet.getString("paternal_last_name"))
       .setMaternalLastName(resultSet.getString("maternal_last_name"))
       .setState(resultSet.getString("state"))
+      .setPhoneNumber(resultSet.getString("phone_number"))
       .setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime())
       .setFinalGrade(resultSet.getInt("final_grade"))
       .build();
@@ -50,6 +51,7 @@ public class StudentDAO extends DAOPattern<StudentDTO, String> {
       statement.setString(4, studentDTO.getPaternalLastName());
       statement.setString(5, studentDTO.getMaternalLastName());
       statement.setString(6, AccountDTO.getGeneratedHashedPassword(studentDTO.getID()));
+      statement.setString(7, studentDTO.getPhoneNumber());
 
       statement.executeUpdate();
     }
@@ -119,9 +121,11 @@ public class StudentDAO extends DAOPattern<StudentDTO, String> {
       statement.setString(1, studentDTO.getName());
       statement.setString(2, studentDTO.getPaternalLastName());
       statement.setString(3, studentDTO.getMaternalLastName());
-      statement.setString(4, studentDTO.getState());
-      statement.setInt(5, studentDTO.getFinalGrade());
-      statement.setString(6, studentDTO.getID());
+      statement.setString(4, studentDTO.getPhoneNumber());
+      statement.setString(5, studentDTO.getState());
+      statement.setInt(6, studentDTO.getFinalGrade());
+      statement.setString(7, studentDTO.getID());
+
       statement.executeUpdate();
     }
   }
