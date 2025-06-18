@@ -185,6 +185,7 @@ CREATE TABLE Organization
     colony                   VARCHAR(128)               NOT NULL,
     street                   VARCHAR(128)               NOT NULL,
     state                    ENUM ('ACTIVE', 'RETIRED') NOT NULL DEFAULT 'ACTIVE',
+    phone_number              VARCHAR(16)                NOT NULL,
     created_at               TIMESTAMP                  NOT NULL DEFAULT NOW(),
     PRIMARY KEY (email)
 );

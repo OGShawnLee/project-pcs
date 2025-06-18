@@ -11,12 +11,12 @@ import java.util.List;
 
 public class OrganizationDAO extends DAOPattern<OrganizationDTO, String> {
   private static final String CREATE_QUERY =
-    "INSERT INTO Organization (email, name, representative_full_name, colony, street) VALUES (?, ?, ?, ?, ?)";
+    "INSERT INTO Organization (email, name, representative_full_name, colony, street, phone_number) VALUES (?, ?, ?, ?, ?, ?)";
   private static final String GET_ALL_QUERY = "SELECT * FROM Organization";
   private static final String GET_ALL_BY_STATE_QUERY = "SELECT * FROM Organization WHERE state = ?";
   private static final String GET_QUERY = "SELECT * FROM Organization WHERE email = ?";
   private static final String UPDATE_QUERY =
-    "UPDATE Organization SET name = ?, representative_full_name = ?, colony = ?, street = ?, state = ? WHERE email = ?";
+    "UPDATE Organization SET name = ?, representative_full_name = ?, colony = ?, street = ?, phone_number = ?, state = ? WHERE email = ?";
   private static final String DELETE_QUERY = "DELETE FROM Organization WHERE email = ?";
 
   @Override
@@ -28,21 +28,23 @@ public class OrganizationDAO extends DAOPattern<OrganizationDTO, String> {
       .setColony(resultSet.getString("colony"))
       .setStreet(resultSet.getString("street"))
       .setState(resultSet.getString("state"))
+      .setPhoneNumber(resultSet.getString("phone_number"))
       .setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime())
       .build();
   }
 
   @Override
-  public void createOne(OrganizationDTO dataObject) throws SQLException {
+  public void createOne(OrganizationDTO organizationDTO) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
     ) {
-      statement.setString(1, dataObject.getEmail());
-      statement.setString(2, dataObject.getName());
-      statement.setString(3, dataObject.getRepresentativeFullName());
-      statement.setString(4, dataObject.getColony());
-      statement.setString(5, dataObject.getStreet());
+      statement.setString(1, organizationDTO.getEmail());
+      statement.setString(2, organizationDTO.getName());
+      statement.setString(3, organizationDTO.getRepresentativeFullName());
+      statement.setString(4, organizationDTO.getColony());
+      statement.setString(5, organizationDTO.getStreet());
+      statement.setString(6, organizationDTO.getPhoneNumber());
       statement.executeUpdate();
     }
   }
@@ -90,30 +92,31 @@ public class OrganizationDAO extends DAOPattern<OrganizationDTO, String> {
     ) {
       statement.setString(1, email);
 
-      OrganizationDTO dataObject = null;
+      OrganizationDTO organizationDTO = null;
 
       try (ResultSet resultSet = statement.executeQuery()) {
         if (resultSet.next()) {
-          dataObject = createDTOInstanceFromResultSet(resultSet);
+          organizationDTO = createDTOInstanceFromResultSet(resultSet);
         }
       }
 
-      return dataObject;
+      return organizationDTO;
     }
   }
 
   @Override
-  public void updateOne(OrganizationDTO dataObject) throws SQLException {
+  public void updateOne(OrganizationDTO organizationDTO) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
     ) {
-      statement.setString(1, dataObject.getName());
-      statement.setString(2, dataObject.getRepresentativeFullName());
-      statement.setString(3, dataObject.getColony());
-      statement.setString(4, dataObject.getStreet());
-      statement.setString(5, dataObject.getState());
-      statement.setString(6, dataObject.getEmail());
+      statement.setString(1, organizationDTO.getName());
+      statement.setString(2, organizationDTO.getRepresentativeFullName());
+      statement.setString(3, organizationDTO.getColony());
+      statement.setString(4, organizationDTO.getStreet());
+      statement.setString(5, organizationDTO.getPhoneNumber());
+      statement.setString(6, organizationDTO.getState());
+      statement.setString(7, organizationDTO.getEmail());
       statement.executeUpdate();
     }
   }

@@ -13,7 +13,7 @@
             prefHeight="720.0" prefWidth="720.0" stylesheets="@main.css" xmlns="http://javafx.com/javafx/23.0.1"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.gui.controller.ManageOrganizationController">
   <children>
-    <VBox layoutX="200.0" layoutY="113.0" prefWidth="320.0" spacing="16.0">
+    <VBox layoutX="200.0" layoutY="73.0" prefWidth="320.0" spacing="16.0">
       <children>
         <Label styleClass="title" text="Gestionar Organización">
           <VBox.margin>
@@ -59,9 +59,16 @@
         </VBox>
         <VBox spacing="8.0">
           <children>
+            <Label styleClass="label" text="Calle"/>
+            <TextField fx:id="fieldPhoneNumber" promptText="Introduzca el Número de Teléfono de la Organización"
+                       styleClass="input"/>
+          </children>
+        </VBox>
+        <VBox spacing="8.0">
+          <children>
             <Label text="Estado"/>
-            <ComboBox fx:id="fieldState" maxWidth="1.7976931348623157E308" promptText="Activo / Inactivo"
-                      styleClass="input"/>
+            <ComboBox fx:id="fieldState" maxWidth="1.7976931348623157E308"
+                      promptText="Seleccione el Estado de la Organización" styleClass="input"/>
           </children>
         </VBox>
         <HBox>

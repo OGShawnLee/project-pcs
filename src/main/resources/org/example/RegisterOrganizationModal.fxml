@@ -13,7 +13,7 @@
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="org.example.gui.controller.RegisterOrganizationController">
   <children>
-    <VBox layoutX="200.0" layoutY="144.0" prefWidth="320.0" spacing="16.0">
+    <VBox layoutX="200.0" layoutY="109.0" prefWidth="320.0" spacing="16.0">
       <children>
         <Label styleClass="title" text="Registrar Organización">
           <VBox.margin>
@@ -54,6 +54,13 @@
           <children>
             <Label styleClass="label" text="Calle"/>
             <TextField fx:id="fieldStreet" promptText="Introduzca la Calle donde se ubica la Organización"
+                       styleClass="input"/>
+          </children>
+        </VBox>
+        <VBox spacing="8.0">
+          <children>
+            <Label styleClass="label" text="Teléfono"/>
+            <TextField fx:id="fieldPhoneNumber" promptText="Introduzca el Número de Teléfono de la Organización"
                        styleClass="input"/>
           </children>
         </VBox>

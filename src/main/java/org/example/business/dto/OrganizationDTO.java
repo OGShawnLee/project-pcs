@@ -11,6 +11,7 @@ public class OrganizationDTO {
   private final String colony;
   private final String street;
   private final String state;
+  private final String phoneNumber;
   private final LocalDateTime createdAt;
 
   public OrganizationDTO(OrganizationBuilder builder) {
@@ -19,6 +20,7 @@ public class OrganizationDTO {
     this.representativeFullName = builder.representativeFullName;
     this.colony = builder.colony;
     this.street = builder.street;
+    this.phoneNumber = builder.phoneNumber;
     this.state = builder.state;
     this.createdAt = builder.createdAt;
   }
@@ -41,6 +43,10 @@ public class OrganizationDTO {
 
   public String getStreet() {
     return street;
+  }
+
+  public String getPhoneNumber() {
+    return phoneNumber;
   }
 
   public String getState() {
@@ -79,6 +85,7 @@ public class OrganizationDTO {
     protected String colony;
     protected String street;
     protected String state;
+    protected String phoneNumber;
     protected LocalDateTime createdAt;
 
     public OrganizationBuilder setEmail(String email) {
@@ -87,7 +94,7 @@ public class OrganizationDTO {
     }
 
     public OrganizationBuilder setName(String name) {
-      this.name = Validator.getValidFlexibleName(name, "Nombre de Organización", 3, 128);
+      this.name = Validator.getValidFlexibleName(name, "Nombre de Organización", 3, 256);
       return this;
     }
 
@@ -103,6 +110,11 @@ public class OrganizationDTO {
 
     public OrganizationBuilder setStreet(String street) {
       this.street = Validator.getValidFlexibleName(street, "Calle", 3, 128);
+      return this;
+    }
+
+    public OrganizationBuilder setPhoneNumber(String phoneNumber) {
+      this.phoneNumber = Validator.getValidPhoneNumber(phoneNumber);
       return this;
     }
 

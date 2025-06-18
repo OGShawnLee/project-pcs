@@ -21,6 +21,8 @@ public class RegisterOrganizationController extends Controller {
   private TextField fieldColony;
   @FXML
   private TextField fieldStreet;
+  @FXML
+  private TextField fieldPhoneNumber;
 
   public void handleRegister() {
     try {
@@ -30,6 +32,7 @@ public class RegisterOrganizationController extends Controller {
         .setRepresentativeFullName(fieldRepresentative.getText())
         .setColony(fieldColony.getText())
         .setStreet(fieldStreet.getText())
+        .setPhoneNumber(fieldPhoneNumber.getText())
         .build();
 
       OrganizationDTO existingOrganizationDTO = ORGANIZATION_DAO.getOne(organizationDTO.getEmail());
