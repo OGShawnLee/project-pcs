@@ -158,11 +158,12 @@ END;
 CREATE TABLE Course
 (
     # TODO: Figure out the format of nrc
-    nrc         VARCHAR(5)  NOT NULL,
-    id_academic CHAR(5)     NOT NULL,
-    section     VARCHAR(16) NOT NULL,
-    started_at  TIMESTAMP   NOT NULL,
-    ended_at    DATETIME    NOT NULL,
+    nrc             VARCHAR(5)                     NOT NULL,
+    id_academic     CHAR(5)                        NOT NULL,
+    section         ENUM ('S1', 'S2')              NOT NULL,
+    semester        ENUM ('AUG_JAN', 'FEB_JUL')    NOT NULL,
+    state           ENUM ('ON_GOING', 'COMPLETED') NOT NULL DEFAULT 'ACTIVE',
+    created_at      TIMESTAMP                      NOT NULL DEFAULT NOW(),
     PRIMARY KEY (nrc),
     FOREIGN KEY (id_academic) REFERENCES Academic (id_academic) ON DELETE CASCADE
 );
@@ -290,6 +291,7 @@ SELECT Student.id_student,
        Student.maternal_last_name,
        Student.created_at,
        Student.state,
+       Student.phone_number,
        Student.final_grade,
        Practice.id_project,
        Practice.reason_of_assignation

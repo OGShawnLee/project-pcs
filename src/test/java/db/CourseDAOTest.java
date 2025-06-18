@@ -17,9 +17,9 @@ public class CourseDAOTest {
   public static final CourseDTO COURSE_DTO = new CourseDTO.CourseBuilder()
     .setNRC("00010")
     .setIDAcademic(AcademicDAOTest.ACADEMIC_DTO.getID())
-    .setSection("A")
-    .setStartedAt(LocalDateTime.now())
-    .setEndedAt(LocalDateTime.now().plusMonths(4))
+    .setSection(CourseDTO.Section.S1)
+    .setSemester(CourseDTO.Semester.FEB_JUL)
+    .setState(CourseDTO.State.ON_GOING)
     .build();
 
   public static void createOneTestCourse() throws SQLException {
@@ -73,9 +73,9 @@ public class CourseDAOTest {
       CourseDTO updatedCourse = new CourseDTO.CourseBuilder()
         .setNRC(COURSE_DTO.getNRC())
         .setIDAcademic(COURSE_DTO.getIDAcademic())
-        .setSection("B")
-        .setStartedAt(LocalDateTime.now().plusDays(1))
-        .setEndedAt(LocalDateTime.now().plusMonths(5))
+        .setSection(CourseDTO.Section.S1)
+        .setSemester(CourseDTO.Semester.FEB_JUL)
+        .setState(CourseDTO.State.COMPLETED)
         .build();
 
       COURSE_DAO.updateOne(updatedCourse);

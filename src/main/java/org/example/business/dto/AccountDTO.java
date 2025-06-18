@@ -34,7 +34,9 @@ public record AccountDTO(String email, String password, Role role) {
 
     AccountDTO that = (AccountDTO) instance;
 
-    return email.equals(that.email) && password.equals(that.password) && role == that.role;
+    return
+      email.equals(that.email) &&
+      role == that.role;
   }
 
   public boolean hasPasswordMatch(String candidate) {

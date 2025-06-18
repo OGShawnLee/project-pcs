@@ -27,6 +27,11 @@ public class AcademicDTO extends Person {
   }
 
   @Override
+  public String toString() {
+    return getFullName() + " (" +  getID()  + ")";
+  }
+
+  @Override
   public boolean equals(Object instance) {
     if (this == instance) return true;
     if (instance == null || getClass() != instance.getClass()) return false;

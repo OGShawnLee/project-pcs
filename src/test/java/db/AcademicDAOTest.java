@@ -22,6 +22,7 @@ public class AcademicDAOTest {
     .setPaternalLastName("Doe")
     .setMaternalLastName("Smith")
     .setRole(AcademicDTO.Role.ACADEMIC)
+    .setPhoneNumber("2281904050")
     .setState("ACTIVE")
     .build();
 
@@ -78,6 +79,7 @@ public class AcademicDAOTest {
         .setPaternalLastName("Does")
         .setMaternalLastName("Smithson")
         .setState("RETIRED")
+        .setPhoneNumber("2281904051")
         .setRole(ACADEMIC_DTO.getRole())
         .build();
 
@@ -99,6 +101,7 @@ public class AcademicDAOTest {
         .setPaternalLastName(ACADEMIC_DTO.getPaternalLastName())
         .setMaternalLastName(ACADEMIC_DTO.getMaternalLastName())
         .setRole(AcademicDTO.Role.ACADEMIC_EVALUATOR)
+        .setPhoneNumber(ACADEMIC_DTO.getPhoneNumber())
         .setState("ACTIVE")
         .build();
 
@@ -114,9 +117,9 @@ public class AcademicDAOTest {
         .setPaternalLastName(ACADEMIC_DTO.getPaternalLastName())
         .setMaternalLastName(ACADEMIC_DTO.getMaternalLastName())
         .setRole(AcademicDTO.Role.ACADEMIC_EVALUATOR)
+        .setPhoneNumber(ACADEMIC_DTO.getPhoneNumber())
         .setState("ACTIVE")
         .build();
-
 
       ACADEMIC_DAO.updateOne(updatedAcademic);
       updatedAccount = AccountDAOTest.ACCOUNT_DAO.getOne(ACADEMIC_DTO.getEmail());

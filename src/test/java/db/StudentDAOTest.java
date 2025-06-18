@@ -20,6 +20,7 @@ public class StudentDAOTest {
     .setPaternalLastName("Doe")
     .setMaternalLastName("Smith")
     .setState("ACTIVE")
+    .setPhoneNumber("2281904050")
     .build();
 
   public static void createOneTestStudent() throws SQLException {
@@ -76,6 +77,7 @@ public class StudentDAOTest {
         .setMaternalLastName("Smithson")
         .setState("RETIRED")
         .setFinalGrade(10)
+        .setPhoneNumber("2281904050")
         .build();
       STUDENT_DAO.updateOne(updatedStudent);
 

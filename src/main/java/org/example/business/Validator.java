@@ -99,6 +99,14 @@ public class Validator {
     );
   }
 
+  public static String getValidNRC(String value) {
+    if (isValidString(value) && value.trim().matches("\\d{1,5}")) {
+      return value.trim();
+    }
+
+    throw new IllegalArgumentException("NRC debe ser una cadena de texto de 1 a 5 dígitos.");
+  }
+
   public static String getValidState(String value) throws IllegalArgumentException {
     String finalValue = getValidName(value, "Estado");
 

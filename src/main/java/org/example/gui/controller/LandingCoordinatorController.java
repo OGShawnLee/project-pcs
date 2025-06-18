@@ -19,6 +19,14 @@ public class LandingCoordinatorController extends LandingController {
     Modal.display("Registrar Proyecto", "RegisterProjectModal");
   }
 
+  public void navigateToReviewCourseListPage() {
+    // ReviewCourseListController.navigateToCourseListPage(getScene());
+  }
+
+  public void handleOpenRegisterCourse() {
+    Modal.display("Registrar Curso", "RegisterCourseModal");
+  }
+
   public void navigateToReviewOrganizationListPage() {
     ReviewOrganizationListController.navigateToOrganizationListPage(getScene());
   }

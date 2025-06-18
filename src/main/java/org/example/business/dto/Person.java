@@ -35,6 +35,14 @@ public abstract class Person {
     return maternalLastName;
   }
 
+  public String getFullName() {
+    if (maternalLastName == null || maternalLastName.isEmpty()) {
+      return name + " " + paternalLastName;
+    }
+
+    return name + " " + paternalLastName + " " + maternalLastName;
+  }
+
   public String getEmail() {
     return email;
   }
