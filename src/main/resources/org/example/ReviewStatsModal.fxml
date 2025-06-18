@@ -41,6 +41,24 @@
         </HBox>
         <HBox spacing="8.0">
           <children>
+            <Label styleClass="label" text="Total de Proyectos"/>
+            <Text fx:id="textTotalProjects" styleClass="input" />
+          </children>
+        </HBox>
+        <HBox spacing="8.0">
+          <children>
+            <Label styleClass="label" text="Total de Cursos"/>
+            <Text fx:id="textTotalCourses" styleClass="input" />
+          </children>
+        </HBox>
+        <HBox spacing="8.0">
+          <children>
+            <Label styleClass="label" text="Total de Estudiantes"/>
+            <Text fx:id="textTotalStudents" styleClass="input" />
+          </children>
+        </HBox>
+        <HBox spacing="8.0">
+          <children>
             <Label styleClass="label" text="Total de Solicitudes de Proyecto"/>
             <Text fx:id="textTotalProjectRequests" styleClass="input" />
           </children>
@@ -61,24 +79,6 @@
           <children>
             <Label styleClass="label" text="Total de Reportes Mensuales"/>
             <Text fx:id="textTotalMonthlyReports" styleClass="input" />
-          </children>
-        </HBox>
-        <HBox spacing="8.0">
-          <children>
-            <Label styleClass="label" text="Total de Proyectos"/>
-            <Text fx:id="textTotalProjects" styleClass="input" />
-          </children>
-        </HBox>
-        <HBox spacing="8.0">
-          <children>
-            <Label styleClass="label" text="Total de Cursos"/>
-            <Text fx:id="textTotalCourses" styleClass="input" />
-          </children>
-        </HBox>
-        <HBox spacing="8.0">
-          <children>
-            <Label styleClass="label" text="Total de Estudiantes"/>
-            <Text fx:id="textTotalStudents" styleClass="input" />
           </children>
         </HBox>
       </children>

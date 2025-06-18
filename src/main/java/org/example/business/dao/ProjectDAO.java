@@ -11,12 +11,12 @@ import java.util.List;
 
 public class ProjectDAO extends DAOPattern<ProjectDTO, Integer> {
   private static final String CREATE_QUERY =
-    "INSERT INTO Project (id_organization, name, methodology, sector) VALUES (?, ?, ?, ?)";
+    "INSERT INTO Project (id_organization, name, description, department, available_places, methodology, sector) VALUES (?, ?, ?, ?, ?, ?, ?)";
   private static final String GET_ALL_QUERY = "SELECT * FROM Project";
   private static final String GET_QUERY = "SELECT * FROM Project WHERE id_project = ?";
   private static final String GET_ALL_BY_STATE = "SELECT * FROM Project WHERE state = ?";
   private static final String UPDATE_QUERY =
-    "UPDATE Project SET id_organization = ?, name = ?, methodology = ?, state = ?, sector = ? WHERE id_project = ?";
+    "UPDATE Project SET id_organization = ?, name = ?, description = ?, department = ?, available_places = ?, methodology = ?, state = ?, sector = ? WHERE id_project = ?";
   private static final String DELETE_QUERY = "DELETE FROM Project WHERE id_project = ?";
 
   @Override
@@ -25,6 +25,9 @@ public class ProjectDAO extends DAOPattern<ProjectDTO, Integer> {
       .setID(resultSet.getInt("id_project"))
       .setIDOrganization(resultSet.getString("id_organization"))
       .setName(resultSet.getString("name"))
+      .setDescription(resultSet.getString("description"))
+      .setDepartment(resultSet.getString("department"))
+      .setAvailablePlaces(resultSet.getString("available_places"))
       .setMethodology(resultSet.getString("methodology"))
       .setState(resultSet.getString("state"))
       .setSector(ProjectSector.valueOf(resultSet.getString("sector")))
@@ -40,8 +43,11 @@ public class ProjectDAO extends DAOPattern<ProjectDTO, Integer> {
     ) {
       statement.setString(1, projectDTO.getIDOrganization());
       statement.setString(2, projectDTO.getName());
-      statement.setString(3, projectDTO.getMethodology());
-      statement.setString(4, projectDTO.getSector().toString());
+      statement.setString(3, projectDTO.getDescription());
+      statement.setString(4, projectDTO.getDepartment());
+      statement.setInt(5, projectDTO.getAvailablePlaces());
+      statement.setString(6, projectDTO.getMethodology());
+      statement.setString(7, projectDTO.getSector().toString());
       statement.executeUpdate();
 
       try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
@@ -117,10 +123,13 @@ public class ProjectDAO extends DAOPattern<ProjectDTO, Integer> {
     ) {
       statement.setString(1, projectDTO.getIDOrganization());
       statement.setString(2, projectDTO.getName());
-      statement.setString(3, projectDTO.getMethodology());
-      statement.setString(4, projectDTO.getState());
-      statement.setString(5, projectDTO.getSector().toString());
-      statement.setInt(6, projectDTO.getID());
+      statement.setString(3, projectDTO.getDescription());
+      statement.setString(4, projectDTO.getDepartment());
+      statement.setInt(5, projectDTO.getAvailablePlaces());
+      statement.setString(6, projectDTO.getMethodology());
+      statement.setString(7, projectDTO.getState());
+      statement.setString(8, projectDTO.getSector().toString());
+      statement.setInt(9, projectDTO.getID());
       statement.executeUpdate();
     }
   }

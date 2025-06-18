@@ -2,6 +2,7 @@ package org.example.gui.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 import org.example.business.dao.OrganizationDAO;
@@ -21,6 +22,12 @@ public class ManageProjectController extends ManageController<ProjectDTO> {
   private TextField fieldIDProject;
   @FXML
   private TextField fieldName;
+  @FXML
+  private TextArea fieldDescription;
+  @FXML
+  private TextField fieldDepartment;
+  @FXML
+  private TextField fieldAvailablePlaces;
   @FXML
   private ComboBox<OrganizationDTO> comboBoxOrganization;
   @FXML
@@ -56,6 +63,9 @@ public class ManageProjectController extends ManageController<ProjectDTO> {
     }
 
     fieldName.setText(getCurrentDataObject().getName());
+    fieldDescription.setText(getCurrentDataObject().getDescription());
+    fieldDepartment.setText(getCurrentDataObject().getDepartment());
+    fieldAvailablePlaces.setText(String.valueOf(getCurrentDataObject().getAvailablePlaces()));
     fieldMethodology.setText(getCurrentDataObject().getMethodology());
     comboBoxSector.setValue(getCurrentDataObject().getSector());
     comboBoxState.setValue(getCurrentDataObject().getState());
@@ -85,6 +95,9 @@ public class ManageProjectController extends ManageController<ProjectDTO> {
         .setID(Integer.parseInt(fieldIDProject.getText()))
         .setIDOrganization(comboBoxOrganization.getValue().getEmail())
         .setName(fieldName.getText())
+        .setDescription(fieldDescription.getText())
+        .setDepartment(fieldDepartment.getText())
+        .setAvailablePlaces(fieldAvailablePlaces.getText())
         .setMethodology(fieldMethodology.getText())
         .setSector(comboBoxSector.getValue())
         .setState(comboBoxState.getValue())

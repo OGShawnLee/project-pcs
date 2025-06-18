@@ -67,6 +67,20 @@ public class Validator {
     return getValidGrade(String.valueOf(value));
   }
 
+  public static int getValidInteger(String value, String name, int minValue) throws IllegalArgumentException {
+    if (isValidString(value) && value.trim().matches("\\d+")) {
+      int integer = Integer.parseInt(value.trim());
+
+      if (integer >= minValue) {
+        return integer;
+      }
+
+      throw new IllegalArgumentException(name + " debe ser un número entero mayor o igual a " + minValue + ".");
+    }
+
+    throw new IllegalArgumentException(name + " debe ser un número entero válido.");
+  }
+
   private static String getValidName(String value, String name) throws IllegalArgumentException {
     if (isValidName(value, 3, 128)) {
       return value.trim();

@@ -19,6 +19,7 @@ public class OrganizationDAOTest {
     .setRepresentativeFullName("Bill Gates")
     .setColony("Redmond")
     .setStreet("Microsoft Way")
+    .setPhoneNumber("+1 425-882-8080")
     .setState("ACTIVE")
     .build();
 
@@ -74,6 +75,7 @@ public class OrganizationDAOTest {
         .setRepresentativeFullName("Steve Jobs")
         .setColony("Cupertino")
         .setStreet("Infinite Loop")
+        .setPhoneNumber("+1 408-996-1010")
         .setState("RETIRED")
         .build();
 

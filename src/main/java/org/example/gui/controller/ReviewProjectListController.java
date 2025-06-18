@@ -23,6 +23,12 @@ public class ReviewProjectListController extends ReviewListController implements
   @FXML
   private TableColumn<ProjectDTO, String> columnName;
   @FXML
+  private TableColumn<ProjectDTO, String> columnDescription;
+  @FXML
+  private TableColumn<ProjectDTO, String> columnDepartment;
+  @FXML
+  private TableColumn<ProjectDTO, Integer> columnAvailablePlaces;
+  @FXML
   private TableColumn<ProjectDTO, String> columnMethodology;
   @FXML
   private TableColumn<ProjectDTO, String> columnSector;
@@ -43,6 +49,9 @@ public class ReviewProjectListController extends ReviewListController implements
     columnEmail.setCellValueFactory(new PropertyValueFactory<>("IDOrganization"));
     columnName.setCellValueFactory(new PropertyValueFactory<>("name"));
     columnMethodology.setCellValueFactory(new PropertyValueFactory<>("methodology"));
+    columnDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
+    columnDepartment.setCellValueFactory(new PropertyValueFactory<>("department"));
+    columnAvailablePlaces.setCellValueFactory(new PropertyValueFactory<>("availablePlaces"));
     columnSector.setCellValueFactory(new PropertyValueFactory<>("sector"));
     columnState.setCellValueFactory(new PropertyValueFactory<>("state"));
     columnCreatedAt.setCellValueFactory(new PropertyValueFactory<>("createdAt"));

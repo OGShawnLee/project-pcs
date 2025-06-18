@@ -2,6 +2,7 @@ package org.example.gui.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 import org.example.business.dao.OrganizationDAO;
@@ -19,6 +20,12 @@ public class RegisterProjectController extends Controller {
   private final OrganizationDAO ORGANIZATION_DAO = new OrganizationDAO();
   @FXML
   private TextField fieldName;
+  @FXML
+  private TextArea fieldDescription;
+  @FXML
+  private TextField fieldDepartment;
+  @FXML
+  private TextField fieldAvailablePlaces;
   @FXML
   private ComboBox<OrganizationDTO> comboBoxOrganization;
   @FXML
@@ -57,6 +64,9 @@ public class RegisterProjectController extends Controller {
       ProjectDTO projectDTO = new ProjectDTO.ProjectBuilder()
         .setIDOrganization(comboBoxOrganization.getValue().getEmail())
         .setName(fieldName.getText())
+        .setDescription(fieldDescription.getText())
+        .setDepartment(fieldDepartment.getText())
+        .setAvailablePlaces(fieldAvailablePlaces.getText())
         .setMethodology(fieldMethodology.getText())
         .setSector(comboBoxSector.getValue())
         .build();
