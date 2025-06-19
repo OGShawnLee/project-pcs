@@ -211,7 +211,7 @@ CREATE TABLE Course
     id_academic CHAR(5)                        NOT NULL,
     section     ENUM ('S1', 'S2')              NOT NULL,
     semester    ENUM ('AUG_JAN', 'FEB_JUL')    NOT NULL,
-    state       ENUM ('ON_GOING', 'COMPLETED') NOT NULL DEFAULT 'ACTIVE',
+    state       ENUM ('ON_GOING', 'COMPLETED') NOT NULL DEFAULT 'ON_GOING',
     created_at  TIMESTAMP                      NOT NULL DEFAULT NOW(),
     PRIMARY KEY (nrc),
     FOREIGN KEY (id_academic) REFERENCES Academic (id_academic) ON DELETE CASCADE
