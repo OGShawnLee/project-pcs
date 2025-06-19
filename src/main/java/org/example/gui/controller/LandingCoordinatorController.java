@@ -20,7 +20,7 @@ public class LandingCoordinatorController extends LandingController {
   }
 
   public void navigateToReviewCourseListPage() {
-    // ReviewCourseListController.navigateToCourseListPage(getScene());
+    ReviewCourseListController.navigateToCourseListPage(getScene());
   }
 
   public void handleOpenRegisterCourse() {

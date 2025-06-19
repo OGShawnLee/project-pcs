@@ -207,12 +207,12 @@ END;
 CREATE TABLE Course
 (
     # TODO: Figure out the format of nrc
-    nrc             VARCHAR(5)                     NOT NULL,
-    id_academic     CHAR(5)                        NOT NULL,
-    section         ENUM ('S1', 'S2')              NOT NULL,
-    semester        ENUM ('AUG_JAN', 'FEB_JUL')    NOT NULL,
-    state           ENUM ('ON_GOING', 'COMPLETED') NOT NULL DEFAULT 'ACTIVE',
-    created_at      TIMESTAMP                      NOT NULL DEFAULT NOW(),
+    nrc         VARCHAR(5)                     NOT NULL,
+    id_academic CHAR(5)                        NOT NULL,
+    section     ENUM ('S1', 'S2')              NOT NULL,
+    semester    ENUM ('AUG_JAN', 'FEB_JUL')    NOT NULL,
+    state       ENUM ('ON_GOING', 'COMPLETED') NOT NULL DEFAULT 'ACTIVE',
+    created_at  TIMESTAMP                      NOT NULL DEFAULT NOW(),
     PRIMARY KEY (nrc),
     FOREIGN KEY (id_academic) REFERENCES Academic (id_academic) ON DELETE CASCADE
 );
@@ -345,7 +345,19 @@ SELECT Student.id_student,
        Practice.id_project,
        Practice.reason_of_assignation
 FROM Student
-JOIN Practice ON Student.id_student = Practice.id_student;
+         JOIN Practice ON Student.id_student = Practice.id_student;
+
+CREATE OR REPLACE VIEW CourseWithAcademic AS
+SELECT Course.nrc,
+       Course.id_academic,
+       Course.section,
+       Course.semester,
+       Course.state,
+       Course.created_at,
+       TRIM(CONCAT(Academic.name, ' ', Academic.paternal_last_name, ' ',
+                   COALESCE(Academic.maternal_last_name, ''))) AS full_name_academic
+FROM Course
+         JOIN Academic ON Course.id_academic = Academic.id_academic;
 
 # CREATE USER practice_admin@localhost IDENTIFIED BY 'ADMIN';
 # CREATE ROLE practice_admin_role;

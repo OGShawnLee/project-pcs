@@ -13,7 +13,8 @@ import java.util.List;
 public class CourseDAO extends DAOPattern<CourseDTO, String> {
   private static final String CREATE_QUERY =
     "INSERT INTO Course (nrc, id_academic, section, semester) VALUES (?, ?, ?, ?)";
-  private static final String GET_ALL_QUERY = "SELECT * FROM Course";
+  private static final String GET_ALL_QUERY = "SELECT * FROM CourseWithAcademic";
+  private static final String GET_ALL_BY_STATE = "SELECT * FROM coursewithacademic WHERE state = ?";
   private static final String GET_QUERY = "SELECT * FROM Course WHERE nrc = ?";
   private static final String UPDATE_QUERY =
     "UPDATE Course SET id_academic = ?, section = ?, semester = ?, state = ? WHERE nrc = ?";
@@ -27,6 +28,7 @@ public class CourseDAO extends DAOPattern<CourseDTO, String> {
       .setSection(CourseDTO.Section.valueOf(resultSet.getString("section")))
       .setSemester(CourseDTO.Semester.valueOf(resultSet.getString("semester")))
       .setState(CourseDTO.State.valueOf(resultSet.getString("state")))
+      .setFullNameAcademic(resultSet.getString("full_name_academic"))
       .setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime())
       .build();
   }
@@ -52,13 +54,31 @@ public class CourseDAO extends DAOPattern<CourseDTO, String> {
       PreparedStatement statement = connection.prepareStatement(GET_ALL_QUERY);
       ResultSet resultSet = statement.executeQuery()
     ) {
-      List<CourseDTO> list = new ArrayList<>();
+      List<CourseDTO> courseList = new ArrayList<>();
 
       while (resultSet.next()) {
-        list.add(createDTOInstanceFromResultSet(resultSet));
+        courseList.add(createDTOInstanceFromResultSet(resultSet));
       }
 
-      return list;
+      return courseList;
+    }
+  }
+
+  public List<CourseDTO> getAllByState(CourseDTO.State state) throws SQLException {
+    try (
+      Connection connection = getConnection();
+      PreparedStatement statement = connection.prepareStatement(GET_ALL_BY_STATE)
+    ) {
+      statement.setString(1, state.toString());
+      List<CourseDTO> courseList = new ArrayList<>();
+
+      try (ResultSet resultSet = statement.executeQuery()) {
+        while (resultSet.next()) {
+          courseList.add(createDTOInstanceFromResultSet(resultSet));
+        }
+      }
+
+      return courseList;
     }
   }
 

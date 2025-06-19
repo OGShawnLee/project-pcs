@@ -34,6 +34,7 @@ public class CourseDTO {
   private final Semester semester;
   private final Section section;
   private final State state;
+  private String fullNameAcademic;
   private final LocalDateTime createdAt;
 
   public CourseDTO(CourseBuilder builder) {
@@ -42,6 +43,7 @@ public class CourseDTO {
     this.semester = builder.semester;
     this.section = builder.section;
     this.state = builder.state;
+    this.fullNameAcademic = builder.fullNameAcademic;
     this.createdAt = builder.createdAt;
   }
 
@@ -57,6 +59,14 @@ public class CourseDTO {
     return semester;
   }
 
+  public String getFormattedSemester() {
+    String courseYear = semester == Semester.FEB_JUL
+      ? createdAt.getYear() + ""
+      : createdAt.getYear() + 1 + "";
+
+    return semester.toString() + "-" + courseYear;
+  }
+
   public Section getSection() {
     return section;
   }
@@ -65,8 +75,12 @@ public class CourseDTO {
     return state;
   }
 
-  public LocalDateTime getEndedAt() {
+  public LocalDateTime getCreatedAt() {
     return createdAt;
+  }
+
+  public String getFullNameAcademic() {
+    return fullNameAcademic;
   }
 
   @Override
@@ -85,6 +99,7 @@ public class CourseDTO {
     protected Semester semester;
     protected Section section;
     protected State state;
+    protected String fullNameAcademic;
     protected LocalDateTime createdAt;
 
     public CourseBuilder setNRC(String nrc) {
@@ -109,6 +124,11 @@ public class CourseDTO {
 
     public CourseBuilder setState(State state) {
       this.state = state;
+      return this;
+    }
+
+    public CourseBuilder setFullNameAcademic(String fullNameAcademic) {
+      this.fullNameAcademic = fullNameAcademic;
       return this;
     }
 
