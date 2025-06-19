@@ -66,10 +66,15 @@ public abstract class Person {
 
     Person that = (Person) instance;
 
+    if (maternalLastName == null) {
+      if (that.maternalLastName != null) return false;
+    } else if (!maternalLastName.equals(that.maternalLastName)) {
+      return false;
+    }
+
     return
       name.equals(that.name) &&
       paternalLastName.equals(that.paternalLastName) &&
-      maternalLastName.equals(that.maternalLastName) &&
       email.equals(that.email) &&
       state.equals(that.state) &&
       phoneNumber.equals(that.phoneNumber);
