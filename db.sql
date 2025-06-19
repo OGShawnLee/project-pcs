@@ -74,14 +74,12 @@ BEGIN
     END IF;
 END;
 
-DROP TRIGGER IF EXISTS before_delete_student;
-CREATE TRIGGER before_delete_student
-    BEFORE DELETE
-    ON Student
+DROP TRIGGER IF EXISTS delete_account_on_student_delete;
+CREATE TRIGGER delete_account_on_student_delete
+    BEFORE DELETE ON Student
     FOR EACH ROW
 BEGIN
-    DELETE
-    FROM Account
+    DELETE FROM Account
     WHERE email = OLD.email;
 END;
 
@@ -124,8 +122,8 @@ BEGIN
     END IF;
 END;
 
-DROP TRIGGER IF EXISTS before_delete_academic;
-CREATE TRIGGER before_delete_academic
+DROP TRIGGER IF EXISTS delete_account_on_academic_delete;
+CREATE TRIGGER delete_account_on_academic_delete
     BEFORE DELETE
     ON Academic
     FOR EACH ROW
@@ -135,8 +133,8 @@ BEGIN
     WHERE email = OLD.email;
 END;
 
-DROP TRIGGER IF EXISTS after_update_academic;
-CREATE TRIGGER after_update_academic
+DROP TRIGGER IF EXISTS sync_academic_role_with_account_role;
+CREATE TRIGGER sync_academic_role_with_account_role
     BEFORE UPDATE
     ON Academic
     FOR EACH ROW
