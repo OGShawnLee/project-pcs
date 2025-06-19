@@ -13,8 +13,18 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class AccountDAOTest {
   public static final AccountDAO ACCOUNT_DAO = new AccountDAO();
-  public static final AccountDTO ACADEMIC_ACCOUNT_DTO = new AccountDTO("smith@uv.mx", "123Password", AccountDTO.Role.ACADEMIC);
-  public static final AccountDTO STUDENT_ACCOUNT_DTO = new AccountDTO("zS18014115@estudiantes.uv.mx", "Password123", AccountDTO.Role.STUDENT);
+  public static final AccountDTO ACADEMIC_ACCOUNT_DTO = new AccountDTO(
+    "smith@uv.mx",
+    "123Password",
+    AccountDTO.Role.ACADEMIC,
+    true
+  );
+  public static final AccountDTO STUDENT_ACCOUNT_DTO = new AccountDTO(
+    "zS18014115@estudiantes.uv.mx",
+    "Password123",
+    AccountDTO.Role.STUDENT,
+    true
+  );
 
   public static void createOneTestAcademicAccount() throws SQLException {
     ACCOUNT_DAO.createOne(ACADEMIC_ACCOUNT_DTO);
@@ -70,7 +80,12 @@ public class AccountDAOTest {
     assertDoesNotThrow(() -> {
       createOneTestAcademicAccount();
 
-      AccountDTO updatedAccount = new AccountDTO(ACADEMIC_ACCOUNT_DTO.email(), "SecurePassword", AccountDTO.Role.ACADEMIC);
+      AccountDTO updatedAccount = new AccountDTO(
+        ACADEMIC_ACCOUNT_DTO.email(),
+        "SecurePassword",
+        AccountDTO.Role.ACADEMIC,
+        true
+      );
       ACCOUNT_DAO.updateOne(updatedAccount);
 
       Assertions.assertEquals(updatedAccount, ACCOUNT_DAO.getOne(ACADEMIC_ACCOUNT_DTO.email()));
@@ -82,7 +97,12 @@ public class AccountDAOTest {
     assertDoesNotThrow(() -> {
       createOneTestAcademicAccount();
 
-      AccountDTO updatedAccount = new AccountDTO(ACADEMIC_ACCOUNT_DTO.email(), ACADEMIC_ACCOUNT_DTO.password(), AccountDTO.Role.ACADEMIC_EVALUATOR);
+      AccountDTO updatedAccount = new AccountDTO(
+        ACADEMIC_ACCOUNT_DTO.email(),
+        ACADEMIC_ACCOUNT_DTO.password(),
+        AccountDTO.Role.ACADEMIC_EVALUATOR,
+        true
+      );
       ACCOUNT_DAO.updateOne(updatedAccount);
 
       Assertions.assertEquals(updatedAccount, ACCOUNT_DAO.getOne(ACADEMIC_ACCOUNT_DTO.email()));

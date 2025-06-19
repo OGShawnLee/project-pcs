@@ -8,21 +8,21 @@ public class AccountDTOTest {
   @Test
   public void testCreate() {
     Assertions.assertDoesNotThrow(() -> {
-      new AccountDTO("Valid@gmail.com", "Password1234", AccountDTO.Role.STUDENT);
+      new AccountDTO("Valid@gmail.com", "Password1234", AccountDTO.Role.STUDENT, true);
     });
   }
 
   @Test
   public void testCreateWithInvalidEmail() {
     Assertions.assertThrows(IllegalArgumentException.class, () -> {
-      new AccountDTO("invalid-email", "Password1234", AccountDTO.Role.STUDENT);
+      new AccountDTO("invalid-email", "Password1234", AccountDTO.Role.STUDENT, true);
     });
   }
 
   @Test
   public void testCreateWithInvalidPassword() {
     Assertions.assertThrows(IllegalArgumentException.class, () -> {
-      new AccountDTO("Valid@gmail.com", "1234", AccountDTO.Role.STUDENT);
+      new AccountDTO("Valid@gmail.com", "1234", AccountDTO.Role.STUDENT, true);
     });
   }
 }
