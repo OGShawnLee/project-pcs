@@ -14,8 +14,8 @@ public class CourseDAO extends DAOPattern<CourseDTO, String> {
   private static final String CREATE_QUERY =
     "INSERT INTO Course (nrc, id_academic, section, semester) VALUES (?, ?, ?, ?)";
   private static final String GET_ALL_QUERY = "SELECT * FROM CourseWithAcademic";
-  private static final String GET_ALL_BY_STATE = "SELECT * FROM coursewithacademic WHERE state = ?";
-  private static final String GET_QUERY = "SELECT * FROM Course WHERE nrc = ?";
+  private static final String GET_ALL_BY_STATE = "SELECT * FROM CourseWithAcademic WHERE state = ?";
+  private static final String GET_QUERY = "SELECT * FROM CourseWithAcademic WHERE nrc = ?";
   private static final String UPDATE_QUERY =
     "UPDATE Course SET id_academic = ?, section = ?, semester = ?, state = ? WHERE nrc = ?";
   private static final String DELETE_QUERY = "DELETE FROM Course WHERE nrc = ?";
@@ -29,6 +29,7 @@ public class CourseDAO extends DAOPattern<CourseDTO, String> {
       .setSemester(CourseDTO.Semester.valueOf(resultSet.getString("semester")))
       .setState(CourseDTO.State.valueOf(resultSet.getString("state")))
       .setFullNameAcademic(resultSet.getString("full_name_academic"))
+      .setTotalStudents(resultSet.getInt("total_students"))
       .setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime())
       .build();
   }

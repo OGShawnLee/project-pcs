@@ -34,7 +34,8 @@ public class CourseDTO {
   private final Semester semester;
   private final Section section;
   private final State state;
-  private String fullNameAcademic;
+  private final String fullNameAcademic;
+  private final int totalStudents;
   private final LocalDateTime createdAt;
 
   public CourseDTO(CourseBuilder builder) {
@@ -44,6 +45,7 @@ public class CourseDTO {
     this.section = builder.section;
     this.state = builder.state;
     this.fullNameAcademic = builder.fullNameAcademic;
+    this.totalStudents = builder.totalStudents;
     this.createdAt = builder.createdAt;
   }
 
@@ -75,6 +77,10 @@ public class CourseDTO {
     return state;
   }
 
+  public int getTotalStudents() {
+    return totalStudents;
+  }
+
   public LocalDateTime getCreatedAt() {
     return createdAt;
   }
@@ -90,7 +96,12 @@ public class CourseDTO {
 
     CourseDTO that = (CourseDTO) instance;
 
-    return nrc.equals(that.nrc) && idAcademic.equals(that.idAcademic) && section == that.section && state == that.state;
+    return
+      nrc.equals(that.nrc) &&
+      idAcademic.equals(that.idAcademic) &&
+      section == that.section &&
+      totalStudents == that.totalStudents &&
+      state == that.state;
   }
 
   public static class CourseBuilder {
@@ -100,6 +111,7 @@ public class CourseDTO {
     protected Section section;
     protected State state;
     protected String fullNameAcademic;
+    protected int totalStudents;
     protected LocalDateTime createdAt;
 
     public CourseBuilder setNRC(String nrc) {
@@ -129,6 +141,11 @@ public class CourseDTO {
 
     public CourseBuilder setFullNameAcademic(String fullNameAcademic) {
       this.fullNameAcademic = fullNameAcademic;
+      return this;
+    }
+
+    public CourseBuilder setTotalStudents(int totalStudents) {
+      this.totalStudents = totalStudents;
       return this;
     }
 

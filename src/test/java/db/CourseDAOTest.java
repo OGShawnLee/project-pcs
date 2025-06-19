@@ -20,6 +20,7 @@ public class CourseDAOTest {
     .setSection(CourseDTO.Section.S1)
     .setSemester(CourseDTO.Semester.FEB_JUL)
     .setState(CourseDTO.State.ON_GOING)
+    .setTotalStudents(0)
     .build();
 
   public static void createOneTestCourse() throws SQLException {

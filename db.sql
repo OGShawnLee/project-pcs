@@ -76,10 +76,12 @@ END;
 
 DROP TRIGGER IF EXISTS delete_account_on_student_delete;
 CREATE TRIGGER delete_account_on_student_delete
-    BEFORE DELETE ON Student
+    BEFORE DELETE
+    ON Student
     FOR EACH ROW
 BEGIN
-    DELETE FROM Account
+    DELETE
+    FROM Account
     WHERE email = OLD.email;
 END;
 
@@ -353,7 +355,8 @@ SELECT Course.nrc,
        Course.state,
        Course.created_at,
        TRIM(CONCAT(Academic.name, ' ', Academic.paternal_last_name, ' ',
-                   COALESCE(Academic.maternal_last_name, ''))) AS full_name_academic
+                   COALESCE(Academic.maternal_last_name, '')))                   AS full_name_academic,
+       (SELECT COUNT(*) FROM Enrollment WHERE Enrollment.id_course = Course.nrc) AS total_students
 FROM Course
          JOIN Academic ON Course.id_academic = Academic.id_academic;
 
