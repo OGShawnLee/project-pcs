@@ -26,6 +26,8 @@ public class ReviewCourseListController extends ReviewListController implements 
   @FXML
   private TableColumn<CourseDTO, CourseDTO.Section> columnSection;
   @FXML
+  private TableColumn<CourseDTO, Integer> columnTotalStudents;
+  @FXML
   private TableColumn<CourseDTO, CourseDTO.State> columnState;
   @FXML
   private TableColumn<CourseDTO, String> columnCreatedAt;
@@ -36,6 +38,7 @@ public class ReviewCourseListController extends ReviewListController implements 
     columnAcademic.setCellValueFactory(new PropertyValueFactory<>("fullNameAcademic"));
     columnSemester.setCellValueFactory(new PropertyValueFactory<>("formattedSemester"));
     columnSection.setCellValueFactory(new PropertyValueFactory<>("section"));
+    columnTotalStudents.setCellValueFactory(new PropertyValueFactory<>("totalStudents"));
     columnState.setCellValueFactory(new PropertyValueFactory<>("state"));
     columnCreatedAt.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
   }

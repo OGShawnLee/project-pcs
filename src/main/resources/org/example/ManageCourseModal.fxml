@@ -9,11 +9,11 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="720.0" stylesheets="@main.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.gui.controller.RegisterCourseController">
+<AnchorPane fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="720.0" stylesheets="@main.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.gui.controller.ManageCourseController">
   <children>
-    <VBox layoutX="200.0" layoutY="180.0" prefWidth="320.0" spacing="16.0">
+    <VBox layoutX="200.0" layoutY="144.0" prefWidth="320.0" spacing="16.0">
       <children>
-        <Label styleClass="title" text="Registrar Curso">
+        <Label styleClass="title" text="Gestionar Curso">
           <VBox.margin>
             <Insets />
           </VBox.margin>
@@ -24,7 +24,7 @@
         <VBox spacing="8.0">
           <children>
             <Label styleClass="label" text="NRC" />
-            <TextField fx:id="fieldNRC" promptText="Introduzca el NRC del Curso" styleClass="input" />
+            <TextField fx:id="fieldNRC" disable="true" editable="false" promptText="Introduzca el NRC del Curso" styleClass="input" />
           </children>
         </VBox>
         <VBox spacing="8.0">
@@ -45,9 +45,15 @@
             <ComboBox fx:id="comboBoxSemester" maxWidth="1.7976931348623157E308" promptText="Seleccione el Periodo del Curso" styleClass="input" />
           </children>
         </VBox>
+        <VBox spacing="8.0">
+          <children>
+            <Label styleClass="label" text="Estado" />
+            <ComboBox fx:id="comboBoxState" maxWidth="1.7976931348623157E308" promptText="Seleccione el Estado del Curso" styleClass="input" />
+          </children>
+        </VBox>
         <HBox>
           <children>
-            <Button mnemonicParsing="false" onAction="#handleRegister" prefWidth="320.0" styleClass="button" text="Registrar Curso" />
+            <Button mnemonicParsing="false" onAction="#handleUpdateCurrentDataObject" prefWidth="320.0" styleClass="button" text="Actualizar Curso" />
           </children>
         </HBox>
       </children>

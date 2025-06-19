@@ -48,19 +48,7 @@ public class ManageProjectController extends ManageController<ProjectDTO> {
   public void loadDataObjectFields() {
     fieldIDProject.setText(String.valueOf(getCurrentDataObject().getID()));
 
-    try {
-      for (OrganizationDTO organizationDTO : comboBoxOrganization.getItems()) {
-        if (organizationDTO.getEmail().equals(getCurrentDataObject().getIDOrganization())) {
-          comboBoxOrganization.setValue(organizationDTO);
-          break;
-        }
-      }
-
-      OrganizationDTO organization = ORGANIZATION_DAO.getOne(getCurrentDataObject().getIDOrganization());
-      comboBoxOrganization.setValue(organization);
-    } catch (SQLException e) {
-      Modal.displayError("No ha sido posible cargar la organización del proyecto debido a un error en el sistema.");
-    }
+    loadOrganization();
 
     fieldName.setText(getCurrentDataObject().getName());
     fieldDescription.setText(getCurrentDataObject().getDescription());
@@ -85,6 +73,22 @@ public class ManageProjectController extends ManageController<ProjectDTO> {
       comboBoxOrganization.setValue(organizationList.get(0));
     } catch (SQLException e) {
       Modal.displayError("No ha sido posible cargar las organizaciones debido a un error en el sistema.");
+    }
+  }
+
+  private void loadOrganization() {
+    try {
+      for (OrganizationDTO organizationDTO : comboBoxOrganization.getItems()) {
+        if (organizationDTO.getEmail().equals(getCurrentDataObject().getIDOrganization())) {
+          comboBoxOrganization.setValue(organizationDTO);
+          break;
+        }
+      }
+
+      OrganizationDTO organization = ORGANIZATION_DAO.getOne(getCurrentDataObject().getIDOrganization());
+      comboBoxOrganization.setValue(organization);
+    } catch (SQLException e) {
+      Modal.displayError("No ha sido posible cargar la organización del proyecto debido a un error en el sistema.");
     }
   }
 
