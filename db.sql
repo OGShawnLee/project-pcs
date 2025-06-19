@@ -296,13 +296,10 @@ SELECT Student.id_student,
        Practice.id_project,
        Practice.reason_of_assignation
 FROM Student
-         JOIN Practice ON Student.id_student = Practice.id_student;
-
-SELECT *
-FROM StudentPractice;
+JOIN Practice ON Student.id_student = Practice.id_student;
 
 # CREATE USER practice_admin@localhost IDENTIFIED BY 'ADMIN';
 # CREATE ROLE practice_admin_role;
-GRANT SELECT, INSERT, UPDATE, DELETE ON Practice.* TO practice_admin@localhost;
+GRANT EXECUTE, SELECT, INSERT, UPDATE, DELETE ON Practice.* TO practice_admin@localhost;
 GRANT practice_admin_role TO practice_admin@localhost;
 SET DEFAULT ROLE ALL TO practice_admin@localhost;
