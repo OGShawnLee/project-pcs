@@ -109,7 +109,8 @@ public class ManageStudentController {
               new AccountDTO(
                 studentDTO.getEmail(),
                 studentDTO.getID(),
-                AccountDTO.Role.STUDENT
+                AccountDTO.Role.STUDENT,
+                true
               )
             );
             STUDENT_DAO.updateOne(studentDTO);

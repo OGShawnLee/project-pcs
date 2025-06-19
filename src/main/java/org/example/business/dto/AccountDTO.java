@@ -4,7 +4,7 @@ import org.example.business.Validator;
 
 import org.mindrot.jbcrypt.BCrypt;
 
-public record AccountDTO(String email, String password, Role role) {
+public record AccountDTO(String email, String password, Role role, boolean hasAccess) {
   public enum Role {
     COORDINATOR,
     ACADEMIC,
@@ -21,10 +21,11 @@ public record AccountDTO(String email, String password, Role role) {
     }
   }
 
-  public AccountDTO(String email, String password, Role role) {
+  public AccountDTO(String email, String password, Role role, boolean hasAccess) {
     this.email = Validator.getValidEmail(email);
     this.password = Validator.getValidPassword(password);
     this.role = role;
+    this.hasAccess = hasAccess;
   }
 
   @Override
@@ -36,6 +37,7 @@ public record AccountDTO(String email, String password, Role role) {
 
     return
       email.equals(that.email) &&
+      hasAccess == that.hasAccess &&
       role == that.role;
   }
 

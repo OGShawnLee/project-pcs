@@ -43,7 +43,8 @@ public class UpdateCoordinatorController extends ManageController<AccountDTO> {
       AccountDTO accountDTO = new AccountDTO(
         getCurrentDataObject().email(),
         passwordConfirm,
-        getCurrentDataObject().role()
+        getCurrentDataObject().role(),
+        true
       );
       ACCOUNT_DAO.updateOne(accountDTO);
 

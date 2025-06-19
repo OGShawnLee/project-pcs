@@ -71,7 +71,8 @@ public class UpdateStudentController extends ManageController<StudentDTO> {
     AccountDTO accountDTO = new AccountDTO(
       getCurrentDataObject().getEmail(),
       fieldPassword.getText(),
-      AccountDTO.Role.STUDENT
+      AccountDTO.Role.STUDENT,
+      true
     );
     ACCOUNT_DAO.updateOne(accountDTO);
   }

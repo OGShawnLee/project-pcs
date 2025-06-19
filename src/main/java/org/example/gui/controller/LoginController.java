@@ -9,6 +9,7 @@ import org.example.business.auth.AuthClient;
 import org.example.business.dao.AccountDAO;
 import org.example.business.dto.AccountDTO;
 import org.example.gui.Modal;
+
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.SQLException;
@@ -32,12 +33,34 @@ public class LoginController extends Controller {
     }
   }
 
+  private void handleAccountAccess(AccountDTO accountDTO) {
+    if (accountDTO.hasAccess()) {
+      AuthClient.getInstance().setCurrentUser(accountDTO);
+      navigateToLandingPage();
+      return;
+    }
+
+    AccountDTO.Role role = accountDTO.role();
+    String message;
+
+    switch (role) {
+      case STUDENT ->
+        message = "No tiene acceso al sistema. Por favor, contacte a su Académico encargado.";
+      case ACADEMIC, ACADEMIC_EVALUATOR, EVALUATOR ->
+        message = "No tiene acceso al sistema. Por favor, contacte al Coordinador de Prácticas Profesionales.";
+      default ->
+        message = "No tiene acceso al sistema. Por favor, contacte al Administrador del Sistema.";
+    }
+
+    Modal.displayError(message);
+  }
+
   private void handleCreateCoordinatorAccount() throws SQLException {
     String email = Validator.getValidEmail(emailField.getText());
     String password = Validator.getValidPassword(passwordField.getText());
 
     ACCOUNT_DAO.createOne(
-      new AccountDTO(email, BCrypt.hashpw(password, BCrypt.gensalt()), AccountDTO.Role.COORDINATOR)
+      new AccountDTO(email, BCrypt.hashpw(password, BCrypt.gensalt()), AccountDTO.Role.COORDINATOR, true)
     );
 
     emailField.clear();
@@ -62,8 +85,7 @@ public class LoginController extends Controller {
     }
 
     if (accountDTO.hasPasswordMatch(password)) {
-      AuthClient.getInstance().setCurrentUser(accountDTO);
-      navigateToLandingPage();
+      handleAccountAccess(accountDTO);
     } else {
       Modal.displayError("Las credenciales son inválidas. Por favor intente de nuevo.");
     }

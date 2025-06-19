@@ -28,9 +28,10 @@ END;
 # TODO: Add to the Diagram and Dictionary
 CREATE TABLE Account
 (
-    email    VARCHAR(128)                                                                   NOT NULL,
-    password VARCHAR(64)                                                                    NOT NULL,
-    role     ENUM ('COORDINATOR', 'ACADEMIC', 'ACADEMIC_EVALUATOR', 'EVALUATOR', 'STUDENT') NOT NULL,
+    email      VARCHAR(128)                                                                   NOT NULL,
+    password   VARCHAR(64)                                                                    NOT NULL,
+    role       ENUM ('COORDINATOR', 'ACADEMIC', 'ACADEMIC_EVALUATOR', 'EVALUATOR', 'STUDENT') NOT NULL,
+    has_access BOOLEAN                                                                        NOT NULL DEFAULT TRUE,
     PRIMARY KEY (email)
 );
 
@@ -48,6 +49,30 @@ CREATE TABLE Student
     PRIMARY KEY (id_student),
     FOREIGN KEY (email) REFERENCES Account (email) ON DELETE CASCADE
 );
+
+DROP TRIGGER IF EXISTS sync_student_state_with_account_access_on_insert;
+CREATE TRIGGER sync_student_state_with_account_access_on_insert
+    AFTER INSERT
+    ON Student
+    FOR EACH ROW
+BEGIN
+    UPDATE Account
+    SET has_access = (NEW.state = 'ACTIVE')
+    WHERE email = NEW.email;
+END;
+
+DROP TRIGGER IF EXISTS sync_student_state_with_account_access;
+CREATE TRIGGER sync_student_state_with_account_access
+    BEFORE UPDATE
+    ON Student
+    FOR EACH ROW
+BEGIN
+    IF OLD.state != NEW.state THEN
+        UPDATE Account
+        SET has_access = (NEW.state = 'ACTIVE')
+        WHERE email = OLD.email;
+    END IF;
+END;
 
 DROP TRIGGER IF EXISTS before_delete_student;
 CREATE TRIGGER before_delete_student
@@ -74,6 +99,30 @@ CREATE TABLE Academic
     PRIMARY KEY (id_academic),
     FOREIGN KEY (email) REFERENCES Account (email) ON DELETE CASCADE
 );
+
+DROP TRIGGER IF EXISTS sync_academic_state_with_account_access_on_insert;
+CREATE TRIGGER sync_academic_state_with_account_access_on_insert
+    AFTER INSERT
+    ON Academic
+    FOR EACH ROW
+BEGIN
+    UPDATE Account
+    SET has_access = (NEW.state = 'ACTIVE')
+    WHERE email = NEW.email;
+END;
+
+DROP TRIGGER IF EXISTS sync_academic_state_with_account_access;
+CREATE TRIGGER sync_academic_state_with_account_access
+    BEFORE UPDATE
+    ON Academic
+    FOR EACH ROW
+BEGIN
+    IF OLD.state != NEW.state THEN
+        UPDATE Account
+        SET has_access = (NEW.state = 'ACTIVE')
+        WHERE email = OLD.email;
+    END IF;
+END;
 
 DROP TRIGGER IF EXISTS before_delete_academic;
 CREATE TRIGGER before_delete_academic
