@@ -2,9 +2,12 @@ package org.example.gui.controller;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+
+import org.example.business.auth.AuthClient;
 import org.example.business.dto.StudentDTO;
 import org.example.business.dao.StudentDAO;
 import org.example.gui.Modal;
@@ -33,6 +36,7 @@ public class ReviewStudentListController extends ReviewListController implements
   private TableColumn<StudentDTO, String> columnPhoneNumber;
   @FXML
   private TableColumn<StudentDTO, String> columnState;
+
   @Override
   public void loadTableColumns() {
     columnID.setCellValueFactory(new PropertyValueFactory<>("ID"));
@@ -51,7 +55,9 @@ public class ReviewStudentListController extends ReviewListController implements
     try {
       tableStudent.setItems(
         FXCollections.observableList(
-          STUDENT_DAO.getAll()
+          STUDENT_DAO.getAllByAcademic(
+            AuthClient.getInstance().getCurrentAcademicDTO().getID()
+          )
         )
       );
     } catch (SQLException e) {
