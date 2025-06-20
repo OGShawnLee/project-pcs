@@ -60,7 +60,7 @@ public class RegisterCourseController extends Controller {
       comboBoxAcademic.getItems().addAll(academicList);
       comboBoxAcademic.setValue(academicList.get(0));
     } catch (SQLException e) {
-      Modal.displayError("No ha sido posible cargar las organizaciones debido a un error en el sistema.");
+      Modal.displayError("No ha sido posible cargar los académicos debido a un error en el sistema.");
     }
   }
 
@@ -82,6 +82,8 @@ public class RegisterCourseController extends Controller {
 
       COURSE_DAO.createOne(courseDTO);
       Modal.displaySuccess("El curso ha sido registrado exitosamente.");
+    } catch (IllegalArgumentException e) {
+      Modal.displayError(e.getMessage());
     } catch (SQLException e) {
       Modal.displayError("No ha sido posible registrar el curso debido a un error en el sistema.");
     }
