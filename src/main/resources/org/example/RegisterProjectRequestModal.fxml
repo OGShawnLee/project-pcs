@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17.0.12"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.example.gui.controller.RegisterProjectRequestController"
+      spacing="20.0" alignment="TOP_CENTER"
+      prefWidth="800.0" prefHeight="600.0">
+
+    <padding>
+        <Insets top="30" right="30" bottom="30" left="30"/>
+    </padding>
+
+    <!-- Título -->
+    <Label text="Registro de Solicitud de Proyecto" styleClass="title"/>
+
+    <!-- Tabla de proyectos -->
+    <VBox spacing="10.0">
+        <Label text="Lista de proyectos"/>
+        <TableView fx:id="projectRequestTable" prefHeight="400.0" prefWidth="740.0">
+            <columns>
+                <TableColumn fx:id="columnID" text="ID" prefWidth="80"/>
+                <TableColumn fx:id="columnEmail" text="Correo" prefWidth="150"/>
+                <TableColumn fx:id="columnName" text="Nombre" prefWidth="120"/>
+                <TableColumn fx:id="columnMethodology" text="Metodología" prefWidth="120"/>
+                <TableColumn fx:id="columnDescription" text="Descripción" prefWidth="180"/>
+                <TableColumn fx:id="columnDepartment" text="Departamento" prefWidth="120"/>
+                <TableColumn fx:id="columnAvailablePlaces" text="Cupos" prefWidth="80"/>
+                <TableColumn fx:id="columnSector" text="Sector" prefWidth="100"/>
+                <TableColumn fx:id="columnState" text="Estado" prefWidth="100"/>
+                <TableColumn fx:id="columnCreatedAt" text="Creado en" prefWidth="150"/>
+                <TableColumn fx:id="checkBoxColumn" text="Seleccionar" prefWidth="90"/>
+            </columns>
+        </TableView>
+    </VBox>
+
+    <!-- Botones -->
+    <HBox spacing="30" alignment="CENTER">
+        <Button text="Registrar Solicitud" onAction="#handleRegister" prefWidth="200.0" prefHeight="35.0"/>
+    </HBox>
+</VBox>

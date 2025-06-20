@@ -3,71 +3,68 @@ package org.example.gui.controller;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
+import org.example.business.auth.AuthClient;
 import org.example.business.dao.ProjectDAO;
 import org.example.business.dao.ProjectSector;
-import org.example.business.dto.ProjectDTO;
-import org.example.business.dto.ProjectRequestDTO;
+import org.example.business.dao.StudentDAO;
+import org.example.business.dto.*;
 import org.example.business.dao.ProjectRequestDAO;
-import org.example.business.dto.StudentDTO;
 import org.example.gui.Modal;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class RegisterProjectRequestController {
+public class RegisterProjectRequestController extends Controller{
 
     @FXML
     private TableView<ProjectDTO> projectRequestTable;
-    @FXML
-    private TableColumn<ProjectDTO, String> nameColumn;
-    @FXML
-    private TableColumn<ProjectDTO, String> emailColumn;
-    @FXML
-    private TableColumn<ProjectDTO, String> metodologyColumn;
-    @FXML
-    private TableColumn<ProjectDTO, ProjectSector> sectorColumn;
-    @FXML
-    private TableColumn<ProjectDTO, Boolean> checkBoxColumn;
+    @FXML private TableColumn<ProjectDTO, String> columnID;
+    @FXML private TableColumn<ProjectDTO, String> columnEmail;
+    @FXML private TableColumn<ProjectDTO, String> columnName;
+    @FXML private TableColumn<ProjectDTO, String> columnMethodology;
+    @FXML private TableColumn<ProjectDTO, String> columnDescription;
+    @FXML private TableColumn<ProjectDTO, String> columnDepartment;
+    @FXML private TableColumn<ProjectDTO, Integer> columnAvailablePlaces;
+    @FXML private TableColumn<ProjectDTO, ProjectSector> columnSector;
+    @FXML private TableColumn<ProjectDTO, String> columnState;
+    @FXML private TableColumn<ProjectDTO, String> columnCreatedAt;
+    @FXML private TableColumn<ProjectDTO, Boolean> checkBoxColumn;
 
-    private final ProjectDAO projectDAO = new ProjectDAO();
+    private final StudentDAO STUDENT_DAO = new StudentDAO();
     private final List<ProjectDTO> selectedProjects = new ArrayList<>();
     private final HashMap<ProjectDTO, BooleanProperty> selectionMap = new HashMap<>();
     private final ProjectRequestDAO PROJECT_REQUEST_DAO = new ProjectRequestDAO();
 
-    @FXML
+
     public void initialize() {
         projectRequestTable.setEditable(true);
         checkBoxColumn.setEditable(true);
 
-        nameColumn.setCellValueFactory(cd -> new SimpleStringProperty(cd.getValue().getName()));
-        emailColumn.setCellValueFactory(cd -> new SimpleStringProperty(cd.getValue().getIDOrganization()));
-        metodologyColumn.setCellValueFactory(cd -> new SimpleStringProperty(cd.getValue().getMethodology()));
-        sectorColumn.setCellValueFactory(new PropertyValueFactory<>("sector"));
+        columnID.setCellValueFactory(new PropertyValueFactory<>("ID"));
+        columnEmail.setCellValueFactory(new PropertyValueFactory<>("IDOrganization"));
+        columnName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        columnMethodology.setCellValueFactory(new PropertyValueFactory<>("methodology"));
+        columnDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
+        columnDepartment.setCellValueFactory(new PropertyValueFactory<>("department"));
+        columnAvailablePlaces.setCellValueFactory(new PropertyValueFactory<>("availablePlaces"));
+        columnSector.setCellValueFactory(new PropertyValueFactory<>("sector"));
+        columnState.setCellValueFactory(new PropertyValueFactory<>("state"));
+        columnCreatedAt.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
+
 
         checkBoxColumn.setCellValueFactory(cellData -> {
             ProjectDTO projectDTO = cellData.getValue();
-            BooleanProperty property;
-
-            property = selectionMap.computeIfAbsent(projectDTO, project -> {
+            BooleanProperty property = selectionMap.computeIfAbsent(projectDTO, project -> {
                 BooleanProperty newProperty = new SimpleBooleanProperty(false);
-
                 newProperty.addListener((observer, oldValue, newValue) -> {
                     if (newValue) {
                         if (selectedProjects.size() >= 3) {
@@ -86,26 +83,42 @@ public class RegisterProjectRequestController {
 
         checkBoxColumn.setCellFactory(CheckBoxTableCell.forTableColumn(checkBoxColumn));
 
-        updateTable();
+        loadProjects();
     }
 
-    @FXML
-    public void handleRegisterProjectRequest (ActionEvent event) {
-        Object user = Session.getCurrentUser();
-        if (!(user instanceof StudentDTO student)) {
-            Modal.displayError("Solo es una solicitud de proyecto por estudiante.");
-            return;
-        }
-
-        if (selectedProjects.size() != 3) {
-            Modal.displayError("Debes seleccionar exactamente 3 proyectos.");
-            return;
-        }
-
+    private void loadProjects() {
         try {
+            List<ProjectDTO> projects = new ProjectDAO().getAll();
+            if (projects.isEmpty() || projects.size() < 3) {
+                Modal.displayError("No hay proyectos disponibles para mostrar.");
+                return;
+            }
+
+            ObservableList<ProjectDTO> projectList = FXCollections.observableArrayList(projects);
+            projectRequestTable.setItems(projectList);
+        } catch (SQLException e) {
+            Modal.displayError("No se pudieron cargar los proyectos debido a un error de sistema.");
+        }
+    }
+
+    public void handleRegister () {
+        try {
+            StudentDTO currentStudent = STUDENT_DAO.getOneByEmail(AuthClient.getInstance().getCurrentUser().email());
+
+            if (selectedProjects.size() != 3) {
+                Modal.displayError("Debes seleccionar exactamente 3 proyectos.");
+                return;
+            }
+
+            List<ProjectRequestDTO> existingRequests = PROJECT_REQUEST_DAO.getAllByEmail(currentStudent.getID());
+            if (!existingRequests.isEmpty()) {
+                Modal.displayError("Ya has realizado una solicitud de proyectos.");
+                return;
+            }
+
             for (ProjectDTO project : selectedProjects) {
                 ProjectRequestDTO newRequest = new ProjectRequestDTO.ProjectRequestBuilder()
-                        .setIDStudent(student.getID())
+                        .setIDStudent(currentStudent.getID())
                         .setIDProject(project.getID())
                         .setState("PENDING")
                         .setReasonOfState("Solicitud inicial del estudiante")
@@ -114,32 +127,15 @@ public class RegisterProjectRequestController {
 
                 PROJECT_REQUEST_DAO.createOne(newRequest);
             }
-            Modal.displaySuccess("La autoevaluacion ha sido registrada exitosamente.");
-            returnToMainPage(event);
+
+            Modal.displaySuccess("La solicitud de proyectos fue registrada exitosamente.");
+        } catch (IllegalArgumentException e) {
+            Modal.displayError(e.getMessage());
         } catch (SQLException e) {
-            Modal.displayError("No ha sido posible registrar la organización debido a un error de sistema.");
-        } catch (IOException e) {
-            Modal.displayError("Ha ocurrido un error al cargar la pagina");
+            e.printStackTrace();
+            Modal.displayError("No ha sido posible registrar los proyectos debido a un error del sistema.");
         }
     }
 
-    public void updateTable() {
-        try {
-            List<ProjectDTO> projectList = projectDAO.getAll();
-            ObservableList<ProjectDTO> observableList = FXCollections.observableArrayList(projectList);
-            projectRequestTable.setItems(observableList);
-        } catch (SQLException e) {
-            Modal.displayError("No se pudo actualizar la tabla debido a un error en el sistema.");
-        }
-    }
 
-    @FXML
-    public void returnToMainPage(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/LandingStudentPage.fxml"));
-        Parent root = loader.load();
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.setTitle("Menu Principal");
-        stage.show();
-    }
 }
