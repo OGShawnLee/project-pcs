@@ -75,12 +75,12 @@ public class LoginController extends Controller {
   }
 
   private void handleLoginAccount() throws SQLException {
-    String displayName = Validator.getValidEmail(emailField.getText());
+    String email = Validator.getValidEmail(emailField.getText());
     String password = Validator.getValidText(passwordField.getText(), "Contraseña");
-    AccountDTO accountDTO = ACCOUNT_DAO.getOne(displayName);
+    AccountDTO accountDTO = ACCOUNT_DAO.getOne(email);
 
     if (accountDTO == null) {
-      Modal.displayError("No existe una cuenta con este nombre de usuario.");
+      Modal.displayError("No existe una cuenta con este correo electrónico.");
       return;
     }
 

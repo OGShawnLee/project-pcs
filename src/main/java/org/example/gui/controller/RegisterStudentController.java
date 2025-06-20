@@ -79,7 +79,7 @@ public class RegisterStudentController extends Controller {
 
       StudentDTO existingStudentDTO = STUDENT_DAO.getOne(studentDTO.getID());
       if (existingStudentDTO != null) {
-        Modal.displayError("No ha sido posible registrar estudiante debido a que ya existe un estudiante con la misma ID de Trabajador.");
+        Modal.displayError("No ha sido posible registrar estudiante debido a que ya existe un estudiante con la misma matrícula.");
         return;
       }
 
