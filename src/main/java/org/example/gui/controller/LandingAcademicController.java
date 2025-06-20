@@ -1,13 +1,16 @@
 package org.example.gui.controller;
 
 
+import org.example.gui.Modal;
+
 public class LandingAcademicController extends LandingController {
+
   public void navigateToReviewStudentListPage() {
-    navigateFromThisPageTo("Listado de Estudiantes", "ReviewStudentListPage");
+    ReviewStudentListController.navigateToStudentListPage(getScene());
   }
 
   public void handleOpenRegisterStudent() {
-    navigateFromThisPageTo("Registrar Estudiante", "RegisterStudentPage");
+    Modal.display("Registrar Estudiante", "RegisterStudentModal");
   }
 
   public void navigateToReviewEvaluationListPage() {

@@ -6,7 +6,7 @@ public class LandingStudentController extends LandingController {
   }
 
   public void handleOpenRegisterProjectRequest() {
-    navigateFromThisPageTo("Registrar Solicitud de Proyecto", "RegisterProjectRequestPage");
+    navigateFromThisPageTo("Registrar Solicitud de Proyecto", "RegisterProjectRequestModal");
   }
 
   public void handleOpenManageProfile() {
