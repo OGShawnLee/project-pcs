@@ -1,99 +1,108 @@
 package org.example.gui.controller;
 
-import javafx.event.ActionEvent;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.TextField;
-import javafx.stage.Stage;
-import org.example.business.dto.EvaluationDTO;
-import org.example.business.Validator;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextArea;
+import org.example.business.auth.AuthClient;
+import org.example.business.dao.AcademicDAO;
+import org.example.business.dao.PracticeDAO;
+import org.example.business.dao.filter.FilterEvaluation;
+import org.example.business.dto.*;
 import org.example.business.dao.EvaluationDAO;
 import org.example.gui.Modal;
 
-import java.io.IOException;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.util.Objects;
+import java.util.List;
 
-public class RegisterEvaluationController {
+public class RegisterEvaluationController extends Controller{
 
-    private final EvaluationDAO EVALUATION_DAO = new EvaluationDAO();
+    private static final AcademicDAO ACADEMIC_DAO = new AcademicDAO();
+    private static final EvaluationDAO EVALUATION_DAO = new EvaluationDAO();
+    private static final PracticeDAO PRACTICE_DTO = new PracticeDAO();
 
     @FXML
-    private TextField fieldIdProject;
+    private ComboBox<PracticeDTO> comboBoxPractice;
     @FXML
-    private TextField fieldIdStudent;
+    private ComboBox<Integer> comboBoxSkillGrade;
     @FXML
-    private TextField fieldIdAcademic;
+    private ComboBox<Integer> comboBoxContentGrade;
     @FXML
-    private TextField fieldSkillGrade;
+    private ComboBox<Integer> comboBoxWritingGrade;
     @FXML
-    private TextField fieldContentGrade;
+    private ComboBox<Integer> comboBoxRequirementsGrade;
     @FXML
-    private TextField fieldWritingGrade;
-    @FXML
-    private TextField fieldRequirementsGrade;
-    @FXML
-    private TextField fieldFeedback;
+    private TextArea textAreaFeedback;
 
-    public void handleRegisterEvaluation(ActionEvent event) {
+    public void initialize() {
+        loadComboBoxEnrollment();
+        initializeGradeCombos();
+    }
+
+    private void initializeGradeCombos() {
+        ObservableList<Integer> grades = FXCollections.observableArrayList();
+        for (int i = 1; i <= 10; i++) {
+            grades.add(i);
+        }
+
+        comboBoxSkillGrade.setItems(grades);
+        comboBoxContentGrade.setItems(grades);
+        comboBoxWritingGrade.setItems(grades);
+        comboBoxRequirementsGrade.setItems(grades);
+    }
+
+
+    public void loadComboBoxEnrollment() {
         try {
-            // Validamos que los campos de texto sean correctos antes de continuar
-            int idProject = Integer.parseInt(fieldIdProject.getText().trim());
-            String idStudent = fieldIdStudent.getText().trim();
-            String idAcademic = fieldIdAcademic.getText().trim();
-            String skillGradeStr = fieldSkillGrade.getText().trim();
-            String contentGradeStr = fieldContentGrade.getText().trim();
-            String writingGradeStr = fieldWritingGrade.getText().trim();
-            String requirementsGradeStr = fieldRequirementsGrade.getText().trim();
-            String feedback = fieldFeedback.getText().trim();
+            List<PracticeDTO> enrollmentList = PRACTICE_DTO.getAll();
 
-            if (idStudent.isEmpty() || idAcademic.isEmpty()) {
-                Modal.displayError("ID del estudiante y del académico son obligatorios.");
+            if (enrollmentList.isEmpty()) {
+                Modal.displayError("No existe una organización. Por favor, registre una organización antes de registrar un proyecto.");
                 return;
             }
 
-            int skillGrade = Validator.getValidGrade(skillGradeStr);
-            int contentGrade = Validator.getValidGrade(contentGradeStr);
-            int writingGrade = Validator.getValidGrade(writingGradeStr);
-            int requirementsGrade = Validator.getValidGrade(requirementsGradeStr);
-
-            EvaluationDTO evaluation = new EvaluationDTO.EvaluationBuilder()
-                    .setIDProject(idProject)
-                    .setIDStudent(idStudent)
-                    .setIDAcademic(idAcademic)
-                    .setSkillGrade(skillGradeStr)
-                    .setContentGrade(contentGradeStr)
-                    .setWritingGrade(writingGradeStr)
-                    .setRequirementsGrade(requirementsGradeStr)
-                    .setFeedback(feedback)
-                    .setCreatedAt(LocalDateTime.now())
-                    .build();
-
-            EVALUATION_DAO.createOne(evaluation);
-            Modal.displaySuccess("Evaluación registrada correctamente.");
-            returnToMainPage(event);
-
-        } catch (NumberFormatException e) {
-            Modal.displayError("Asegúrate de ingresar números válidos en los campos de calificación y proyecto.");
+            comboBoxPractice.getItems().addAll(enrollmentList);
+            comboBoxPractice.setValue(enrollmentList.getFirst());
         } catch (SQLException e) {
-            Modal.displayError("Error al registrar la evaluación en la base de datos.");
-        } catch (IllegalArgumentException e) {
-            Modal.displayError(e.getMessage());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            Modal.displayError("No ha sido posible cargar las organizaciones debido a un error en el sistema.");
         }
     }
 
-    @FXML
-    public void returnToMainPage(ActionEvent event) throws IOException {
-        Parent newView = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/example/LandingEvaluatorPage.fxml")));
-        Scene newScene = new Scene(newView);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(newScene);
-        stage.show();
+    public void handleRegister() {
+        try {
+            AcademicDTO currentAcademic = ACADEMIC_DAO.getOneByEmail(AuthClient.getInstance().getCurrentUser().email());
+            EvaluationDTO evaluationDTO = new EvaluationDTO.EvaluationBuilder()
+                    .setIDProject(comboBoxPractice.getValue().getIDProject())
+                    .setIDStudent(comboBoxPractice.getValue().getIDStudent())
+                    .setIDAcademic(currentAcademic.getID())
+                    .setContentGrade(String.valueOf(comboBoxContentGrade.getValue()))
+                    .setRequirementsGrade(String.valueOf(comboBoxRequirementsGrade.getValue()))
+                    .setWritingGrade(String.valueOf(comboBoxWritingGrade.getValue()))
+                    .setSkillGrade(String.valueOf(comboBoxSkillGrade))
+                    .setFeedback(textAreaFeedback.getText())
+                    .build();
+
+            FilterEvaluation filterEvaluation = new FilterEvaluation(
+                    comboBoxPractice.getValue().getIDProject(),
+                    comboBoxPractice.getValue().getIDStudent(),
+                    currentAcademic.getID()
+            );
+
+            EvaluationDTO existingEvaluationDTO = EVALUATION_DAO.getOne(filterEvaluation);
+            if (existingEvaluationDTO != null) {
+                Modal.displayError("No ha sido posible registrar académico debido a que ya existe un académico con la misma ID de Trabajador.");
+                return;
+            }
+
+            EVALUATION_DAO.createOne(evaluationDTO);
+            Modal.displaySuccess("El académico ha sido registrado exitosamente.");
+        } catch (IllegalArgumentException e) {
+            Modal.displayError(e.getMessage());
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            Modal.displayError("No ha sido posible registrar académico debido a un error en el sistema.");
+        }
     }
+
 }
