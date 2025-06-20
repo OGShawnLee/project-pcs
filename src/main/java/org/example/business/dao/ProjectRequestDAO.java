@@ -1,5 +1,6 @@
 package org.example.business.dao;
 
+import org.example.business.dto.AcademicDTO;
 import org.example.business.dto.ProjectRequestDTO;
 import org.example.business.dao.filter.FilterProject;
 
@@ -14,6 +15,7 @@ public class ProjectRequestDAO extends DAOPattern<ProjectRequestDTO, FilterProje
   private static final String CREATE_QUERY =
     "INSERT INTO ProjectRequest (id_student, id_project, state, reason_of_state) VALUES (?, ?, ?, ?)";
   private static final String GET_ALL_QUERY = "SELECT * FROM ProjectRequest";
+  private static final String GET_ALL_BY_EMAIL_QUERY = "SELECT * FROM ProjectRequest WHERE id_student = ?";
   private static final String GET_QUERY = "SELECT * FROM ProjectRequest WHERE id_student = ? AND id_project = ?";
   private static final String UPDATE_QUERY =
     "UPDATE ProjectRequest SET state = ?, reason_of_state = ? WHERE id_student = ? AND id_project = ?";
@@ -55,6 +57,24 @@ public class ProjectRequestDAO extends DAOPattern<ProjectRequestDTO, FilterProje
 
       while (resultSet.next()) {
         list.add(createDTOInstanceFromResultSet(resultSet));
+      }
+
+      return list;
+    }
+  }
+
+  public List<ProjectRequestDTO> getAllByEmail(String email) throws SQLException {
+    try (
+            Connection connection = getConnection();
+            PreparedStatement statement = connection.prepareStatement(GET_ALL_BY_EMAIL_QUERY)
+    ) {
+      statement.setString(1, email);
+      List<ProjectRequestDTO> list = new ArrayList<>();
+
+      try (ResultSet resultSet = statement.executeQuery()) {
+        while (resultSet.next()) {
+          list.add(createDTOInstanceFromResultSet(resultSet));
+        }
       }
 
       return list;

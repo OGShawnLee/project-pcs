@@ -59,4 +59,9 @@ public class PracticeDTO {
       return new PracticeDTO(this);
     }
   }
+
+  @Override
+  public String toString() {
+    return "Matricula: " + idStudent + ", Proyecto: " + idProject;
+  }
 }

@@ -31,10 +31,6 @@ public class EvaluationDTO {
     return idProject;
   }
 
-  public void setIDProject(int idProject) {
-    this.idProject = idProject;
-  }
-
   public String getIDStudent() {
     return idStudent;
   }
@@ -127,7 +123,6 @@ public class EvaluationDTO {
 
     public EvaluationBuilder setRequirementsGrade(String requirementsGrade) {
       this.requirementsGrade = Validator.getValidGrade(requirementsGrade);
-      ;
       return this;
     }
 

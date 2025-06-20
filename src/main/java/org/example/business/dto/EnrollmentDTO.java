@@ -59,5 +59,10 @@ public class EnrollmentDTO {
       return new EnrollmentDTO(this);
     }
   }
+
+  @Override
+  public String toString() {
+    return "NRC: " + idCourse;
+  }
 }
 
