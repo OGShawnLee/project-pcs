@@ -49,6 +49,11 @@ public class RegisterProjectController extends Controller {
 
       if (organizationList.isEmpty()) {
         Modal.displayError("No existe una organización. Por favor, registre una organización antes de registrar un proyecto.");
+        Modal.display(
+          "Registrar Organización",
+          "RegisterOrganizationModal",
+          this::loadComboBoxOrganization
+        );
         return;
       }
 
