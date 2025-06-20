@@ -90,8 +90,8 @@ public class ReviewCourseListController extends ReviewListController implements 
 
   public void handleOpenRegisterCourseModal() {
     Modal.display(
-      "Registrar Académico",
-      "RegisterAcademicModal",
+      "Registrar Curso",
+      "RegisterCourseModal",
       this::loadDataList
     );
   }
