@@ -3,14 +3,20 @@ package org.example.business.dto;
 import java.time.LocalDateTime;
 
 public class EnrollmentDTO {
+  private final String idAcademic;
   private final String idCourse;
   private final String idStudent;
   private final LocalDateTime createdAt;
 
   public EnrollmentDTO(EnrollmentBuilder builder) {
+    this.idAcademic = builder.idAcademic;
     this.idCourse = builder.idCourse;
     this.idStudent = builder.idStudent;
     this.createdAt = builder.createdAt;
+  }
+
+  public String getIDAcademic() {
+    return idAcademic;
   }
 
   public String getIDCourse() {
@@ -36,9 +42,15 @@ public class EnrollmentDTO {
   }
 
   public static class EnrollmentBuilder {
+    protected String idAcademic;
     protected String idCourse;
     protected String idStudent;
     protected LocalDateTime createdAt;
+
+    public EnrollmentBuilder setIDAcademic(String idAcademic) {
+      this.idAcademic = idAcademic;
+      return this;
+    }
 
     public EnrollmentBuilder setIDCourse(String idCourse) {
       this.idCourse = idCourse;

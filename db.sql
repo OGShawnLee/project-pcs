@@ -42,10 +42,10 @@ CREATE TABLE Student
     name               VARCHAR(64)                NOT NULL,
     paternal_last_name VARCHAR(64)                NOT NULL,
     maternal_last_name VARCHAR(64),
-    created_at         TIMESTAMP                  NOT NULL DEFAULT NOW(),
     state              ENUM ('ACTIVE', 'RETIRED') NOT NULL DEFAULT 'ACTIVE',
-    phone_number       VARCHAR(16)                NOT NULL,
     final_grade        INT CHECK (final_grade >= 0 AND final_grade <= 10),
+    phone_number       VARCHAR(16)                NOT NULL,
+    created_at         TIMESTAMP                  NOT NULL DEFAULT NOW(),
     PRIMARY KEY (id_student),
     FOREIGN KEY (email) REFERENCES Account (email) ON DELETE CASCADE
 );
@@ -92,10 +92,10 @@ CREATE TABLE Academic
     name               VARCHAR(64)                                          NOT NULL,
     paternal_last_name VARCHAR(64)                                          NOT NULL,
     maternal_last_name VARCHAR(64),
-    created_at         TIMESTAMP                                            NOT NULL DEFAULT NOW(),
     state              ENUM ('ACTIVE', 'RETIRED')                           NOT NULL DEFAULT 'ACTIVE',
     role               ENUM ('ACADEMIC', 'ACADEMIC_EVALUATOR', 'EVALUATOR') NOT NULL,
     phone_number       VARCHAR(16)                                          NOT NULL,
+    created_at         TIMESTAMP                                            NOT NULL DEFAULT NOW(),
     PRIMARY KEY (id_academic),
     FOREIGN KEY (email) REFERENCES Account (email) ON DELETE CASCADE
 );
@@ -207,7 +207,7 @@ END;
 CREATE TABLE Course
 (
     # TODO: Figure out the format of nrc
-    nrc         VARCHAR(5)                     NOT NULL,
+    nrc         CHAR(5)                        NOT NULL,
     id_academic CHAR(5)                        NOT NULL,
     section     ENUM ('S1', 'S2')              NOT NULL,
     semester    ENUM ('AUG_JAN', 'FEB_JUL')    NOT NULL,
@@ -221,10 +221,12 @@ CREATE TABLE Enrollment
 (
     id_course  CHAR(5)   NOT NULL,
     id_student CHAR(8)   NOT NULL,
+    id_academic CHAR(5) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     PRIMARY KEY (id_student, id_course),
     FOREIGN KEY (id_student) REFERENCES Student (id_student) ON DELETE CASCADE,
-    FOREIGN KEY (id_course) REFERENCES Course (nrc) ON DELETE CASCADE
+    FOREIGN KEY (id_course) REFERENCES Course (nrc) ON DELETE CASCADE,
+    FOREIGN KEY (id_academic) REFERENCES Academic (id_academic) ON DELETE CASCADE
 );
 
 CREATE TABLE Organization
@@ -361,6 +363,19 @@ SELECT Course.nrc,
        (SELECT COUNT(*) FROM Enrollment WHERE Enrollment.id_course = Course.nrc) AS total_students
 FROM Course
          JOIN Academic ON Course.id_academic = Academic.id_academic;
+
+CREATE OR REPLACE VIEW Stats AS
+SELECT
+    (SELECT COUNT(*) FROM Academic) AS total_academics,
+    (SELECT COUNT(*) FROM Academic WHERE role = 'EVALUATOR') AS total_evaluators,
+    (SELECT COUNT(*) FROM Organization) AS total_organizations,
+    (SELECT COUNT(*) FROM ProjectRequest) AS total_project_requests,
+    (SELECT COUNT(*) FROM Evaluation) AS total_evaluations,
+    (SELECT COUNT(*) FROM SelfEvaluation) AS total_self_evaluations,
+    (SELECT COUNT(*) FROM MonthlyReport) AS total_monthly_reports,
+    (SELECT COUNT(*) FROM Project) AS total_projects,
+    (SELECT COUNT(*) FROM Course) AS total_courses,
+    (SELECT COUNT(*) FROM Student) AS total_students;
 
 # CREATE USER practice_admin@localhost IDENTIFIED BY 'ADMIN';
 # CREATE ROLE practice_admin_role;

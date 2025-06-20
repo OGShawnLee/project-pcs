@@ -12,7 +12,7 @@ package org.example.business.dao;
 
     public class EnrollmentDAO extends DAOPattern<EnrollmentDTO, FilterEnrollment> {
       private static final String CREATE_QUERY =
-        "INSERT INTO Enrollment (id_course, id_student) VALUES (?, ?)";
+        "INSERT INTO Enrollment (id_course, id_student, id_academic) VALUES (?, ?, ?)";
       private static final String GET_ALL_QUERY = "SELECT * FROM Enrollment";
       private static final String GET_QUERY = "SELECT * FROM Enrollment WHERE id_student = ? and id_course = ?";
       private static final String UPDATE_QUERY = "";
@@ -21,6 +21,7 @@ package org.example.business.dao;
       @Override
       EnrollmentDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
         return new EnrollmentDTO.EnrollmentBuilder()
+          .setIDAcademic(resultSet.getString("id_academic"))
           .setIDCourse(resultSet.getString("id_course"))
           .setIDStudent(resultSet.getString("id_student"))
           .setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime())
@@ -35,6 +36,7 @@ package org.example.business.dao;
         ) {
           statement.setString(1, dataObject.getIDCourse());
           statement.setString(2, dataObject.getIDStudent());
+          statement.setString(3, dataObject.getIDAcademic());
           statement.executeUpdate();
         }
       }

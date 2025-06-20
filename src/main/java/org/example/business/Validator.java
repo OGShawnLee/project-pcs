@@ -8,6 +8,7 @@ public class Validator {
   private static final String FLEXIBLE_NAME_REGEX = "^[A-Za-zÑñÁáÉéÍíÓóÚúÜü0-9\\s\\-_/.:]+$";
   private static final String GRADE_REGEX = "^(10|[0-9])$";
   private static final String PHONE_NUMBER_REGEX = "^(\\+?\\d{1,3})?[-.\\s]?\\(?\\d{1,4}\\)?[-.\\s]?\\d{1,4}[-.\\s]?\\d{1,4}[-.\\s]?\\d{1,9}$";
+  private static final String NRC_REGEX = "^(?!0+$)[0-9]{5}$";
 
   private static boolean isValidEmail(String email) {
     return isValidString(email) && email.trim().matches(EMAIL_REGEX);
@@ -101,7 +102,7 @@ public class Validator {
   }
 
   public static String getValidNRC(String value) {
-    if (isValidString(value) && value.trim().matches("\\d{1,5}")) {
+    if (isValidString(value) && value.trim().matches(NRC_REGEX)) {
       return value.trim();
     }
 

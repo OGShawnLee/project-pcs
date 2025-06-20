@@ -86,6 +86,7 @@ public class RegisterStudentController extends Controller {
       STUDENT_DAO.createOne(studentDTO);
 
       EnrollmentDTO enrollmentDTO = new EnrollmentDTO.EnrollmentBuilder()
+        .setIDAcademic(AuthClient.getInstance().getCurrentAcademicDTO().getID())
         .setIDStudent(fieldIDStudent.getText())
         .setIDCourse(comboBoxNRC.getValue().getNRC())
         .build();

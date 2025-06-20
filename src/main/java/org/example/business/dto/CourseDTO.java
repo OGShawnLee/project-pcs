@@ -90,6 +90,17 @@ public class CourseDTO {
   }
 
   @Override
+  public String toString() {
+    return String.format(
+      "%s - %s (%s) - %s",
+      nrc,
+      fullNameAcademic,
+      getFormattedSemester(),
+      section
+    );
+  }
+
+  @Override
   public boolean equals(Object instance) {
     if (this == instance) return true;
     if (instance == null || getClass() != instance.getClass()) return false;

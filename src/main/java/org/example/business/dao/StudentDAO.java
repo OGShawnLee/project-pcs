@@ -1,6 +1,5 @@
 package org.example.business.dao;
 
-import org.example.business.dto.AcademicDTO;
 import org.example.business.dto.AccountDTO;
 import org.example.business.dto.StudentDTO;
 
@@ -18,6 +17,8 @@ public class StudentDAO extends DAOPattern<StudentDTO, String> {
     "CALL create_student(?, ?, ?, ?, ?, ?, ?)";
   private static final String GET_ALL_QUERY =
     "SELECT * FROM Student";
+  private static final String GET_ALL_BY_ACADEMIC =
+    "SELECT * FROM Student WHERE id_student IN (SELECT id_student FROM Enrollment WHERE id_academic = ?)";
   private static final String GET_ALL_BY_STATE_QUERY =
     "SELECT * FROM Student WHERE state = ?";
   private static final String GET_QUERY =
@@ -79,10 +80,28 @@ public class StudentDAO extends DAOPattern<StudentDTO, String> {
     }
   }
 
+  public List<StudentDTO> getAllByAcademic(String academicID) throws SQLException {
+    try (
+      Connection connection = getConnection();
+      PreparedStatement statement = connection.prepareStatement(GET_ALL_BY_ACADEMIC)
+    ) {
+      statement.setString(1, academicID);
+      List<StudentDTO> list = new ArrayList<>();
+
+      try (ResultSet resultSet = statement.executeQuery()) {
+        while (resultSet.next()) {
+          list.add(createDTOInstanceFromResultSet(resultSet));
+        }
+      }
+
+      return list;
+    }
+  }
+
   public List<StudentDTO> getAllByState(String state) throws SQLException {
     try (
-            Connection connection = getConnection();
-            PreparedStatement statement = connection.prepareStatement(GET_ALL_BY_STATE_QUERY)
+      Connection connection = getConnection();
+      PreparedStatement statement = connection.prepareStatement(GET_ALL_BY_STATE_QUERY)
     ) {
       statement.setString(1, state);
       List<StudentDTO> list = new ArrayList<>();

@@ -61,7 +61,7 @@
         </VBox>
         <VBox spacing="8.0">
           <children>
-            <Label styleClass="label" text="Materia"/>
+            <Label styleClass="label" text="Curso"/>
             <ComboBox fx:id="comboBoxNRC" maxWidth="1.7976931348623157E308"
                       promptText="Seleccione el NRC del Curso" styleClass="input"/>
           </children>
