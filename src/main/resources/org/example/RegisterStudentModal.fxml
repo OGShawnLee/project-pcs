@@ -4,66 +4,75 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="720.0" stylesheets="@main.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.gui.controller.RegisterStudentController">
-    <children>
-        <VBox layoutX="200.0" layoutY="73.0" prefWidth="320.0" spacing="16.0">
-            <children>
-                <Label styleClass="title" text="Registrar Estudiante">
-                    <VBox.margin>
-                        <Insets />
-                    </VBox.margin>
-                    <padding>
-                        <Insets bottom="8.0" />
-                    </padding>
-                </Label>
-                <VBox spacing="8.0">
-                    <children>
-                        <Label styleClass="label" text="Nombre" />
-                        <TextField fx:id="fieldName" promptText="Introduzca el Nombre Completo del Académico" styleClass="input" />
-                    </children>
-                </VBox>
-                <VBox spacing="8.0">
-                    <children>
-                        <Label styleClass="label" text="Apellido Paterno" />
-                        <TextField fx:id="fieldPaternalLastName" promptText="Introduzca el Apellido Paterno del Académico" styleClass="input" />
-                    </children>
-                </VBox>
-                <VBox spacing="8.0">
-                    <children>
-                        <Label styleClass="label" text="Apellido Materno" />
-                        <TextField fx:id="fieldMaternalLastName" promptText="Introduzca el Apellido Materno del Académico" styleClass="input" />
-                    </children>
-                </VBox>
-                <VBox spacing="8.0">
-                    <children>
-                        <Label styleClass="label" text="Matricula" />
-                        <TextField fx:id="fieldIdStudent" promptText="Introduzca la ID de Trabajador del Académico" styleClass="input" />
-                    </children>
-                </VBox>
-                <VBox spacing="8.0">
-                    <children>
-                        <Label styleClass="label" text="Correo Electrónico" />
-                        <TextField fx:id="fieldEmail" promptText="Introduzca el Correo Electrónico del Académico" styleClass="input" />
-                    </children>
-                </VBox>
-                <VBox spacing="8.0">
-                    <children>
-                        <Label styleClass="label" text="Número de Teléfono" />
-                        <TextField fx:id="fieldPhoneNumber" promptText="Introduzca el Número de Teléfono del Académico" styleClass="input" />
-                    </children>
-                </VBox>
-                <VBox spacing="8.0">
-                    <children>
-                        <Label styleClass="label" text="Materia" />
-                        <ComboBox fx:id="comboBoxNRC" maxWidth="1.7976931348623157E308" promptText="Seleccione el NRC de la materia asignada" styleClass="input" />
-                    </children>
-                </VBox>
-                <HBox>
-                    <children>
-                        <Button mnemonicParsing="false" onAction="#handleRegister" prefWidth="320.0" styleClass="button" text="Registrar Estudiante" />
-                    </children>
-                </HBox>
-            </children>
+<AnchorPane fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="720.0" prefWidth="720.0" stylesheets="@main.css" xmlns="http://javafx.com/javafx/17.0.12"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.gui.controller.RegisterStudentController">
+  <children>
+    <VBox layoutX="200.0" layoutY="73.0" prefWidth="320.0" spacing="16.0">
+      <children>
+        <Label styleClass="title" text="Registrar Estudiante">
+          <VBox.margin>
+            <Insets/>
+          </VBox.margin>
+          <padding>
+            <Insets bottom="8.0"/>
+          </padding>
+        </Label>
+        <VBox spacing="8.0">
+          <children>
+            <Label styleClass="label" text="Nombre"/>
+            <TextField fx:id="fieldName" promptText="Introduzca el Nombre Completo del Estudiante" styleClass="input"/>
+          </children>
         </VBox>
-    </children>
+        <VBox spacing="8.0">
+          <children>
+            <Label styleClass="label" text="Apellido Paterno"/>
+            <TextField fx:id="fieldPaternalLastName" promptText="Introduzca el Apellido Paterno del Estudiante"
+                       styleClass="input"/>
+          </children>
+        </VBox>
+        <VBox spacing="8.0">
+          <children>
+            <Label styleClass="label" text="Apellido Materno"/>
+            <TextField fx:id="fieldMaternalLastName" promptText="Introduzca el Apellido Materno del Estudiante"
+                       styleClass="input"/>
+          </children>
+        </VBox>
+        <VBox spacing="8.0">
+          <children>
+            <Label styleClass="label" text="Matricula"/>
+            <TextField fx:id="fieldIDStudent" promptText="Introduzca la Mátricula del Estudiante"
+                       styleClass="input"/>
+          </children>
+        </VBox>
+        <VBox spacing="8.0">
+          <children>
+            <Label styleClass="label" text="Correo Electrónico"/>
+            <TextField fx:id="fieldEmail" promptText="Introduzca el Correo Electrónico del Estudiante"
+                       styleClass="input"/>
+          </children>
+        </VBox>
+        <VBox spacing="8.0">
+          <children>
+            <Label styleClass="label" text="Número de Teléfono"/>
+            <TextField fx:id="fieldPhoneNumber" promptText="Introduzca el Número de Teléfono del Estudiante"
+                       styleClass="input"/>
+          </children>
+        </VBox>
+        <VBox spacing="8.0">
+          <children>
+            <Label styleClass="label" text="Materia"/>
+            <ComboBox fx:id="comboBoxNRC" maxWidth="1.7976931348623157E308"
+                      promptText="Seleccione el NRC del Curso" styleClass="input"/>
+          </children>
+        </VBox>
+        <HBox>
+          <children>
+            <Button mnemonicParsing="false" onAction="#handleRegister" prefWidth="320.0" styleClass="button"
+                    text="Registrar Estudiante"/>
+          </children>
+        </HBox>
+      </children>
+    </VBox>
+  </children>
 </AnchorPane>

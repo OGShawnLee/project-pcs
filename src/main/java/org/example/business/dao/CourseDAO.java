@@ -14,6 +14,7 @@ public class CourseDAO extends DAOPattern<CourseDTO, String> {
   private static final String CREATE_QUERY =
     "INSERT INTO Course (nrc, id_academic, section, semester) VALUES (?, ?, ?, ?)";
   private static final String GET_ALL_QUERY = "SELECT * FROM CourseWithAcademic";
+  private static final String GET_ALL_BY_ACADEMIC = "SELECT * FROM CourseWithAcademic WHERE id_academic = ? AND state = 'ON_GOING'";
   private static final String GET_ALL_BY_STATE = "SELECT * FROM CourseWithAcademic WHERE state = ?";
   private static final String GET_QUERY = "SELECT * FROM CourseWithAcademic WHERE nrc = ?";
   private static final String UPDATE_QUERY =
@@ -59,6 +60,24 @@ public class CourseDAO extends DAOPattern<CourseDTO, String> {
 
       while (resultSet.next()) {
         courseList.add(createDTOInstanceFromResultSet(resultSet));
+      }
+
+      return courseList;
+    }
+  }
+
+  public List<CourseDTO> getAllByAcademic(String idAcademic) throws SQLException {
+    try (
+      Connection connection = getConnection();
+      PreparedStatement statement = connection.prepareStatement(GET_ALL_BY_ACADEMIC)
+    ) {
+      statement.setString(1, idAcademic);
+      List<CourseDTO> courseList = new ArrayList<>();
+
+      try (ResultSet resultSet = statement.executeQuery()) {
+        while (resultSet.next()) {
+          courseList.add(createDTOInstanceFromResultSet(resultSet));
+        }
       }
 
       return courseList;

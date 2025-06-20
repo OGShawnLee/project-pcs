@@ -1,6 +1,5 @@
 package org.example.business.dao;
 
-import org.example.business.dto.AcademicDTO;
 import org.example.business.dto.EvaluationDTO;
 import org.example.business.dao.filter.FilterEvaluation;
 
