@@ -283,15 +283,17 @@ CREATE TABLE Practice
 
 CREATE TABLE Evaluation
 (
-    id_student         CHAR(8)            NOT NULL,
-    id_project         INT AUTO_INCREMENT NOT NULL,
-    id_academic        CHAR(5)            NOT NULL,
-    skill_grade        INT                NOT NULL CHECK (skill_grade >= 0 AND skill_grade <= 10),
-    content_grade      INT                NOT NULL CHECK (content_grade >= 0 AND content_grade <= 10),
-    writing_grade      INT                NOT NULL CHECK (writing_grade >= 0 AND writing_grade <= 10),
-    requirements_grade INT                NOT NULL CHECK (requirements_grade >= 0 AND requirements_grade <= 10),
-    feedback           TEXT               NOT NULL,
-    created_at         TIMESTAMP          NOT NULL DEFAULT NOW(),
+    id_student                 CHAR(8)                                         NOT NULL,
+    id_project                 INT AUTO_INCREMENT                              NOT NULL,
+    id_academic                CHAR(5)                                         NOT NULL,
+    adequate_use_grade         INT                                             NOT NULL CHECK (adequate_use_grade >= 0 AND adequate_use_grade <= 10),
+    content_congruence_grade   INT                                             NOT NULL CHECK (content_congruence_grade >= 0 AND content_congruence_grade <= 10),
+    writing_grade              INT                                             NOT NULL CHECK (writing_grade >= 0 AND writing_grade <= 10),
+    methodological_rigor_grade INT                                             NOT NULL CHECK (methodological_rigor_grade >= 0 AND methodological_rigor_grade <= 10),
+    feedback                   TEXT                                            NOT NULL,
+    # TODO: Add to the Diagram and Dictionary
+    kind                       ENUM ('FIRST_PERIOD', 'SECOND_PERIOD', 'FINAL') NOT NULL,
+    created_at                 TIMESTAMP                                       NOT NULL DEFAULT NOW(),
     PRIMARY KEY (id_student, id_project, id_academic),
     FOREIGN KEY (id_student) REFERENCES Student (id_student) ON DELETE CASCADE,
     FOREIGN KEY (id_project) REFERENCES Project (id_project) ON DELETE CASCADE,
