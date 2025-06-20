@@ -76,10 +76,10 @@ public class RegisterEvaluationController extends Controller{
                     .setIDProject(comboBoxPractice.getValue().getIDProject())
                     .setIDStudent(comboBoxPractice.getValue().getIDStudent())
                     .setIDAcademic(currentAcademic.getID())
-                    .setContentGrade(String.valueOf(comboBoxContentGrade.getValue()))
-                    .setRequirementsGrade(String.valueOf(comboBoxRequirementsGrade.getValue()))
+                    .setContentCongruenceGrade(String.valueOf(comboBoxContentGrade.getValue()))
+                    .setMethodologicalRigorGrade(String.valueOf(comboBoxRequirementsGrade.getValue()))
                     .setWritingGrade(String.valueOf(comboBoxWritingGrade.getValue()))
-                    .setSkillGrade(String.valueOf(comboBoxSkillGrade))
+                    .setAdequateUseGrade(String.valueOf(comboBoxSkillGrade))
                     .setFeedback(textAreaFeedback.getText())
                     .build();
 

@@ -60,6 +60,7 @@ public class Validator {
       return Integer.parseInt(value.trim());
     }
 
+      System.out.println("Validando calificación: " + value);
     throw new IllegalArgumentException("La calificación debe ser un número entero entre 0 y 10.");
   }
 

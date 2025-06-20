@@ -5,30 +5,42 @@ import org.example.business.Validator;
 import java.time.LocalDateTime;
 
 public class EvaluationDTO {
+  public enum Kind {
+    FIRST_PERIOD,
+    SECOND_PERIOD,
+    FINAL,
+  }
+
   private int idProject;
   private final String idStudent;
   private final String idAcademic;
-  private final int skillGrade;
-  private final int contentGrade;
+  private final int adequateUseGrade;
+  private final int contentCongruenceGrade;
   private final int writingGrade;
-  private final int requirementsGrade;
+  private final int methodologicalRigorGrade;
   private final String feedback;
+  private final Kind kind;
   private final LocalDateTime createdAt;
 
   public EvaluationDTO(EvaluationBuilder builder) {
     this.idProject = builder.idProject;
     this.idStudent = builder.idStudent;
     this.idAcademic = builder.idAcademic;
-    this.skillGrade = builder.skillGrade;
-    this.contentGrade = builder.contentGrade;
+    this.adequateUseGrade = builder.adequateUseGrade;
+    this.contentCongruenceGrade = builder.contentCongruenceGrade;
     this.writingGrade = builder.writingGrade;
-    this.requirementsGrade = builder.requirementsGrade;
+    this.methodologicalRigorGrade = builder.methodologicalRigorGrade;
     this.feedback = builder.feedback;
+    this.kind = builder.kind;
     this.createdAt = builder.createdAt;
   }
 
   public int getIDProject() {
     return idProject;
+  }
+
+  public void setIDProject(int id) {
+    this.idProject = id;
   }
 
   public String getIDStudent() {
@@ -39,24 +51,28 @@ public class EvaluationDTO {
     return idAcademic;
   }
 
-  public int getSkillGrade() {
-    return skillGrade;
+  public int getAdequateUseGrade() {
+    return adequateUseGrade;
   }
 
-  public int getContentGrade() {
-    return contentGrade;
+  public int getContentCongruenceGrade() {
+    return contentCongruenceGrade;
   }
 
   public int getWritingGrade() {
     return writingGrade;
   }
 
-  public int getRequirementsGrade() {
-    return requirementsGrade;
+  public int getMethodologicalRigorGrade() {
+    return methodologicalRigorGrade;
   }
 
   public String getFeedback() {
     return feedback;
+  }
+
+  public Kind getKind() {
+    return kind;
   }
 
   public LocalDateTime getCreatedAt() {
@@ -72,23 +88,25 @@ public class EvaluationDTO {
 
     return
       idStudent.equals(that.idStudent) &&
-      idProject == that.idProject &&
-      contentGrade == that.contentGrade &&
-      feedback.equals(that.feedback) &&
-      requirementsGrade == that.requirementsGrade &&
-      skillGrade == that.skillGrade &&
-      writingGrade == that.writingGrade;
+        idProject == that.idProject &&
+        adequateUseGrade == that.adequateUseGrade &&
+        contentCongruenceGrade == that.contentCongruenceGrade &&
+        writingGrade == that.writingGrade &&
+        methodologicalRigorGrade == that.methodologicalRigorGrade &&
+        feedback.equals(that.feedback) &&
+        kind.equals(that.kind);
   }
 
   public static class EvaluationBuilder {
     private int idProject;
     private String idStudent;
     private String idAcademic;
-    private int skillGrade;
-    private int contentGrade;
+    private int adequateUseGrade;
+    private int contentCongruenceGrade;
     private int writingGrade;
-    private int requirementsGrade;
+    private int methodologicalRigorGrade;
     private String feedback;
+    private Kind kind;
     private LocalDateTime createdAt;
 
     public EvaluationBuilder setIDProject(int idProject) {
@@ -106,13 +124,13 @@ public class EvaluationDTO {
       return this;
     }
 
-    public EvaluationBuilder setSkillGrade(String skillGrade) {
-      this.skillGrade = Validator.getValidGrade(skillGrade);
+    public EvaluationBuilder setAdequateUseGrade(String adequateUseGrade) {
+      this.adequateUseGrade = Validator.getValidGrade(adequateUseGrade);
       return this;
     }
 
-    public EvaluationBuilder setContentGrade(String contentGrade) {
-      this.contentGrade = Validator.getValidGrade(contentGrade);
+    public EvaluationBuilder setContentCongruenceGrade(String contentCongruenceGrade) {
+      this.contentCongruenceGrade = Validator.getValidGrade(contentCongruenceGrade);
       return this;
     }
 
@@ -121,13 +139,18 @@ public class EvaluationDTO {
       return this;
     }
 
-    public EvaluationBuilder setRequirementsGrade(String requirementsGrade) {
-      this.requirementsGrade = Validator.getValidGrade(requirementsGrade);
+    public EvaluationBuilder setMethodologicalRigorGrade(String methodologicalRigorGrade) {
+      this.methodologicalRigorGrade = Validator.getValidGrade(methodologicalRigorGrade);
       return this;
     }
 
     public EvaluationBuilder setFeedback(String feedback) {
-      this.feedback = Validator.getValidText(feedback, "Feedback");
+      this.feedback = Validator.getValidText(feedback, "Retroalimentación");
+      return this;
+    }
+
+    public EvaluationBuilder setKind(Kind kind) {
+      this.kind = kind;
       return this;
     }
 

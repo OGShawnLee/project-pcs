@@ -13,11 +13,11 @@ import java.util.List;
 
 public class EvaluationDAO extends DAOPattern<EvaluationDTO, FilterEvaluation> {
   private static final String CREATE_QUERY =
-    "INSERT INTO Evaluation (id_academic, id_project, id_student, content_grade, feedback, requirements_grade, skill_grade, writing_grade) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    "INSERT INTO Evaluation (id_academic, id_project, id_student, adequate_use_grade, feedback, content_congruence_grade, writing_grade, methodological_rigor_grade, kind) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
   private static final String GET_ALL_QUERY = "SELECT * FROM Evaluation";
   private static final String GET_QUERY = "SELECT * FROM Evaluation WHERE id_academic = ? AND id_project = ? AND id_student = ?";
   private static final String UPDATE_QUERY =
-    "UPDATE Evaluation SET content_grade = ?, feedback = ?, requirements_grade = ?, skill_grade = ?, writing_grade = ? WHERE id_academic = ? AND id_project = ? AND id_student = ?";
+    "UPDATE Evaluation SET adequate_use_grade = ?, feedback = ?, content_congruence_grade = ?, writing_grade = ?, methodological_rigor_grade = ?, kind = ? WHERE id_academic = ? AND id_project = ? AND id_student = ?";
   private static final String DELETE_QUERY = "DELETE FROM Evaluation WHERE id_academic = ? AND id_project = ? AND id_student = ?";
 
   @Override
@@ -26,11 +26,12 @@ public class EvaluationDAO extends DAOPattern<EvaluationDTO, FilterEvaluation> {
       .setIDAcademic(resultSet.getString("id_academic"))
       .setIDProject(resultSet.getInt("id_project"))
       .setIDStudent(resultSet.getString("id_student"))
-      .setContentGrade(resultSet.getString("content_grade"))
+      .setAdequateUseGrade(resultSet.getString("adequate_use_grade"))
       .setFeedback(resultSet.getString("feedback"))
-      .setSkillGrade(resultSet.getString("skill_grade"))
-      .setRequirementsGrade(resultSet.getString("requirements_grade"))
+      .setContentCongruenceGrade(resultSet.getString("content_congruence_grade"))
       .setWritingGrade(resultSet.getString("writing_grade"))
+      .setMethodologicalRigorGrade(resultSet.getString("methodological_rigor_grade"))
+      .setKind(EvaluationDTO.Kind.valueOf(resultSet.getString("kind")))
       .setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime())
       .build();
   }
@@ -44,11 +45,12 @@ public class EvaluationDAO extends DAOPattern<EvaluationDTO, FilterEvaluation> {
       statement.setString(1, evaluationDTO.getIDAcademic());
       statement.setInt(2, evaluationDTO.getIDProject());
       statement.setString(3, evaluationDTO.getIDStudent());
-      statement.setInt(4, evaluationDTO.getContentGrade());
+      statement.setInt(4, evaluationDTO.getAdequateUseGrade());
       statement.setString(5, evaluationDTO.getFeedback());
-      statement.setInt(6, evaluationDTO.getRequirementsGrade());
-      statement.setInt(7, evaluationDTO.getSkillGrade());
-      statement.setInt(8, evaluationDTO.getWritingGrade());
+      statement.setInt(6, evaluationDTO.getContentCongruenceGrade());
+      statement.setInt(7, evaluationDTO.getWritingGrade());
+      statement.setInt(8, evaluationDTO.getMethodologicalRigorGrade());
+      statement.setString(9, evaluationDTO.getKind().toString());
       statement.executeUpdate();
     }
   }
@@ -96,14 +98,15 @@ public class EvaluationDAO extends DAOPattern<EvaluationDTO, FilterEvaluation> {
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
     ) {
-      statement.setInt(1, dataObject.getContentGrade());
+      statement.setInt(1, dataObject.getAdequateUseGrade());
       statement.setString(2, dataObject.getFeedback());
-      statement.setInt(3, dataObject.getRequirementsGrade());
-      statement.setInt(4, dataObject.getSkillGrade());
-      statement.setInt(5, dataObject.getWritingGrade());
-      statement.setString(6, dataObject.getIDAcademic());
-      statement.setInt(7, dataObject.getIDProject());
-      statement.setString(8, dataObject.getIDStudent());
+      statement.setInt(3, dataObject.getContentCongruenceGrade());
+      statement.setInt(4, dataObject.getWritingGrade());
+      statement.setInt(5, dataObject.getMethodologicalRigorGrade());
+      statement.setString(6, dataObject.getKind().toString());
+      statement.setString(7, dataObject.getIDAcademic());
+      statement.setInt(8, dataObject.getIDProject());
+      statement.setString(9, dataObject.getIDStudent());
       statement.executeUpdate();
     }
   }
