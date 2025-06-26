@@ -11,72 +11,133 @@
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-            prefHeight="720.0" prefWidth="720.0" stylesheets="@main.css" xmlns="http://javafx.com/javafx/23.0.1"
+            prefHeight="720.0" prefWidth="1280.0" stylesheets="@main.css" xmlns="http://javafx.com/javafx/23.0.1"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.gui.controller.RegisterProjectController">
   <children>
-    <VBox layoutX="200.0" layoutY="65.0" prefWidth="320.0" spacing="16.0">
+    <HBox layoutX="309.0" layoutY="65.0" prefWidth="662.0" spacing="32.0">
       <children>
-        <Label styleClass="title" text="Registrar Proyecto">
-          <VBox.margin>
-            <Insets/>
-          </VBox.margin>
-          <padding>
-            <Insets bottom="8.0"/>
-          </padding>
-        </Label>
-        <VBox spacing="8.0">
+        <VBox prefWidth="320.0" spacing="16.0">
           <children>
-            <Label styleClass="label" text="Nombre"/>
-            <TextField fx:id="fieldName" promptText="Introduzca el Nombre del Proyecto" styleClass="input"/>
+            <Label styleClass="title" text="Registrar Proyecto">
+              <VBox.margin>
+                <Insets/>
+              </VBox.margin>
+              <padding>
+                <Insets bottom="8.0"/>
+              </padding>
+            </Label>
+            <VBox spacing="8.0">
+              <children>
+                <Label styleClass="label" text="Nombre"/>
+                <TextField fx:id="fieldName" promptText="Introduzca el Nombre del Proyecto" styleClass="input"/>
+              </children>
+            </VBox>
+            <VBox spacing="8.0">
+              <children>
+                <Label styleClass="label" text="Descripción"/>
+                <TextArea fx:id="fieldDescription" promptText="Introduzca la Descripción del Proyecto"
+                          styleClass="text-area" wrapText="true"/>
+              </children>
+            </VBox>
+            <VBox spacing="8.0">
+              <children>
+                <Label styleClass="label" text="Departamento"/>
+                <TextField fx:id="fieldDepartment" promptText="Introduzca el Departamento del Proyecto"
+                           styleClass="input"/>
+              </children>
+            </VBox>
+            <VBox spacing="8.0">
+              <children>
+                <Label styleClass="label" text="Cupo de Estudiantes"/>
+                <TextField fx:id="fieldAvailablePlaces" promptText="Introduzca el Cupo de Estudiantes del Proyecto"
+                           styleClass="input"/>
+              </children>
+            </VBox>
+            <VBox spacing="8.0">
+              <children>
+                <Label styleClass="label" text="Organización"/>
+                <ComboBox fx:id="comboBoxOrganization" maxWidth="1.7976931348623157E308"
+                          promptText="Seleccione una Organización" styleClass="input"/>
+              </children>
+            </VBox>
+            <VBox spacing="8.0">
+              <children>
+                <Label styleClass="label" text="Metodología"/>
+                <TextField fx:id="fieldMethodology" promptText="Introduzca la Metodología del Proyecto"
+                           styleClass="input"/>
+              </children>
+            </VBox>
+            <VBox spacing="8.0">
+              <children>
+                <Label styleClass="label" text="Sector"/>
+                <ComboBox fx:id="comboBoxSector" maxWidth="1.7976931348623157E308" promptText="Seleccione un Sector"
+                          styleClass="input"/>
+              </children>
+            </VBox>
+            <HBox>
+              <children>
+                <Button mnemonicParsing="false" onAction="#handleRegister" prefWidth="320.0" styleClass="button"
+                        text="Registrar Proyecto y Cronograma"/>
+              </children>
+            </HBox>
           </children>
         </VBox>
-        <VBox spacing="8.0">
+        <VBox layoutX="200.0" layoutY="65.0" prefWidth="320.0" spacing="16.0">
           <children>
-            <Label styleClass="label" text="Descripción"/>
-            <TextArea fx:id="fieldDescription" promptText="Introduzca la Descripción del Proyecto"
-                      styleClass="text-area"/>
+            <Label styleClass="title" text="Cronograma de Actividades">
+              <VBox.margin>
+                <Insets/>
+              </VBox.margin>
+              <padding>
+                <Insets bottom="8.0"/>
+              </padding>
+            </Label>
+            <VBox spacing="8.0">
+              <children>
+                <Label styleClass="label" text="Objetivo del Proyecto"/>
+                <TextArea fx:id="fieldProjectGoal" promptText="Introduzca el Objetivo del Proyecto"
+                          styleClass="text-area" wrapText="true"/>
+              </children>
+            </VBox>
+            <VBox spacing="8.0">
+              <children>
+                <Label styleClass="label" text="Alcance Teorico"/>
+                <TextArea fx:id="fieldTheoreticalScope" promptText="Introduzca el Alcance Teorico del Proyecto"
+                          styleClass="text-area" wrapText="true"/>
+              </children>
+            </VBox>
+            <VBox spacing="8.0">
+              <children>
+                <Label styleClass="label" text="Plan de Trabajo Primer Mes"/>
+                <TextArea fx:id="fieldFirstMonthActivities" promptText="Introduzca el Contenido del Plan de Trabajo"
+                          styleClass="text-area" wrapText="true"/>
+              </children>
+            </VBox>
+            <VBox spacing="8.0">
+              <children>
+                <Label styleClass="label" text="Plan de Trabajo Segundo Mes"/>
+                <TextArea fx:id="fieldSecondMonthActivities" promptText="Introduzca el Contenido del Plan de Trabajo"
+                          styleClass="text-area" wrapText="true"/>
+              </children>
+            </VBox>
+            <VBox spacing="8.0">
+              <children>
+                <Label styleClass="label" text="Plan de Trabajo Tercer Mes"/>
+                <TextArea fx:id="fieldThirdMonthActivities" promptText="Introduzca el Contenido del Plan de Trabajo"
+                          styleClass="text-area" wrapText="true"/>
+              </children>
+            </VBox>
+            <VBox spacing="8.0">
+              <children>
+                <Label styleClass="label" text="Plan de Trabajo Cuarto Mes"/>
+                <TextArea fx:id="fieldFourthMonthActivities" promptText="Introduzca el Contenido del Plan de Trabajo"
+                          styleClass="text-area" wrapText="true"/>
+              </children>
+            </VBox>
+            <HBox/>
           </children>
         </VBox>
-        <VBox spacing="8.0">
-          <children>
-            <Label styleClass="label" text="Departamento"/>
-            <TextField fx:id="fieldDepartment" promptText="Introduzca el Departamento del Proyecto" styleClass="input"/>
-          </children>
-        </VBox>
-        <VBox spacing="8.0">
-          <children>
-            <Label styleClass="label" text="Cupo de Estudiantes"/>
-            <TextField fx:id="fieldAvailablePlaces" promptText="Introduzca el Cupo de Estudiantes del Proyecto"
-                       styleClass="input"/>
-          </children>
-        </VBox>
-        <VBox spacing="8.0">
-          <children>
-            <Label styleClass="label" text="Organización"/>
-            <ComboBox fx:id="comboBoxOrganization" maxWidth="1.7976931348623157E308"
-                      promptText="Seleccione una Organización" styleClass="input"/>
-          </children>
-        </VBox>
-        <VBox spacing="8.0">
-          <children>
-            <Label styleClass="label" text="Metodología"/>
-            <TextField fx:id="fieldMethodology" promptText="Introduzca la Metodología del Proyecto" styleClass="input"/>
-          </children>
-        </VBox>
-        <VBox spacing="8.0">
-          <children>
-            <Label styleClass="label" text="Sector"/>
-            <ComboBox fx:id="comboBoxSector" maxWidth="1.7976931348623157E308" promptText="Seleccione un Sector"
-                      styleClass="input"/>
-          </children>
-        </VBox>
-        <HBox>
-          <children>
-            <Button mnemonicParsing="false" onAction="#handleRegister" prefWidth="320.0" styleClass="button"
-                    text="Registrar Proyecto"/>
-          </children>
-        </HBox>
       </children>
-    </VBox>
+    </HBox>
   </children>
 </AnchorPane>

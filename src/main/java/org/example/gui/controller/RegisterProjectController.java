@@ -10,6 +10,7 @@ import org.example.business.dao.ProjectSector;
 import org.example.business.dto.OrganizationDTO;
 import org.example.business.dto.ProjectDTO;
 import org.example.business.dao.ProjectDAO;
+import org.example.business.dto.WorkPlanDTO;
 import org.example.gui.Modal;
 
 import java.sql.SQLException;
@@ -32,10 +33,26 @@ public class RegisterProjectController extends Controller {
   private TextField fieldMethodology;
   @FXML
   private ComboBox<ProjectSector> comboBoxSector;
+  @FXML
+  private TextArea fieldProjectGoal;
+  @FXML
+  private TextArea fieldTheoreticalScope;
+  @FXML
+  private TextArea fieldFirstMonthActivities;
+  @FXML
+  private TextArea fieldSecondMonthActivities;
+  @FXML
+  private TextArea fieldThirdMonthActivities;
+  @FXML
+  private TextArea fieldFourthMonthActivities;
 
   public void initialize() {
     loadComboBoxOrganization();
     loadComboBoxSector(comboBoxSector);
+
+    fieldDescription.textProperty().addListener((observable, oldValue, newValue) -> {
+      fieldDescription.setPrefHeight(fieldDescription.getPrefRowCount() * 24); // Adjust height based on rows
+    });
   }
 
   public static void loadComboBoxSector(ComboBox<ProjectSector> comboBoxSector) {
@@ -75,8 +92,16 @@ public class RegisterProjectController extends Controller {
         .setMethodology(fieldMethodology.getText())
         .setSector(comboBoxSector.getValue())
         .build();
+      WorkPlanDTO workPlanDTO = new WorkPlanDTO.WorkPlanBuilder()
+        .setProjectGoal(fieldProjectGoal.getText())
+        .setTheoreticalScope(fieldTheoreticalScope.getText())
+        .setFirstMonthActivities(fieldFirstMonthActivities.getText())
+        .setSecondMonthActivities(fieldSecondMonthActivities.getText())
+        .setThirdMonthActivities(fieldThirdMonthActivities.getText())
+        .setFourthMonthActivities(fieldFourthMonthActivities.getText())
+        .build();
 
-      PROJECT_DAO.createOne(projectDTO);
+      PROJECT_DAO.createOneWithWorkPlan(projectDTO, workPlanDTO);
       Modal.displaySuccess("El proyecto ha sido registrado exitosamente.");
     } catch (IllegalArgumentException e) {
       Modal.displayError(e.getMessage());

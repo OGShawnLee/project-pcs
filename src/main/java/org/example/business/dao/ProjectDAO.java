@@ -6,12 +6,15 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProjectDAO extends DAOPattern<ProjectDTO, Integer> {
   private static final String CREATE_QUERY =
     "INSERT INTO Project (id_organization, name, description, department, available_places, methodology, sector) VALUES (?, ?, ?, ?, ?, ?, ?)";
+  private static final String CREATE_WITH_WORK_PLAN_QUERY =
+    "CALL create_project_and_work_plan(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
   private static final String GET_ALL_QUERY = "SELECT * FROM Project";
   private static final String GET_QUERY = "SELECT * FROM Project WHERE id_project = ?";
   private static final String GET_ALL_BY_STATE = "SELECT * FROM Project WHERE state = ?";
@@ -57,6 +60,31 @@ public class ProjectDAO extends DAOPattern<ProjectDTO, Integer> {
           throw new SQLException("Creating project failed, no ID obtained.");
         }
       }
+    }
+  }
+
+  public void createOneWithWorkPlan(
+    ProjectDTO projectDTO,
+    WorkPlanDTO workPlanDTO
+  ) throws SQLException {
+    try (
+      Connection connection = getConnection();
+      CallableStatement statement = connection.prepareCall(CREATE_WITH_WORK_PLAN_QUERY)
+    ) {
+      statement.setString(1, projectDTO.getIDOrganization());
+      statement.setString(2, projectDTO.getName());
+      statement.setString(3, projectDTO.getDescription());
+      statement.setString(4, projectDTO.getDepartment());
+      statement.setInt(5, projectDTO.getAvailablePlaces());
+      statement.setString(6, projectDTO.getMethodology());
+      statement.setString(7, projectDTO.getSector().toString());
+      statement.setString(8, workPlanDTO.getProjectGoal());
+      statement.setString(9, workPlanDTO.getTheoreticalScope());
+      statement.setString(10, workPlanDTO.getFirstMonthActivities());
+      statement.setString(11, workPlanDTO.getSecondMonthActivities());
+      statement.setString(12, workPlanDTO.getThirdMonthActivities());
+      statement.setString(13, workPlanDTO.getFourthMonthActivities());
+      statement.executeUpdate();
     }
   }
 

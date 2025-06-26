@@ -219,10 +219,10 @@ CREATE TABLE Course
 
 CREATE TABLE Enrollment
 (
-    id_course  CHAR(5)   NOT NULL,
-    id_student CHAR(8)   NOT NULL,
-    id_academic CHAR(5) NOT NULL,
-    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    id_course   CHAR(5)   NOT NULL,
+    id_student  CHAR(8)   NOT NULL,
+    id_academic CHAR(5)   NOT NULL,
+    created_at  TIMESTAMP NOT NULL DEFAULT NOW(),
     PRIMARY KEY (id_student, id_course),
     FOREIGN KEY (id_student) REFERENCES Student (id_student) ON DELETE CASCADE,
     FOREIGN KEY (id_course) REFERENCES Course (nrc) ON DELETE CASCADE,
@@ -336,6 +336,73 @@ CREATE TABLE MonthlyReport
     FOREIGN KEY (id_project) REFERENCES Project (id_project) ON DELETE CASCADE
 );
 
+# TODO: Add to the Diagram and Dictionary
+CREATE TABLE WorkPlan
+(
+    id_project        INT           NOT NULL,
+    project_goal      VARCHAR(1024) NOT NULL,
+    theoretical_scope VARCHAR(1024) NOT NULL,
+    first_month_plan  VARCHAR(1024) NOT NULL,
+    second_month_plan VARCHAR(1024) NOT NULL,
+    third_month_plan  VARCHAR(1024) NOT NULL,
+    fourth_month_plan VARCHAR(1024) NOT NULL,
+    created_at        TIMESTAMP     NOT NULL DEFAULT NOW(),
+    PRIMARY KEY (id_project),
+    FOREIGN KEY (id_project) REFERENCES Project (id_project) ON DELETE CASCADE
+);
+
+DROP PROCEDURE IF EXISTS create_project_and_work_plan;
+CREATE PROCEDURE create_project_and_work_plan(
+    IN in_id_organization VARCHAR(128),
+    IN in_name VARCHAR(128),
+    IN in_description TEXT,
+    IN in_department VARCHAR(128),
+    IN in_available_places INT,
+    IN in_methodology VARCHAR(128),
+    IN in_sector ENUM ('PUBLIC', 'PRIVATE', 'SOCIAL'),
+    IN in_project_goal VARCHAR(1024),
+    IN in_theoretical_scope VARCHAR(1024),
+    IN in_first_month_plan VARCHAR(1024),
+    IN in_second_month_plan VARCHAR(1024),
+    IN in_third_month_plan VARCHAR(1024),
+    IN in_fourth_month_plan VARCHAR(1024)
+)
+BEGIN
+    START TRANSACTION;
+    INSERT INTO Project (id_organization, name, description, department, available_places, methodology, sector)
+    VALUES (in_id_organization, in_name, in_description, in_department, in_available_places, in_methodology, in_sector);
+
+    SET @last_project_id = LAST_INSERT_ID();
+
+    INSERT INTO WorkPlan (id_project, project_goal, theoretical_scope,
+                          first_month_plan, second_month_plan,
+                          third_month_plan, fourth_month_plan)
+    VALUES (@last_project_id,
+            in_project_goal, in_theoretical_scope,
+            in_first_month_plan, in_second_month_plan,
+            in_third_month_plan, in_fourth_month_plan);
+    COMMIT;
+END;
+
+CREATE OR REPLACE VIEW ProjectWorkPlan AS
+SELECT Project.id_project,
+       Project.name,
+       Project.description,
+       Project.department,
+       Project.available_places,
+       Project.methodology,
+       Project.sector,
+       Project.state,
+       Project.created_at,
+       WorkPlan.project_goal,
+       WorkPlan.theoretical_scope,
+       WorkPlan.first_month_plan,
+       WorkPlan.second_month_plan,
+       WorkPlan.third_month_plan,
+       WorkPlan.fourth_month_plan
+FROM Project
+         JOIN WorkPlan ON Project.id_project = WorkPlan.id_project;
+
 CREATE OR REPLACE VIEW StudentPractice AS
 SELECT Student.id_student,
        Student.email,
@@ -365,17 +432,16 @@ FROM Course
          JOIN Academic ON Course.id_academic = Academic.id_academic;
 
 CREATE OR REPLACE VIEW Stats AS
-SELECT
-    (SELECT COUNT(*) FROM Academic) AS total_academics,
-    (SELECT COUNT(*) FROM Academic WHERE role = 'EVALUATOR') AS total_evaluators,
-    (SELECT COUNT(*) FROM Organization) AS total_organizations,
-    (SELECT COUNT(*) FROM ProjectRequest) AS total_project_requests,
-    (SELECT COUNT(*) FROM Evaluation) AS total_evaluations,
-    (SELECT COUNT(*) FROM SelfEvaluation) AS total_self_evaluations,
-    (SELECT COUNT(*) FROM MonthlyReport) AS total_monthly_reports,
-    (SELECT COUNT(*) FROM Project) AS total_projects,
-    (SELECT COUNT(*) FROM Course) AS total_courses,
-    (SELECT COUNT(*) FROM Student) AS total_students;
+SELECT (SELECT COUNT(*) FROM Academic)                          AS total_academics,
+       (SELECT COUNT(*) FROM Academic WHERE role = 'EVALUATOR') AS total_evaluators,
+       (SELECT COUNT(*) FROM Organization)                      AS total_organizations,
+       (SELECT COUNT(*) FROM ProjectRequest)                    AS total_project_requests,
+       (SELECT COUNT(*) FROM Evaluation)                        AS total_evaluations,
+       (SELECT COUNT(*) FROM SelfEvaluation)                    AS total_self_evaluations,
+       (SELECT COUNT(*) FROM MonthlyReport)                     AS total_monthly_reports,
+       (SELECT COUNT(*) FROM Project)                           AS total_projects,
+       (SELECT COUNT(*) FROM Course)                            AS total_courses,
+       (SELECT COUNT(*) FROM Student)                           AS total_students;
 
 # CREATE USER practice_admin@localhost IDENTIFIED BY 'ADMIN';
 # CREATE ROLE practice_admin_role;
