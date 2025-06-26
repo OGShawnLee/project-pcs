@@ -12,7 +12,7 @@ import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.example.business.auth.AuthClient;
 import org.example.business.dao.ProjectDAO;
-import org.example.business.dao.ProjectSector;
+import org.example.business.dto.enumeration.ProjectSector;
 import org.example.business.dao.StudentDAO;
 import org.example.business.dto.*;
 import org.example.business.dao.ProjectRequestDAO;

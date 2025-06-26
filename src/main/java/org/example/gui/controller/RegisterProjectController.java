@@ -6,7 +6,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 import org.example.business.dao.OrganizationDAO;
-import org.example.business.dao.ProjectSector;
+import org.example.business.dto.enumeration.ProjectSector;
 import org.example.business.dto.OrganizationDTO;
 import org.example.business.dto.ProjectDTO;
 import org.example.business.dao.ProjectDAO;

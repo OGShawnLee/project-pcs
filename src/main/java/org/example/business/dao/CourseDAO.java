@@ -1,6 +1,9 @@
 package org.example.business.dao;
 
 import org.example.business.dto.CourseDTO;
+import org.example.business.dto.enumeration.CourseState;
+import org.example.business.dto.enumeration.Section;
+import org.example.business.dto.enumeration.Semester;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -26,9 +29,9 @@ public class CourseDAO extends DAOPattern<CourseDTO, String> {
     return new CourseDTO.CourseBuilder()
       .setNRC(resultSet.getString("nrc"))
       .setIDAcademic(resultSet.getString("id_academic"))
-      .setSection(CourseDTO.Section.valueOf(resultSet.getString("section")))
-      .setSemester(CourseDTO.Semester.valueOf(resultSet.getString("semester")))
-      .setState(CourseDTO.State.valueOf(resultSet.getString("state")))
+      .setSection(Section.valueOf(resultSet.getString("section")))
+      .setSemester(Semester.valueOf(resultSet.getString("semester")))
+      .setState(CourseState.valueOf(resultSet.getString("state")))
       .setFullNameAcademic(resultSet.getString("full_name_academic"))
       .setTotalStudents(resultSet.getInt("total_students"))
       .setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime())
@@ -84,7 +87,7 @@ public class CourseDAO extends DAOPattern<CourseDTO, String> {
     }
   }
 
-  public List<CourseDTO> getAllByState(CourseDTO.State state) throws SQLException {
+  public List<CourseDTO> getAllByState(CourseState state) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_ALL_BY_STATE)

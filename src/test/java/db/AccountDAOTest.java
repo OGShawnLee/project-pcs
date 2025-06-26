@@ -2,6 +2,7 @@ package db;
 
 import org.example.business.dto.AccountDTO;
 import org.example.business.dao.AccountDAO;
+import org.example.business.dto.enumeration.AccountRole;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -16,13 +17,13 @@ public class AccountDAOTest {
   public static final AccountDTO ACADEMIC_ACCOUNT_DTO = new AccountDTO(
     "smith@uv.mx",
     "123Password",
-    AccountDTO.Role.ACADEMIC,
+    AccountRole.ACADEMIC,
     true
   );
   public static final AccountDTO STUDENT_ACCOUNT_DTO = new AccountDTO(
     "zS18014115@estudiantes.uv.mx",
     "Password123",
-    AccountDTO.Role.STUDENT,
+    AccountRole.STUDENT,
     true
   );
 
@@ -83,7 +84,7 @@ public class AccountDAOTest {
       AccountDTO updatedAccount = new AccountDTO(
         ACADEMIC_ACCOUNT_DTO.email(),
         "SecurePassword",
-        AccountDTO.Role.ACADEMIC,
+        AccountRole.ACADEMIC,
         true
       );
       ACCOUNT_DAO.updateOne(updatedAccount);
@@ -100,7 +101,7 @@ public class AccountDAOTest {
       AccountDTO updatedAccount = new AccountDTO(
         ACADEMIC_ACCOUNT_DTO.email(),
         ACADEMIC_ACCOUNT_DTO.password(),
-        AccountDTO.Role.ACADEMIC_EVALUATOR,
+        AccountRole.ACADEMIC_EVALUATOR,
         true
       );
       ACCOUNT_DAO.updateOne(updatedAccount);

@@ -1,6 +1,7 @@
 package org.example.business.dao;
 
 import org.example.business.dto.ProjectDTO;
+import org.example.business.dto.enumeration.ProjectSector;
 import org.example.business.dto.WorkPlanDTO;
 
 import java.sql.Connection;

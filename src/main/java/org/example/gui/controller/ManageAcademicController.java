@@ -6,6 +6,7 @@ import javafx.scene.control.TextField;
 
 import org.example.business.dao.AcademicDAO;
 import org.example.business.dto.AcademicDTO;
+import org.example.business.dto.enumeration.AcademicRole;
 import org.example.gui.Modal;
 
 import java.sql.SQLException;
@@ -25,7 +26,7 @@ public class ManageAcademicController extends ManageController<AcademicDTO> {
   @FXML
   private TextField fieldPhoneNumber;
   @FXML
-  private ComboBox<AcademicDTO.Role> fieldRole;
+  private ComboBox<AcademicRole> fieldRole;
   @FXML
   private ComboBox<String> fieldState;
 

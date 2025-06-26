@@ -9,6 +9,7 @@ import org.example.business.dao.AcademicDAO;
 import org.example.business.dao.AccountDAO;
 import org.example.business.dto.AcademicDTO;
 import org.example.business.dto.AccountDTO;
+import org.example.business.dto.enumeration.AccountRole;
 import org.example.gui.Modal;
 
 import java.sql.SQLException;
@@ -71,7 +72,7 @@ public class UpdateAcademicController extends ManageController<AcademicDTO> {
     AccountDTO accountDTO = new AccountDTO(
       getCurrentDataObject().getEmail(),
       fieldPassword.getText(),
-      AccountDTO.Role.fromAcademicRole(getCurrentDataObject().getRole()),
+      AccountRole.fromAcademicRole(getCurrentDataObject().getRole()),
       true
     );
     ACCOUNT_DAO.updateOne(accountDTO);

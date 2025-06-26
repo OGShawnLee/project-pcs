@@ -8,6 +8,7 @@ import org.example.business.Validator;
 import org.example.business.auth.AuthClient;
 import org.example.business.dao.AccountDAO;
 import org.example.business.dto.AccountDTO;
+import org.example.business.dto.enumeration.AccountRole;
 import org.example.gui.Modal;
 
 import org.mindrot.jbcrypt.BCrypt;
@@ -40,7 +41,7 @@ public class LoginController extends Controller {
       return;
     }
 
-    AccountDTO.Role role = accountDTO.role();
+    AccountRole role = accountDTO.role();
     String message;
 
     switch (role) {
@@ -60,7 +61,7 @@ public class LoginController extends Controller {
     String password = Validator.getValidPassword(passwordField.getText());
 
     ACCOUNT_DAO.createOne(
-      new AccountDTO(email, BCrypt.hashpw(password, BCrypt.gensalt()), AccountDTO.Role.COORDINATOR, true)
+      new AccountDTO(email, BCrypt.hashpw(password, BCrypt.gensalt()), AccountRole.COORDINATOR, true)
     );
 
     emailField.clear();

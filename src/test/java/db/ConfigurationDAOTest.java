@@ -1,6 +1,6 @@
 package db;
 
-import org.example.business.dao.ConfigurationName;
+import org.example.business.dto.enumeration.ConfigurationName;
 import org.example.business.dao.ConfigurationDAO;
 import org.example.business.dto.ConfigurationDTO;
 import org.junit.jupiter.api.Test;

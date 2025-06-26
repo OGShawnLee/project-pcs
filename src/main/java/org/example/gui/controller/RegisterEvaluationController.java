@@ -8,10 +8,9 @@ import javafx.scene.control.TextArea;
 import org.example.business.auth.AuthClient;
 import org.example.business.dao.*;
 import org.example.business.dao.filter.FilterEvaluation;
-import org.example.business.dto.AcademicDTO;
-import org.example.business.dto.ConfigurationDTO;
-import org.example.business.dto.EvaluationDTO;
-import org.example.business.dto.PracticeDTO;
+import org.example.business.dto.*;
+import org.example.business.dto.enumeration.ConfigurationName;
+import org.example.business.dto.enumeration.EvaluationKind;
 import org.example.gui.Modal;
 
 import java.sql.SQLException;
@@ -82,18 +81,18 @@ public class RegisterEvaluationController extends Controller {
             AcademicDTO currentAcademic = ACADEMIC_DAO.getOneByEmail(AuthClient.getInstance().getCurrentUser().email());
 
             List<ConfigurationDTO> currentConfiguration = CONFIGURATION_DAO.getAll();
-            EvaluationDTO.Kind period = null;
+            EvaluationKind period = null;
 
             for (ConfigurationDTO config : currentConfiguration) {
                 String configName = String.valueOf(config.name());
                 if (configName.equals(ConfigurationName.EVALUATION_ENABLED_FIRST.name()) && config.isEnabled()) {
-                    period = EvaluationDTO.Kind.FIRST_PERIOD;
+                    period = EvaluationKind.FIRST_PERIOD;
                     break;
                 } else if (configName.equals(ConfigurationName.EVALUATION_ENABLED_SECOND.name()) && config.isEnabled()) {
-                    period = EvaluationDTO.Kind.SECOND_PERIOD;
+                    period = EvaluationKind.SECOND_PERIOD;
                     break;
                 } else if (configName.equals(ConfigurationName.EVALUATION_ENABLED_FINAL.name()) && config.isEnabled()) {
-                    period = EvaluationDTO.Kind.FINAL;
+                    period = EvaluationKind.FINAL;
                     break;
                 }
             }

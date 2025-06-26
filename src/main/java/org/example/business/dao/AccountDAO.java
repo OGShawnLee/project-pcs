@@ -2,6 +2,7 @@ package org.example.business.dao;
 
 import org.example.business.dto.AccountDTO;
 
+import org.example.business.dto.enumeration.AccountRole;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.Connection;
@@ -24,7 +25,7 @@ public class AccountDAO extends DAOPattern<AccountDTO, String> {
     return new AccountDTO(
       resultSet.getString("email"),
       resultSet.getString("password"),
-      AccountDTO.Role.valueOf(resultSet.getString("role")),
+      AccountRole.valueOf(resultSet.getString("role")),
       resultSet.getBoolean("has_access")
     );
   }

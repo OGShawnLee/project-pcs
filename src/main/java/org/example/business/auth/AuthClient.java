@@ -5,6 +5,7 @@ import org.example.business.dao.StudentDAO;
 import org.example.business.dto.AcademicDTO;
 import org.example.business.dto.AccountDTO;
 import org.example.business.dto.StudentDTO;
+import org.example.business.dto.enumeration.AccountRole;
 
 import java.sql.SQLException;
 
@@ -40,7 +41,7 @@ public class AuthClient {
     }
 
     return switch (currentUser.role()) {
-      case AccountDTO.Role.ACADEMIC, AccountDTO.Role.ACADEMIC_EVALUATOR, EVALUATOR ->
+      case AccountRole.ACADEMIC, AccountRole.ACADEMIC_EVALUATOR, EVALUATOR ->
         new AcademicDAO().getOneByEmail(currentUser.email());
       default -> throw new IllegalStateException("El usuario actual no es un académico.");
     };
@@ -53,7 +54,7 @@ public class AuthClient {
       throw new IllegalStateException("No existe un usuario que haya iniciado sesión en el sistema.");
     }
 
-    if (currentUser.role() != AccountDTO.Role.STUDENT) {
+    if (currentUser.role() != AccountRole.STUDENT) {
       throw new IllegalStateException("El usuario actual no es un estudiante.");
     }
 

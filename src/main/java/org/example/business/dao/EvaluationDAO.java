@@ -2,6 +2,7 @@ package org.example.business.dao;
 
 import org.example.business.dto.EvaluationDTO;
 import org.example.business.dao.filter.FilterEvaluation;
+import org.example.business.dto.enumeration.EvaluationKind;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -30,7 +31,7 @@ public class EvaluationDAO extends DAOPattern<EvaluationDTO, FilterEvaluation> {
       .setContentCongruenceGrade(resultSet.getString("content_congruence_grade"))
       .setWritingGrade(resultSet.getString("writing_grade"))
       .setMethodologicalRigorGrade(resultSet.getString("methodological_rigor_grade"))
-      .setKind(EvaluationDTO.Kind.valueOf(resultSet.getString("kind")))
+      .setKind(EvaluationKind.valueOf(resultSet.getString("kind")))
       .setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime())
       .build();
   }

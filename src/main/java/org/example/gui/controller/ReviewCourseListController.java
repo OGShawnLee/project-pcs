@@ -9,6 +9,8 @@ import javafx.stage.Stage;
 
 import org.example.business.dto.CourseDTO;
 import org.example.business.dao.CourseDAO;
+import org.example.business.dto.enumeration.CourseState;
+import org.example.business.dto.enumeration.Section;
 import org.example.gui.Modal;
 
 import java.sql.SQLException;
@@ -24,11 +26,11 @@ public class ReviewCourseListController extends ReviewListController implements 
   @FXML
   private TableColumn<CourseDTO, String> columnSemester;
   @FXML
-  private TableColumn<CourseDTO, CourseDTO.Section> columnSection;
+  private TableColumn<CourseDTO, Section> columnSection;
   @FXML
   private TableColumn<CourseDTO, Integer> columnTotalStudents;
   @FXML
-  private TableColumn<CourseDTO, CourseDTO.State> columnState;
+  private TableColumn<CourseDTO, CourseState> columnState;
   @FXML
   private TableColumn<CourseDTO, String> columnCreatedAt;
 
@@ -63,7 +65,7 @@ public class ReviewCourseListController extends ReviewListController implements 
     try {
       tableAcademic.setItems(
         FXCollections.observableList(
-          COURSE_DAO.getAllByState(CourseDTO.State.ON_GOING)
+          COURSE_DAO.getAllByState(CourseState.ON_GOING)
         )
       );
     } catch (SQLException e) {
@@ -78,7 +80,7 @@ public class ReviewCourseListController extends ReviewListController implements 
     try {
       tableAcademic.setItems(
         FXCollections.observableList(
-          COURSE_DAO.getAllByState(CourseDTO.State.COMPLETED)
+          COURSE_DAO.getAllByState(CourseState.COMPLETED)
         )
       );
     } catch (SQLException e) {

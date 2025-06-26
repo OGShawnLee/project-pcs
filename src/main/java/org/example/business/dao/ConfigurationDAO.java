@@ -1,6 +1,7 @@
 package org.example.business.dao;
 
 import org.example.business.dto.ConfigurationDTO;
+import org.example.business.dto.enumeration.ConfigurationName;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

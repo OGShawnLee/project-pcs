@@ -1,4 +1,4 @@
-package org.example.business.dao;
+package org.example.business.dto.enumeration;
 
 public enum ConfigurationName {
   EVALUATION_ENABLED_FIRST,

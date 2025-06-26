@@ -2,12 +2,14 @@ package db;
 
 import org.example.business.dto.CourseDTO;
 import org.example.business.dao.CourseDAO;
+import org.example.business.dto.enumeration.CourseState;
+import org.example.business.dto.enumeration.Section;
+import org.example.business.dto.enumeration.Semester;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -17,9 +19,9 @@ public class CourseDAOTest {
   public static final CourseDTO COURSE_DTO = new CourseDTO.CourseBuilder()
     .setNRC("00010")
     .setIDAcademic(AcademicDAOTest.ACADEMIC_DTO.getID())
-    .setSection(CourseDTO.Section.S1)
-    .setSemester(CourseDTO.Semester.FEB_JUL)
-    .setState(CourseDTO.State.ON_GOING)
+    .setSection(Section.S1)
+    .setSemester(Semester.FEB_JUL)
+    .setState(CourseState.ON_GOING)
     .setTotalStudents(0)
     .build();
 
@@ -74,9 +76,9 @@ public class CourseDAOTest {
       CourseDTO updatedCourse = new CourseDTO.CourseBuilder()
         .setNRC(COURSE_DTO.getNRC())
         .setIDAcademic(COURSE_DTO.getIDAcademic())
-        .setSection(CourseDTO.Section.S1)
-        .setSemester(CourseDTO.Semester.FEB_JUL)
-        .setState(CourseDTO.State.COMPLETED)
+        .setSection(Section.S1)
+        .setSemester(Semester.FEB_JUL)
+        .setState(CourseState.COMPLETED)
         .build();
 
       COURSE_DAO.updateOne(updatedCourse);

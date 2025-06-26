@@ -3,12 +3,12 @@ package db;
 import org.example.business.dto.AcademicDTO;
 import org.example.business.dao.AcademicDAO;
 import org.example.business.dto.AccountDTO;
+import org.example.business.dto.enumeration.AcademicRole;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -21,7 +21,7 @@ public class AcademicDAOTest {
     .setName("John")
     .setPaternalLastName("Doe")
     .setMaternalLastName("Smith")
-    .setRole(AcademicDTO.Role.ACADEMIC)
+    .setRole(AcademicRole.ACADEMIC)
     .setPhoneNumber("2281904050")
     .setState("ACTIVE")
     .build();
@@ -100,7 +100,7 @@ public class AcademicDAOTest {
         .setName(ACADEMIC_DTO.getName())
         .setPaternalLastName(ACADEMIC_DTO.getPaternalLastName())
         .setMaternalLastName(ACADEMIC_DTO.getMaternalLastName())
-        .setRole(AcademicDTO.Role.ACADEMIC_EVALUATOR)
+        .setRole(AcademicRole.ACADEMIC_EVALUATOR)
         .setPhoneNumber(ACADEMIC_DTO.getPhoneNumber())
         .setState("ACTIVE")
         .build();
@@ -116,7 +116,7 @@ public class AcademicDAOTest {
         .setName(ACADEMIC_DTO.getName())
         .setPaternalLastName(ACADEMIC_DTO.getPaternalLastName())
         .setMaternalLastName(ACADEMIC_DTO.getMaternalLastName())
-        .setRole(AcademicDTO.Role.ACADEMIC_EVALUATOR)
+        .setRole(AcademicRole.ACADEMIC_EVALUATOR)
         .setPhoneNumber(ACADEMIC_DTO.getPhoneNumber())
         .setState("ACTIVE")
         .build();

@@ -4,13 +4,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 
-import org.example.business.auth.AuthClient;
 import org.example.business.dto.AcademicDTO;
 import org.example.business.dto.AccountDTO;
 import org.example.business.dao.AcademicDAO;
 import org.example.business.dao.AccountDAO;
+import org.example.business.dto.enumeration.AcademicRole;
 import org.example.gui.Modal;
-import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.SQLException;
 
@@ -30,15 +29,15 @@ public class RegisterAcademicController extends Controller {
   @FXML
   private TextField fieldPhoneNumber;
   @FXML
-  private ComboBox<AcademicDTO.Role> fieldRole;
+  private ComboBox<AcademicRole> fieldRole;
 
   public void initialize() {
     loadRoleComboBox(fieldRole);
   }
 
-  public static void loadRoleComboBox(ComboBox<AcademicDTO.Role> fieldRole) {
-    fieldRole.getItems().addAll(AcademicDTO.Role.values());
-    fieldRole.setValue(AcademicDTO.Role.ACADEMIC);
+  public static void loadRoleComboBox(ComboBox<AcademicRole> fieldRole) {
+    fieldRole.getItems().addAll(AcademicRole.values());
+    fieldRole.setValue(AcademicRole.ACADEMIC);
   }
 
   public void handleRegister() {

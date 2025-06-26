@@ -2,26 +2,11 @@ package org.example.business.dto;
 
 import org.example.business.Validator;
 
+import org.example.business.dto.enumeration.AccountRole;
 import org.mindrot.jbcrypt.BCrypt;
 
-public record AccountDTO(String email, String password, Role role, boolean hasAccess) {
-  public enum Role {
-    COORDINATOR,
-    ACADEMIC,
-    ACADEMIC_EVALUATOR,
-    EVALUATOR,
-    STUDENT;
-
-    public static Role fromAcademicRole(AcademicDTO.Role academicRole) {
-      return switch (academicRole) {
-        case ACADEMIC -> Role.ACADEMIC;
-        case ACADEMIC_EVALUATOR -> Role.ACADEMIC_EVALUATOR;
-        case EVALUATOR -> Role.EVALUATOR;
-      };
-    }
-  }
-
-  public AccountDTO(String email, String password, Role role, boolean hasAccess) {
+public record AccountDTO(String email, String password, AccountRole role, boolean hasAccess) {
+  public AccountDTO(String email, String password, AccountRole role, boolean hasAccess) {
     this.email = Validator.getValidEmail(email);
     this.password = Validator.getValidPassword(password);
     this.role = role;

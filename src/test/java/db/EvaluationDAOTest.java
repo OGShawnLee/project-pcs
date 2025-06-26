@@ -1,9 +1,9 @@
 package db;
 
-import jdk.jshell.Snippet;
 import org.example.business.dto.EvaluationDTO;
 import org.example.business.dao.EvaluationDAO;
 import org.example.business.dao.filter.FilterEvaluation;
+import org.example.business.dto.enumeration.EvaluationKind;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,7 +21,7 @@ public class EvaluationDAOTest {
     .setMethodologicalRigorGrade("1")
     .setAdequateUseGrade("2")
     .setWritingGrade("3")
-    .setKind(EvaluationDTO.Kind.SECOND_PERIOD)
+    .setKind(EvaluationKind.SECOND_PERIOD)
     .setFeedback("I have never seen a project like this before, it is amazing!")
     .build();
 
@@ -111,7 +111,7 @@ public class EvaluationDAOTest {
         .setAdequateUseGrade("6")
         .setWritingGrade("7")
         .setFeedback("This project is good, but it can be improved.")
-        .setKind(EvaluationDTO.Kind.FIRST_PERIOD)
+        .setKind(EvaluationKind.FIRST_PERIOD)
         .build();
 
       EVALUATION_DAO.updateOne(updatedEvaluation);

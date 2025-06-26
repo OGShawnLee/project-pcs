@@ -2,6 +2,7 @@ package org.example.business.dao;
 
 import org.example.business.dto.AcademicDTO;
 import org.example.business.dto.AccountDTO;
+import org.example.business.dto.enumeration.AcademicRole;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -32,7 +33,7 @@ public class AcademicDAO extends DAOPattern<AcademicDTO, String> {
       .setMaternalLastName(resultSet.getString("maternal_last_name"))
       .setPhoneNumber(resultSet.getString("phone_number"))
       .setState(resultSet.getString("state"))
-      .setRole(AcademicDTO.Role.valueOf(resultSet.getString("role")))
+      .setRole(AcademicRole.valueOf(resultSet.getString("role")))
       .setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime())
       .build();
   }

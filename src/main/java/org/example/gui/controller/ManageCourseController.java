@@ -8,6 +8,9 @@ import org.example.business.dao.AcademicDAO;
 import org.example.business.dao.CourseDAO;
 import org.example.business.dto.AcademicDTO;
 import org.example.business.dto.CourseDTO;
+import org.example.business.dto.enumeration.CourseState;
+import org.example.business.dto.enumeration.Section;
+import org.example.business.dto.enumeration.Semester;
 import org.example.gui.Modal;
 
 import java.sql.SQLException;
@@ -20,11 +23,11 @@ public class ManageCourseController extends ManageController<CourseDTO> {
   @FXML
   private ComboBox<AcademicDTO> comboBoxAcademic;
   @FXML
-  private ComboBox<CourseDTO.Section> comboBoxSection;
+  private ComboBox<Section> comboBoxSection;
   @FXML
-  private ComboBox<CourseDTO.Semester> comboBoxSemester;
+  private ComboBox<Semester> comboBoxSemester;
   @FXML
-  private ComboBox<CourseDTO.State> comboBoxState;
+  private ComboBox<CourseState> comboBoxState;
 
   @Override
   public void initialize(CourseDTO dataObject) {
@@ -37,8 +40,8 @@ public class ManageCourseController extends ManageController<CourseDTO> {
   }
 
   private void loadComboboxState() {
-    comboBoxState.getItems().addAll(CourseDTO.State.values());
-    comboBoxState.setValue(CourseDTO.State.ON_GOING);
+    comboBoxState.getItems().addAll(CourseState.values());
+    comboBoxState.setValue(CourseState.ON_GOING);
   }
 
   public void loadDataObjectFields() {

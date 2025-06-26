@@ -1,45 +1,18 @@
 package org.example.business.dto;
 
 import org.example.business.Validator;
+import org.example.business.dto.enumeration.CourseState;
+import org.example.business.dto.enumeration.Section;
+import org.example.business.dto.enumeration.Semester;
 
 import java.time.LocalDateTime;
 
 public class CourseDTO implements Record {
-  public enum Section {S1, S2}
-
-  public enum Semester {
-    FEB_JUL("Febrero - Julio"),
-    AUG_JAN("Agosto - Enero");
-
-    private final String displayName;
-
-    Semester(String displayName) {
-      this.displayName = displayName;
-    }
-
-    @Override
-    public String toString() {
-      return displayName;
-    }
-
-    public String toDBString() {
-      if (displayName.equals("Febrero - Julio")) {
-        return "FEB_JUL";
-      } else if (displayName.equals("Agosto - Enero")) {
-        return "AUG_JAN";
-      } else {
-        throw new IllegalArgumentException("Unknown Semester: " + displayName);
-      }
-    }
-  }
-
-  public enum State {ON_GOING, COMPLETED}
-
   private final String nrc;
   private final String idAcademic;
   private final Semester semester;
   private final Section section;
-  private final State state;
+  private final CourseState state;
   private final String fullNameAcademic;
   private final int totalStudents;
   private final LocalDateTime createdAt;
@@ -79,7 +52,7 @@ public class CourseDTO implements Record {
     return section;
   }
 
-  public State getState() {
+  public CourseState getState() {
     return state;
   }
 
@@ -126,7 +99,7 @@ public class CourseDTO implements Record {
     protected String idAcademic;
     protected Semester semester;
     protected Section section;
-    protected State state;
+    protected CourseState state;
     protected String fullNameAcademic;
     protected int totalStudents;
     protected LocalDateTime createdAt;
@@ -151,7 +124,7 @@ public class CourseDTO implements Record {
       return this;
     }
 
-    public CourseBuilder setState(State state) {
+    public CourseBuilder setState(CourseState state) {
       this.state = state;
       return this;
     }

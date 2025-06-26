@@ -1,7 +1,7 @@
 package org.example.business.dto;
 
 import org.example.business.Validator;
-import org.example.business.dao.ProjectSector;
+import org.example.business.dto.enumeration.ProjectSector;
 
 import java.time.LocalDateTime;
 

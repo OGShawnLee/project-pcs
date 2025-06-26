@@ -3,7 +3,7 @@ package org.example.gui.controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 
-import org.example.business.dao.ConfigurationName;
+import org.example.business.dto.enumeration.ConfigurationName;
 import org.example.business.dao.ConfigurationDAO;
 import org.example.business.dto.ConfigurationDTO;
 import org.example.gui.Modal;

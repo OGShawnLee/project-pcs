@@ -1,16 +1,11 @@
 package org.example.business.dto;
 
 import org.example.business.Validator;
+import org.example.business.dto.enumeration.EvaluationKind;
 
 import java.time.LocalDateTime;
 
 public class EvaluationDTO {
-  public enum Kind {
-    FIRST_PERIOD,
-    SECOND_PERIOD,
-    FINAL,
-  }
-
   private int idProject;
   private final String idStudent;
   private final String idAcademic;
@@ -19,7 +14,7 @@ public class EvaluationDTO {
   private final int writingGrade;
   private final int methodologicalRigorGrade;
   private final String feedback;
-  private final Kind kind;
+  private final EvaluationKind kind;
   private final LocalDateTime createdAt;
 
   public EvaluationDTO(EvaluationBuilder builder) {
@@ -71,7 +66,7 @@ public class EvaluationDTO {
     return feedback;
   }
 
-  public Kind getKind() {
+  public EvaluationKind getKind() {
     return kind;
   }
 
@@ -106,7 +101,7 @@ public class EvaluationDTO {
     private int writingGrade;
     private int methodologicalRigorGrade;
     private String feedback;
-    private Kind kind;
+    private EvaluationKind kind;
     private LocalDateTime createdAt;
 
     public EvaluationBuilder setIDProject(int idProject) {
@@ -149,7 +144,7 @@ public class EvaluationDTO {
       return this;
     }
 
-    public EvaluationBuilder setKind(Kind kind) {
+    public EvaluationBuilder setKind(EvaluationKind kind) {
       this.kind = kind;
       return this;
     }

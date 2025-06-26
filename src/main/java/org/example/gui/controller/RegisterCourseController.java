@@ -8,6 +8,8 @@ import org.example.business.dao.AcademicDAO;
 import org.example.business.dao.CourseDAO;
 import org.example.business.dto.AcademicDTO;
 import org.example.business.dto.CourseDTO;
+import org.example.business.dto.enumeration.Section;
+import org.example.business.dto.enumeration.Semester;
 import org.example.gui.Modal;
 
 import java.sql.SQLException;
@@ -21,9 +23,9 @@ public class RegisterCourseController extends Controller {
   @FXML
   private ComboBox<AcademicDTO> comboBoxAcademic;
   @FXML
-  private ComboBox<CourseDTO.Section> comboBoxSection;
+  private ComboBox<Section> comboBoxSection;
   @FXML
-  private ComboBox<CourseDTO.Semester> comboBoxSemester;
+  private ComboBox<Semester> comboBoxSemester;
 
   public void initialize() {
     loadComboBoxSection(comboBoxSection);
@@ -31,14 +33,14 @@ public class RegisterCourseController extends Controller {
     loadComboBoxAcademic(comboBoxAcademic);
   }
 
-  public static void loadComboBoxSection(ComboBox<CourseDTO.Section> comboBoxSection) {
-    comboBoxSection.getItems().addAll(CourseDTO.Section.values());
-    comboBoxSection.setValue(CourseDTO.Section.S1);
+  public static void loadComboBoxSection(ComboBox<Section> comboBoxSection) {
+    comboBoxSection.getItems().addAll(Section.values());
+    comboBoxSection.setValue(Section.S1);
   }
 
-  public static void loadComboBoxSemester(ComboBox<CourseDTO.Semester> comboBoxSemester) {
-    comboBoxSemester.getItems().addAll(CourseDTO.Semester.values());
-    comboBoxSemester.setValue(CourseDTO.Semester.FEB_JUL);
+  public static void loadComboBoxSemester(ComboBox<Semester> comboBoxSemester) {
+    comboBoxSemester.getItems().addAll(Semester.values());
+    comboBoxSemester.setValue(Semester.FEB_JUL);
   }
 
   public static void loadComboBoxAcademic(ComboBox<AcademicDTO> comboBoxAcademic) {

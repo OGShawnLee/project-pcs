@@ -1,6 +1,6 @@
 package org.example.business.dto;
 
-import org.example.business.dao.ConfigurationName;
+import org.example.business.dto.enumeration.ConfigurationName;
 
 public record ConfigurationDTO(ConfigurationName name, boolean isEnabled) {
   @Override

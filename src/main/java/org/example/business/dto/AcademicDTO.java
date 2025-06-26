@@ -1,16 +1,11 @@
 package org.example.business.dto;
 
 import org.example.business.Validator;
+import org.example.business.dto.enumeration.AcademicRole;
 
 public class AcademicDTO extends Person {
-  public enum Role {
-    ACADEMIC,
-    ACADEMIC_EVALUATOR,
-    EVALUATOR
-  }
-
   private final String id;
-  private final Role role;
+  private final AcademicRole role;
 
   public AcademicDTO(AcademicBuilder builder) {
     super(builder);
@@ -22,7 +17,7 @@ public class AcademicDTO extends Person {
     return id;
   }
 
-  public Role getRole() {
+  public AcademicRole getRole() {
     return role;
   }
 
@@ -43,14 +38,14 @@ public class AcademicDTO extends Person {
 
   public static class AcademicBuilder extends PersonBuilder<AcademicBuilder> {
     private String id;
-    private Role role;
+    private AcademicRole role;
 
     public AcademicBuilder setID(String id) throws IllegalArgumentException {
       this.id = Validator.getValidWorkerID(id);
       return this;
     }
 
-    public AcademicBuilder setRole(Role role) throws IllegalArgumentException {
+    public AcademicBuilder setRole(AcademicRole role) throws IllegalArgumentException {
       this.role = role;
       return this;
     }
