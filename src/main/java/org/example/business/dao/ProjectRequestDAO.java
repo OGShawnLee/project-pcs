@@ -1,8 +1,9 @@
 package org.example.business.dao;
 
-import org.example.business.dto.AcademicDTO;
+import org.example.business.dao.shape.CompleteDAOShape;
 import org.example.business.dto.ProjectRequestDTO;
 import org.example.business.dao.filter.FilterProject;
+import org.example.db.DBConnector;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,7 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProjectRequestDAO extends DAOPattern<ProjectRequestDTO, FilterProject> {
+public class ProjectRequestDAO extends CompleteDAOShape<ProjectRequestDTO, FilterProject> {
   private static final String CREATE_QUERY =
     "INSERT INTO ProjectRequest (id_student, id_project, state, reason_of_state) VALUES (?, ?, ?, ?)";
   private static final String GET_ALL_QUERY = "SELECT * FROM ProjectRequest";
@@ -22,7 +23,7 @@ public class ProjectRequestDAO extends DAOPattern<ProjectRequestDTO, FilterProje
   private static final String DELETE_QUERY = "DELETE FROM ProjectRequest WHERE id_student = ? AND id_project = ?";
 
   @Override
-  ProjectRequestDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
+  public ProjectRequestDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
     return new ProjectRequestDTO.ProjectRequestBuilder()
       .setIDStudent(resultSet.getString("id_student"))
       .setIDProject(resultSet.getInt("id_project"))
@@ -35,7 +36,7 @@ public class ProjectRequestDAO extends DAOPattern<ProjectRequestDTO, FilterProje
   @Override
   public void createOne(ProjectRequestDTO dataObject) throws SQLException {
     try (
-      Connection connection = getConnection();
+      Connection connection = DBConnector.getConnection();
       PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
     ) {
       statement.setString(1, dataObject.getIDStudent());
@@ -49,7 +50,7 @@ public class ProjectRequestDAO extends DAOPattern<ProjectRequestDTO, FilterProje
   @Override
   public List<ProjectRequestDTO> getAll() throws SQLException {
     try (
-      Connection connection = getConnection();
+      Connection connection = DBConnector.getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_ALL_QUERY);
       ResultSet resultSet = statement.executeQuery()
     ) {
@@ -65,7 +66,7 @@ public class ProjectRequestDAO extends DAOPattern<ProjectRequestDTO, FilterProje
 
   public List<ProjectRequestDTO> getAllByEmail(String email) throws SQLException {
     try (
-            Connection connection = getConnection();
+            Connection connection = DBConnector.getConnection();
             PreparedStatement statement = connection.prepareStatement(GET_ALL_BY_EMAIL_QUERY)
     ) {
       statement.setString(1, email);
@@ -84,7 +85,7 @@ public class ProjectRequestDAO extends DAOPattern<ProjectRequestDTO, FilterProje
   @Override
   public ProjectRequestDTO getOne(FilterProject filter) throws SQLException {
     try (
-      Connection connection = getConnection();
+      Connection connection = DBConnector.getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_QUERY)
     ) {
       statement.setString(1, filter.getIDStudent());
@@ -105,7 +106,7 @@ public class ProjectRequestDAO extends DAOPattern<ProjectRequestDTO, FilterProje
   @Override
   public void updateOne(ProjectRequestDTO dataObject) throws SQLException {
     try (
-      Connection connection = getConnection();
+      Connection connection = DBConnector.getConnection();
       PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
     ) {
       statement.setString(1, dataObject.getState());
@@ -119,7 +120,7 @@ public class ProjectRequestDAO extends DAOPattern<ProjectRequestDTO, FilterProje
   @Override
   public void deleteOne(FilterProject filter) throws SQLException {
     try (
-      Connection connection = getConnection();
+      Connection connection = DBConnector.getConnection();
       PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)
     ) {
       statement.setString(1, filter.getIDStudent());

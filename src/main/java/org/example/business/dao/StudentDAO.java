@@ -1,7 +1,9 @@
 package org.example.business.dao;
 
+import org.example.business.dao.shape.CompleteDAOShape;
 import org.example.business.dto.AccountDTO;
 import org.example.business.dto.StudentDTO;
+import org.example.db.DBConnector;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -12,7 +14,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StudentDAO extends DAOPattern<StudentDTO, String> {
+public class StudentDAO extends CompleteDAOShape<StudentDTO, String> {
   private static final String CREATE_QUERY =
     "CALL create_student(?, ?, ?, ?, ?, ?, ?)";
   private static final String GET_ALL_QUERY =
@@ -31,7 +33,7 @@ public class StudentDAO extends DAOPattern<StudentDTO, String> {
     "DELETE FROM Student WHERE id_student = ?";
 
   @Override
-  StudentDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
+  public StudentDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
     return new StudentDTO.StudentBuilder()
       .setID(resultSet.getString("id_student"))
       .setEmail(resultSet.getString("email"))
@@ -48,7 +50,7 @@ public class StudentDAO extends DAOPattern<StudentDTO, String> {
   @Override
   public void createOne(StudentDTO studentDTO) throws SQLException {
     try (
-      Connection connection = getConnection();
+      Connection connection = DBConnector.getConnection();
       CallableStatement statement = connection.prepareCall(CREATE_QUERY)
     ) {
       statement.setString(1, studentDTO.getID());
@@ -66,7 +68,7 @@ public class StudentDAO extends DAOPattern<StudentDTO, String> {
   @Override
   public List<StudentDTO> getAll() throws SQLException {
     try (
-      Connection connection = getConnection();
+      Connection connection = DBConnector.getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_ALL_QUERY);
       ResultSet resultSet = statement.executeQuery()
     ) {
@@ -82,7 +84,7 @@ public class StudentDAO extends DAOPattern<StudentDTO, String> {
 
   public List<StudentDTO> getAllByAcademic(String academicID) throws SQLException {
     try (
-      Connection connection = getConnection();
+      Connection connection = DBConnector.getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_ALL_BY_ACADEMIC)
     ) {
       statement.setString(1, academicID);
@@ -100,7 +102,7 @@ public class StudentDAO extends DAOPattern<StudentDTO, String> {
 
   public List<StudentDTO> getAllByState(String state) throws SQLException {
     try (
-      Connection connection = getConnection();
+      Connection connection = DBConnector.getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_ALL_BY_STATE_QUERY)
     ) {
       statement.setString(1, state);
@@ -118,7 +120,7 @@ public class StudentDAO extends DAOPattern<StudentDTO, String> {
 
   public List<StudentDTO> getAllWithNoProject() throws SQLException {
     try (
-      Connection connection = getConnection();
+      Connection connection = DBConnector.getConnection();
       PreparedStatement statement = connection.prepareStatement(
         "SELECT * FROM Student WHERE id_student NOT IN (SELECT id_student FROM Practice) AND state = 'ACTIVE'"
       );
@@ -137,7 +139,7 @@ public class StudentDAO extends DAOPattern<StudentDTO, String> {
   @Override
   public StudentDTO getOne(String id) throws SQLException {
     try (
-      Connection connection = getConnection();
+      Connection connection = DBConnector.getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_QUERY)
     ) {
       statement.setString(1, id);
@@ -156,7 +158,7 @@ public class StudentDAO extends DAOPattern<StudentDTO, String> {
 
   public StudentDTO getOneByEmail(String email) throws SQLException {
     try (
-      Connection connection = getConnection();
+      Connection connection = DBConnector.getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_BY_EMAIL_QUERY)
     ) {
       statement.setString(1, email);
@@ -176,7 +178,7 @@ public class StudentDAO extends DAOPattern<StudentDTO, String> {
   @Override
   public void updateOne(StudentDTO studentDTO) throws SQLException {
     try (
-      Connection connection = getConnection();
+      Connection connection = DBConnector.getConnection();
       PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
     ) {
       statement.setString(1, studentDTO.getName());
@@ -194,7 +196,7 @@ public class StudentDAO extends DAOPattern<StudentDTO, String> {
   @Override
   public void deleteOne(String id) throws SQLException {
     try (
-      Connection connection = getConnection();
+      Connection connection = DBConnector.getConnection();
       PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)
     ) {
       statement.setString(1, id);

@@ -20,15 +20,6 @@ public class ConfigurationDAOTest {
   );
 
   @Test
-  public void testCreateOneConfiguration() {
-    assertThrows(
-      UnsupportedOperationException.class,
-      () -> CONFIGURATION_DAO.createOne(CONFIGURATION_DTO),
-      "Configuration is READ and UPDATE only, creation is not allowed."
-    );
-  }
-
-  @Test
   public void testGetAllConfigurations() {
     assertDoesNotThrow(() -> {
       List<ConfigurationDTO> configurationList = CONFIGURATION_DAO.getAll();
@@ -60,14 +51,5 @@ public class ConfigurationDAOTest {
       CONFIGURATION_DAO.updateOne(updatedConfiguration);
       assertEquals(updatedConfiguration, CONFIGURATION_DAO.getOne(updatedConfiguration.name()));
     });
-  }
-
-  @Test
-  public void testDeleteOneConfiguration() {
-    assertThrows(
-      UnsupportedOperationException.class,
-      () -> CONFIGURATION_DAO.deleteOne(CONFIGURATION_DTO.name()),
-      "Configuration is READ and UPDATE only, deletion is not allowed."
-    );
   }
 }

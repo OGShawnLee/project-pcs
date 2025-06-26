@@ -1,8 +1,10 @@
 package org.example.business.dao;
 
+import org.example.business.dao.shape.CompleteDAOShape;
 import org.example.business.dto.ProjectDTO;
 import org.example.business.dto.enumeration.ProjectSector;
 import org.example.business.dto.WorkPlanDTO;
+import org.example.db.DBConnector;
 
 import java.sql.Connection;
 import java.sql.CallableStatement;
@@ -13,7 +15,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProjectDAO extends DAOPattern<ProjectDTO, Integer> {
+public class ProjectDAO extends CompleteDAOShape<ProjectDTO, Integer> {
   private static final String CREATE_QUERY =
     "INSERT INTO Project (id_organization, name, description, department, available_places, methodology, sector) VALUES (?, ?, ?, ?, ?, ?, ?)";
   private static final String CREATE_WITH_WORK_PLAN_QUERY =
@@ -29,7 +31,7 @@ public class ProjectDAO extends DAOPattern<ProjectDTO, Integer> {
   private static final String DELETE_QUERY = "DELETE FROM Project WHERE id_project = ?";
 
   @Override
-  ProjectDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
+  public ProjectDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
     return new ProjectDTO.ProjectBuilder()
       .setID(resultSet.getInt("id_project"))
       .setIDOrganization(resultSet.getString("id_organization"))
@@ -47,7 +49,7 @@ public class ProjectDAO extends DAOPattern<ProjectDTO, Integer> {
   @Override
   public void createOne(ProjectDTO projectDTO) throws SQLException {
     try (
-      Connection connection = getConnection();
+      Connection connection = DBConnector.getConnection();
       PreparedStatement statement = connection.prepareStatement(CREATE_QUERY, PreparedStatement.RETURN_GENERATED_KEYS)
     ) {
       statement.setString(1, projectDTO.getIDOrganization());
@@ -74,7 +76,7 @@ public class ProjectDAO extends DAOPattern<ProjectDTO, Integer> {
     WorkPlanDTO workPlanDTO
   ) throws SQLException {
     try (
-      Connection connection = getConnection();
+      Connection connection = DBConnector.getConnection();
       CallableStatement statement = connection.prepareCall(CREATE_WITH_WORK_PLAN_QUERY)
     ) {
       statement.setString(1, projectDTO.getIDOrganization());
@@ -97,7 +99,7 @@ public class ProjectDAO extends DAOPattern<ProjectDTO, Integer> {
   @Override
   public List<ProjectDTO> getAll() throws SQLException {
     try (
-      Connection connection = getConnection();
+      Connection connection = DBConnector.getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_ALL_QUERY);
       ResultSet resultSet = statement.executeQuery()
     ) {
@@ -113,7 +115,7 @@ public class ProjectDAO extends DAOPattern<ProjectDTO, Integer> {
 
   public List<ProjectDTO> getAllByState(String state) throws SQLException {
     try (
-      Connection connection = getConnection();
+      Connection connection = DBConnector.getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_ALL_BY_STATE)
     ) {
       statement.setString(1, state);
@@ -132,7 +134,7 @@ public class ProjectDAO extends DAOPattern<ProjectDTO, Integer> {
   @Override
   public ProjectDTO getOne(Integer id) throws SQLException {
     try (
-      Connection connection = getConnection();
+      Connection connection = DBConnector.getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_QUERY)
     ) {
       statement.setInt(1, id);
@@ -151,7 +153,7 @@ public class ProjectDAO extends DAOPattern<ProjectDTO, Integer> {
 
   public ProjectDTO getOneByStudent(String idStudent) throws SQLException {
     try (
-      Connection connection = getConnection();
+      Connection connection = DBConnector.getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_BY_STUDENT_QUERY)
     ) {
       statement.setString(1, idStudent);
@@ -171,7 +173,7 @@ public class ProjectDAO extends DAOPattern<ProjectDTO, Integer> {
   @Override
   public void updateOne(ProjectDTO projectDTO) throws SQLException {
     try (
-      Connection connection = getConnection();
+      Connection connection = DBConnector.getConnection();
       PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
     ) {
       statement.setString(1, projectDTO.getIDOrganization());
@@ -190,7 +192,7 @@ public class ProjectDAO extends DAOPattern<ProjectDTO, Integer> {
   @Override
   public void deleteOne(Integer id) throws SQLException {
     try (
-      Connection connection = getConnection();
+      Connection connection = DBConnector.getConnection();
       PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)
     ) {
       statement.setInt(1, id);

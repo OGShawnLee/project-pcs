@@ -1,4 +1,4 @@
-package org.example.business.dao;
+package org.example.business.dao.shape;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

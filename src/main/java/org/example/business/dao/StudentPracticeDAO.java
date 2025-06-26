@@ -1,7 +1,5 @@
 package org.example.business.dao;
 
-import org.example.business.dto.PracticeDTO;
-import org.example.business.dto.StudentDTO;
 import org.example.business.dto.StudentPracticeDTO;
 import org.example.db.DBConnector;
 

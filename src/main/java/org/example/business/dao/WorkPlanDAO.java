@@ -1,5 +1,6 @@
 package org.example.business.dao;
 
+import org.example.business.dao.shape.GetOneDAOShape;
 import org.example.business.dto.WorkPlanDTO;
 import org.example.db.DBConnector;
 

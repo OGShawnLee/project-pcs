@@ -1,6 +1,8 @@
 package org.example.business.dao;
 
+import org.example.business.dao.shape.CompleteDAOShape;
 import org.example.business.dto.SelfEvaluationDTO;
+import org.example.db.DBConnector;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SelfEvaluationDAO extends DAOPattern<SelfEvaluationDTO, String> {
+public class SelfEvaluationDAO extends CompleteDAOShape<SelfEvaluationDTO, String> {
   private static final String CREATE_QUERY =
     "INSERT INTO SelfEvaluation (" +
       "id_student, follow_up_grade, safety_grade, knowledge_application_grade, interesting_grade, " +
@@ -25,7 +27,7 @@ public class SelfEvaluationDAO extends DAOPattern<SelfEvaluationDTO, String> {
   private static final String DELETE_QUERY = "DELETE FROM SelfEvaluation WHERE id_student = ?";
 
   @Override
-  SelfEvaluationDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
+  public SelfEvaluationDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
     return new SelfEvaluationDTO.SelfEvaluationBuilder()
       .setIDStudent(resultSet.getString("id_student"))
       .setFollowUpGrade(resultSet.getInt("follow_up_grade"))
@@ -44,7 +46,7 @@ public class SelfEvaluationDAO extends DAOPattern<SelfEvaluationDTO, String> {
   @Override
   public void createOne(SelfEvaluationDTO dataObject) throws SQLException {
     try (
-      Connection connection = getConnection();
+      Connection connection = DBConnector.getConnection();
       PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
     ) {
       statement.setString(1, dataObject.getIDStudent());
@@ -64,7 +66,7 @@ public class SelfEvaluationDAO extends DAOPattern<SelfEvaluationDTO, String> {
   @Override
   public List<SelfEvaluationDTO> getAll() throws SQLException {
     try (
-      Connection connection = getConnection();
+      Connection connection = DBConnector.getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_ALL_QUERY);
       ResultSet resultSet = statement.executeQuery()
     ) {
@@ -81,7 +83,7 @@ public class SelfEvaluationDAO extends DAOPattern<SelfEvaluationDTO, String> {
   @Override
   public SelfEvaluationDTO getOne(String id) throws SQLException {
     try (
-      Connection connection = getConnection();
+      Connection connection = DBConnector.getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_QUERY)
     ) {
       statement.setString(1, id);
@@ -101,7 +103,7 @@ public class SelfEvaluationDAO extends DAOPattern<SelfEvaluationDTO, String> {
   @Override
   public void updateOne(SelfEvaluationDTO dataObject) throws SQLException {
     try (
-      Connection connection = getConnection();
+      Connection connection = DBConnector.getConnection();
       PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
     ) {
       statement.setInt(1, dataObject.getFollowUpGrade());
@@ -121,7 +123,7 @@ public class SelfEvaluationDAO extends DAOPattern<SelfEvaluationDTO, String> {
   @Override
   public void deleteOne(String idStudent) throws SQLException {
     try (
-      Connection connection = getConnection();
+      Connection connection = DBConnector.getConnection();
       PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)
     ) {
       statement.setString(1, idStudent);

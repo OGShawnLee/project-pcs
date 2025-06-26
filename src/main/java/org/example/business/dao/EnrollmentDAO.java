@@ -1,7 +1,9 @@
 package org.example.business.dao;
 
+    import org.example.business.dao.shape.CompleteDAOShape;
     import org.example.business.dto.EnrollmentDTO;
     import org.example.business.dao.filter.FilterEnrollment;
+    import org.example.db.DBConnector;
 
     import java.sql.Connection;
     import java.sql.PreparedStatement;
@@ -10,16 +12,15 @@ package org.example.business.dao;
     import java.util.ArrayList;
     import java.util.List;
 
-    public class EnrollmentDAO extends DAOPattern<EnrollmentDTO, FilterEnrollment> {
+    public class EnrollmentDAO extends CompleteDAOShape<EnrollmentDTO, FilterEnrollment> {
       private static final String CREATE_QUERY =
         "INSERT INTO Enrollment (id_course, id_student, id_academic) VALUES (?, ?, ?)";
       private static final String GET_ALL_QUERY = "SELECT * FROM Enrollment";
       private static final String GET_QUERY = "SELECT * FROM Enrollment WHERE id_student = ? and id_course = ?";
-      private static final String UPDATE_QUERY = "";
       private static final String DELETE_QUERY = "DELETE FROM Enrollment WHERE id_student = ? and id_course = ?";
 
       @Override
-      EnrollmentDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
+      public EnrollmentDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
         return new EnrollmentDTO.EnrollmentBuilder()
           .setIDAcademic(resultSet.getString("id_academic"))
           .setIDCourse(resultSet.getString("id_course"))
@@ -31,7 +32,7 @@ package org.example.business.dao;
       @Override
       public void createOne(EnrollmentDTO dataObject) throws SQLException {
         try (
-          Connection connection = getConnection();
+          Connection connection = DBConnector.getConnection();
           PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
         ) {
           statement.setString(1, dataObject.getIDCourse());
@@ -44,7 +45,7 @@ package org.example.business.dao;
       @Override
       public List<EnrollmentDTO> getAll() throws SQLException {
         try (
-          Connection connection = getConnection();
+          Connection connection = DBConnector.getConnection();
           PreparedStatement statement = connection.prepareStatement(GET_ALL_QUERY);
           ResultSet resultSet = statement.executeQuery()
         ) {
@@ -61,7 +62,7 @@ package org.example.business.dao;
       @Override
       public EnrollmentDTO getOne(FilterEnrollment filter) throws SQLException {
         try (
-          Connection connection = getConnection();
+          Connection connection = DBConnector.getConnection();
           PreparedStatement statement = connection.prepareStatement(GET_QUERY)
         ) {
           statement.setString(1, filter.getIDStudent());
@@ -88,7 +89,7 @@ package org.example.business.dao;
       @Override
       public void deleteOne(FilterEnrollment filter) throws SQLException {
         try (
-          Connection connection = getConnection();
+          Connection connection = DBConnector.getConnection();
           PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)
         ) {
           statement.setString(1, filter.getIDStudent());

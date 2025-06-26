@@ -1,7 +1,9 @@
 package org.example.business.dao;
 
+import org.example.business.dao.shape.CompleteDAOShape;
 import org.example.business.dto.MonthlyReportDTO;
 import org.example.business.dao.filter.FilterMonthlyReport;
+import org.example.db.DBConnector;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,7 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MonthlyReportDAO extends DAOPattern<MonthlyReportDTO, FilterMonthlyReport> {
+public class MonthlyReportDAO extends CompleteDAOShape<MonthlyReportDTO, FilterMonthlyReport> {
   private static final String CREATE_QUERY =
     "INSERT INTO MonthlyReport (id_project, id_student, month, year, worked_hours, report) VALUES (?, ?, ?, ?, ?, ?)";
   private static final String GET_ALL_QUERY = "SELECT * FROM MonthlyReport";
@@ -22,7 +24,7 @@ public class MonthlyReportDAO extends DAOPattern<MonthlyReportDTO, FilterMonthly
     "DELETE FROM MonthlyReport WHERE id_project = ? AND id_student = ? AND month = ? AND year = ?";
 
   @Override
-  MonthlyReportDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
+  public MonthlyReportDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
     return new MonthlyReportDTO.MonthlyReportBuilder()
       .setIDProject(resultSet.getInt("id_project"))
       .setIDStudent(resultSet.getString("id_student"))
@@ -37,7 +39,7 @@ public class MonthlyReportDAO extends DAOPattern<MonthlyReportDTO, FilterMonthly
   @Override
   public void createOne(MonthlyReportDTO dataObject) throws SQLException {
     try (
-      Connection connection = getConnection();
+      Connection connection = DBConnector.getConnection();
       PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
     ) {
       statement.setInt(1, dataObject.getIDProject());
@@ -53,7 +55,7 @@ public class MonthlyReportDAO extends DAOPattern<MonthlyReportDTO, FilterMonthly
   @Override
   public List<MonthlyReportDTO> getAll() throws SQLException {
     try (
-      Connection connection = getConnection();
+      Connection connection = DBConnector.getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_ALL_QUERY);
       ResultSet resultSet = statement.executeQuery()
     ) {
@@ -70,7 +72,7 @@ public class MonthlyReportDAO extends DAOPattern<MonthlyReportDTO, FilterMonthly
   @Override
   public MonthlyReportDTO getOne(FilterMonthlyReport filter) throws SQLException {
     try (
-      Connection connection = getConnection();
+      Connection connection = DBConnector.getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_QUERY)
     ) {
       statement.setInt(1, filter.getIDProject());
@@ -93,7 +95,7 @@ public class MonthlyReportDAO extends DAOPattern<MonthlyReportDTO, FilterMonthly
   @Override
   public void updateOne(MonthlyReportDTO dataObject) throws SQLException {
     try (
-      Connection connection = getConnection();
+      Connection connection = DBConnector.getConnection();
       PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
     ) {
       statement.setInt(1, dataObject.getWorkedHours());
@@ -109,7 +111,7 @@ public class MonthlyReportDAO extends DAOPattern<MonthlyReportDTO, FilterMonthly
   @Override
   public void deleteOne(FilterMonthlyReport filter) throws SQLException {
     try (
-      Connection connection = getConnection();
+      Connection connection = DBConnector.getConnection();
       PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)
     ) {
       statement.setInt(1, filter.getIDProject());

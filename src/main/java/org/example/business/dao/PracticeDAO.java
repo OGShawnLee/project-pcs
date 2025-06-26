@@ -1,7 +1,9 @@
 package org.example.business.dao;
 
+import org.example.business.dao.shape.CompleteDAOShape;
 import org.example.business.dto.PracticeDTO;
 import org.example.business.dao.filter.FilterPractice;
+import org.example.db.DBConnector;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,7 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PracticeDAO extends DAOPattern<PracticeDTO, FilterPractice> {
+public class PracticeDAO extends CompleteDAOShape<PracticeDTO, FilterPractice> {
   private static final String CREATE_QUERY =
     "INSERT INTO Practice (id_student, id_project, reason_of_assignation) VALUES (?, ?, ?)";
   private static final String GET_ALL_QUERY = "SELECT * FROM Practice";
@@ -22,7 +24,7 @@ public class PracticeDAO extends DAOPattern<PracticeDTO, FilterPractice> {
     "SELECT * FROM Practice WHERE id_student = ?";
 
   @Override
-  PracticeDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
+  public PracticeDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
     return new PracticeDTO.PracticeBuilder()
       .setIDStudent(resultSet.getString("id_student"))
       .setIDProject(resultSet.getInt("id_project"))
@@ -34,7 +36,7 @@ public class PracticeDAO extends DAOPattern<PracticeDTO, FilterPractice> {
   @Override
   public void createOne(PracticeDTO practiceDTO) throws SQLException {
     try (
-      Connection connection = getConnection();
+      Connection connection = DBConnector.getConnection();
       PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
     ) {
       statement.setString(1, practiceDTO.getIDStudent());
@@ -46,7 +48,7 @@ public class PracticeDAO extends DAOPattern<PracticeDTO, FilterPractice> {
 
   public void createMany(List<PracticeDTO> practiceDTOs) throws SQLException {
     try (
-      Connection connection = getConnection();
+      Connection connection = DBConnector.getConnection();
       PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
     ) {
       connection.setAutoCommit(false);
@@ -73,7 +75,7 @@ public class PracticeDAO extends DAOPattern<PracticeDTO, FilterPractice> {
   @Override
   public List<PracticeDTO> getAll() throws SQLException {
     try (
-      Connection connection = getConnection();
+      Connection connection = DBConnector.getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_ALL_QUERY);
       ResultSet resultSet = statement.executeQuery()
     ) {
@@ -90,7 +92,7 @@ public class PracticeDAO extends DAOPattern<PracticeDTO, FilterPractice> {
   @Override
   public PracticeDTO getOne(FilterPractice filter) throws SQLException {
     try (
-      Connection connection = getConnection();
+      Connection connection = DBConnector.getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_QUERY)
     ) {
       statement.setString(1, filter.getIDStudent());
@@ -110,7 +112,7 @@ public class PracticeDAO extends DAOPattern<PracticeDTO, FilterPractice> {
 
   public PracticeDTO getOneByStudent(String idStudent) throws SQLException {
     try (
-      Connection connection = getConnection();
+      Connection connection = DBConnector.getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_BY_STUDENT_QUERY)
     ) {
       statement.setString(1, idStudent);
@@ -130,7 +132,7 @@ public class PracticeDAO extends DAOPattern<PracticeDTO, FilterPractice> {
   @Override
   public void updateOne(PracticeDTO practiceDTO) throws SQLException {
     try (
-      Connection connection = getConnection();
+      Connection connection = DBConnector.getConnection();
       PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
     ) {
       statement.setString(1, practiceDTO.getReasonOfAssignation());
@@ -143,7 +145,7 @@ public class PracticeDAO extends DAOPattern<PracticeDTO, FilterPractice> {
   @Override
   public void deleteOne(FilterPractice filter) throws SQLException {
     try (
-      Connection connection = getConnection();
+      Connection connection = DBConnector.getConnection();
       PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)
     ) {
       statement.setString(1, filter.getIDStudent());
@@ -154,7 +156,7 @@ public class PracticeDAO extends DAOPattern<PracticeDTO, FilterPractice> {
 
   public void deleteMany(List<FilterPractice> filterPracticeList) throws SQLException {
     try (
-      Connection connection = getConnection();
+      Connection connection = DBConnector.getConnection();
       PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)
     ) {
       connection.setAutoCommit(false);
