@@ -18,6 +18,8 @@ public class PracticeDAO extends DAOPattern<PracticeDTO, FilterPractice> {
   private static final String UPDATE_QUERY =
     "UPDATE Practice SET reason_of_assignation = ? WHERE id_student = ? AND id_project = ?";
   private static final String DELETE_QUERY = "DELETE FROM Practice WHERE id_student = ? AND id_project = ?";
+  private static final String GET_BY_STUDENT_QUERY =
+    "SELECT * FROM Practice WHERE id_student = ?";
 
   @Override
   PracticeDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
@@ -25,19 +27,46 @@ public class PracticeDAO extends DAOPattern<PracticeDTO, FilterPractice> {
       .setIDStudent(resultSet.getString("id_student"))
       .setIDProject(resultSet.getInt("id_project"))
       .setReasonOfAssignation(resultSet.getString("reason_of_assignation"))
+      .setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime())
       .build();
   }
 
   @Override
-  public void createOne(PracticeDTO dataObject) throws SQLException {
+  public void createOne(PracticeDTO practiceDTO) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
     ) {
-      statement.setString(1, dataObject.getIDStudent());
-      statement.setInt(2, dataObject.getIDProject());
-      statement.setString(3, dataObject.getReasonOfAssignation());
+      statement.setString(1, practiceDTO.getIDStudent());
+      statement.setInt(2, practiceDTO.getIDProject());
+      statement.setString(3, practiceDTO.getReasonOfAssignation());
       statement.executeUpdate();
+    }
+  }
+
+  public void createMany(List<PracticeDTO> practiceDTOs) throws SQLException {
+    try (
+      Connection connection = getConnection();
+      PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
+    ) {
+      connection.setAutoCommit(false);
+
+      try {
+        for (PracticeDTO practiceDTO : practiceDTOs) {
+          statement.setString(1, practiceDTO.getIDStudent());
+          statement.setInt(2, practiceDTO.getIDProject());
+          statement.setString(3, practiceDTO.getReasonOfAssignation());
+          statement.addBatch();
+        }
+
+        statement.executeBatch();
+        connection.commit();
+      } catch (SQLException e) {
+        connection.rollback();
+        throw e;
+      } finally {
+        connection.setAutoCommit(true);
+      }
     }
   }
 
@@ -67,27 +96,46 @@ public class PracticeDAO extends DAOPattern<PracticeDTO, FilterPractice> {
       statement.setString(1, filter.getIDStudent());
       statement.setInt(2, filter.getIDPractice());
 
-      PracticeDTO dataObject = null;
+      PracticeDTO practiceDTO = null;
 
       try (ResultSet resultSet = statement.executeQuery()) {
         if (resultSet.next()) {
-          dataObject = createDTOInstanceFromResultSet(resultSet);
+          practiceDTO = createDTOInstanceFromResultSet(resultSet);
         }
       }
 
-      return dataObject;
+      return practiceDTO;
+    }
+  }
+
+  public PracticeDTO getOneByStudent(String idStudent) throws SQLException {
+    try (
+      Connection connection = getConnection();
+      PreparedStatement statement = connection.prepareStatement(GET_BY_STUDENT_QUERY)
+    ) {
+      statement.setString(1, idStudent);
+
+      PracticeDTO practiceDTO = null;
+
+      try (ResultSet resultSet = statement.executeQuery()) {
+        if (resultSet.next()) {
+          practiceDTO = createDTOInstanceFromResultSet(resultSet);
+        }
+      }
+
+      return practiceDTO;
     }
   }
 
   @Override
-  public void updateOne(PracticeDTO dataObject) throws SQLException {
+  public void updateOne(PracticeDTO practiceDTO) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
     ) {
-      statement.setString(1, dataObject.getReasonOfAssignation());
-      statement.setString(2, dataObject.getIDStudent());
-      statement.setInt(3, dataObject.getIDProject());
+      statement.setString(1, practiceDTO.getReasonOfAssignation());
+      statement.setString(2, practiceDTO.getIDStudent());
+      statement.setInt(3, practiceDTO.getIDProject());
       statement.executeUpdate();
     }
   }
@@ -101,6 +149,31 @@ public class PracticeDAO extends DAOPattern<PracticeDTO, FilterPractice> {
       statement.setString(1, filter.getIDStudent());
       statement.setInt(2, filter.getIDPractice());
       statement.executeUpdate();
+    }
+  }
+
+  public void deleteMany(List<FilterPractice> filterPracticeList) throws SQLException {
+    try (
+      Connection connection = getConnection();
+      PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)
+    ) {
+      connection.setAutoCommit(false);
+
+      try {
+        for (FilterPractice filterPractice : filterPracticeList) {
+          statement.setString(1, filterPractice.getIDStudent());
+          statement.setInt(2, filterPractice.getIDPractice());
+          statement.addBatch();
+        }
+
+        statement.executeBatch();
+        connection.commit();
+      } catch (SQLException e) {
+        connection.rollback();
+        throw e;
+      } finally {
+        connection.setAutoCommit(true);
+      }
     }
   }
 }

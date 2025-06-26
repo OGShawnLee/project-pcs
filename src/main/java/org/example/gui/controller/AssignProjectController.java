@@ -8,6 +8,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
+
 import org.example.business.dao.PracticeDAO;
 import org.example.business.dao.StudentDAO;
 import org.example.business.dao.StudentPracticeDAO;
@@ -99,6 +100,9 @@ public class AssignProjectController extends ManageController<ProjectDTO> {
   }
 
   public void handleAssign() throws SQLException {
+    List<PracticeDTO> practiceDTOS = new ArrayList<>();
+    List<String> assignedStudentNames = new ArrayList<>();
+
     for (StudentDTO student : observableStudentSelectedList) {
       boolean isAlreadyAssigned = initialStudentPracticeList.stream()
         .anyMatch(studentPractice -> studentPractice.getStudentDTO().getID().equals(student.getID()));
@@ -107,19 +111,27 @@ public class AssignProjectController extends ManageController<ProjectDTO> {
         continue;
       }
 
-      PRACTICE_DAO.createOne(
+      practiceDTOS.add(
         new PracticeDTO.PracticeBuilder()
           .setIDStudent(student.getID())
           .setIDProject(getCurrentDataObject().getID())
           .setReasonOfAssignation(fieldReasonOfAssignation.getText())
           .build()
       );
+      assignedStudentNames.add(student.getName());
+    }
 
-      Modal.displaySuccess("El proyecto ha asignado a " + student.getName() + " exitosamente.");
+    PRACTICE_DAO.createMany(practiceDTOS);
+
+    for (String assignedStudentName : assignedStudentNames) {
+      Modal.displaySuccess("El proyecto ha asignado a " + assignedStudentName + " exitosamente.");
     }
   }
 
   public void handleUnassign() throws SQLException {
+    List<FilterPractice> filterPractices = new ArrayList<>();
+    List<String> unassignedStudentNames = new ArrayList<>();
+
     for (StudentPracticeDTO studentPractice : initialStudentPracticeList) {
       boolean isStillAssigned = observableStudentSelectedList.stream()
         .anyMatch(student -> studentPractice.getStudentDTO().getID().equals(student.getID()));
@@ -128,11 +140,16 @@ public class AssignProjectController extends ManageController<ProjectDTO> {
         continue;
       }
 
-      PRACTICE_DAO.deleteOne(
+      filterPractices.add(
         new FilterPractice(studentPractice.getStudentDTO().getID(), getCurrentDataObject().getID())
       );
+      unassignedStudentNames.add(studentPractice.getStudentDTO().getName());
+    }
 
-      Modal.displaySuccess("El proyecto ha sido desasignado a " + studentPractice.getStudentDTO().getName() + " exitosamente.");
+    PRACTICE_DAO.deleteMany(filterPractices);
+
+    for (String unassignedStudentName : unassignedStudentNames) {
+      Modal.displaySuccess("El proyecto ha sido desasignado a " + unassignedStudentName + " exitosamente.");
     }
   }
 
@@ -164,6 +181,11 @@ public class AssignProjectController extends ManageController<ProjectDTO> {
       tableStudentAvailable,
       student -> {
         if (student == null) {
+          return null;
+        }
+
+        if (observableStudentSelectedList.size() >= getCurrentDataObject().getAvailablePlaces()) {
+          Modal.displayError("No se pueden asignar más estudiantes al proyecto. Máximo: " + getCurrentDataObject().getAvailablePlaces());
           return null;
         }
 
