@@ -115,7 +115,7 @@ public class ReviewProjectListController extends ReviewListController implements
 
     if (selectedProject == null) return;
 
-    Modal.displayManageModal(
+    Modal.displayViewModal(
       "Gestionar Projecto",
       "ManageProjectModal",
       this::loadDataList,
@@ -128,7 +128,7 @@ public class ReviewProjectListController extends ReviewListController implements
 
     if (selectedProject == null) return;
 
-    Modal.displayManageModal(
+    Modal.displayViewModal(
       "Gestionar Proyecto",
       "AssignProjectPage",
       this::loadDataList,

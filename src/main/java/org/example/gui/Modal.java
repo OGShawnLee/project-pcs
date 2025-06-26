@@ -8,7 +8,7 @@ import javafx.scene.control.TextInputDialog;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import org.example.gui.controller.ManageController;
+import org.example.gui.controller.ViewController;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -42,7 +42,11 @@ public class Modal {
     }
   }
 
-  public static <T> void displayManageModal(String title, String resourceFileName, Runnable onClose, T dataObject) {
+  public static <T> void displayViewModal(String title, String resourceFileName, T dataObject) {
+    displayViewModal(title, resourceFileName, null, dataObject);
+  }
+
+  public static <T> void displayViewModal(String title, String resourceFileName, Runnable onClose, T dataObject) {
     try {
       FXMLLoader loader = new FXMLLoader(
         Objects.requireNonNull(Modal.class.getResource("/org/example/" + resourceFileName + ".fxml"))
@@ -56,7 +60,7 @@ public class Modal {
         modalStage.setOnHidden(event -> onClose.run());
       }
 
-      ManageController<T> controller = loader.getController();
+      ViewController<T> controller = loader.getController();
       controller.initialize(dataObject);
 
       modalStage.setTitle(title);

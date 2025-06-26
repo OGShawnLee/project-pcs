@@ -27,16 +27,16 @@ public abstract class LandingController extends Controller {
     try {
       switch (currentUserAccount.role()) {
         case COORDINATOR:
-          Modal.displayManageModal("Actualizar Perfil", "UpdateCoordinatorModal", null, currentUserAccount);
+          Modal.displayViewModal("Actualizar Perfil", "UpdateCoordinatorModal", null, currentUserAccount);
           break;
         case ACADEMIC, ACADEMIC_EVALUATOR, EVALUATOR: {
           AcademicDTO currentStaffDTO = new AcademicDAO().getOneByEmail(currentUserAccount.email());
-          Modal.displayManageModal("Actualizar Perfil", "UpdateAcademicModal", null, currentStaffDTO);
+          Modal.displayViewModal("Actualizar Perfil", "UpdateAcademicModal", null, currentStaffDTO);
           break;
         }
         case STUDENT: {
           StudentDTO currentStudentDTO = new StudentDAO().getOneByEmail(currentUserAccount.email());
-          Modal.displayManageModal("Actualizar Perfil", "UpdateStudentModal", null, currentStudentDTO);
+          Modal.displayViewModal("Actualizar Perfil", "UpdateStudentModal", null, currentStudentDTO);
           break;
         }
       }

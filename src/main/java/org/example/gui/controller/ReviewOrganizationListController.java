@@ -101,7 +101,7 @@ public class ReviewOrganizationListController extends ReviewListController imple
 
     if (selectedOrganization == null) return;
 
-    Modal.displayManageModal(
+    Modal.displayViewModal(
       "Gestionar Organización",
       "ManageOrganizationModal",
       this::loadDataList,
