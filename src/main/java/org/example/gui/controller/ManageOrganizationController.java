@@ -33,12 +33,12 @@ public class ManageOrganizationController extends ManageController<OrganizationD
   }
 
   public void loadDataObjectFields() {
-    fieldName.setText(getCurrentDataObject().getName());
-    fieldEmail.setText(getCurrentDataObject().getEmail());
-    fieldRepresentative.setText(getCurrentDataObject().getRepresentativeFullName());
-    fieldAddress.setText(getCurrentDataObject().getAddress());
-    fieldPhoneNumber.setText(getCurrentDataObject().getPhoneNumber());
-    fieldState.setValue(getCurrentDataObject().getState());
+    fieldName.setText(getContext().getName());
+    fieldEmail.setText(getContext().getEmail());
+    fieldRepresentative.setText(getContext().getRepresentativeFullName());
+    fieldAddress.setText(getContext().getAddress());
+    fieldPhoneNumber.setText(getContext().getPhoneNumber());
+    fieldState.setValue(getContext().getState());
   }
 
   @Override

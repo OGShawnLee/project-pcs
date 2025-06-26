@@ -41,12 +41,12 @@ public class UpdateStudentController extends ManageController<StudentDTO> {
   }
 
   public void loadDataObjectFields() {
-    fieldIDStudent.setText(getCurrentDataObject().getID());
-    fieldEmail.setText(getCurrentDataObject().getEmail());
-    fieldName.setText(getCurrentDataObject().getName());
-    fieldPaternalLastName.setText(getCurrentDataObject().getPaternalLastName());
-    fieldMaternalLastName.setText(getCurrentDataObject().getMaternalLastName());
-    fieldPhoneNumber.setText(getCurrentDataObject().getPhoneNumber());
+    fieldIDStudent.setText(getContext().getID());
+    fieldEmail.setText(getContext().getEmail());
+    fieldName.setText(getContext().getName());
+    fieldPaternalLastName.setText(getContext().getPaternalLastName());
+    fieldMaternalLastName.setText(getContext().getMaternalLastName());
+    fieldPhoneNumber.setText(getContext().getPhoneNumber());
   }
 
   private void handlePasswordUpdate() throws IllegalArgumentException, SQLException {
@@ -70,7 +70,7 @@ public class UpdateStudentController extends ManageController<StudentDTO> {
     }
 
     AccountDTO accountDTO = new AccountDTO(
-      getCurrentDataObject().getEmail(),
+      getContext().getEmail(),
       fieldPassword.getText(),
       AccountRole.STUDENT,
       true
@@ -80,13 +80,13 @@ public class UpdateStudentController extends ManageController<StudentDTO> {
 
   private void handleStudentUpdate() throws SQLException {
     StudentDTO studentDTO = new StudentDTO.StudentBuilder()
-      .setID(getCurrentDataObject().getID())
-      .setEmail(getCurrentDataObject().getEmail())
+      .setID(getContext().getID())
+      .setEmail(getContext().getEmail())
       .setName(fieldName.getText())
       .setPaternalLastName(fieldPaternalLastName.getText())
       .setMaternalLastName(fieldMaternalLastName.getText())
       .setPhoneNumber(fieldPhoneNumber.getText())
-      .setState(getCurrentDataObject().getState())
+      .setState(getContext().getState())
       .build();
 
     STUDENT_DAO.updateOne(studentDTO);

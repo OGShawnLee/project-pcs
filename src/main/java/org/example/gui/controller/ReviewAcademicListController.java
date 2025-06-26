@@ -107,7 +107,7 @@ public class ReviewAcademicListController extends ReviewListController implement
 
     if (selectedAcademic == null) return;
 
-    Modal.displayViewModal(
+    Modal.displayContextModal(
       "Gestionar Académico",
       "ManageAcademicModal",
       this::loadDataList,

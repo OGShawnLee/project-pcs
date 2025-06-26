@@ -1,5 +1,5 @@
 package org.example.gui.controller;
 
-public abstract class ManageController<T> extends ViewController<T> {
+public abstract class ManageController<T> extends ContextController<T> {
   protected abstract void handleUpdateCurrentDataObject();
 }

@@ -87,7 +87,7 @@ public class AssignProjectController extends ManageController<ProjectDTO> {
       tableStudentAvailable.setItems(observableStudentAvailableList);
 
       initialStudentPracticeList.clear();
-      initialStudentPracticeList = StudentPracticeDAO.getAllByProjectID(getCurrentDataObject().getID());
+      initialStudentPracticeList = StudentPracticeDAO.getAllByProjectID(getContext().getID());
 
       for (StudentPracticeDTO studentPractice : initialStudentPracticeList) {
         observableStudentSelectedList.add(studentPractice.getStudentDTO());
@@ -114,7 +114,7 @@ public class AssignProjectController extends ManageController<ProjectDTO> {
       practiceDTOS.add(
         new PracticeDTO.PracticeBuilder()
           .setIDStudent(student.getID())
-          .setIDProject(getCurrentDataObject().getID())
+          .setIDProject(getContext().getID())
           .setReasonOfAssignation(fieldReasonOfAssignation.getText())
           .build()
       );
@@ -141,7 +141,7 @@ public class AssignProjectController extends ManageController<ProjectDTO> {
       }
 
       filterPractices.add(
-        new FilterPractice(studentPractice.getStudentDTO().getID(), getCurrentDataObject().getID())
+        new FilterPractice(studentPractice.getStudentDTO().getID(), getContext().getID())
       );
       unassignedStudentNames.add(studentPractice.getStudentDTO().getName());
     }
@@ -184,8 +184,8 @@ public class AssignProjectController extends ManageController<ProjectDTO> {
           return null;
         }
 
-        if (observableStudentSelectedList.size() >= getCurrentDataObject().getAvailablePlaces()) {
-          Modal.displayError("No se pueden asignar más estudiantes al proyecto. Máximo: " + getCurrentDataObject().getAvailablePlaces());
+        if (observableStudentSelectedList.size() >= getContext().getAvailablePlaces()) {
+          Modal.displayError("No se pueden asignar más estudiantes al proyecto. Máximo: " + getContext().getAvailablePlaces());
           return null;
         }
 

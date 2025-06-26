@@ -41,7 +41,7 @@ public class LandingStudentController extends LandingController {
       }
 
       WorkPlanDTO currentWorkPlan = new WorkPlanDAO().getOne(currentProject.getID());
-      Modal.displayViewModal("Consultar Plan de Trabajo", "ReviewWorkPlanModal", currentWorkPlan);
+      Modal.displayContextModal("Consultar Plan de Trabajo", "ReviewWorkPlanModal", currentWorkPlan);
     } catch (SQLException e) {
       e.printStackTrace();
       Modal.displayError("No ha sido posible cargar el plan de trabajo del estudiante actual debido a un error de sistema.");

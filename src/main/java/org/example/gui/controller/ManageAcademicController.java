@@ -39,14 +39,14 @@ public class ManageAcademicController extends ManageController<AcademicDTO> {
   }
 
   public void loadDataObjectFields() {
-    fieldIDAcademic.setText(getCurrentDataObject().getID());
-    fieldEmail.setText(getCurrentDataObject().getEmail());
-    fieldName.setText(getCurrentDataObject().getName());
-    fieldPaternalLastName.setText(getCurrentDataObject().getPaternalLastName());
-    fieldMaternalLastName.setText(getCurrentDataObject().getMaternalLastName());
-    fieldRole.setValue(getCurrentDataObject().getRole());
-    fieldPhoneNumber.setText(getCurrentDataObject().getPhoneNumber());
-    fieldState.setValue(getCurrentDataObject().getState());
+    fieldIDAcademic.setText(getContext().getID());
+    fieldEmail.setText(getContext().getEmail());
+    fieldName.setText(getContext().getName());
+    fieldPaternalLastName.setText(getContext().getPaternalLastName());
+    fieldMaternalLastName.setText(getContext().getMaternalLastName());
+    fieldRole.setValue(getContext().getRole());
+    fieldPhoneNumber.setText(getContext().getPhoneNumber());
+    fieldState.setValue(getContext().getState());
   }
 
   @Override

@@ -5,7 +5,7 @@ import javafx.scene.text.Text;
 
 import org.example.business.dto.WorkPlanDTO;
 
-public class ReviewWorkPlanController extends ViewController<WorkPlanDTO> {
+public class ReviewWorkPlanController extends ContextController<WorkPlanDTO> {
   @FXML
   public Text fieldProjectGoal;
   @FXML
@@ -26,11 +26,11 @@ public class ReviewWorkPlanController extends ViewController<WorkPlanDTO> {
   }
 
   private void loadFields() {
-    fieldProjectGoal.setText(getCurrentDataObject().getProjectGoal());
-    fieldTheoreticalScope.setText(getCurrentDataObject().getTheoreticalScope());
-    fieldFirstMonthActivities.setText(getCurrentDataObject().getFirstMonthActivities());
-    fieldSecondMonthActivities.setText(getCurrentDataObject().getSecondMonthActivities());
-    fieldThirdMonthActivities.setText(getCurrentDataObject().getThirdMonthActivities());
-    fieldFourthMonthActivities.setText(getCurrentDataObject().getFourthMonthActivities());
+    fieldProjectGoal.setText(getContext().getProjectGoal());
+    fieldTheoreticalScope.setText(getContext().getTheoreticalScope());
+    fieldFirstMonthActivities.setText(getContext().getFirstMonthActivities());
+    fieldSecondMonthActivities.setText(getContext().getSecondMonthActivities());
+    fieldThirdMonthActivities.setText(getContext().getThirdMonthActivities());
+    fieldFourthMonthActivities.setText(getContext().getFourthMonthActivities());
   }
 }

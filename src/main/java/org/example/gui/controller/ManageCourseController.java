@@ -45,25 +45,25 @@ public class ManageCourseController extends ManageController<CourseDTO> {
   }
 
   public void loadDataObjectFields() {
-    fieldNRC.setText(getCurrentDataObject().getNRC());
+    fieldNRC.setText(getContext().getNRC());
 
     loadAcademic();
 
-    comboBoxSection.setValue(getCurrentDataObject().getSection());
-    comboBoxSemester.setValue(getCurrentDataObject().getSemester());
-    comboBoxState.setValue(getCurrentDataObject().getState());
+    comboBoxSection.setValue(getContext().getSection());
+    comboBoxSemester.setValue(getContext().getSemester());
+    comboBoxState.setValue(getContext().getState());
   }
 
   private void loadAcademic() {
     try {
       for (AcademicDTO academicDTO : comboBoxAcademic.getItems()) {
-        if (academicDTO.getEmail().equals(getCurrentDataObject().getIDAcademic())) {
+        if (academicDTO.getEmail().equals(getContext().getIDAcademic())) {
           comboBoxAcademic.setValue(academicDTO);
           break;
         }
       }
 
-      AcademicDTO organization = ACADEMIC_DAO.getOne(getCurrentDataObject().getIDAcademic());
+      AcademicDTO organization = ACADEMIC_DAO.getOne(getContext().getIDAcademic());
       comboBoxAcademic.setValue(organization);
     } catch (SQLException e) {
       Modal.displayError("No ha sido posible cargar la organización del proyecto debido a un error en el sistema.");

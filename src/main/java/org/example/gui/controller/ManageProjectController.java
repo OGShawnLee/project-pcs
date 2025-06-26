@@ -46,17 +46,17 @@ public class ManageProjectController extends ManageController<ProjectDTO> {
   }
 
   public void loadDataObjectFields() {
-    fieldIDProject.setText(String.valueOf(getCurrentDataObject().getID()));
+    fieldIDProject.setText(String.valueOf(getContext().getID()));
 
     loadOrganization();
 
-    fieldName.setText(getCurrentDataObject().getName());
-    fieldDescription.setText(getCurrentDataObject().getDescription());
-    fieldDepartment.setText(getCurrentDataObject().getDepartment());
-    fieldAvailablePlaces.setText(String.valueOf(getCurrentDataObject().getAvailablePlaces()));
-    fieldMethodology.setText(getCurrentDataObject().getMethodology());
-    comboBoxSector.setValue(getCurrentDataObject().getSector());
-    comboBoxState.setValue(getCurrentDataObject().getState());
+    fieldName.setText(getContext().getName());
+    fieldDescription.setText(getContext().getDescription());
+    fieldDepartment.setText(getContext().getDepartment());
+    fieldAvailablePlaces.setText(String.valueOf(getContext().getAvailablePlaces()));
+    fieldMethodology.setText(getContext().getMethodology());
+    comboBoxSector.setValue(getContext().getSector());
+    comboBoxState.setValue(getContext().getState());
   }
 
   public void loadComboBoxOrganization() {
@@ -79,13 +79,13 @@ public class ManageProjectController extends ManageController<ProjectDTO> {
   private void loadOrganization() {
     try {
       for (OrganizationDTO organizationDTO : comboBoxOrganization.getItems()) {
-        if (organizationDTO.getEmail().equals(getCurrentDataObject().getIDOrganization())) {
+        if (organizationDTO.getEmail().equals(getContext().getIDOrganization())) {
           comboBoxOrganization.setValue(organizationDTO);
           break;
         }
       }
 
-      OrganizationDTO organization = ORGANIZATION_DAO.getOne(getCurrentDataObject().getIDOrganization());
+      OrganizationDTO organization = ORGANIZATION_DAO.getOne(getContext().getIDOrganization());
       comboBoxOrganization.setValue(organization);
     } catch (SQLException e) {
       Modal.displayError("No ha sido posible cargar la organización del proyecto debido a un error en el sistema.");

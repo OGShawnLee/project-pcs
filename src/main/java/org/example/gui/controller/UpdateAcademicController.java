@@ -41,12 +41,12 @@ public class UpdateAcademicController extends ManageController<AcademicDTO> {
   }
 
   public void loadDataObjectFields() {
-    fieldIDAcademic.setText(getCurrentDataObject().getID());
-    fieldEmail.setText(getCurrentDataObject().getEmail());
-    fieldName.setText(getCurrentDataObject().getName());
-    fieldPaternalLastName.setText(getCurrentDataObject().getPaternalLastName());
-    fieldMaternalLastName.setText(getCurrentDataObject().getMaternalLastName());
-    fieldPhoneNumber.setText(getCurrentDataObject().getPhoneNumber());
+    fieldIDAcademic.setText(getContext().getID());
+    fieldEmail.setText(getContext().getEmail());
+    fieldName.setText(getContext().getName());
+    fieldPaternalLastName.setText(getContext().getPaternalLastName());
+    fieldMaternalLastName.setText(getContext().getMaternalLastName());
+    fieldPhoneNumber.setText(getContext().getPhoneNumber());
   }
 
   private void handlePasswordUpdate() throws IllegalArgumentException, SQLException {
@@ -70,9 +70,9 @@ public class UpdateAcademicController extends ManageController<AcademicDTO> {
     }
 
     AccountDTO accountDTO = new AccountDTO(
-      getCurrentDataObject().getEmail(),
+      getContext().getEmail(),
       fieldPassword.getText(),
-      AccountRole.fromAcademicRole(getCurrentDataObject().getRole()),
+      AccountRole.fromAcademicRole(getContext().getRole()),
       true
     );
     ACCOUNT_DAO.updateOne(accountDTO);
@@ -80,14 +80,14 @@ public class UpdateAcademicController extends ManageController<AcademicDTO> {
 
   private void handleAcademicUpdate() throws SQLException {
     AcademicDTO academicDTO = new AcademicDTO.AcademicBuilder()
-      .setID(getCurrentDataObject().getID())
-      .setEmail(getCurrentDataObject().getEmail())
+      .setID(getContext().getID())
+      .setEmail(getContext().getEmail())
       .setName(fieldName.getText())
       .setPaternalLastName(fieldPaternalLastName.getText())
       .setMaternalLastName(fieldMaternalLastName.getText())
       .setPhoneNumber(fieldPhoneNumber.getText())
-      .setRole(getCurrentDataObject().getRole())
-      .setState(getCurrentDataObject().getState())
+      .setRole(getContext().getRole())
+      .setState(getContext().getState())
       .build();
 
     ACADEMIC_DAO.updateOne(academicDTO);

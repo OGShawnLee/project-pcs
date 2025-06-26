@@ -7,7 +7,6 @@ import javafx.scene.control.TextField;
 import org.example.business.dao.CourseDAO;
 import org.example.business.dao.EnrollmentDAO;
 import org.example.business.dao.StudentDAO;
-import org.example.business.dao.filter.FilterEnrollment;
 import org.example.business.dto.*;
 import org.example.gui.Modal;
 
@@ -54,7 +53,7 @@ public class ManageStudentController extends ManageController<StudentDTO> {
     }
 
     public void loadDataObjectFields() {
-        StudentDTO student = getCurrentDataObject();
+        StudentDTO student = getContext();
 
         fieldIDStudent.setText(student.getID());
         fieldEmail.setText(student.getEmail());

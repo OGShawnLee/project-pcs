@@ -110,7 +110,7 @@ public class ReviewStudentListController extends ReviewListController implements
 
     if (selectedStudent == null) return;
 
-    Modal.displayViewModal(
+    Modal.displayContextModal(
       "Gestionar Estudiante",
       "ManageStudentModal",
       this::loadDataList,

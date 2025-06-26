@@ -27,7 +27,7 @@ public class UpdateCoordinatorController extends ManageController<AccountDTO> {
   }
 
   public void loadDataObjectFields() {
-    fieldEmail.setText(getCurrentDataObject().email());
+    fieldEmail.setText(getContext().email());
   }
 
   @Override
@@ -41,9 +41,9 @@ public class UpdateCoordinatorController extends ManageController<AccountDTO> {
       }
 
       AccountDTO accountDTO = new AccountDTO(
-        getCurrentDataObject().email(),
+        getContext().email(),
         passwordConfirm,
-        getCurrentDataObject().role(),
+        getContext().role(),
         true
       );
       ACCOUNT_DAO.updateOne(accountDTO);
