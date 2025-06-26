@@ -1,6 +1,6 @@
 package db;
 
-import org.example.business.dao.Configuration;
+import org.example.business.dao.ConfigurationName;
 import org.example.business.dao.ConfigurationDAO;
 import org.example.business.dto.ConfigurationDTO;
 import org.junit.jupiter.api.Test;
@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class ConfigurationDAOTest {
   public static final ConfigurationDAO CONFIGURATION_DAO = new ConfigurationDAO();
   public static final ConfigurationDTO CONFIGURATION_DTO = new ConfigurationDTO(
-    Configuration.EVALUATION_ENABLED_FIRST,
+    ConfigurationName.EVALUATION_ENABLED_FIRST,
     true
   );
 
@@ -48,15 +48,15 @@ public class ConfigurationDAOTest {
   @Test
   public void testUpdateOneConfiguration() {
     assertDoesNotThrow(() -> {
-      ConfigurationDTO updatedConfiguration = new ConfigurationDTO(Configuration.EVALUATION_ENABLED_FIRST, false);
+      ConfigurationDTO updatedConfiguration = new ConfigurationDTO(ConfigurationName.EVALUATION_ENABLED_FIRST, false);
       CONFIGURATION_DAO.updateOne(updatedConfiguration);
       assertEquals(updatedConfiguration, CONFIGURATION_DAO.getOne(updatedConfiguration.name()));
 
-      updatedConfiguration = new ConfigurationDTO(Configuration.EVALUATION_ENABLED_SECOND, true);
+      updatedConfiguration = new ConfigurationDTO(ConfigurationName.EVALUATION_ENABLED_SECOND, true);
       CONFIGURATION_DAO.updateOne(updatedConfiguration);
       assertEquals(updatedConfiguration, CONFIGURATION_DAO.getOne(updatedConfiguration.name()));
 
-      updatedConfiguration = new ConfigurationDTO(Configuration.EVALUATION_ENABLED_FINAL, false);
+      updatedConfiguration = new ConfigurationDTO(ConfigurationName.EVALUATION_ENABLED_FINAL, false);
       CONFIGURATION_DAO.updateOne(updatedConfiguration);
       assertEquals(updatedConfiguration, CONFIGURATION_DAO.getOne(updatedConfiguration.name()));
     });

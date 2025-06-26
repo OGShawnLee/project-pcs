@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConfigurationDAO extends DAOPattern<ConfigurationDTO, Configuration> {
+public class ConfigurationDAO extends DAOPattern<ConfigurationDTO, ConfigurationName> {
   private static final String GET_QUERY = "SELECT * FROM Configuration WHERE name = ?";
   private static final String GET_ALL_QUERY = "SELECT * FROM Configuration";
   private static final String UPDATE_QUERY = "UPDATE Configuration SET is_enabled = ? WHERE name = ?";
@@ -17,7 +17,7 @@ public class ConfigurationDAO extends DAOPattern<ConfigurationDTO, Configuration
   @Override
   ConfigurationDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
     return new ConfigurationDTO(
-      Configuration.valueOf(resultSet.getString("name")),
+      ConfigurationName.valueOf(resultSet.getString("name")),
       resultSet.getBoolean("is_enabled")
     );
   }
@@ -46,7 +46,7 @@ public class ConfigurationDAO extends DAOPattern<ConfigurationDTO, Configuration
   }
 
   @Override
-  public ConfigurationDTO getOne(Configuration name) throws SQLException {
+  public ConfigurationDTO getOne(ConfigurationName name) throws SQLException {
     try (
       Connection connection = getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_QUERY)
@@ -79,7 +79,7 @@ public class ConfigurationDAO extends DAOPattern<ConfigurationDTO, Configuration
 
   @Deprecated
   @Override
-  public void deleteOne(Configuration name) throws UnsupportedOperationException {
+  public void deleteOne(ConfigurationName name) throws UnsupportedOperationException {
     throw new UnsupportedOperationException("Configuration is READ and UPDATE only.");
   }
 }

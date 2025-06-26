@@ -86,13 +86,13 @@ public class RegisterEvaluationController extends Controller {
 
             for (ConfigurationDTO config : currentConfiguration) {
                 String configName = String.valueOf(config.name());
-                if (configName.equals(Configuration.EVALUATION_ENABLED_FIRST.name()) && config.isEnabled()) {
+                if (configName.equals(ConfigurationName.EVALUATION_ENABLED_FIRST.name()) && config.isEnabled()) {
                     period = EvaluationDTO.Kind.FIRST_PERIOD;
                     break;
-                } else if (configName.equals(Configuration.EVALUATION_ENABLED_SECOND.name()) && config.isEnabled()) {
+                } else if (configName.equals(ConfigurationName.EVALUATION_ENABLED_SECOND.name()) && config.isEnabled()) {
                     period = EvaluationDTO.Kind.SECOND_PERIOD;
                     break;
-                } else if (configName.equals(Configuration.EVALUATION_ENABLED_FINAL.name()) && config.isEnabled()) {
+                } else if (configName.equals(ConfigurationName.EVALUATION_ENABLED_FINAL.name()) && config.isEnabled()) {
                     period = EvaluationDTO.Kind.FINAL;
                     break;
                 }

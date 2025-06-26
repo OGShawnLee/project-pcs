@@ -1,10 +1,9 @@
 package org.example.gui.controller;
 
-import org.example.business.dao.Configuration;
+import org.example.business.dao.ConfigurationName;
 import org.example.business.dao.ConfigurationDAO;
 import org.example.business.dao.PracticeDAO;
 import org.example.business.dto.ConfigurationDTO;
-import org.example.business.dto.EvaluationDTO;
 import org.example.business.dto.PracticeDTO;
 import org.example.gui.Modal;
 
@@ -29,11 +28,11 @@ public class LandingEvaluatorController extends LandingController {
 
       for (ConfigurationDTO config : currentConfiguration) {
         String configName = String.valueOf(config.name());
-        if (configName.equals(Configuration.EVALUATION_ENABLED_FIRST.name()) && config.isEnabled()) {
+        if (configName.equals(ConfigurationName.EVALUATION_ENABLED_FIRST.name()) && config.isEnabled()) {
           Modal.display("Registrar Evaluacion-1er Parcial", "RegisterEvaluationModal");
-        } else if (configName.equals(Configuration.EVALUATION_ENABLED_SECOND.name()) && config.isEnabled()) {
+        } else if (configName.equals(ConfigurationName.EVALUATION_ENABLED_SECOND.name()) && config.isEnabled()) {
           Modal.display("Registrar Evaluacion-2do Parcial", "RegisterEvaluationModal");
-        } else if (configName.equals(Configuration.EVALUATION_ENABLED_FINAL.name()) && config.isEnabled()) {
+        } else if (configName.equals(ConfigurationName.EVALUATION_ENABLED_FINAL.name()) && config.isEnabled()) {
           Modal.display("Registrar Evaluacion-Final", "RegisterEvaluationModal");
         }
       }

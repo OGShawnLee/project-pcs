@@ -1,8 +1,8 @@
 package org.example.business.dto;
 
-import org.example.business.dao.Configuration;
+import org.example.business.dao.ConfigurationName;
 
-public record ConfigurationDTO(Configuration name, boolean isEnabled) {
+public record ConfigurationDTO(ConfigurationName name, boolean isEnabled) {
   @Override
   public boolean equals(Object instance) {
     if (this == instance) return true;
