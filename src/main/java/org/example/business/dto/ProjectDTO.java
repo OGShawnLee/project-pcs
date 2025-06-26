@@ -5,7 +5,7 @@ import org.example.business.dao.ProjectSector;
 
 import java.time.LocalDateTime;
 
-public class ProjectDTO {
+public class ProjectDTO implements Record {
   private int id;
   private final String idOrganization;
   private final String name;

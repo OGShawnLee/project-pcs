@@ -46,7 +46,7 @@ public class ReviewAcademicListController extends ReviewListController implement
     columnPhoneNumber.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
     columnRole.setCellValueFactory(new PropertyValueFactory<>("role"));
     columnState.setCellValueFactory(new PropertyValueFactory<>("state"));
-    columnCreatedAt.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
+    columnCreatedAt.setCellValueFactory(new PropertyValueFactory<>("formattedCreatedAt"));
   }
 
   @Override

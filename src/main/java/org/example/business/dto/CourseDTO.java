@@ -4,7 +4,7 @@ import org.example.business.Validator;
 
 import java.time.LocalDateTime;
 
-public class CourseDTO {
+public class CourseDTO implements Record {
   public enum Section {S1, S2}
 
   public enum Semester {

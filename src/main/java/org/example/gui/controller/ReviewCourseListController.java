@@ -40,7 +40,7 @@ public class ReviewCourseListController extends ReviewListController implements 
     columnSection.setCellValueFactory(new PropertyValueFactory<>("section"));
     columnTotalStudents.setCellValueFactory(new PropertyValueFactory<>("totalStudents"));
     columnState.setCellValueFactory(new PropertyValueFactory<>("state"));
-    columnCreatedAt.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
+    columnCreatedAt.setCellValueFactory(new PropertyValueFactory<>("formattedCreatedAt"));
   }
 
   @Override

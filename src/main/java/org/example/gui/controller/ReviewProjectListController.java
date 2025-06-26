@@ -54,7 +54,7 @@ public class ReviewProjectListController extends ReviewListController implements
     columnAvailablePlaces.setCellValueFactory(new PropertyValueFactory<>("availablePlaces"));
     columnSector.setCellValueFactory(new PropertyValueFactory<>("sector"));
     columnState.setCellValueFactory(new PropertyValueFactory<>("state"));
-    columnCreatedAt.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
+    columnCreatedAt.setCellValueFactory(new PropertyValueFactory<>("formattedCreatedAt"));
   }
 
   @Override

@@ -40,7 +40,7 @@ public class ReviewOrganizationListController extends ReviewListController imple
     columnAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
     columnPhoneNumber.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
     columnState.setCellValueFactory(new PropertyValueFactory<>("state"));
-    columnCreatedAt.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
+    columnCreatedAt.setCellValueFactory(new PropertyValueFactory<>("formattedCreatedAt"));
   }
 
   @Override

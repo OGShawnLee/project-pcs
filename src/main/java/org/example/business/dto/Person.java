@@ -4,7 +4,7 @@ import org.example.business.Validator;
 
 import java.time.LocalDateTime;
 
-public abstract class Person {
+public abstract class Person implements Record {
   private final String name;
   private final String paternalLastName;
   private final String maternalLastName;

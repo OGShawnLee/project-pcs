@@ -4,7 +4,7 @@ import org.example.business.Validator;
 
 import java.time.LocalDateTime;
 
-public class OrganizationDTO {
+public class OrganizationDTO implements Record {
   private final String email;
   private final String name;
   private final String representativeFullName;
