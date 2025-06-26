@@ -41,19 +41,19 @@
         <!-- Student -->
         <HBox maxWidth="-Infinity" prefHeight="32.0" spacing="16.0">
           <Button onAction="#handleOpenReviewStudentProject" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                  prefWidth="160.0" styleClass="button" text="Consultar Projecto"/>
+                  prefWidth="160.0" styleClass="button" text="Consultar Proyecto"/>
           <Button onAction="#handleOpenRegisterProjectRequest" maxWidth="1.7976931348623157E308"
                   mnemonicParsing="false" prefWidth="160.0" styleClass="button" text="Solicitar Proyecto"/>
         </HBox>
-        <Button onAction="#handleOpenManageProfile" maxWidth="1.7976931348623157E308"
-                mnemonicParsing="false"
-                styleClass="button" text="Gestionar Perfil"/>
         <Button onAction="#handleOpenRegisterSelfEvaluation" maxWidth="1.7976931348623157E308"
                 mnemonicParsing="false"
                 styleClass="button" text="Registrar Autoevaluación"/>
         <Button onAction="#handleOpenRegisterMonthlyReport" maxWidth="1.7976931348623157E308"
                 mnemonicParsing="false"
                 styleClass="button" text="Registrar Reporte Mensual"/>
+        <Button onAction="#handleOpenReviewWorkPlan" maxWidth="1.7976931348623157E308"
+                mnemonicParsing="false"
+                styleClass="button" text="Consultar Cronograma de Actividades"/>
       </children>
     </VBox>
   </children>

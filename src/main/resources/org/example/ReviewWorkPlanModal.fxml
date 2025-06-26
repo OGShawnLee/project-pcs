@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="820.0" prefWidth="720.0" stylesheets="@main.css" xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.example.gui.controller.ReviewWorkPlanController">
+  <VBox layoutX="200.0" layoutY="213.0" prefWidth="320.0" spacing="16.0">
+    <children>
+      <Label styleClass="title" text="Plan de Trabajo">
+        <VBox.margin>
+          <Insets/>
+        </VBox.margin>
+        <padding>
+          <Insets bottom="8.0"/>
+        </padding>
+      </Label>
+      <VBox spacing="8.0">
+        <children>
+          <Label styleClass="label" text="Objetivo del Proyecto"/>
+          <Text fx:id="fieldProjectGoal" styleClass="text" wrappingWidth="680.0"/>
+        </children>
+      </VBox>
+      <VBox spacing="8.0">
+        <children>
+          <Label styleClass="label" text="Alcance Teórico"/>
+          <Text fx:id="fieldTheoreticalScope" styleClass="text" wrappingWidth="680.0"/>
+        </children>
+      </VBox>
+      <VBox spacing="8.0">
+        <children>
+          <Label styleClass="label" text="Actividades del Primer Mes"/>
+          <Text fx:id="fieldFirstMonthActivities" styleClass="text" wrappingWidth="680.0"/>
+        </children>
+      </VBox>
+      <VBox spacing="8.0">
+        <children>
+          <Label styleClass="label" text="Actividades del Segundo Mes"/>
+          <Text fx:id="fieldSecondMonthActivities" styleClass="text" wrappingWidth="680.0"/>
+        </children>
+      </VBox>
+      <VBox spacing="8.0">
+        <children>
+          <Label styleClass="label" text="Actividades del Tercer Mes"/>
+          <Text fx:id="fieldThirdMonthActivities" styleClass="text" wrappingWidth="680.0"/>
+        </children>
+      </VBox>
+      <VBox spacing="8.0">
+        <children>
+          <Label styleClass="label" text="Actividades del Cuarto Mes"/>
+          <Text fx:id="fieldFourthMonthActivities" styleClass="text" wrappingWidth="680.0"/>
+        </children>
+      </VBox>
+    </children>
+  </VBox>
+</AnchorPane>
