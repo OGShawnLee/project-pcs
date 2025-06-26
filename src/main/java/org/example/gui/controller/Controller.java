@@ -2,11 +2,11 @@ package org.example.gui.controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableView;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import org.example.business.auth.AuthClient;
@@ -18,7 +18,7 @@ import java.util.function.Function;
 
 public abstract class Controller {
   @FXML
-  protected AnchorPane container;
+  protected Node container;
 
   protected Stage getScene() {
     return (Stage) container.getScene().getWindow();
