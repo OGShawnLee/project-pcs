@@ -13,7 +13,7 @@ repositories {
 
 application {
     mainModule = 'com.example'
-    mainClass = 'com.example.App'
+    mainClass = 'com.example.Main'
 }
 
 javafx {
