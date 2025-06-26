@@ -5,6 +5,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import org.example.db.DBConnector;
+
 import java.io.IOException;
 
 public class Main {
@@ -16,6 +18,11 @@ public class Main {
       stage.setTitle("Sistema Gestor de Practicas Profesionales");
       stage.setScene(scene);
       stage.show();
+    }
+
+    @Override
+    public void stop() {
+      DBConnector.close();
     }
   }
 
