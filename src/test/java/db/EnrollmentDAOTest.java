@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -18,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class EnrollmentDAOTest {
   public static final EnrollmentDAO ENROLLMENT_DAO = new EnrollmentDAO();
   public static final EnrollmentDTO ENROLLMENT_DTO = new EnrollmentDTO.EnrollmentBuilder()
+    .setIDAcademic(AcademicDAOTest.ACADEMIC_DTO.getID())
     .setIDCourse(CourseDAOTest.COURSE_DTO.getNRC())
     .setIDStudent(StudentDAOTest.STUDENT_DTO.getID())
     .build();
@@ -94,6 +94,7 @@ public class EnrollmentDAOTest {
       createOneTestEnrollment();
 
       EnrollmentDTO updatedEnrollment = new EnrollmentDTO.EnrollmentBuilder()
+        .setIDAcademic(ENROLLMENT_DTO.getIDAcademic())
         .setIDCourse(ENROLLMENT_DTO.getIDCourse())
         .setIDStudent(ENROLLMENT_DTO.getIDStudent())
         .build();
