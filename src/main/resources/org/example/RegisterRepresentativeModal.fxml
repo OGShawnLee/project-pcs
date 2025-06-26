@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="720.0" prefWidth="720.0" stylesheets="@main.css" xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.gui.controller.RegisterRepresentativeController">
+  <children>
+    <VBox layoutX="200.0" layoutY="73.0" prefWidth="320.0" spacing="16.0">
+      <children>
+        <Label styleClass="title" text="Registrar Representante">
+          <VBox.margin>
+            <Insets/>
+          </VBox.margin>
+          <padding>
+            <Insets bottom="8.0"/>
+          </padding>
+        </Label>
+        <VBox spacing="8.0">
+          <children>
+            <Label styleClass="label" text="Nombre"/>
+            <TextField fx:id="fieldName" promptText="Introduzca el Nombre Completo del Representante" styleClass="input"/>
+          </children>
+        </VBox>
+        <VBox spacing="8.0">
+          <children>
+            <Label styleClass="label" text="Apellido Paterno"/>
+            <TextField fx:id="fieldPaternalLastName" promptText="Introduzca el Apellido Paterno del Representante"
+                       styleClass="input"/>
+          </children>
+        </VBox>
+        <VBox spacing="8.0">
+          <children>
+            <Label styleClass="label" text="Apellido Materno"/>
+            <TextField fx:id="fieldMaternalLastName" promptText="Introduzca el Apellido Materno del Representante"
+                       styleClass="input"/>
+          </children>
+        </VBox>
+        <VBox spacing="8.0">
+          <children>
+            <Label styleClass="label" text="Organización"/>
+            <ComboBox fx:id="fieldOrganizationEmail" maxWidth="1.7976931348623157E308"
+                      promptText="Seleccione la Organización del Representante" styleClass="input"/>
+          </children>
+        </VBox>
+        <VBox spacing="8.0">
+          <children>
+            <Label styleClass="label" text="Posición"/>
+            <TextField fx:id="fieldPosition" promptText="Introduzca la Posición del Representante en la Organización"
+                       styleClass="input"/>
+          </children>
+        </VBox>
+        <VBox spacing="8.0">
+          <children>
+            <Label styleClass="label" text="Correo Electrónico"/>
+            <TextField fx:id="fieldEmail" promptText="Introduzca el Correo Electrónico del Representante"
+                       styleClass="input"/>
+          </children>
+        </VBox>
+        <VBox spacing="8.0">
+          <children>
+            <Label styleClass="label" text="Número de Teléfono"/>
+            <TextField fx:id="fieldPhoneNumber" promptText="Introduzca el Número de Teléfono del Representante"
+                       styleClass="input"/>
+          </children>
+        </VBox>
+        <HBox>
+          <children>
+            <Button mnemonicParsing="false" onAction="#handleRegister" prefWidth="320.0" styleClass="button"
+                    text="Registrar Representante"/>
+          </children>
+        </HBox>
+      </children>
+    </VBox>
+  </children>
+</AnchorPane>

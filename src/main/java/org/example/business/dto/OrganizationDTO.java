@@ -7,7 +7,6 @@ import java.time.LocalDateTime;
 public class OrganizationDTO implements Record {
   private final String email;
   private final String name;
-  private final String representativeFullName;
   private final String address;
   private final String state;
   private final String phoneNumber;
@@ -16,7 +15,6 @@ public class OrganizationDTO implements Record {
   public OrganizationDTO(OrganizationBuilder builder) {
     this.email = builder.email;
     this.name = builder.name;
-    this.representativeFullName = builder.representativeFullName;
     this.address = builder.address;
     this.phoneNumber = builder.phoneNumber;
     this.state = builder.state;
@@ -29,10 +27,6 @@ public class OrganizationDTO implements Record {
 
   public String getName() {
     return name;
-  }
-
-  public String getRepresentativeFullName() {
-    return representativeFullName;
   }
 
   public String getAddress() {
@@ -66,7 +60,6 @@ public class OrganizationDTO implements Record {
     return
       email.equals(that.email) &&
       name.equals(that.name) &&
-      representativeFullName.equals(that.representativeFullName) &&
       address.equals(that.address) &&
       state.equals(that.state);
   }
@@ -87,11 +80,6 @@ public class OrganizationDTO implements Record {
 
     public OrganizationBuilder setName(String name) {
       this.name = Validator.getValidFlexibleName(name, "Nombre de Organización", 3, 256);
-      return this;
-    }
-
-    public OrganizationBuilder setRepresentativeFullName(String representativeFullName) {
-      this.representativeFullName = Validator.getValidName(representativeFullName, "Nombre del Representante", 3, 128);
       return this;
     }
 

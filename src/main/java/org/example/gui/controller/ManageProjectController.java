@@ -5,8 +5,11 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
+import org.example.business.dao.NotFoundException;
 import org.example.business.dao.OrganizationDAO;
 import org.example.business.dao.ProjectDAO;
+import org.example.business.dao.RepresentativeDAO;
+import org.example.business.dto.RepresentativeDTO;
 import org.example.business.dto.enumeration.ProjectSector;
 import org.example.business.dto.OrganizationDTO;
 import org.example.business.dto.ProjectDTO;
@@ -31,6 +34,8 @@ public class ManageProjectController extends ManageController<ProjectDTO> {
   @FXML
   private ComboBox<OrganizationDTO> comboBoxOrganization;
   @FXML
+  private ComboBox<RepresentativeDTO> comboBoxRepresentative;
+  @FXML
   private TextField fieldMethodology;
   @FXML
   private ComboBox<ProjectSector> comboBoxSector;
@@ -39,17 +44,19 @@ public class ManageProjectController extends ManageController<ProjectDTO> {
 
   public void initialize(ProjectDTO currentProject) {
     super.initialize(currentProject);
-    loadRecordState(comboBoxState);
-    RegisterProjectController.loadComboBoxSector(comboBoxSector);
-    loadComboBoxOrganization();
     loadDataObjectFields();
   }
 
   public void loadDataObjectFields() {
-    fieldIDProject.setText(String.valueOf(getContext().getID()));
+    loadRecordState(comboBoxState);
+    ComboBoxLoader.loadComboBoxSector(comboBoxSector);
+    ComboBoxLoader.loadComboBoxOrganization(comboBoxOrganization, true);
+    ComboBoxLoader.loadRepresentativeComboBoxFromOrganizationComboBoxSelection(comboBoxOrganization, comboBoxRepresentative);
 
     loadOrganization();
+    loadRepresentative();
 
+    fieldIDProject.setText(String.valueOf(getContext().getID()));
     fieldName.setText(getContext().getName());
     fieldDescription.setText(getContext().getDescription());
     fieldDepartment.setText(getContext().getDepartment());
@@ -57,23 +64,6 @@ public class ManageProjectController extends ManageController<ProjectDTO> {
     fieldMethodology.setText(getContext().getMethodology());
     comboBoxSector.setValue(getContext().getSector());
     comboBoxState.setValue(getContext().getState());
-  }
-
-  public void loadComboBoxOrganization() {
-    try {
-      List<OrganizationDTO> organizationList = ORGANIZATION_DAO.getAllByState("ACTIVE");
-
-      if (organizationList.isEmpty()) {
-        Modal.displayError("No existe una organización. Por favor, registre una organización antes de registrar un proyecto.");
-        Modal.display("Registrar Organización", "RegisterProjectModal", this::loadComboBoxOrganization);
-        return;
-      }
-
-      comboBoxOrganization.getItems().addAll(organizationList);
-      comboBoxOrganization.setValue(organizationList.get(0));
-    } catch (SQLException e) {
-      Modal.displayError("No ha sido posible cargar las organizaciones debido a un error en el sistema.");
-    }
   }
 
   private void loadOrganization() {
@@ -92,12 +82,29 @@ public class ManageProjectController extends ManageController<ProjectDTO> {
     }
   }
 
+  private void loadRepresentative() {
+    try {
+      for (RepresentativeDTO representativeDTO : comboBoxRepresentative.getItems()) {
+        if (representativeDTO.getEmail().equals(getContext().getRepresentativeEmail())) {
+          comboBoxRepresentative.setValue(representativeDTO);
+          break;
+        }
+      }
+
+      RepresentativeDTO representative = new RepresentativeDAO().getOne(getContext().getRepresentativeEmail());
+      comboBoxRepresentative.setValue(representative);
+    } catch (SQLException | NotFoundException e) {
+      Modal.displayError("No ha sido posible cargar el representante del proyecto debido a un error en el sistema.");
+    }
+  }
+
   @Override
   public void handleUpdateCurrentDataObject() {
     try {
       ProjectDTO updatedProject = new ProjectDTO.ProjectBuilder()
         .setID(Integer.parseInt(fieldIDProject.getText()))
         .setIDOrganization(comboBoxOrganization.getValue().getEmail())
+        .setRepresentativeEmail(comboBoxRepresentative.getValue().getEmail())
         .setName(fieldName.getText())
         .setDescription(fieldDescription.getText())
         .setDepartment(fieldDepartment.getText())
@@ -107,8 +114,15 @@ public class ManageProjectController extends ManageController<ProjectDTO> {
         .setState(comboBoxState.getValue())
         .build();
 
-      PROJECT_DAO.updateOne(updatedProject);
-      Modal.displaySuccess("El proyecto ha sido actualizado exitosamente.");
+      String organizationEmail = updatedProject.getIDOrganization();
+      String representativeOrganizationEmail = comboBoxRepresentative.getValue().getEmail();
+
+      if (organizationEmail.equals(representativeOrganizationEmail)) {
+        PROJECT_DAO.updateOne(updatedProject);
+        Modal.displaySuccess("El proyecto ha sido actualizado exitosamente.");
+      }
+
+      throw new IllegalArgumentException("El representante debe pertenecer a la misma organización del proyecto.");
     } catch (IllegalArgumentException e) {
       Modal.displayError(e.getMessage());
     } catch (SQLException e) {

@@ -5,7 +5,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
-import org.example.business.dao.OrganizationDAO;
+import org.example.business.dto.RepresentativeDTO;
 import org.example.business.dto.enumeration.ProjectSector;
 import org.example.business.dto.OrganizationDTO;
 import org.example.business.dto.ProjectDTO;
@@ -14,11 +14,9 @@ import org.example.business.dto.WorkPlanDTO;
 import org.example.gui.Modal;
 
 import java.sql.SQLException;
-import java.util.List;
 
 public class RegisterProjectController extends Controller {
   private final ProjectDAO PROJECT_DAO = new ProjectDAO();
-  private final OrganizationDAO ORGANIZATION_DAO = new OrganizationDAO();
   @FXML
   private TextField fieldName;
   @FXML
@@ -29,6 +27,8 @@ public class RegisterProjectController extends Controller {
   private TextField fieldAvailablePlaces;
   @FXML
   private ComboBox<OrganizationDTO> comboBoxOrganization;
+  @FXML
+  private ComboBox<RepresentativeDTO> comboBoxRepresentative;
   @FXML
   private TextField fieldMethodology;
   @FXML
@@ -47,44 +47,20 @@ public class RegisterProjectController extends Controller {
   private TextArea fieldFourthMonthActivities;
 
   public void initialize() {
-    loadComboBoxOrganization();
-    loadComboBoxSector(comboBoxSector);
+    ComboBoxLoader.loadComboBoxOrganization(comboBoxOrganization, true);
+    ComboBoxLoader.loadComboBoxSector(comboBoxSector);;
+    ComboBoxLoader.loadRepresentativeComboBoxFromOrganizationComboBoxSelection(comboBoxOrganization, comboBoxRepresentative);
 
     fieldDescription.textProperty().addListener((observable, oldValue, newValue) -> {
       fieldDescription.setPrefHeight(fieldDescription.getPrefRowCount() * 24); // Adjust height based on rows
     });
   }
 
-  public static void loadComboBoxSector(ComboBox<ProjectSector> comboBoxSector) {
-    comboBoxSector.getItems().addAll(ProjectSector.values());
-    comboBoxSector.setValue(ProjectSector.PUBLIC);
-  }
-
-  public void loadComboBoxOrganization() {
-    try {
-      List<OrganizationDTO> organizationList = ORGANIZATION_DAO.getAllByState("ACTIVE");
-
-      if (organizationList.isEmpty()) {
-        Modal.displayError("No existe una organización. Por favor, registre una organización antes de registrar un proyecto.");
-        Modal.display(
-          "Registrar Organización",
-          "RegisterOrganizationModal",
-          this::loadComboBoxOrganization
-        );
-        return;
-      }
-
-      comboBoxOrganization.getItems().addAll(organizationList);
-      comboBoxOrganization.setValue(organizationList.getFirst());
-    } catch (SQLException e) {
-      Modal.displayError("No ha sido posible cargar las organizaciones debido a un error en el sistema.");
-    }
-  }
-
   public void handleRegister() {
     try {
       ProjectDTO projectDTO = new ProjectDTO.ProjectBuilder()
         .setIDOrganization(comboBoxOrganization.getValue().getEmail())
+        .setRepresentativeEmail(comboBoxRepresentative.getValue().getEmail())
         .setName(fieldName.getText())
         .setDescription(fieldDescription.getText())
         .setDepartment(fieldDepartment.getText())

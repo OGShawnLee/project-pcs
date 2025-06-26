@@ -13,12 +13,14 @@ import java.util.List;
 
 public class OrganizationDAO extends CompleteDAOShape<OrganizationDTO, String> {
   private static final String CREATE_QUERY =
-    "INSERT INTO Organization (email, name, representative_full_name, address, phone_number) VALUES (?, ?, ?, ?, ?)";
+    "INSERT INTO Organization (email, name, address, phone_number) VALUES (?, ?, ?, ?)";
   private static final String GET_ALL_QUERY = "SELECT * FROM Organization";
   private static final String GET_ALL_BY_STATE_QUERY = "SELECT * FROM Organization WHERE state = ?";
+  private static final String GET_ALL_WITH_REPRESENTATIVES_QUERY =
+    "SELECT * FROM Organization WHERE (SELECT COUNT(*) FROM Representative WHERE organization_email = Organization.email) > 0";
   private static final String GET_QUERY = "SELECT * FROM Organization WHERE email = ?";
   private static final String UPDATE_QUERY =
-    "UPDATE Organization SET name = ?, representative_full_name = ?, address = ?, phone_number = ?, state = ? WHERE email = ?";
+    "UPDATE Organization SET name = ?, address = ?, phone_number = ?, state = ? WHERE email = ?";
   private static final String DELETE_QUERY = "DELETE FROM Organization WHERE email = ?";
 
   @Override
@@ -26,7 +28,6 @@ public class OrganizationDAO extends CompleteDAOShape<OrganizationDTO, String> {
     return new OrganizationDTO.OrganizationBuilder()
       .setEmail(resultSet.getString("email"))
       .setName(resultSet.getString("name"))
-      .setRepresentativeFullName(resultSet.getString("representative_full_name"))
       .setAddress(resultSet.getString("address"))
       .setState(resultSet.getString("state"))
       .setPhoneNumber(resultSet.getString("phone_number"))
@@ -42,9 +43,8 @@ public class OrganizationDAO extends CompleteDAOShape<OrganizationDTO, String> {
     ) {
       statement.setString(1, organizationDTO.getEmail());
       statement.setString(2, organizationDTO.getName());
-      statement.setString(3, organizationDTO.getRepresentativeFullName());
-      statement.setString(4, organizationDTO.getAddress());
-      statement.setString(5, organizationDTO.getPhoneNumber());
+      statement.setString(3, organizationDTO.getAddress());
+      statement.setString(4, organizationDTO.getPhoneNumber());
       statement.executeUpdate();
     }
   }
@@ -84,6 +84,22 @@ public class OrganizationDAO extends CompleteDAOShape<OrganizationDTO, String> {
     }
   }
 
+  public List<OrganizationDTO> getAllWithRepresentatives() throws SQLException {
+    try (
+      Connection connection = DBConnector.getConnection();
+      PreparedStatement statement = connection.prepareStatement(GET_ALL_WITH_REPRESENTATIVES_QUERY);
+      ResultSet resultSet = statement.executeQuery()
+    ) {
+      List<OrganizationDTO> list = new ArrayList<>();
+
+      while (resultSet.next()) {
+        list.add(createDTOInstanceFromResultSet(resultSet));
+      }
+
+      return list;
+    }
+  }
+
   @Override
   public OrganizationDTO getOne(String email) throws SQLException {
     try (
@@ -111,11 +127,10 @@ public class OrganizationDAO extends CompleteDAOShape<OrganizationDTO, String> {
       PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
     ) {
       statement.setString(1, organizationDTO.getName());
-      statement.setString(2, organizationDTO.getRepresentativeFullName());
-      statement.setString(3, organizationDTO.getAddress());
-      statement.setString(4, organizationDTO.getPhoneNumber());
-      statement.setString(5, organizationDTO.getState());
-      statement.setString(6, organizationDTO.getEmail());
+      statement.setString(2, organizationDTO.getAddress());
+      statement.setString(3, organizationDTO.getPhoneNumber());
+      statement.setString(4, organizationDTO.getState());
+      statement.setString(5, organizationDTO.getEmail());
 
       statement.executeUpdate();
     }

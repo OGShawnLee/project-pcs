@@ -15,6 +15,14 @@ public class LandingCoordinatorController extends LandingController {
     ReviewProjectListController.navigateToProjectListPage(getScene());
   }
 
+  public void navigateToReviewRepresentativeListPage() {
+    ReviewRepresentativeListController.navigateToRepresentativeListPage(getScene());
+  }
+
+  public void handleOpenRegisterRepresentative() {
+    Modal.display("Registrar Representante", "RegisterRepresentativeModal");
+  }
+
   public void handleOpenRegisterProject() {
     Modal.display("Registrar Proyecto", "RegisterProjectModal");
   }

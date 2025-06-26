@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 public class ProjectDTO implements Record {
   private int id;
   private final String idOrganization;
+  private final String representativeEmail;
   private final String name;
   private final String description;
   private final String department;
@@ -20,6 +21,7 @@ public class ProjectDTO implements Record {
   public ProjectDTO(ProjectBuilder builder) {
     this.id = builder.id;
     this.idOrganization = builder.idOrganization;
+    this.representativeEmail = builder.representativeEmail;
     this.name = builder.name;
     this.description = builder.description;
     this.department = builder.department;
@@ -48,6 +50,10 @@ public class ProjectDTO implements Record {
 
   public String getMethodology() {
     return methodology;
+  }
+
+  public String getRepresentativeEmail() {
+    return representativeEmail;
   }
 
   public String getDescription() {
@@ -80,6 +86,7 @@ public class ProjectDTO implements Record {
     return
       id == that.id &&
       idOrganization.equals(that.idOrganization) &&
+      representativeEmail.equals(that.representativeEmail) &&
       name.equals(that.name) &&
       description.equals(that.description) &&
       department.equals(that.department) &&
@@ -96,6 +103,7 @@ public class ProjectDTO implements Record {
   public static class ProjectBuilder {
     protected int id;
     protected String idOrganization;
+    protected String representativeEmail;
     protected String name;
     protected String methodology;
     protected String description;
@@ -112,6 +120,11 @@ public class ProjectDTO implements Record {
 
     public ProjectBuilder setIDOrganization(String idOrganization) throws IllegalArgumentException {
       this.idOrganization = Validator.getValidEmail(idOrganization);
+      return this;
+    }
+
+    public ProjectBuilder setRepresentativeEmail(String representativeEmail) throws IllegalArgumentException {
+      this.representativeEmail = Validator.getValidEmail(representativeEmail);
       return this;
     }
 

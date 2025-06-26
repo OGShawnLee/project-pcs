@@ -17,17 +17,18 @@ import java.util.List;
 
 public class ProjectDAO extends CompleteDAOShape<ProjectDTO, Integer> {
   private static final String CREATE_QUERY =
-    "INSERT INTO Project (id_organization, name, description, department, available_places, methodology, sector) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    "INSERT INTO Project (id_organization, representative_email, name, description, department, available_places, methodology, sector) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
   private static final String CREATE_WITH_WORK_PLAN_QUERY =
-    "CALL create_project_and_work_plan(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    "CALL create_project_and_work_plan(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
   private static final String GET_ALL_QUERY = "SELECT * FROM Project";
   private static final String GET_QUERY = "SELECT * FROM Project WHERE id_project = ?";
   private static final String GET_BY_STUDENT_QUERY =
     """
-      SELECT * FROM Project WHERE (SELECT EXISTS(SELECT * FROM Practice WHERE id_student = ? AND id_project = Project.id_project))""";
+      SELECT * FROM Project WHERE (SELECT EXISTS(SELECT * FROM Practice WHERE id_student = ? AND id_project = Project.id_project))
+    """;
   private static final String GET_ALL_BY_STATE = "SELECT * FROM Project WHERE state = ?";
   private static final String UPDATE_QUERY =
-    "UPDATE Project SET id_organization = ?, name = ?, description = ?, department = ?, available_places = ?, methodology = ?, state = ?, sector = ? WHERE id_project = ?";
+    "UPDATE Project SET id_organization = ?, representative_email = ?, name = ?, description = ?, department = ?, available_places = ?, methodology = ?, state = ?, sector = ? WHERE id_project = ?";
   private static final String DELETE_QUERY = "DELETE FROM Project WHERE id_project = ?";
 
   @Override
@@ -35,6 +36,7 @@ public class ProjectDAO extends CompleteDAOShape<ProjectDTO, Integer> {
     return new ProjectDTO.ProjectBuilder()
       .setID(resultSet.getInt("id_project"))
       .setIDOrganization(resultSet.getString("id_organization"))
+      .setRepresentativeEmail(resultSet.getString("representative_email"))
       .setName(resultSet.getString("name"))
       .setDescription(resultSet.getString("description"))
       .setDepartment(resultSet.getString("department"))
@@ -53,12 +55,13 @@ public class ProjectDAO extends CompleteDAOShape<ProjectDTO, Integer> {
       PreparedStatement statement = connection.prepareStatement(CREATE_QUERY, PreparedStatement.RETURN_GENERATED_KEYS)
     ) {
       statement.setString(1, projectDTO.getIDOrganization());
-      statement.setString(2, projectDTO.getName());
-      statement.setString(3, projectDTO.getDescription());
-      statement.setString(4, projectDTO.getDepartment());
-      statement.setInt(5, projectDTO.getAvailablePlaces());
-      statement.setString(6, projectDTO.getMethodology());
-      statement.setString(7, projectDTO.getSector().toString());
+      statement.setString(2, projectDTO.getRepresentativeEmail());
+      statement.setString(3, projectDTO.getName());
+      statement.setString(4, projectDTO.getDescription());
+      statement.setString(5, projectDTO.getDepartment());
+      statement.setInt(6, projectDTO.getAvailablePlaces());
+      statement.setString(7, projectDTO.getMethodology());
+      statement.setString(8, projectDTO.getSector().toString());
       statement.executeUpdate();
 
       try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
@@ -80,18 +83,19 @@ public class ProjectDAO extends CompleteDAOShape<ProjectDTO, Integer> {
       CallableStatement statement = connection.prepareCall(CREATE_WITH_WORK_PLAN_QUERY)
     ) {
       statement.setString(1, projectDTO.getIDOrganization());
-      statement.setString(2, projectDTO.getName());
-      statement.setString(3, projectDTO.getDescription());
-      statement.setString(4, projectDTO.getDepartment());
-      statement.setInt(5, projectDTO.getAvailablePlaces());
-      statement.setString(6, projectDTO.getMethodology());
-      statement.setString(7, projectDTO.getSector().toString());
-      statement.setString(8, workPlanDTO.getProjectGoal());
-      statement.setString(9, workPlanDTO.getTheoreticalScope());
-      statement.setString(10, workPlanDTO.getFirstMonthActivities());
-      statement.setString(11, workPlanDTO.getSecondMonthActivities());
-      statement.setString(12, workPlanDTO.getThirdMonthActivities());
-      statement.setString(13, workPlanDTO.getFourthMonthActivities());
+      statement.setString(2, projectDTO.getRepresentativeEmail());
+      statement.setString(3, projectDTO.getName());
+      statement.setString(4, projectDTO.getDescription());
+      statement.setString(5, projectDTO.getDepartment());
+      statement.setInt(6, projectDTO.getAvailablePlaces());
+      statement.setString(7, projectDTO.getMethodology());
+      statement.setString(8, projectDTO.getSector().toString());
+      statement.setString(9, workPlanDTO.getProjectGoal());
+      statement.setString(10, workPlanDTO.getTheoreticalScope());
+      statement.setString(11, workPlanDTO.getFirstMonthActivities());
+      statement.setString(12, workPlanDTO.getSecondMonthActivities());
+      statement.setString(13, workPlanDTO.getThirdMonthActivities());
+      statement.setString(14, workPlanDTO.getFourthMonthActivities());
       statement.executeUpdate();
     }
   }
@@ -177,14 +181,14 @@ public class ProjectDAO extends CompleteDAOShape<ProjectDTO, Integer> {
       PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
     ) {
       statement.setString(1, projectDTO.getIDOrganization());
-      statement.setString(2, projectDTO.getName());
-      statement.setString(3, projectDTO.getDescription());
-      statement.setString(4, projectDTO.getDepartment());
-      statement.setInt(5, projectDTO.getAvailablePlaces());
-      statement.setString(6, projectDTO.getMethodology());
-      statement.setString(7, projectDTO.getState());
-      statement.setString(8, projectDTO.getSector().toString());
-      statement.setInt(9, projectDTO.getID());
+      statement.setString(3, projectDTO.getName());
+      statement.setString(4, projectDTO.getDescription());
+      statement.setString(5, projectDTO.getDepartment());
+      statement.setInt(6, projectDTO.getAvailablePlaces());
+      statement.setString(7, projectDTO.getMethodology());
+      statement.setString(8, projectDTO.getState());
+      statement.setString(9, projectDTO.getSector().toString());
+      statement.setInt(10, projectDTO.getID());
       statement.executeUpdate();
     }
   }

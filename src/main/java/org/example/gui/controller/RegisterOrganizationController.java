@@ -16,8 +16,6 @@ public class RegisterOrganizationController extends Controller {
   @FXML
   private TextField fieldEmail;
   @FXML
-  private TextField fieldRepresentative;
-  @FXML
   private TextField fieldAddress;
   @FXML
   private TextField fieldPhoneNumber;
@@ -27,7 +25,6 @@ public class RegisterOrganizationController extends Controller {
       OrganizationDTO organizationDTO = new OrganizationDTO.OrganizationBuilder()
         .setEmail(fieldEmail.getText())
         .setName(fieldName.getText())
-        .setRepresentativeFullName(fieldRepresentative.getText())
         .setAddress(fieldAddress.getText())
         .setPhoneNumber(fieldPhoneNumber.getText())
         .build();

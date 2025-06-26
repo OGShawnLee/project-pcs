@@ -17,8 +17,6 @@ public class ManageOrganizationController extends ManageController<OrganizationD
   @FXML
   private TextField fieldEmail;
   @FXML
-  private TextField fieldRepresentative;
-  @FXML
   private TextField fieldAddress;
   @FXML
   private ComboBox<String> fieldState;
@@ -35,7 +33,6 @@ public class ManageOrganizationController extends ManageController<OrganizationD
   public void loadDataObjectFields() {
     fieldName.setText(getContext().getName());
     fieldEmail.setText(getContext().getEmail());
-    fieldRepresentative.setText(getContext().getRepresentativeFullName());
     fieldAddress.setText(getContext().getAddress());
     fieldPhoneNumber.setText(getContext().getPhoneNumber());
     fieldState.setValue(getContext().getState());
@@ -47,7 +44,6 @@ public class ManageOrganizationController extends ManageController<OrganizationD
       OrganizationDTO updatedOrganization = new OrganizationDTO.OrganizationBuilder()
         .setEmail(fieldEmail.getText())
         .setName(fieldName.getText())
-        .setRepresentativeFullName(fieldRepresentative.getText())
         .setAddress(fieldAddress.getText())
         .setPhoneNumber(fieldPhoneNumber.getText())
         .setState(fieldState.getValue())
