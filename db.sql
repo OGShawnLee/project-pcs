@@ -274,9 +274,10 @@ CREATE TABLE ProjectRequest
 CREATE TABLE Practice
 (
     id_student            CHAR(8),
-    id_project            INT  NOT NULL,
+    id_project            INT       NOT NULL,
     # TODO: Add to the Diagram and Dictionary
-    reason_of_assignation TEXT NOT NULL,
+    reason_of_assignation TEXT      NOT NULL,
+    created_at            TIMESTAMP NOT NULL DEFAULT NOW(),
     PRIMARY KEY (id_student, id_project),
     FOREIGN KEY (id_student) REFERENCES Student (id_student) ON DELETE CASCADE,
     FOREIGN KEY (id_project) REFERENCES Project (id_project) ON DELETE CASCADE,
