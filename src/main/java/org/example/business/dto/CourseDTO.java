@@ -8,8 +8,8 @@ public class CourseDTO {
   public enum Section {S1, S2}
 
   public enum Semester {
-    FEB_JUL("FEB-JUL"),
-    AGO_JAN("AGO-JAN");
+    FEB_JUL("Febrero - Julio"),
+    AUG_JUL("Agosto - Enero");
 
     private final String displayName;
 
@@ -23,7 +23,13 @@ public class CourseDTO {
     }
 
     public String toDBString() {
-      return displayName.replace("-", "_").toUpperCase();
+      if (displayName.equals("Febrero - Julio")) {
+        return "FEB_JUL";
+      } else if (displayName.equals("Agosto - Enero")) {
+        return "AUG_JUL";
+      } else {
+        throw new IllegalArgumentException("Unknown Semester: " + displayName);
+      }
     }
   }
 
@@ -66,7 +72,7 @@ public class CourseDTO {
       ? createdAt.getYear() + ""
       : createdAt.getYear() + 1 + "";
 
-    return semester.toString() + "-" + courseYear;
+    return semester.toString() + " - " + courseYear;
   }
 
   public Section getSection() {
