@@ -9,7 +9,7 @@ public class CourseDTO implements Record {
 
   public enum Semester {
     FEB_JUL("Febrero - Julio"),
-    AUG_JUL("Agosto - Enero");
+    AUG_JAN("Agosto - Enero");
 
     private final String displayName;
 
@@ -26,7 +26,7 @@ public class CourseDTO implements Record {
       if (displayName.equals("Febrero - Julio")) {
         return "FEB_JUL";
       } else if (displayName.equals("Agosto - Enero")) {
-        return "AUG_JUL";
+        return "AUG_JAN";
       } else {
         throw new IllegalArgumentException("Unknown Semester: " + displayName);
       }
