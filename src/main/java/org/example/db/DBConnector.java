@@ -9,12 +9,12 @@ import java.sql.SQLException;
 public class DBConnector {
   private static final HikariDataSource dataSource;
 
-  private DBConnector() {}
-
   static {
     HikariConfig config = new HikariConfig("src/main/resources/db.properties");
     dataSource = new HikariDataSource(config);
   }
+
+  private DBConnector() {}
 
   public static Connection getConnection() throws SQLException {
     return dataSource.getConnection();

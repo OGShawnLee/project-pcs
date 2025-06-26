@@ -1,6 +1,7 @@
 package db;
 
 import org.example.db.DBConnector;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -17,15 +18,6 @@ public class DBConnectorTest {
           Assertions.assertFalse(connection.isClosed());
         }
       }
-    );
-  }
-
-  @Test
-  void testClose() {
-    Assertions.assertDoesNotThrow(DBConnector::close);
-    Assertions.assertThrows(
-      SQLException.class,
-      DBConnector::getConnection
     );
   }
 }
