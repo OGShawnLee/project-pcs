@@ -1,8 +1,10 @@
 package org.example.gui.controller;
 
+import org.example.gui.Modal;
+
 public class LandingStudentController extends LandingController {
   public void handleOpenReviewStudentProject() {
-    navigateFromThisPageTo("Listado de Proyectos", "ReviewStudentProjectPage");
+    Modal.display("Consultar Proyecto", "ReviewStudentProjectModal");
   }
 
   public void handleOpenRegisterProjectRequest() {

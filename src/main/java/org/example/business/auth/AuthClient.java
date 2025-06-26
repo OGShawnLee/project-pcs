@@ -1,8 +1,10 @@
 package org.example.business.auth;
 
 import org.example.business.dao.AcademicDAO;
+import org.example.business.dao.StudentDAO;
 import org.example.business.dto.AcademicDTO;
 import org.example.business.dto.AccountDTO;
+import org.example.business.dto.StudentDTO;
 
 import java.sql.SQLException;
 
@@ -42,5 +44,19 @@ public class AuthClient {
         new AcademicDAO().getOneByEmail(currentUser.email());
       default -> throw new IllegalStateException("El usuario actual no es un académico.");
     };
+  }
+
+  public StudentDTO getCurrentStudentDTO() throws SQLException {
+    AccountDTO currentUser = getCurrentUser();
+
+    if (currentUser == null) {
+      throw new IllegalStateException("No existe un usuario que haya iniciado sesión en el sistema.");
+    }
+
+    if (currentUser.role() != AccountDTO.Role.STUDENT) {
+      throw new IllegalStateException("El usuario actual no es un estudiante.");
+    }
+
+    return new StudentDAO().getOneByEmail(currentUser.email());
   }
 }

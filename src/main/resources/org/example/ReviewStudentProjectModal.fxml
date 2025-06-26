@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="820.0" prefWidth="720.0" stylesheets="@main.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.gui.controller.ReviewStudentProjectController">
+  <children>
+    <VBox layoutX="200.0" layoutY="213.0" prefWidth="320.0" spacing="16.0">
+      <children>
+        <Label styleClass="title" text="Consultar Proyecto Asignado">
+          <VBox.margin>
+            <Insets />
+          </VBox.margin>
+          <padding>
+            <Insets bottom="8.0" />
+          </padding>
+        </Label>
+        <VBox spacing="8.0">
+          <children>
+            <Label styleClass="label" text="ID del Proyecto" />
+            <Text fx:id="fieldIDProject" styleClass="text-notable" />
+          </children>
+        </VBox>
+        <VBox spacing="8.0">
+          <children>
+            <Label styleClass="label" text="Nombre" />
+            <Text fx:id="fieldName" styleClass="text-notable" />
+          </children>
+        </VBox>
+        <VBox spacing="8.0">
+          <children>
+            <Label styleClass="label" text="Descripción" />
+            <Text fx:id="fieldDescription" styleClass="text-notable" />
+          </children>
+        </VBox>
+        <VBox spacing="8.0">
+          <children>
+            <Label styleClass="label" text="Organización" />
+            <Text fx:id="fieldOrganization" styleClass="text-notable" />
+          </children>
+        </VBox>
+        <VBox spacing="8.0">
+          <children>
+            <Label styleClass="label" text="Metodología" />
+            <Text fx:id="fieldMethodology" styleClass="text-notable" />
+          </children>
+        </VBox>
+        <VBox spacing="8.0">
+          <children>
+            <Label styleClass="label" text="Sector" />
+            <Text fx:id="fieldSector" styleClass="text-notable" />
+          </children>
+        </VBox>
+      </children>
+    </VBox>
+  </children>
+</AnchorPane>

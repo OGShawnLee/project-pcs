@@ -14,3 +14,8 @@
 .text-area {
     -fx-pref-height: 48px;
 }
+
+.text-notable {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}

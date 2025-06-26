@@ -1,8 +1,10 @@
 package org.example.business.dao;
 
 import org.example.business.dto.ProjectDTO;
+import org.example.business.dto.WorkPlanDTO;
 
 import java.sql.Connection;
+import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,6 +19,9 @@ public class ProjectDAO extends DAOPattern<ProjectDTO, Integer> {
     "CALL create_project_and_work_plan(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
   private static final String GET_ALL_QUERY = "SELECT * FROM Project";
   private static final String GET_QUERY = "SELECT * FROM Project WHERE id_project = ?";
+  private static final String GET_BY_STUDENT_QUERY =
+    """
+      SELECT * FROM Project WHERE (SELECT EXISTS(SELECT * FROM Practice WHERE id_student = ? AND id_project = Project.id_project))""";
   private static final String GET_ALL_BY_STATE = "SELECT * FROM Project WHERE state = ?";
   private static final String UPDATE_QUERY =
     "UPDATE Project SET id_organization = ?, name = ?, description = ?, department = ?, available_places = ?, methodology = ?, state = ?, sector = ? WHERE id_project = ?";
@@ -130,6 +135,25 @@ public class ProjectDAO extends DAOPattern<ProjectDTO, Integer> {
       PreparedStatement statement = connection.prepareStatement(GET_QUERY)
     ) {
       statement.setInt(1, id);
+
+      ProjectDTO projectDTO = null;
+
+      try (ResultSet resultSet = statement.executeQuery()) {
+        if (resultSet.next()) {
+          projectDTO = createDTOInstanceFromResultSet(resultSet);
+        }
+      }
+
+      return projectDTO;
+    }
+  }
+
+  public ProjectDTO getOneByStudent(String idStudent) throws SQLException {
+    try (
+      Connection connection = getConnection();
+      PreparedStatement statement = connection.prepareStatement(GET_BY_STUDENT_QUERY)
+    ) {
+      statement.setString(1, idStudent);
 
       ProjectDTO projectDTO = null;
 
