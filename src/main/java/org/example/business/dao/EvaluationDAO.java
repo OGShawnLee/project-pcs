@@ -12,34 +12,44 @@ import java.util.List;
 
 public class EvaluationDAO extends DAOPattern<EvaluationDTO, FilterEvaluation> {
   private static final String CREATE_QUERY =
-    "INSERT INTO Evaluation (id_academic, id_project, id_student, adequate_use_grade, feedback, content_congruence_grade, writing_grade, methodological_rigor_grade, kind) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+          "INSERT INTO Evaluation (id_academic, id_project, id_student, adequate_use_grade, feedback, content_congruence_grade, writing_grade, methodological_rigor_grade, kind) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
   private static final String GET_ALL_QUERY = "SELECT * FROM Evaluation";
+  private static final String GET_ALL_BY_STUDENT_QUERY = "SELECT * FROM Evaluation WHERE id_student = ?";
+  private static final String GET_ALL_BY_EVALUATOR_QUERY = "SELECT * FROM Evaluation WHERE id_student = ?";
+  private static final String GET_ALL_BY_ACADEMIC_QUERY = """
+        SELECT e.*
+        FROM Evaluation e
+        JOIN Student s ON e.id_student = s.id_student
+        JOIN Enrollment en ON s.id_student = en.id_student
+        JOIN Course c ON en.id_course = c.nrc
+        WHERE c.id_academic = ?
+    """;
   private static final String GET_QUERY = "SELECT * FROM Evaluation WHERE id_academic = ? AND id_project = ? AND id_student = ?";
   private static final String UPDATE_QUERY =
-    "UPDATE Evaluation SET adequate_use_grade = ?, feedback = ?, content_congruence_grade = ?, writing_grade = ?, methodological_rigor_grade = ?, kind = ? WHERE id_academic = ? AND id_project = ? AND id_student = ?";
+          "UPDATE Evaluation SET adequate_use_grade = ?, feedback = ?, content_congruence_grade = ?, writing_grade = ?, methodological_rigor_grade = ?, kind = ? WHERE id_academic = ? AND id_project = ? AND id_student = ?";
   private static final String DELETE_QUERY = "DELETE FROM Evaluation WHERE id_academic = ? AND id_project = ? AND id_student = ?";
 
   @Override
   EvaluationDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
     return new EvaluationDTO.EvaluationBuilder()
-      .setIDAcademic(resultSet.getString("id_academic"))
-      .setIDProject(resultSet.getInt("id_project"))
-      .setIDStudent(resultSet.getString("id_student"))
-      .setAdequateUseGrade(resultSet.getString("adequate_use_grade"))
-      .setFeedback(resultSet.getString("feedback"))
-      .setContentCongruenceGrade(resultSet.getString("content_congruence_grade"))
-      .setWritingGrade(resultSet.getString("writing_grade"))
-      .setMethodologicalRigorGrade(resultSet.getString("methodological_rigor_grade"))
-      .setKind(EvaluationDTO.Kind.valueOf(resultSet.getString("kind")))
-      .setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime())
-      .build();
+            .setIDAcademic(resultSet.getString("id_academic"))
+            .setIDProject(resultSet.getInt("id_project"))
+            .setIDStudent(resultSet.getString("id_student"))
+            .setAdequateUseGrade(resultSet.getString("adequate_use_grade"))
+            .setFeedback(resultSet.getString("feedback"))
+            .setContentCongruenceGrade(resultSet.getString("content_congruence_grade"))
+            .setWritingGrade(resultSet.getString("writing_grade"))
+            .setMethodologicalRigorGrade(resultSet.getString("methodological_rigor_grade"))
+            .setKind(EvaluationDTO.Kind.valueOf(resultSet.getString("kind")))
+            .setCreatedAt(resultSet.getTimestamp("created_at").toLocalDateTime())
+            .build();
   }
 
   @Override
   public void createOne(EvaluationDTO evaluationDTO) throws SQLException {
     try (
-      Connection connection = getConnection();
-      PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
+            Connection connection = getConnection();
+            PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
     ) {
       statement.setString(1, evaluationDTO.getIDAcademic());
       statement.setInt(2, evaluationDTO.getIDProject());
@@ -57,9 +67,9 @@ public class EvaluationDAO extends DAOPattern<EvaluationDTO, FilterEvaluation> {
   @Override
   public List<EvaluationDTO> getAll() throws SQLException {
     try (
-      Connection connection = getConnection();
-      PreparedStatement statement = connection.prepareStatement(GET_ALL_QUERY);
-      ResultSet resultSet = statement.executeQuery()
+            Connection connection = getConnection();
+            PreparedStatement statement = connection.prepareStatement(GET_ALL_QUERY);
+            ResultSet resultSet = statement.executeQuery()
     ) {
       List<EvaluationDTO> list = new ArrayList<>();
 
@@ -71,11 +81,65 @@ public class EvaluationDAO extends DAOPattern<EvaluationDTO, FilterEvaluation> {
     }
   }
 
+  public List<EvaluationDTO> getAllByStudent(String studentID) throws SQLException {
+    try (
+            Connection connection = getConnection();
+            PreparedStatement statement = connection.prepareStatement(GET_ALL_BY_STUDENT_QUERY)
+    ) {
+      statement.setString(1, studentID);
+      List<EvaluationDTO> list = new ArrayList<>();
+
+      try (ResultSet resultSet = statement.executeQuery()) {
+        while (resultSet.next()) {
+          list.add(createDTOInstanceFromResultSet(resultSet));
+        }
+      }
+
+      return list;
+    }
+  }
+
+  public List<EvaluationDTO> getAllByEvaluators (String academicID) throws SQLException {
+    try (
+            Connection connection = getConnection();
+            PreparedStatement statement = connection.prepareStatement(GET_ALL_BY_EVALUATOR_QUERY)
+    ) {
+      statement.setString(1, academicID);
+      List<EvaluationDTO> list = new ArrayList<>();
+
+      try (ResultSet resultSet = statement.executeQuery()) {
+        while (resultSet.next()) {
+          list.add(createDTOInstanceFromResultSet(resultSet));
+        }
+      }
+
+      return list;
+    }
+  }
+
+  public List<EvaluationDTO> getAllByAcademic(String academicID) throws SQLException {
+    try (
+            Connection connection = getConnection();
+            PreparedStatement statement = connection.prepareStatement(GET_ALL_BY_ACADEMIC_QUERY)
+    ) {
+      statement.setString(1, academicID);
+      List<EvaluationDTO> list = new ArrayList<>();
+
+      try (ResultSet resultSet = statement.executeQuery()) {
+        while (resultSet.next()) {
+          list.add(createDTOInstanceFromResultSet(resultSet));
+        }
+      }
+
+      return list;
+    }
+  }
+
   @Override
   public EvaluationDTO getOne(FilterEvaluation filter) throws SQLException {
     try (
-      Connection connection = getConnection();
-      PreparedStatement statement = connection.prepareStatement(GET_QUERY)
+            Connection connection = getConnection();
+            PreparedStatement statement = connection.prepareStatement(GET_QUERY)
     ) {
       statement.setString(1, filter.getIDAcademic());
       statement.setInt(2, filter.getIDProject());
@@ -94,8 +158,8 @@ public class EvaluationDAO extends DAOPattern<EvaluationDTO, FilterEvaluation> {
   @Override
   public void updateOne(EvaluationDTO dataObject) throws SQLException {
     try (
-      Connection connection = getConnection();
-      PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
+            Connection connection = getConnection();
+            PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
     ) {
       statement.setInt(1, dataObject.getAdequateUseGrade());
       statement.setString(2, dataObject.getFeedback());
@@ -113,8 +177,8 @@ public class EvaluationDAO extends DAOPattern<EvaluationDTO, FilterEvaluation> {
   @Override
   public void deleteOne(FilterEvaluation filter) throws SQLException {
     try (
-      Connection connection = getConnection();
-      PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)
+            Connection connection = getConnection();
+            PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)
     ) {
       statement.setString(1, filter.getIDAcademic());
       statement.setInt(2, filter.getIDProject());

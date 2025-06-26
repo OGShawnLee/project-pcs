@@ -1,38 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.text.Font?>
 
-<ScrollPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.gui.controller.RegisterSelfEvaluationController">
+<ScrollPane xmlns="http://javafx.com/javafx/17.0.12"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.example.gui.controller.RegisterSelfEvaluationController"
+            fitToWidth="true">
     <content>
-        <AnchorPane prefHeight="660.0" prefWidth="585.0">
-            <Label layoutX="214.0" layoutY="45.0" text="Autoevaluacion">
-                <font>
-                    <Font size="24.0" />
-                </font>
-            </Label>
-            <Label layoutX="43.0" layoutY="93.0" text="Favor de completar los siguientes campos" />
-            <Label layoutX="43.0" layoutY="125.0" text="Follow-up Grade" />
-            <ComboBox fx:id="followUpGrade" layoutX="43.0" layoutY="145.0" prefHeight="25.0" prefWidth="160.0" promptText="Selecciona un número" />
-            <Label layoutX="43.0" layoutY="175.0" text="Safety Grade" />
-            <ComboBox fx:id="safetyGrade" layoutX="43.0" layoutY="195.0" prefHeight="25.0" prefWidth="160.0" promptText="Selecciona un número" />
-            <Label layoutX="43.0" layoutY="225.0" text="Knowledge Application Grade" />
-            <ComboBox fx:id="knowledgeApplicationGrade" layoutX="43.0" layoutY="245.0" prefHeight="25.0" prefWidth="160.0" promptText="Selecciona un número" />
-            <Label layoutX="43.0" layoutY="275.0" text="Interesting Grade" />
-            <ComboBox fx:id="interestingGrade" layoutX="43.0" layoutY="295.0" prefHeight="25.0" prefWidth="160.0" promptText="Selecciona un número" />
-            <Label layoutX="43.0" layoutY="325.0" text="Productivity Grade" />
-            <ComboBox fx:id="productivityGrade" layoutX="43.0" layoutY="345.0" prefHeight="25.0" prefWidth="160.0" promptText="Selecciona un número" />
-            <Label layoutX="43.0" layoutY="375.0" text="Congruent Grade" />
-            <ComboBox fx:id="congruentGrade" layoutX="43.0" layoutY="395.0" prefHeight="25.0" prefWidth="160.0" promptText="Selecciona un número" />
-            <Label layoutX="43.0" layoutY="425.0" text="Informed by Organization" />
-            <ComboBox fx:id="informedByOrganization" layoutX="43.0" layoutY="445.0" prefHeight="25.0" prefWidth="160.0" promptText="Selecciona un número" />
-            <Label layoutX="43.0" layoutY="475.0" text="Regulated by Organization" />
-            <ComboBox fx:id="regulatedByOrganization" layoutX="43.0" layoutY="495.0" prefHeight="25.0" prefWidth="160.0" promptText="Selecciona un número" />
-            <Label layoutX="43.0" layoutY="525.0" text="Importance for Professional Development" />
-            <ComboBox fx:id="importanceForProfessionalDevelopment" layoutX="43.0" layoutY="545.0" prefHeight="25.0" prefWidth="160.0" promptText="Selecciona un número" />
-            <Button layoutX="43.0" layoutY="595.0" onAction="#handleRegisterSelfEvaluation" prefHeight="25.0" prefWidth="125.0" text="Registrar Evaluacion" />
-            <Button layoutX="43.0" layoutY="50.0" mnemonicParsing="false" onAction="#returnToMainPage" text="Volver" />
-        </AnchorPane>
+        <VBox spacing="20" padding="20">
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Label text="Autoevaluación">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </Label>
+            </HBox>
+
+            <Label text="Favor de completar los siguientes campos" />
+
+            <GridPane hgap="10" vgap="15">
+                <columnConstraints>
+                    <ColumnConstraints halignment="RIGHT" minWidth="200"/>
+                    <ColumnConstraints halignment="LEFT" minWidth="200"/>
+                </columnConstraints>
+
+                <Label text="Follow-up Grade" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <ComboBox fx:id="followUpGrade" promptText="Selecciona un número" prefWidth="200"
+                          GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                <Label text="Safety Grade" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <ComboBox fx:id="safetyGrade" promptText="Selecciona un número" prefWidth="200"
+                          GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                <Label text="Knowledge Application Grade" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                <ComboBox fx:id="knowledgeApplicationGrade" promptText="Selecciona un número" prefWidth="200"
+                          GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                <Label text="Interesting Grade" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                <ComboBox fx:id="interestingGrade" promptText="Selecciona un número" prefWidth="200"
+                          GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+                <Label text="Productivity Grade" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                <ComboBox fx:id="productivityGrade" promptText="Selecciona un número" prefWidth="200"
+                          GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+                <Label text="Congruent Grade" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                <ComboBox fx:id="congruentGrade" promptText="Selecciona un número" prefWidth="200"
+                          GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+
+                <Label text="Informed by Organization" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+                <ComboBox fx:id="informedByOrganization" promptText="Selecciona un número" prefWidth="200"
+                          GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+
+                <Label text="Regulated by Organization" GridPane.rowIndex="7" GridPane.columnIndex="0"/>
+                <ComboBox fx:id="regulatedByOrganization" promptText="Selecciona un número" prefWidth="200"
+                          GridPane.rowIndex="7" GridPane.columnIndex="1"/>
+
+                <Label text="Importance for Professional Development" GridPane.rowIndex="8" GridPane.columnIndex="0"/>
+                <ComboBox fx:id="importanceForProfessionalDevelopment" promptText="Selecciona un número" prefWidth="200"
+                          GridPane.rowIndex="8" GridPane.columnIndex="1"/>
+            </GridPane>
+
+            <HBox alignment="CENTER_RIGHT" padding="10 0 0 0">
+                <Button text="Registrar Evaluación"
+                        onAction="#handleRegister"
+                        prefWidth="200"/>
+            </HBox>
+        </VBox>
     </content>
 </ScrollPane>
+

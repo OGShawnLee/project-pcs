@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.12"
+      fx:controller="org.example.gui.controller.VisualizeEvaluationController"
+      spacing="16.0" alignment="TOP_CENTER" padding="Insets(20)">
+
+    <!-- Título -->
+    <Label text="Visualizar Evaluación">
+        <font>
+            <Font name="System Bold" size="20.0"/>
+        </font>
+    </Label>
+
+    <!-- Proyecto -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Proyecto:" minWidth="150"/>
+        <Label fx:id="projectLabel"/>
+    </HBox>
+
+    <!-- Estudiante -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Estudiante:" minWidth="150"/>
+        <Label fx:id="idStudentLabel"/>
+    </HBox>
+
+    <!-- Calificación Técnica -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Calificación de Habilidad:" minWidth="150"/>
+        <Label fx:id="skillGradeLabel"/>
+    </HBox>
+
+    <!-- Calificación de Contenido -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Calificación de Contenido:" minWidth="150"/>
+        <Label fx:id="contentGradeLabel"/>
+    </HBox>
+
+    <!-- Calificación de Redacción -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Calificación de Redacción:" minWidth="150"/>
+        <Label fx:id="writingGradeLabel"/>
+    </HBox>
+
+    <!-- Calificación de Requisitos -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Calificación de Requisitos:" minWidth="150"/>
+        <Label fx:id="requirementsGradeLabel"/>
+    </HBox>
+
+    <!-- Feedback -->
+    <HBox spacing="10" alignment="CENTER_LEFT">
+        <Label text="Retroalimentación:" minWidth="150" alignment="TOP_LEFT"/>
+        <TextArea fx:id="feedbackTextArea" editable="false" prefWidth="400" prefHeight="100" wrapText="true"/>
+    </HBox>
+</VBox>
+

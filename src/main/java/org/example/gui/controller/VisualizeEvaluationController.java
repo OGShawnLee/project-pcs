@@ -5,30 +5,45 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import org.example.business.dto.EvaluationDTO;
 
-public class VisualizeEvaluationController {
+public class VisualizeEvaluationController extends ManageController<EvaluationDTO>{
 
   @FXML
-  private Label projectLabel;
+  private Label labelProject;
   @FXML
-  private Label idStudentLabel;
+  private Label labelIDStudent;
   @FXML
-  private Label skillGradeLabel;
+  private Label labelIDAcademic;
   @FXML
-  private Label contentGradeLabel;
+  private Label labelMethodologicalRigorGrade;
   @FXML
-  private Label writingGradeLabel;
+  private Label labelContentCongruenceGrade;
   @FXML
-  private Label requirementsGradeLabel;
+  private Label labelWritingGrade;
   @FXML
-  private TextArea feedbackTextArea;
+  private Label labelAdequateUseGrade;
+  @FXML
+  private TextArea textAreaFeedback;
 
-  public void setEvaluation(EvaluationDTO evaluation) {
-    projectLabel.setText("ID Proyecto: " + evaluation.getIDProject());
-    idStudentLabel.setText("ID Estudiante: " + evaluation.getIDStudent());
-    skillGradeLabel.setText("Calificación Habilidad: " + evaluation.getAdequateUseGrade());
-    contentGradeLabel.setText("Calificación Contenido: " + evaluation.getContentCongruenceGrade());
-    writingGradeLabel.setText("Calificación Redacción: " + evaluation.getWritingGrade());
-    requirementsGradeLabel.setText("Calificación Requisitos: " + evaluation.getMethodologicalRigorGrade());
-    feedbackTextArea.setText(evaluation.getFeedback());
+  @Override
+  public void initialize(EvaluationDTO dataObject) {
+    super.initialize(dataObject);
+    loadDataObjectFields();
+  }
+
+  public void loadDataObjectFields() {
+    labelProject.setText(String.valueOf(getCurrentDataObject().getIDProject()));
+    labelIDStudent.setText(getCurrentDataObject().getIDStudent());
+    labelIDAcademic.setText(getCurrentDataObject().getIDAcademic());
+    labelMethodologicalRigorGrade.setText(String.valueOf(getCurrentDataObject().getMethodologicalRigorGrade()));
+    labelContentCongruenceGrade.setText(String.valueOf(getCurrentDataObject().getContentCongruenceGrade()));
+    labelWritingGrade.setText(String.valueOf(getCurrentDataObject().getWritingGrade()));
+    labelAdequateUseGrade.setText(String.valueOf(getCurrentDataObject().getAdequateUseGrade()));
+
+    textAreaFeedback.setText(getCurrentDataObject().getFeedback());
+  }
+
+  @Override
+  protected void handleUpdateCurrentDataObject() {
+
   }
 }

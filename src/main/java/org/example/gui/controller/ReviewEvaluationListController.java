@@ -1,142 +1,133 @@
 package org.example.gui.controller;
 
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import org.example.business.dto.EvaluationDTO;
-import org.example.business.dao.EnrollmentDAO;
-import org.example.business.dao.EvaluationDAO;
-import org.example.business.dao.StudentDAO;
+import org.example.business.auth.AuthClient;
+import org.example.business.dao.*;
+import org.example.business.dto.*;
 import org.example.gui.Modal;
 
-import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
-public class ReviewEvaluationListController {
-
-    @FXML
-    private TableView<EvaluationDTO> evaluationTable;
-    @FXML
-    private TableColumn<EvaluationDTO, String> idColumn;
-    @FXML
-    private TableColumn<EvaluationDTO, Button> visualizerColumn;
-    @FXML
-    private TableColumn<EvaluationDTO, String> nameColumn;
-    @FXML
-    private TableColumn<EvaluationDTO, String> nrcColumn;
-
-    private final EvaluationDAO evaluationDAO = new EvaluationDAO();
+public class ReviewEvaluationListController extends ReviewListController {
+    private static final EvaluationDAO EVALUATION_DAO = new EvaluationDAO();
+    private static final StudentDAO STUDENT_DAO = new StudentDAO();
+    private static final AcademicDAO ACADEMIC_DAO = new AcademicDAO();
 
     @FXML
-    public void showTableEvaluations() {
-        idColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getIDStudent()));
-        nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(getFullName(cellData.getValue().getIDStudent())));
-        nrcColumn.setCellValueFactory(cellData -> new SimpleStringProperty(getNrc(cellData.getValue().getIDStudent())));
-
-        visualizerColumn.setCellFactory(col -> new TableCell<>() {
-            private final Button button = new Button("Visualizar");
-
-            @Override
-            protected void updateItem(Button item, boolean empty) {
-                super.updateItem(item, empty);
-                setGraphic(empty || getTableRow() == null || getTableRow().getItem() == null ? null : createButtonForEvaluation(getTableRow().getItem()));
-            }
-
-            private Button createButtonForEvaluation(Object item) {
-                EvaluationDTO evaluation = (EvaluationDTO) item;
-                if (evaluation.getIDStudent() != null && !evaluation.getIDStudent().isBlank()) {
-                    button.setOnAction(event -> openEvaluationDetailsPage(evaluation));
-                    return button;
-                }
-                return null;
-            }
-        });
-
-        loadEvaluations();
-    }
-
-    private String getFullName(String idStudent) {
-        String fullName = "Desconocido";
-        try {
-            StudentDAO studentDAO = new StudentDAO();
-            var student = studentDAO.getOne(idStudent);
-            if (student != null) {
-                fullName = student.getName() + " " + student.getPaternalLastName() + " " + student.getMaternalLastName();
-            }
-        } catch (SQLException e) {
-            Modal.displayError("No ha sido posible conectar con los datos del estudiante, debido a un error de conexion con la base de datos");
-        }
-        return fullName;
-    }
-
-    private String getNrc(String idStudent) {
-        String nrc = "No inscrito";
-        try {
-            EnrollmentDAO enrollmentDAO = new EnrollmentDAO();
-            var enrollmentList = enrollmentDAO.getAll();
-            for (var enrollment : enrollmentList) {
-                if (enrollment.getIDStudent().equals(idStudent)) {
-                    nrc = enrollment.getIDCourse();
-                    break;
-                }
-            }
-        } catch (SQLException e) {
-            Modal.displayError("No ha sido posible conectar con la materia asignada, debido a un error de conexion con la base de datos");
-        }
-        return nrc;
-    }
-
-    private void openEvaluationDetailsPage(EvaluationDTO evaluation) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/VisualizeEvaluationPage.fxml"));
-            Parent root = loader.load();
-
-            VisualizeEvaluationController controller = loader.getController();
-            controller.setEvaluation(evaluation);
-
-            Stage stage = new Stage();
-            stage.setTitle("Detalles de la Evaluación");
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-            Modal.displayError("No se pudo cargar la vista de detalles.");
-        }
-    }
-
-    private void loadEvaluations() {
-        try {
-            List<EvaluationDTO> evaluationList = evaluationDAO.getAll();
-            ObservableList<EvaluationDTO> observableList = FXCollections.observableArrayList(evaluationList);
-            evaluationTable.setItems(observableList);
-        } catch (SQLException e) {
-            Modal.displayError("No se pudo mostrar los datos debido a un error en la base de datos");
-        }
-    }
-
-
-    public void updateTable() {
-        try {
-            List<EvaluationDTO> evaluationList = evaluationDAO.getAll();
-            ObservableList<EvaluationDTO> observableList = FXCollections.observableArrayList(evaluationList);
-            evaluationTable.setItems(observableList);
-        } catch (SQLException e) {
-            Modal.displayError("No se pudo actualizar la tabla debido a un error en el sistema.");
-        }
-    }
-
+    private TableView<EvaluationDTO> tableEvaluation;
     @FXML
+    private TableColumn<EvaluationDTO, String> columnIDStudent;
+    @FXML
+    private TableColumn<EvaluationDTO, String> columnIDAcademic;
+    @FXML
+    private TableColumn<EvaluationDTO, String> columnIDProject;
+    @FXML
+    private TableColumn<EvaluationDTO, String> columnCreatedAt;
+
     public void initialize() {
-        showTableEvaluations();
+        loadDataList();
+    }
+
+    @Override
+    public void loadDataList() {
+        AccountDTO.Role currentUserType = AuthClient.getInstance().getCurrentUser().role();
+        switch (currentUserType) {
+            case STUDENT:
+                loadStudentView();
+            case ACADEMIC:
+                loadAcademicView();
+                break;
+            case EVALUATOR:
+                loadEvaluatorView();
+                break;
+            case ACADEMIC_EVALUATOR:
+                loadAcademicEvaluatorView();
+                break;
+        }
+    }
+
+    public void loadStudentView() {
+        try {
+            StudentDTO student = STUDENT_DAO.getOneByEmail(AuthClient.getInstance().getCurrentUser().email());
+            tableEvaluation.setItems(FXCollections.observableList(
+                    EVALUATION_DAO.getAllByStudent(student.getID())
+            ));
+        } catch (SQLException e){
+            Modal.displayError("No fue posible obtener las evaluaciones del usuario estudiante");
+        }
+    }
+
+    public void loadAcademicView() {
+        try {
+            AcademicDTO academic = ACADEMIC_DAO.getOneByEmail(AuthClient.getInstance().getCurrentUser().email());
+            tableEvaluation.setItems(FXCollections.observableList(EVALUATION_DAO.getAllByAcademic(academic.getID())));
+        } catch (SQLException e) {
+            Modal.displayError("No fue posible obtener las evaluaciones del usuario academico");
+        }
+    }
+
+    public void loadEvaluatorView() {
+        try {
+            AcademicDTO evaluator = ACADEMIC_DAO.getOneByEmail(AuthClient.getInstance().getCurrentUser().email());
+            tableEvaluation.setItems(FXCollections.observableList(
+                    EVALUATION_DAO.getAllByEvaluators(evaluator.getID())
+            ));
+        } catch (SQLException e) {
+            Modal.displayError("No fue posible obtener las evaluaciones del usuario evaluador");
+        }
+    }
+
+    public void loadAcademicEvaluatorView() {
+        try {
+            AcademicDTO academicAndEvaluator = ACADEMIC_DAO.getOneByEmail(AuthClient.getInstance().getCurrentUser().email());
+            Set<EvaluationDTO> combined = new LinkedHashSet<>();
+            combined.addAll( EVALUATION_DAO.getAllByAcademic(academicAndEvaluator.getID()));
+            combined.addAll(EVALUATION_DAO.getAllByEvaluators(academicAndEvaluator.getID()));
+
+            tableEvaluation.setItems(FXCollections.observableList(new ArrayList<>(combined)));
+        } catch (SQLException e) {
+            Modal.displayError("No fue posible obtener las evalujaciones del usuario academico-evaluador");
+        }
+    }
+
+    @Override
+    public void loadTableColumns() {
+        columnIDAcademic.setCellValueFactory(new PropertyValueFactory<>("id_academic"));
+        columnIDProject.setCellValueFactory(new PropertyValueFactory<>("id_project"));
+        columnIDStudent.setCellValueFactory(new PropertyValueFactory<>("id_student"));
+        columnCreatedAt.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
+    }
+
+    public void handleOpenRegisterEvaluationModal() {
+        Modal.display(
+                "Registrar Evaluacion",
+                "RegisterEvaluationModal",
+                this::loadDataList
+        );
+    }
+
+    public void handleVisualizeEvaluationModal() {
+        EvaluationDTO selectedEvaluation = tableEvaluation.getSelectionModel().getSelectedItem();
+
+        if (selectedEvaluation == null) return;
+
+        Modal.displayManageModal(
+                "Visualizar Evaluacion",
+                "VisualizeEvaluationModal",
+                this::loadDataList,
+                selectedEvaluation
+        );
+    }
+
+    public static void navigateToEvaluationListPage(Stage currentStage) {
+        navigateTo(currentStage, "Lista de Evaluaciones", "ReviewEvaluationListPage");
     }
 }

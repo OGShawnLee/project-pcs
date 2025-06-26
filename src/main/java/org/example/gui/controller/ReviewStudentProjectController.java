@@ -1,13 +1,7 @@
 package org.example.gui.controller;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.stage.Stage;
 import org.example.business.dao.PracticeDAO;
 import org.example.business.dao.ProjectDAO;
 import org.example.business.dto.PracticeDTO;
@@ -17,9 +11,7 @@ import org.example.business.dao.OrganizationDAO;
 import org.example.business.dto.OrganizationDTO;
 import org.example.gui.Modal;
 
-import java.io.IOException;
-
-public class ReviewStudentProjectController {
+public class ReviewStudentProjectController extends Controller {
 
     @FXML
     private Label labelProjectName;
@@ -75,16 +67,6 @@ public class ReviewStudentProjectController {
         } catch (Exception e) {
             Modal.displayError("Error al cargar el proyecto asignado.");
         }
-    }
-
-    @FXML
-    public void returnToMainPage(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/LandingStudentPage.fxml"));
-        Parent root = loader.load();
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.setTitle("Menu Principal");
-        stage.show();
     }
 
 }
