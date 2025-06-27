@@ -24,11 +24,6 @@ public abstract class Controller {
     return (Stage) container.getScene().getWindow();
   }
 
-  protected static void loadRecordState(ComboBox<String> fieldState) {
-    fieldState.getItems().setAll("Activo", "Inactivo");
-    fieldState.setValue("Activo");
-  }
-
   public void navigateToLandingPage() {
     switch (AuthClient.getInstance().getCurrentUser().role()) {
       case ACADEMIC -> navigateFromThisPageTo("Landing Page", "LandingAcademicPage");

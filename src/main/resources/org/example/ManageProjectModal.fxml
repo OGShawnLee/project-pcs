@@ -11,10 +11,10 @@
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-            prefHeight="820.0" prefWidth="720.0" stylesheets="@main.css" xmlns="http://javafx.com/javafx/23.0.1"
+            prefHeight="920.0" prefWidth="720.0" stylesheets="@main.css" xmlns="http://javafx.com/javafx/23.0.1"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.gui.controller.ManageProjectController">
   <children>
-    <VBox layoutX="200.0" layoutY="44.0" prefWidth="320.0" spacing="16.0">
+    <VBox layoutX="200.0" layoutY="59.0" prefWidth="320.0" spacing="16.0">
       <children>
         <Label styleClass="title" text="Gestionar Proyecto">
           <VBox.margin>

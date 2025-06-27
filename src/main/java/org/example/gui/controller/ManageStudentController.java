@@ -33,12 +33,12 @@ public class ManageStudentController extends ManageController<StudentDTO> {
     @FXML
     private ComboBox<EnrollmentDTO> comboBoxNRC;
     @FXML
-    private ComboBox<String> fieldState;
+    private ComboBox<String> comboBoxState;
 
     @Override
     public void initialize(StudentDTO dataObject) {
         super.initialize(dataObject);
-        loadRecordState(fieldState);
+        ComboBoxLoader.loadRecordState(comboBoxState);
         loadEnrollments(); // <-- cargar ítems primero
         loadDataObjectFields();
     }
@@ -61,7 +61,7 @@ public class ManageStudentController extends ManageController<StudentDTO> {
         fieldPaternalLastName.setText(student.getPaternalLastName());
         fieldMaternalLastName.setText(student.getMaternalLastName());
         fieldPhoneNumber.setText(student.getPhoneNumber());
-        fieldState.setValue(student.getState());
+        comboBoxState.setValue(student.getState());
 
         try {
             for (EnrollmentDTO enrollment : comboBoxNRC.getItems()) {
@@ -85,7 +85,7 @@ public class ManageStudentController extends ManageController<StudentDTO> {
                     .setPaternalLastName(fieldPaternalLastName.getText())
                     .setMaternalLastName(fieldMaternalLastName.getText())
                     .setPhoneNumber(fieldPhoneNumber.getText())
-                    .setState(fieldState.getValue())
+                    .setState(comboBoxState.getValue())
                     .build();
 
             STUDENT_DAO.updateOne(student);

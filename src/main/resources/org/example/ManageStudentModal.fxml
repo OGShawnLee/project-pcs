@@ -69,7 +69,7 @@
                 <VBox spacing="8.0">
                     <children>
                         <Label text="Estado"/>
-                        <ComboBox fx:id="fieldState" maxWidth="Infinity"
+                        <ComboBox fx:id="comboBoxState" maxWidth="Infinity"
                                   promptText="Seleccione el Estado del Estudiante" styleClass="input"/>
                     </children>
                 </VBox>

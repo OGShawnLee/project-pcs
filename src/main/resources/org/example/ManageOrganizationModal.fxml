@@ -53,7 +53,7 @@
         <VBox spacing="8.0">
           <children>
             <Label text="Estado"/>
-            <ComboBox fx:id="fieldState" maxWidth="1.7976931348623157E308"
+            <ComboBox fx:id="comboBoxState" maxWidth="1.7976931348623157E308"
                       promptText="Seleccione el Estado de la Organización" styleClass="input"/>
           </children>
         </VBox>

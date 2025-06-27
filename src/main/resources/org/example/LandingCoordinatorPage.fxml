@@ -7,78 +7,60 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-            prefHeight="720.0" prefWidth="1280.0" stylesheets="@main.css" xmlns="http://javafx.com/javafx/23.0.1"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.gui.controller.LandingCoordinatorController">
+<AnchorPane fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" stylesheets="@main.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.gui.controller.LandingCoordinatorController">
   <children>
     <!-- User Info and Logout -->
     <VBox layoutY="604.0" prefWidth="320.0" spacing="16.0">
       <children>
         <Label fx:id="labelEmail" styleClass="title" text="\@Correo Electrónico">
           <VBox.margin>
-            <Insets/>
+            <Insets />
           </VBox.margin>
           <padding>
-            <Insets bottom="8.0"/>
+            <Insets bottom="8.0" />
           </padding>
         </Label>
         <HBox maxWidth="1.7976931348623157E308" spacing="16.0">
           <children>
-            <Button mnemonicParsing="false" onAction="#handleLogOut" prefWidth="140.0" styleClass="button"
-                    text="Cerrar Sesión"/>
-            <Button mnemonicParsing="false" onAction="#handleOpenUpdateProfile" prefWidth="140.0"
-                    text="Gestionar Perfil"/>
+            <Button mnemonicParsing="false" onAction="#handleLogOut" prefWidth="140.0" styleClass="button" text="Cerrar Sesión" />
+            <Button mnemonicParsing="false" onAction="#handleOpenUpdateProfile" prefWidth="140.0" text="Gestionar Perfil" />
           </children>
         </HBox>
       </children>
       <padding>
-        <Insets bottom="32.0" left="32.0"/>
+        <Insets bottom="32.0" left="32.0" />
       </padding>
     </VBox>
     <!-- Main Actions -->
-    <VBox layoutX="480.0" layoutY="200.0" prefWidth="320.0" spacing="16.0">
+    <VBox layoutX="475.0" layoutY="200.0" prefWidth="330.0" spacing="16.0">
       <children>
         <!-- Academic -->
         <HBox maxWidth="-Infinity" prefHeight="32.0" spacing="16.0">
-          <Button onAction="#navigateToReviewAcademicListPage" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                  prefWidth="160.0" styleClass="button" text="Académicos"/>
-          <Button onAction="#handleOpenRegisterAcademic" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                  prefWidth="160.0" styleClass="button" text="Registrar Académico"/>
+          <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#navigateToReviewAcademicListPage" prefWidth="160.0" styleClass="button" text="Académicos" />
+          <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleOpenRegisterAcademic" prefWidth="160.0" styleClass="button" text="Registrar Académico" />
         </HBox>
         <!-- Representative -->
         <HBox maxWidth="-Infinity" prefHeight="32.0" spacing="16.0">
-          <Button onAction="#navigateToReviewRepresentativeListPage" maxWidth="1.7976931348623157E308"
-                  mnemonicParsing="false" prefWidth="160.0" styleClass="button" text="Representantes"/>
-          <Button onAction="#handleOpenRegisterRepresentative" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                  prefWidth="160.0" styleClass="button" text="Registrar Representante"/>
+          <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#navigateToReviewRepresentativeListPage" prefWidth="160.0" styleClass="button" text="Representantes" />
+          <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleOpenRegisterRepresentative" prefWidth="160.0" styleClass="button" text="Registrar Representante" />
         </HBox>
         <!-- Organization -->
         <HBox maxWidth="-Infinity" prefHeight="32.0" spacing="16.0">
-          <Button onAction="#navigateToReviewOrganizationListPage" maxWidth="1.7976931348623157E308"
-                  mnemonicParsing="false" prefWidth="160.0" styleClass="button" text="Organizaciones"/>
-          <Button onAction="#handleOpenRegisterOrganization" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                  prefWidth="160.0" styleClass="button" text="Registrar Organización"/>
+          <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#navigateToReviewOrganizationListPage" prefWidth="160.0" styleClass="button" text="Organizaciones" />
+          <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleOpenRegisterOrganization" prefWidth="160.0" styleClass="button" text="Registrar Organización" />
         </HBox>
         <!-- Project -->
         <HBox maxWidth="-Infinity" prefHeight="32.0" spacing="16.0">
-          <Button onAction="#navigateToReviewProjectListPage" maxWidth="1.7976931348623157E308"
-                  mnemonicParsing="false" prefWidth="160.0" styleClass="button" text="Proyectos"/>
-          <Button onAction="#handleOpenRegisterProject" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                  prefWidth="160.0" styleClass="button" text="Registrar Proyecto"/>
+          <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#navigateToReviewProjectListPage" prefWidth="160.0" styleClass="button" text="Proyectos" />
+          <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleOpenRegisterProject" prefWidth="160.0" styleClass="button" text="Registrar Proyecto" />
         </HBox>
         <!-- Course -->
         <HBox maxWidth="-Infinity" prefHeight="32.0" spacing="16.0">
-          <Button onAction="#navigateToReviewCourseListPage" maxWidth="1.7976931348623157E308"
-                  mnemonicParsing="false" prefWidth="160.0" styleClass="button" text="Cursos"/>
-          <Button onAction="#handleOpenRegisterCourse" maxWidth="1.7976931348623157E308" mnemonicParsing="false"
-                  prefWidth="160.0" styleClass="button" text="Registrar Curso"/>
+          <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#navigateToReviewCourseListPage" prefWidth="160.0" styleClass="button" text="Cursos" />
+          <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleOpenRegisterCourse" prefWidth="160.0" styleClass="button" text="Registrar Curso" />
         </HBox>
-        <Button onAction="#handleOpenReviewStats" maxWidth="1.7976931348623157E308"
-                mnemonicParsing="false"
-                styleClass="button" text="Generar Estadísticas"/>
-        <Button onAction="#handleOpenManageConfiguration" maxWidth="1.7976931348623157E308"
-                mnemonicParsing="false"
-                styleClass="button" text="Gestionar Configuración"/>
+        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleOpenReviewStats" styleClass="button" text="Generar Estadísticas" />
+        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleOpenManageConfiguration" styleClass="button" text="Gestionar Configuración" />
       </children>
     </VBox>
   </children>

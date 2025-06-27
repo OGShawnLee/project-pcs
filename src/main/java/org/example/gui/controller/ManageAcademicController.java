@@ -28,13 +28,13 @@ public class ManageAcademicController extends ManageController<AcademicDTO> {
   @FXML
   private ComboBox<AcademicRole> fieldRole;
   @FXML
-  private ComboBox<String> fieldState;
+  private ComboBox<String> comboBoxState;
 
   @Override
   public void initialize(AcademicDTO dataObject) {
     super.initialize(dataObject);
     RegisterAcademicController.loadRoleComboBox(fieldRole);
-    loadRecordState(fieldState);
+    ComboBoxLoader.loadRecordState(comboBoxState);
     loadDataObjectFields();
   }
 
@@ -46,7 +46,7 @@ public class ManageAcademicController extends ManageController<AcademicDTO> {
     fieldMaternalLastName.setText(getContext().getMaternalLastName());
     fieldRole.setValue(getContext().getRole());
     fieldPhoneNumber.setText(getContext().getPhoneNumber());
-    fieldState.setValue(getContext().getState());
+    comboBoxState.setValue(getContext().getState());
   }
 
   @Override
@@ -60,7 +60,7 @@ public class ManageAcademicController extends ManageController<AcademicDTO> {
         .setMaternalLastName(fieldMaternalLastName.getText())
         .setRole(fieldRole.getValue())
         .setPhoneNumber(fieldPhoneNumber.getText())
-        .setState(fieldState.getValue())
+        .setState(comboBoxState.getValue())
         .build();
 
       ACADEMIC_DAO.updateOne(academicDTO);

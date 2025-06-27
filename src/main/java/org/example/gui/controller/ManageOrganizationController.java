@@ -19,14 +19,14 @@ public class ManageOrganizationController extends ManageController<OrganizationD
   @FXML
   private TextField fieldAddress;
   @FXML
-  private ComboBox<String> fieldState;
+  private ComboBox<String> comboBoxState;
   @FXML
   private TextField fieldPhoneNumber;
 
   @Override
   public void initialize(OrganizationDTO currentOrganization) {
     super.initialize(currentOrganization);
-    loadRecordState(fieldState);
+    ComboBoxLoader.loadRecordState(comboBoxState);
     loadDataObjectFields();
   }
 
@@ -35,7 +35,7 @@ public class ManageOrganizationController extends ManageController<OrganizationD
     fieldEmail.setText(getContext().getEmail());
     fieldAddress.setText(getContext().getAddress());
     fieldPhoneNumber.setText(getContext().getPhoneNumber());
-    fieldState.setValue(getContext().getState());
+    comboBoxState.setValue(getContext().getState());
   }
 
   @Override
@@ -46,7 +46,7 @@ public class ManageOrganizationController extends ManageController<OrganizationD
         .setName(fieldName.getText())
         .setAddress(fieldAddress.getText())
         .setPhoneNumber(fieldPhoneNumber.getText())
-        .setState(fieldState.getValue())
+        .setState(comboBoxState.getValue())
         .build();
 
       ORGANIZATION_DAO.updateOne(updatedOrganization);
