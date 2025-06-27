@@ -181,6 +181,7 @@ public class ProjectDAO extends CompleteDAOShape<ProjectDTO, Integer> {
       PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
     ) {
       statement.setString(1, projectDTO.getIDOrganization());
+      statement.setString(2, projectDTO.getRepresentativeEmail());
       statement.setString(3, projectDTO.getName());
       statement.setString(4, projectDTO.getDescription());
       statement.setString(5, projectDTO.getDepartment());

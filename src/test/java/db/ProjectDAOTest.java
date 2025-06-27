@@ -16,6 +16,7 @@ public class ProjectDAOTest {
   public static final ProjectDAO PROJECT_DAO = new ProjectDAO();
   public static final ProjectDTO PROJECT_DTO = new ProjectDTO.ProjectBuilder()
     .setIDOrganization(OrganizationDAOTest.ORGANIZATION_DTO.getEmail())
+    .setRepresentativeEmail(RepresentativeDAOTest.REPRESENTATIVE_DTO.getEmail())
     .setName("Bard AI Reborn")
     .setDescription("An advanced AI project to enhance Bard's capabilities.")
     .setDepartment("AI Research")
@@ -26,12 +27,12 @@ public class ProjectDAOTest {
     .build();
 
   public static void createOneTestProject() throws SQLException {
-    OrganizationDAOTest.createOneTestOrganization();
+    RepresentativeDAOTest.createOneTestRepresentative();
     PROJECT_DAO.createOne(PROJECT_DTO);
   }
 
   public static void deleteOneTestProject() throws SQLException {
-    OrganizationDAOTest.deleteOneTestOrganization();
+    RepresentativeDAOTest.deleteOneTestRepresentative();
     PROJECT_DAO.deleteOne(PROJECT_DTO.getID());
   }
 
@@ -76,6 +77,7 @@ public class ProjectDAOTest {
       ProjectDTO updatedProject = new ProjectDTO.ProjectBuilder()
         .setID(PROJECT_DTO.getID())
         .setIDOrganization(OrganizationDAOTest.ORGANIZATION_DTO.getEmail())
+        .setRepresentativeEmail(RepresentativeDAOTest.REPRESENTATIVE_DTO.getEmail())
         .setName("Bard AI Reborn 2")
         .setDescription("An advanced AI project to enhance Bard's capabilities with new features.")
         .setDepartment("AI Research and Development")
@@ -99,6 +101,7 @@ public class ProjectDAOTest {
       ProjectDTO updatedProject = new ProjectDTO.ProjectBuilder()
         .setID(PROJECT_DTO.getID())
         .setIDOrganization(OrganizationDAOTest.ORGANIZATION_DTO.getEmail())
+        .setRepresentativeEmail(RepresentativeDAOTest.REPRESENTATIVE_DTO.getEmail())
         .setName(PROJECT_DTO.getName())
         .setDescription(PROJECT_DTO.getDescription())
         .setDepartment(PROJECT_DTO.getDepartment())
@@ -115,6 +118,7 @@ public class ProjectDAOTest {
       updatedProject = new ProjectDTO.ProjectBuilder()
         .setID(PROJECT_DTO.getID())
         .setIDOrganization(OrganizationDAOTest.ORGANIZATION_DTO.getEmail())
+        .setRepresentativeEmail(RepresentativeDAOTest.REPRESENTATIVE_DTO.getEmail())
         .setName(PROJECT_DTO.getName())
         .setDescription(PROJECT_DTO.getDescription())
         .setDepartment(PROJECT_DTO.getDepartment())
