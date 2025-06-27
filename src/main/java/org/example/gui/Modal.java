@@ -8,6 +8,7 @@ import javafx.scene.control.TextInputDialog;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import org.example.gui.controller.ConfirmationController;
 import org.example.gui.controller.ContextController;
 
 import java.io.IOException;
@@ -39,6 +40,26 @@ public class Modal {
     } catch (IOException e) {
       e.printStackTrace();
       Modal.displayError("No ha sido posible cargar modal.");
+    }
+  }
+
+  public static boolean displayConfirmation(String message) {
+    try {
+      FXMLLoader loader = new FXMLLoader(Modal.class.getResource("/org/example/ConfirmationModal.fxml"));
+      Stage stage = new Stage();
+      stage.initModality(Modality.APPLICATION_MODAL);
+      stage.setTitle("Confirmación");
+      stage.setScene(new Scene(loader.load()));
+
+      ConfirmationController controller = loader.getController();
+      controller.setMessage(message);
+      controller.setStage(stage);
+
+      stage.showAndWait();
+      return controller.getIsConfirmed();
+    } catch (IOException e) {
+      Modal.displayError("No ha sido posible cargar el modal de confirmación.");
+      return false;
     }
   }
 

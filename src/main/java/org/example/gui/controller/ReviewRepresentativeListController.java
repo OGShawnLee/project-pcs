@@ -56,7 +56,7 @@ public class ReviewRepresentativeListController extends ReviewListController imp
       );
     } catch (SQLException e) {
       Modal.displayError(
-        "No ha sido posible cargar información de académicos debido a un error de sistema."
+        "No ha sido posible cargar información de representantes debido a un error de sistema."
       );
     }
   }
@@ -71,7 +71,7 @@ public class ReviewRepresentativeListController extends ReviewListController imp
       );
     } catch (SQLException e) {
       Modal.displayError(
-        "No ha sido posible cargar información de académicos activos debido a un error de sistema."
+        "No ha sido posible cargar información de representantes activos debido a un error de sistema."
       );
     }
   }
@@ -86,7 +86,7 @@ public class ReviewRepresentativeListController extends ReviewListController imp
       );
     } catch (SQLException e) {
       Modal.displayError(
-        "No ha sido posible cargar información de académicos inactivos debido a un error de sistema."
+        "No ha sido posible cargar información de representantes inactivos debido a un error de sistema."
       );
     }
   }

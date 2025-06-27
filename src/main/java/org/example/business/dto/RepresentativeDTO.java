@@ -18,6 +18,11 @@ public class RepresentativeDTO extends Person {
     return position;
   }
 
+  @Override
+  public String toString() {
+    return getFullName() + " (" + position + ") - " + organizationID;
+  }
+
   public static class RepresentativeBuilder extends Person.PersonBuilder<RepresentativeBuilder> {
     private String organizationID;
     private String position;

@@ -38,7 +38,7 @@ public class WorkPlanDAO implements GetOneDAOShape<WorkPlanDTO, Integer> {
         if (resultSet.next()) {
           return createDTOInstanceFromResultSet(resultSet);
         } else {
-          throw new NotFoundException("No se encontró el Cronograma de Actividades para el proyecto solicitado");
+          throw new NotFoundException("No se encontró el Cronograma de Actividades para el proyecto solicitado.");
         }
       }
     }

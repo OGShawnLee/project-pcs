@@ -40,6 +40,11 @@ public class ComboBoxLoader {
     }
   }
 
+  public static void loadRecordState(ComboBox<String> fieldState) {
+    fieldState.getItems().setAll("Activo", "Inactivo");
+    fieldState.setValue("Activo");
+  }
+
   public static void loadComboBoxRepresentativeByOrganization(
     ComboBox<RepresentativeDTO> comboBoxRepresentative,
     OrganizationDTO organization

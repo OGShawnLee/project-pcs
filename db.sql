@@ -229,33 +229,49 @@ CREATE TABLE Enrollment
     FOREIGN KEY (id_academic) REFERENCES Academic (id_academic) ON DELETE CASCADE
 );
 
-CREATE TABLE Organization
+CREATE TABLE Representative
 (
-    email                    VARCHAR(128)               NOT NULL,
-    name                     VARCHAR(128)               NOT NULL,
-    representative_full_name VARCHAR(128)               NOT NULL,
-    address                  VARCHAR(256)               NOT NULL,
-    state                    ENUM ('ACTIVE', 'RETIRED') NOT NULL DEFAULT 'ACTIVE',
-    phone_number             VARCHAR(16)                NOT NULL,
-    created_at               TIMESTAMP                  NOT NULL DEFAULT NOW(),
+    organization_email VARCHAR(128)               NOT NULL,
+    email              VARCHAR(128)               NOT NULL,
+    name               VARCHAR(64)                NOT NULL,
+    paternal_last_name VARCHAR(64)                NOT NULL,
+    maternal_last_name VARCHAR(64),
+    phone_number       VARCHAR(16)                NOT NULL,
+    position           VARCHAR(64)                NOT NULL,
+    state              ENUM ('ACTIVE', 'RETIRED') NOT NULL DEFAULT 'ACTIVE',
+    created_at         TIMESTAMP                  NOT NULL DEFAULT NOW(),
     PRIMARY KEY (email)
 );
 
+CREATE TABLE Organization
+(
+    email        VARCHAR(128)               NOT NULL,
+    name         VARCHAR(128)               NOT NULL,
+    address      VARCHAR(256)               NOT NULL,
+    state        ENUM ('ACTIVE', 'RETIRED') NOT NULL DEFAULT 'ACTIVE',
+    phone_number VARCHAR(16)                NOT NULL,
+    created_at   TIMESTAMP                  NOT NULL DEFAULT NOW(),
+    PRIMARY KEY (email)
+);
+
+
 CREATE TABLE Project
 (
-    id_project       INT AUTO_INCREMENT                   NOT NULL,
-    id_organization  VARCHAR(128)                         NOT NULL,
-    name             VARCHAR(128)                         NOT NULL,
-    description      TEXT                                 NOT NULL,
-    department       VARCHAR(128)                         NOT NULL,
-    available_places INT                                  NOT NULL CHECK (available_places >= 0),
-    methodology      VARCHAR(128)                         NOT NULL,
-    state            ENUM ('ACTIVE', 'RETIRED')           NOT NULL DEFAULT 'ACTIVE',
+    id_project           INT AUTO_INCREMENT                   NOT NULL,
+    id_organization      VARCHAR(128)                         NOT NULL,
+    representative_email VARCHAR(128)                         NOT NULL,
+    name                 VARCHAR(128)                         NOT NULL,
+    description          TEXT                                 NOT NULL,
+    department           VARCHAR(128)                         NOT NULL,
+    available_places     INT                                  NOT NULL CHECK (available_places >= 0),
+    methodology          VARCHAR(128)                         NOT NULL,
+    state                ENUM ('ACTIVE', 'RETIRED')           NOT NULL DEFAULT 'ACTIVE',
     # TODO: Add to the Diagram
-    sector           ENUM ('PUBLIC', 'PRIVATE', 'SOCIAL') NOT NULL DEFAULT 'PRIVATE',
-    created_at       TIMESTAMP                            NOT NULL DEFAULT NOW(),
+    sector               ENUM ('PUBLIC', 'PRIVATE', 'SOCIAL') NOT NULL DEFAULT 'PRIVATE',
+    created_at           TIMESTAMP                            NOT NULL DEFAULT NOW(),
     PRIMARY KEY (id_project),
-    FOREIGN KEY (id_organization) REFERENCES Organization (email) ON DELETE CASCADE
+    FOREIGN KEY (id_organization) REFERENCES Organization (email) ON DELETE CASCADE,
+    FOREIGN KEY (representative_email) REFERENCES Representative (email) ON DELETE CASCADE
 );
 
 CREATE TABLE ProjectRequest
