@@ -16,7 +16,6 @@ import org.example.business.dto.ProjectDTO;
 import org.example.gui.Modal;
 
 import java.sql.SQLException;
-import java.util.List;
 
 public class ManageProjectController extends ManageController<ProjectDTO> {
   private static final ProjectDAO PROJECT_DAO = new ProjectDAO();
@@ -48,7 +47,7 @@ public class ManageProjectController extends ManageController<ProjectDTO> {
   }
 
   public void loadDataObjectFields() {
-    ComboBoxLoader.loadRecordState(comboBoxState);
+    ComboBoxLoader.loadComboBoxState(comboBoxState);
     ComboBoxLoader.loadComboBoxSector(comboBoxSector);
     ComboBoxLoader.loadComboBoxOrganization(comboBoxOrganization, true);
     ComboBoxLoader.loadRepresentativeComboBoxFromOrganizationComboBoxSelection(comboBoxOrganization, comboBoxRepresentative);

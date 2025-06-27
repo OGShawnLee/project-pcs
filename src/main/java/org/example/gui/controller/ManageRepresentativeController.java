@@ -39,7 +39,7 @@ public class ManageRepresentativeController extends ManageController<Representat
   }
 
   public void loadDataObjectFields() {
-    ComboBoxLoader.loadRecordState(comboBoxState);
+    ComboBoxLoader.loadComboBoxState(comboBoxState);
     ComboBoxLoader.loadComboBoxOrganization(comboBoxOrganization, false);
 
     loadOrganization();

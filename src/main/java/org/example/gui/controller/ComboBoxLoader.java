@@ -40,7 +40,7 @@ public class ComboBoxLoader {
     }
   }
 
-  public static void loadRecordState(ComboBox<String> comboBoxState) {
+  public static void loadComboBoxState(ComboBox<String> comboBoxState) {
     comboBoxState.getItems().setAll("Activo", "Inactivo");
     comboBoxState.setValue("Activo");
   }

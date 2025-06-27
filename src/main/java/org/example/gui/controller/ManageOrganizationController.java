@@ -26,7 +26,7 @@ public class ManageOrganizationController extends ManageController<OrganizationD
   @Override
   public void initialize(OrganizationDTO currentOrganization) {
     super.initialize(currentOrganization);
-    ComboBoxLoader.loadRecordState(comboBoxState);
+    ComboBoxLoader.loadComboBoxState(comboBoxState);
     loadDataObjectFields();
   }
 

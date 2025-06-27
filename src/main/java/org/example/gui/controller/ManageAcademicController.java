@@ -34,7 +34,7 @@ public class ManageAcademicController extends ManageController<AcademicDTO> {
   public void initialize(AcademicDTO dataObject) {
     super.initialize(dataObject);
     RegisterAcademicController.loadRoleComboBox(fieldRole);
-    ComboBoxLoader.loadRecordState(comboBoxState);
+    ComboBoxLoader.loadComboBoxState(comboBoxState);
     loadDataObjectFields();
   }
 

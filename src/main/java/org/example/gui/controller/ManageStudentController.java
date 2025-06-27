@@ -38,7 +38,7 @@ public class ManageStudentController extends ManageController<StudentDTO> {
     @Override
     public void initialize(StudentDTO dataObject) {
         super.initialize(dataObject);
-        ComboBoxLoader.loadRecordState(comboBoxState);
+        ComboBoxLoader.loadComboBoxState(comboBoxState);
         loadEnrollments(); // <-- cargar ítems primero
         loadDataObjectFields();
     }
