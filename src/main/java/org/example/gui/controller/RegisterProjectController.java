@@ -47,9 +47,10 @@ public class RegisterProjectController extends Controller {
   private TextArea fieldFourthMonthActivities;
 
   public void initialize() {
-    ComboBoxLoader.loadComboBoxOrganization(comboBoxOrganization, true);
-    ComboBoxLoader.loadComboBoxSector(comboBoxSector);;
-    ComboBoxLoader.loadRepresentativeComboBoxFromOrganizationComboBoxSelection(comboBoxOrganization, comboBoxRepresentative);
+    ComboBoxLoader.loadComboBoxOrganizationWithRepresentatives(comboBoxOrganization);
+    ComboBoxLoader.loadComboBoxSector(comboBoxSector);
+    ComboBoxLoader.loadComboBoxRepresentativeByOrganization(comboBoxRepresentative, comboBoxOrganization.getItems().getFirst().getEmail());
+    ComboBoxLoader.loadSynchronizationOfRepresentativeComboBoxFromOrganizationComboBoxSelection(comboBoxOrganization, comboBoxRepresentative);
 
     fieldDescription.textProperty().addListener((observable, oldValue, newValue) -> {
       fieldDescription.setPrefHeight(fieldDescription.getPrefRowCount() * 24); // Adjust height based on rows

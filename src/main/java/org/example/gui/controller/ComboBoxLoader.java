@@ -13,28 +13,40 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class ComboBoxLoader {
-  public static void loadComboBoxOrganization(
-    ComboBox<OrganizationDTO> comboBoxOrganization,
-    boolean isWithRepresentatives
+  private static <T> void loadComboBoxAndSetDefault(ComboBox<T> comboBox, List<T> list) {
+    comboBox.getItems().addAll(list);
+    comboBox.setValue(list.getFirst());
+  }
+
+  public static void loadComboBoxOrganizationWithRepresentatives(
+    ComboBox<OrganizationDTO> comboBoxOrganization
   ) {
     try {
       OrganizationDAO organizationDAO = new OrganizationDAO();
-      List<OrganizationDTO> organizationList = isWithRepresentatives
-        ? organizationDAO.getAllWithRepresentatives()
-        : organizationDAO.getAllByState("ACTIVE");
+      List<OrganizationDTO> organizationDTOList = organizationDAO.getAllWithRepresentatives();
 
-      if (isWithRepresentatives) {
-        if (organizationList.isEmpty()) {
-          Modal.displayError("No existe una organización con representantes. Por favor, registre un representante antes de continuar.");
-          return;
-        }
-      } else if (organizationList.isEmpty()) {
+      if (organizationDTOList.isEmpty()) {
+       Modal.displayError("No existen organizaciones con representantes. Por favor, registre un representante antes de continuar.");
+       return;
+      }
+
+      loadComboBoxAndSetDefault(comboBoxOrganization, organizationDTOList);
+    } catch (SQLException e) {
+      Modal.displayError("No ha sido posible cargar las organizaciones que tienen representantes debido a un error en el sistema.");
+    }
+  }
+
+  public static void loadComboBoxOrganization(ComboBox<OrganizationDTO> comboBoxOrganization) {
+    try {
+      OrganizationDAO organizationDAO = new OrganizationDAO();
+      List<OrganizationDTO> organizationDTOList = organizationDAO.getAllByState("ACTIVE");
+
+      if (organizationDTOList.isEmpty()) {
         Modal.displayError("No existe una organización. Por favor, registre una organización antes de continuar.");
         return;
       }
 
-      comboBoxOrganization.getItems().addAll(organizationList);
-      comboBoxOrganization.setValue(organizationList.getFirst());
+      loadComboBoxAndSetDefault(comboBoxOrganization, organizationDTOList);
     } catch (SQLException e) {
       Modal.displayError("No ha sido posible cargar las organizaciones debido a un error en el sistema.");
     }
@@ -45,56 +57,54 @@ public class ComboBoxLoader {
     comboBoxState.setValue("Activo");
   }
 
-  public static void loadComboBoxRepresentativeByOrganization(
-    ComboBox<RepresentativeDTO> comboBoxRepresentative,
-    OrganizationDTO organization
-  ) {
+  public static void loadComboBoxRepresentativeByOrganization(ComboBox<RepresentativeDTO> comboBoxRepresentative, String email) {
     try {
-      List<RepresentativeDTO> representativeList = new RepresentativeDAO().getAllByOrganization(organization, "ACTIVE");
+      List<RepresentativeDTO> representativeDTOList = new RepresentativeDAO().getAllByOrganization(email, "ACTIVE");
 
-      if (representativeList.isEmpty()) {
+      if (representativeDTOList.isEmpty()) {
         Modal.displayError("No existe un representante. Por favor, registre un representante antes de continuar.");
         Modal.display(
           "Registrar Representante",
           "RegisterRepresentativeModal",
-          () -> loadComboBoxRepresentativeByOrganization(comboBoxRepresentative, organization)
+          () -> loadComboBoxRepresentativeByOrganization(comboBoxRepresentative, email)
         );
         return;
       }
 
-      comboBoxRepresentative.getItems().addAll(representativeList);
-      comboBoxRepresentative.setValue(representativeList.getFirst());
+      loadComboBoxAndSetDefault(comboBoxRepresentative, representativeDTOList);
     } catch (SQLException e) {
       Modal.displayError("No ha sido posible cargar los representantes debido a un error en el sistema.");
     }
   }
 
-  public static void loadRepresentativeComboBoxFromOrganizationComboBoxSelection(
+  public static void loadSynchronizationOfRepresentativeComboBoxFromOrganizationComboBoxSelection(
     ComboBox<OrganizationDTO> comboBoxOrganization,
     ComboBox<RepresentativeDTO> comboBoxRepresentative
   ) {
-    loadComboBoxRepresentativeByOrganization(comboBoxRepresentative, comboBoxOrganization.getValue());
     comboBoxOrganization.setOnAction(event -> {
-      OrganizationDTO selectedOrganization = comboBoxOrganization.getValue();
-      if (selectedOrganization != null) {
-        try {
-          List<RepresentativeDTO> representatives = new RepresentativeDAO().getAllByOrganization(selectedOrganization, "ACTIVE");
-          comboBoxRepresentative.getItems().setAll(representatives);
+      OrganizationDTO selectedOrganizationDTO = comboBoxOrganization.getValue();
 
-          if (!representatives.isEmpty()) {
-            comboBoxRepresentative.setValue(representatives.get(0));
-          }
-        } catch (SQLException e) {
-          Modal.displayError("No ha sido posible cargar los representantes debido a un error en el sistema.");
-        }
-      } else {
+      if (selectedOrganizationDTO == null) {
         comboBoxRepresentative.getItems().clear();
+        return;
+      }
+
+      try {
+        List<RepresentativeDTO> representatives = new RepresentativeDAO().getAllByOrganization(selectedOrganizationDTO.getEmail(), "ACTIVE");
+        comboBoxRepresentative.getItems().setAll(representatives);
+
+        if (representatives.isEmpty()) {
+          return;
+        }
+
+        comboBoxRepresentative.setValue(representatives.get(0));
+      } catch (SQLException e) {
+        Modal.displayError("No ha sido posible cargar los representantes debido a un error en el sistema.");
       }
     });
   }
 
   public static void loadComboBoxSector(ComboBox<ProjectSector> comboBoxSector) {
-    comboBoxSector.getItems().addAll(ProjectSector.values());
-    comboBoxSector.setValue(ProjectSector.PUBLIC);
+    loadComboBoxAndSetDefault(comboBoxSector, List.of(ProjectSector.values()));
   }
 }

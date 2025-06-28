@@ -17,7 +17,9 @@ public class OrganizationDAO extends CompleteDAOShape<OrganizationDTO, String> {
   private static final String GET_ALL_QUERY = "SELECT * FROM Organization";
   private static final String GET_ALL_BY_STATE_QUERY = "SELECT * FROM Organization WHERE state = ?";
   private static final String GET_ALL_WITH_REPRESENTATIVES_QUERY =
-    "SELECT * FROM Organization WHERE (SELECT COUNT(*) FROM Representative WHERE organization_email = Organization.email) > 0";
+    """
+      SELECT * FROM Organization WHERE (SELECT COUNT(*) FROM Representative WHERE Representative.organization_email = Organization.email) > 0
+    """;
   private static final String GET_QUERY = "SELECT * FROM Organization WHERE email = ?";
   private static final String UPDATE_QUERY =
     "UPDATE Organization SET name = ?, address = ?, phone_number = ?, state = ? WHERE email = ?";

@@ -101,12 +101,12 @@ public class RepresentativeDAO extends CompleteDAOShape<RepresentativeDTO, Strin
     }
   }
 
-  public List<RepresentativeDTO> getAllByOrganization(OrganizationDTO organization, String state) throws SQLException {
+  public List<RepresentativeDTO> getAllByOrganization(String email, String state) throws SQLException {
     try (
       Connection connection = DBConnector.getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_ALL_BY_ORGANIZATION_QUERY)
     ) {
-      statement.setString(1, organization.getEmail());
+      statement.setString(1, email);
       statement.setString(2, state);
 
       try (ResultSet resultSet = statement.executeQuery()) {

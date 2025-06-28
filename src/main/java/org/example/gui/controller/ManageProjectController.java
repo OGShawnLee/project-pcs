@@ -49,8 +49,9 @@ public class ManageProjectController extends ManageController<ProjectDTO> {
   public void loadDataObjectFields() {
     ComboBoxLoader.loadComboBoxState(comboBoxState);
     ComboBoxLoader.loadComboBoxSector(comboBoxSector);
-    ComboBoxLoader.loadComboBoxOrganization(comboBoxOrganization, true);
-    ComboBoxLoader.loadRepresentativeComboBoxFromOrganizationComboBoxSelection(comboBoxOrganization, comboBoxRepresentative);
+    ComboBoxLoader.loadComboBoxOrganizationWithRepresentatives(comboBoxOrganization);
+    ComboBoxLoader.loadComboBoxRepresentativeByOrganization(comboBoxRepresentative, comboBoxOrganization.getValue().getEmail());
+    ComboBoxLoader.loadSynchronizationOfRepresentativeComboBoxFromOrganizationComboBoxSelection(comboBoxOrganization, comboBoxRepresentative);
 
     loadOrganization();
     loadRepresentative();

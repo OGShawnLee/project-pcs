@@ -29,7 +29,7 @@ public class RegisterRepresentativeController extends Controller {
   private TextField fieldPosition;
 
   public void initialize() {
-    ComboBoxLoader.loadComboBoxOrganization(comboBoxOrganization, false);
+    ComboBoxLoader.loadComboBoxOrganization(comboBoxOrganization);
   }
 
   public RepresentativeDTO getDTOFromFields() {
