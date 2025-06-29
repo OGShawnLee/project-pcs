@@ -5,11 +5,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.example.business.auth.AuthClient;
+import org.example.common.ExceptionHandler;
 import org.example.gui.Modal;
 
 import java.io.IOException;
@@ -17,6 +19,7 @@ import java.util.Objects;
 import java.util.function.Function;
 
 public abstract class Controller {
+  private static final Logger CONTROLLER_LOGGER = LogManager.getLogger(Controller.class);
   @FXML
   protected Node container;
 
@@ -50,8 +53,9 @@ public abstract class Controller {
       currentStage.setScene(newScene);
       currentStage.show();
     } catch (IOException e) {
-      e.printStackTrace();
-      Modal.displayError("No ha sido posible navegar a: " + pageName + " debido a un error de sistema.");
+      Modal.displayError(
+        ExceptionHandler.handleGUILoadIOException(CONTROLLER_LOGGER, e).getMessage()
+      );
     }
   }
 

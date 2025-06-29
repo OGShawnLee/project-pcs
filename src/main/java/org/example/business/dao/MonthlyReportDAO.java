@@ -1,8 +1,13 @@
 package org.example.business.dao;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import org.example.business.dao.shape.CompleteDAOShape;
 import org.example.business.dto.MonthlyReportDTO;
 import org.example.business.dao.filter.FilterMonthlyReport;
+import org.example.common.ExceptionHandler;
+import org.example.common.UserDisplayableException;
 import org.example.db.DBConnector;
 
 import java.sql.Connection;
@@ -13,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MonthlyReportDAO extends CompleteDAOShape<MonthlyReportDTO, FilterMonthlyReport> {
+  private static final Logger LOGGER = LogManager.getLogger(MonthlyReportDAO.class);
   private static final String CREATE_QUERY =
     "INSERT INTO MonthlyReport (id_project, id_student, month, year, worked_hours, report) VALUES (?, ?, ?, ?, ?, ?)";
   private static final String GET_ALL_QUERY = "SELECT * FROM MonthlyReport";
@@ -24,7 +30,7 @@ public class MonthlyReportDAO extends CompleteDAOShape<MonthlyReportDTO, FilterM
     "DELETE FROM MonthlyReport WHERE id_project = ? AND id_student = ? AND month = ? AND year = ?";
 
   @Override
-  public MonthlyReportDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
+  public MonthlyReportDTO getDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
     return new MonthlyReportDTO.MonthlyReportBuilder()
       .setIDProject(resultSet.getInt("id_project"))
       .setIDStudent(resultSet.getString("id_student"))
@@ -37,9 +43,9 @@ public class MonthlyReportDAO extends CompleteDAOShape<MonthlyReportDTO, FilterM
   }
 
   @Override
-  public void createOne(MonthlyReportDTO dataObject) throws SQLException {
+  public void createOne(MonthlyReportDTO dataObject) throws UserDisplayableException {
     try (
-      Connection connection = DBConnector.getConnection();
+      Connection connection = DBConnector.getInstance().getConnection();
       PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
     ) {
       statement.setInt(1, dataObject.getIDProject());
@@ -49,13 +55,15 @@ public class MonthlyReportDAO extends CompleteDAOShape<MonthlyReportDTO, FilterM
       statement.setInt(5, dataObject.getWorkedHours());
       statement.setString(6, dataObject.getReport());
       statement.executeUpdate();
+    } catch (SQLException e) {
+      throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible crear el informe mensual.");
     }
   }
 
   @Override
-  public List<MonthlyReportDTO> getAll() throws SQLException {
+  public List<MonthlyReportDTO> getAll() throws UserDisplayableException {
     try (
-      Connection connection = DBConnector.getConnection();
+      Connection connection = DBConnector.getInstance().getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_ALL_QUERY);
       ResultSet resultSet = statement.executeQuery()
     ) {
@@ -66,13 +74,15 @@ public class MonthlyReportDAO extends CompleteDAOShape<MonthlyReportDTO, FilterM
       }
 
       return list;
+    } catch (SQLException e) {
+      throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible cargar los informes mensuales.");
     }
   }
 
   @Override
-  public MonthlyReportDTO getOne(FilterMonthlyReport filter) throws SQLException {
+  public MonthlyReportDTO getOne(FilterMonthlyReport filter) throws UserDisplayableException {
     try (
-      Connection connection = DBConnector.getConnection();
+      Connection connection = DBConnector.getInstance().getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_QUERY)
     ) {
       statement.setInt(1, filter.getIDProject());
@@ -89,13 +99,15 @@ public class MonthlyReportDAO extends CompleteDAOShape<MonthlyReportDTO, FilterM
       }
 
       return dataObject;
+    } catch (SQLException e) {
+      throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible cargar el informe mensual.");
     }
   }
 
   @Override
-  public void updateOne(MonthlyReportDTO dataObject) throws SQLException {
+  public void updateOne(MonthlyReportDTO dataObject) throws UserDisplayableException {
     try (
-      Connection connection = DBConnector.getConnection();
+      Connection connection = DBConnector.getInstance().getConnection();
       PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
     ) {
       statement.setInt(1, dataObject.getWorkedHours());
@@ -105,13 +117,15 @@ public class MonthlyReportDAO extends CompleteDAOShape<MonthlyReportDTO, FilterM
       statement.setInt(5, dataObject.getMonth());
       statement.setInt(6, dataObject.getYear());
       statement.executeUpdate();
+    } catch (SQLException e) {
+      throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible actualizar el informe mensual.");
     }
   }
 
   @Override
-  public void deleteOne(FilterMonthlyReport filter) throws SQLException {
+  public void deleteOne(FilterMonthlyReport filter) throws UserDisplayableException {
     try (
-      Connection connection = DBConnector.getConnection();
+      Connection connection = DBConnector.getInstance().getConnection();
       PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)
     ) {
       statement.setInt(1, filter.getIDProject());
@@ -119,6 +133,8 @@ public class MonthlyReportDAO extends CompleteDAOShape<MonthlyReportDTO, FilterM
       statement.setInt(3, filter.getMonth());
       statement.setInt(4, filter.getYear());
       statement.executeUpdate();
+    } catch (SQLException e) {
+      throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible eliminar el informe mensual.");
     }
   }
 }

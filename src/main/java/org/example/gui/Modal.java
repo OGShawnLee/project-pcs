@@ -8,6 +8,10 @@ import javafx.scene.control.TextInputDialog;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.example.common.ExceptionHandler;
+import org.example.common.UserDisplayableException;
 import org.example.gui.controller.ConfirmationController;
 import org.example.gui.controller.ContextController;
 
@@ -16,6 +20,8 @@ import java.util.Objects;
 import java.util.Optional;
 
 public class Modal {
+  private final static Logger LOGGER = LogManager.getLogger(Modal.class);
+
   public static void display(String title, String resourceFileName) {
     display(title, resourceFileName, null);
   }
@@ -38,8 +44,9 @@ public class Modal {
       modalStage.initModality(Modality.APPLICATION_MODAL);
       modalStage.showAndWait();
     } catch (IOException e) {
-      e.printStackTrace();
-      Modal.displayError("No ha sido posible cargar modal.");
+      Modal.displayError(
+        ExceptionHandler.handleGUILoadIOException(LOGGER, e).getMessage()
+      );
     }
   }
 
@@ -58,7 +65,9 @@ public class Modal {
       stage.showAndWait();
       return controller.getIsConfirmed();
     } catch (IOException e) {
-      Modal.displayError("No ha sido posible cargar el modal de confirmación.");
+      Modal.displayError(
+        ExceptionHandler.handleGUILoadIOException(LOGGER, e).getMessage()
+      );
       return false;
     }
   }
@@ -90,7 +99,9 @@ public class Modal {
       modalStage.initModality(Modality.APPLICATION_MODAL);
       modalStage.showAndWait();
     } catch (IOException e) {
-      displayError("No ha sido posible cargar el modal de gestión.");
+      Modal.displayError(
+        ExceptionHandler.handleGUILoadIOException(LOGGER, e).getMessage()
+      );
     }
   }
 
@@ -100,6 +111,10 @@ public class Modal {
     alert.setHeaderText("Error de Validación");
     alert.setContentText(message);
     alert.showAndWait();
+  }
+
+  public static void displayError(String message, UserDisplayableException e) {
+    displayError(message + "\n" + e.getMessage());
   }
 
   public static void displayInformation(String message) {

@@ -7,9 +7,8 @@ import javafx.scene.control.TextField;
 import org.example.business.dao.RepresentativeDAO;
 import org.example.business.dto.OrganizationDTO;
 import org.example.business.dto.RepresentativeDTO;
+import org.example.common.UserDisplayableException;
 import org.example.gui.Modal;
-
-import java.sql.SQLException;
 
 public class RegisterRepresentativeController extends Controller {
   private final RepresentativeDAO REPRESENTATIVE_DAO = new RepresentativeDAO();
@@ -50,17 +49,14 @@ public class RegisterRepresentativeController extends Controller {
 
       RepresentativeDTO existingRepresentative = REPRESENTATIVE_DAO.findOne(representativeDTO.getEmail());
       if (existingRepresentative != null) {
-        Modal.displayError("No ha sido posible registrar representante debido a que ya existe un representante con la misma ID de Trabajador.");
+        Modal.displayError("No ha sido posible registrar representante debido a que ya existe un representante con el mismo correo electrónico.");
         return;
       }
 
       REPRESENTATIVE_DAO.createOne(representativeDTO);
       Modal.displaySuccess("El representante ha sido registrado exitosamente.");
-    } catch (IllegalArgumentException e) {
+    } catch (IllegalArgumentException | UserDisplayableException e) {
       Modal.displayError(e.getMessage());
-    } catch (SQLException e) {
-      System.out.println(e.getMessage());
-      Modal.displayError("No ha sido posible registrar representante debido a un error en el sistema.");
     }
   }
 }

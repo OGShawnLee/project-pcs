@@ -11,9 +11,8 @@ import org.example.business.dto.CourseDTO;
 import org.example.business.dao.CourseDAO;
 import org.example.business.dto.enumeration.CourseState;
 import org.example.business.dto.enumeration.Section;
+import org.example.common.UserDisplayableException;
 import org.example.gui.Modal;
-
-import java.sql.SQLException;
 
 public class ReviewCourseListController extends ReviewListController implements FilterableByStateController {
   private static final CourseDAO COURSE_DAO = new CourseDAO();
@@ -53,7 +52,7 @@ public class ReviewCourseListController extends ReviewListController implements 
           COURSE_DAO.getAll()
         )
       );
-    } catch (SQLException e) {
+    } catch (UserDisplayableException e) {
       Modal.displayError(
         "No ha sido posible cargar información de cursos debido a un error de sistema."
       );
@@ -68,7 +67,7 @@ public class ReviewCourseListController extends ReviewListController implements 
           COURSE_DAO.getAllByState(CourseState.ON_GOING)
         )
       );
-    } catch (SQLException e) {
+    } catch (UserDisplayableException e) {
       Modal.displayError(
         "No ha sido posible cargar información de cursos activos debido a un error de sistema."
       );
@@ -83,7 +82,7 @@ public class ReviewCourseListController extends ReviewListController implements 
           COURSE_DAO.getAllByState(CourseState.COMPLETED)
         )
       );
-    } catch (SQLException e) {
+    } catch (UserDisplayableException e) {
       Modal.displayError(
         "No ha sido posible cargar información de cursos inactivos debido a un error de sistema."
       );

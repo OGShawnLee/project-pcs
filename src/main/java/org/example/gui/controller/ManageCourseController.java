@@ -11,9 +11,8 @@ import org.example.business.dto.CourseDTO;
 import org.example.business.dto.enumeration.CourseState;
 import org.example.business.dto.enumeration.Section;
 import org.example.business.dto.enumeration.Semester;
+import org.example.common.UserDisplayableException;
 import org.example.gui.Modal;
-
-import java.sql.SQLException;
 
 public class ManageCourseController extends ManageController<CourseDTO> {
   private final AcademicDAO ACADEMIC_DAO = new AcademicDAO();
@@ -59,14 +58,14 @@ public class ManageCourseController extends ManageController<CourseDTO> {
       for (AcademicDTO academicDTO : comboBoxAcademic.getItems()) {
         if (academicDTO.getEmail().equals(getContext().getIDAcademic())) {
           comboBoxAcademic.setValue(academicDTO);
-          break;
+          return;
         }
       }
 
       AcademicDTO organization = ACADEMIC_DAO.getOne(getContext().getIDAcademic());
       comboBoxAcademic.setValue(organization);
-    } catch (SQLException e) {
-      Modal.displayError("No ha sido posible cargar la organización del proyecto debido a un error en el sistema.");
+    } catch (UserDisplayableException e) {
+      Modal.displayError(e.getMessage());
     }
   }
 
@@ -83,10 +82,8 @@ public class ManageCourseController extends ManageController<CourseDTO> {
 
       COURSE_DAO.updateOne(courseDTO);
       Modal.displaySuccess("El curso ha sido actualizado exitosamente.");
-    } catch (IllegalArgumentException e) {
+    } catch (IllegalArgumentException | UserDisplayableException e) {
       Modal.displayError(e.getMessage());
-    } catch (SQLException e) {
-      Modal.displayError("No ha sido posible actualizar curso debido a un error en el sistema.");
     }
   }
 }

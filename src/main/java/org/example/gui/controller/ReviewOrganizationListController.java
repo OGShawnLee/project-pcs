@@ -9,9 +9,8 @@ import javafx.stage.Stage;
 
 import org.example.business.dto.OrganizationDTO;
 import org.example.business.dao.OrganizationDAO;
+import org.example.common.UserDisplayableException;
 import org.example.gui.Modal;
-
-import java.sql.SQLException;
 
 public class ReviewOrganizationListController extends ReviewListController implements FilterableByStateController {
   private static final OrganizationDAO ORGANIZATION_DAO = new OrganizationDAO();
@@ -48,7 +47,7 @@ public class ReviewOrganizationListController extends ReviewListController imple
           ORGANIZATION_DAO.getAll()
         )
       );
-    } catch (SQLException e) {
+    } catch (UserDisplayableException e) {
       Modal.displayError(
         "No ha sido posible cargar información de organizaciones debido a un error en el sistema."
       );
@@ -63,7 +62,7 @@ public class ReviewOrganizationListController extends ReviewListController imple
           ORGANIZATION_DAO.getAllByState("ACTIVE")
         )
       );
-    } catch (SQLException e) {
+    } catch (UserDisplayableException e) {
       Modal.displayError(
         "No ha sido posible cargar información de organizaciones activas debido a un error en el sistema."
       );
@@ -78,7 +77,7 @@ public class ReviewOrganizationListController extends ReviewListController imple
           ORGANIZATION_DAO.getAllByState("INACTIVE")
         )
       );
-    } catch (SQLException e) {
+    } catch (UserDisplayableException e) {
       Modal.displayError(
         "No ha sido posible cargar información de organizaciones inactivas debido a un error en el sistema."
       );

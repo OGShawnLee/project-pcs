@@ -6,6 +6,7 @@ import org.example.business.dto.AcademicDTO;
 import org.example.business.dto.AccountDTO;
 import org.example.business.dto.StudentDTO;
 import org.example.business.dto.enumeration.AccountRole;
+import org.example.common.UserDisplayableException;
 
 import java.sql.SQLException;
 
@@ -33,7 +34,7 @@ public class AuthClient {
     this.currentUser = currentUser;
   }
 
-  public AcademicDTO getCurrentAcademicDTO() throws IllegalStateException, SQLException {
+  public AcademicDTO getCurrentAcademicDTO() throws IllegalStateException, UserDisplayableException {
     AccountDTO currentUser = getCurrentUser();
 
     if (currentUser == null) {
@@ -47,7 +48,7 @@ public class AuthClient {
     };
   }
 
-  public StudentDTO getCurrentStudentDTO() throws SQLException {
+  public StudentDTO getCurrentStudentDTO() throws UserDisplayableException {
     AccountDTO currentUser = getCurrentUser();
 
     if (currentUser == null) {

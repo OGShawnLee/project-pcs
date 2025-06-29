@@ -8,9 +8,8 @@ import org.example.business.dao.OrganizationDAO;
 import org.example.business.dao.RepresentativeDAO;
 import org.example.business.dto.OrganizationDTO;
 import org.example.business.dto.RepresentativeDTO;
+import org.example.common.UserDisplayableException;
 import org.example.gui.Modal;
-
-import java.sql.SQLException;
 
 public class ManageRepresentativeController extends ManageController<RepresentativeDTO> {
   private final RepresentativeDAO REPRESENTATIVE_DAO = new RepresentativeDAO();
@@ -58,14 +57,14 @@ public class ManageRepresentativeController extends ManageController<Representat
       for (OrganizationDTO organizationDTO : comboBoxOrganization.getItems()) {
         if (organizationDTO.getEmail().equals(getContext().getOrganizationID())) {
           comboBoxOrganization.setValue(organizationDTO);
-          break;
+          return;
         }
       }
 
       OrganizationDTO organization = ORGANIZATION_DAO.getOne(getContext().getOrganizationID());
       comboBoxOrganization.setValue(organization);
-    } catch (SQLException e) {
-      Modal.displayError("No ha sido posible cargar la organización del proyecto debido a un error en el sistema.");
+    } catch (UserDisplayableException e) {
+      Modal.displayError(e.getMessage());
     }
   }
 
@@ -82,7 +81,7 @@ public class ManageRepresentativeController extends ManageController<Representat
       .build();
   }
 
-  public boolean getUpdateConfirmation(RepresentativeDTO representativeDTO) {
+  public boolean hasUpdateConfirmationFromUser(RepresentativeDTO representativeDTO) {
     boolean isSameState = representativeDTO.getState().equals(getContext().getState());
 
     if (isSameState) {
@@ -102,15 +101,12 @@ public class ManageRepresentativeController extends ManageController<Representat
   public void handleUpdateCurrentDataObject() {
     try {
       RepresentativeDTO representativeDTO = getDTOFromFields();
-      if (getUpdateConfirmation(representativeDTO)) {
+      if (hasUpdateConfirmationFromUser(representativeDTO)) {
         REPRESENTATIVE_DAO.updateOne(representativeDTO);
         Modal.displaySuccess("El representante ha sido actualizado exitosamente.");
       }
-    } catch (IllegalArgumentException e) {
+    } catch (IllegalArgumentException | UserDisplayableException e) {
       Modal.displayError(e.getMessage());
-    } catch (SQLException e) {
-      System.out.println(e.getMessage());
-      Modal.displayError("No ha sido posible actualizar representante debido a un error en el sistema.");
     }
   }
 }

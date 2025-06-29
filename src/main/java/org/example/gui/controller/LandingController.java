@@ -9,9 +9,8 @@ import org.example.business.dao.StudentDAO;
 import org.example.business.dto.AcademicDTO;
 import org.example.business.dto.AccountDTO;
 import org.example.business.dto.StudentDTO;
+import org.example.common.UserDisplayableException;
 import org.example.gui.Modal;
-
-import java.sql.SQLException;
 
 public abstract class LandingController extends Controller {
   @FXML
@@ -27,21 +26,21 @@ public abstract class LandingController extends Controller {
     try {
       switch (currentUserAccount.role()) {
         case COORDINATOR:
-          Modal.displayContextModal("Actualizar Perfil", "UpdateCoordinatorModal", null, currentUserAccount);
+          Modal.displayContextModal("Actualizar Perfil", "UpdateCoordinatorModal", currentUserAccount);
           break;
         case ACADEMIC, ACADEMIC_EVALUATOR, EVALUATOR: {
           AcademicDTO currentStaffDTO = new AcademicDAO().getOneByEmail(currentUserAccount.email());
-          Modal.displayContextModal("Actualizar Perfil", "UpdateAcademicModal", null, currentStaffDTO);
+          Modal.displayContextModal("Actualizar Perfil", "UpdateAcademicModal", currentStaffDTO);
           break;
         }
         case STUDENT: {
           StudentDTO currentStudentDTO = new StudentDAO().getOneByEmail(currentUserAccount.email());
-          Modal.displayContextModal("Actualizar Perfil", "UpdateStudentModal", null, currentStudentDTO);
+          Modal.displayContextModal("Actualizar Perfil", "UpdateStudentModal", currentStudentDTO);
           break;
         }
       }
-    } catch (SQLException e) {
-      Modal.displayError("No ha sido posible actualizar perfil debido a un error de sistema.");
+    } catch (UserDisplayableException e) {
+      Modal.displayError("No ha sido posible actualizar perfil", e);
     }
   }
 

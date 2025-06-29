@@ -5,9 +5,9 @@ import org.example.business.dao.ConfigurationDAO;
 import org.example.business.dao.PracticeDAO;
 import org.example.business.dto.ConfigurationDTO;
 import org.example.business.dto.PracticeDTO;
+import org.example.common.UserDisplayableException;
 import org.example.gui.Modal;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public class LandingEvaluatorController extends LandingController {
@@ -36,10 +36,10 @@ public class LandingEvaluatorController extends LandingController {
           Modal.display("Registrar Evaluacion-Final", "RegisterEvaluationModal");
         }
       }
-      Modal.displayError("No se han habilitado las evaluaciones");
 
-    } catch (SQLException e) {
-      Modal.displayError("No fue posible recuperar las practicas profesionales");
+      Modal.displayError("No se han habilitado las evaluaciones");
+    } catch (UserDisplayableException e) {
+      Modal.displayError(e.getMessage());
     }
   }
 }

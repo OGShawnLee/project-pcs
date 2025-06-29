@@ -10,10 +10,10 @@ import org.example.business.dao.AccountDAO;
 import org.example.business.dto.StudentDTO;
 import org.example.business.dto.AccountDTO;
 import org.example.business.dto.enumeration.AccountRole;
+import org.example.common.UserDisplayableException;
 import org.example.gui.Modal;
 
-import java.sql.SQLException;
-
+// TODO: UPDATE USE CASE
 public class UpdateStudentController extends ManageController<StudentDTO> {
   private final AccountDAO ACCOUNT_DAO = new AccountDAO();
   private final StudentDAO STUDENT_DAO = new StudentDAO();
@@ -49,7 +49,7 @@ public class UpdateStudentController extends ManageController<StudentDTO> {
     fieldPhoneNumber.setText(getContext().getPhoneNumber());
   }
 
-  private void handlePasswordUpdate() throws IllegalArgumentException, SQLException {
+  private void handlePasswordUpdate() throws IllegalArgumentException, UserDisplayableException {
     String password = fieldPassword.getText();
     String passwordConfirm = fieldPasswordConfirm.getText();
 
@@ -78,7 +78,7 @@ public class UpdateStudentController extends ManageController<StudentDTO> {
     ACCOUNT_DAO.updateOne(accountDTO);
   }
 
-  private void handleStudentUpdate() throws SQLException {
+  private void handleStudentUpdate() throws UserDisplayableException {
     StudentDTO studentDTO = new StudentDTO.StudentBuilder()
       .setID(getContext().getID())
       .setEmail(getContext().getEmail())
@@ -101,8 +101,8 @@ public class UpdateStudentController extends ManageController<StudentDTO> {
       Modal.displaySuccess("Sus datos han sido actualizados exitosamente.");
     } catch (IllegalArgumentException e) {
       Modal.displayError(e.getMessage());
-    } catch (SQLException e) {
-      Modal.displayError("No ha sido posible actualizar sus datos debido a un error de sistema.");
+    } catch (UserDisplayableException e) {
+      Modal.displayError("No ha sido posible actualizar sus datos.", e);
     }
   }
 }

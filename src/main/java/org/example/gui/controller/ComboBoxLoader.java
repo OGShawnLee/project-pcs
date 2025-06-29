@@ -7,9 +7,9 @@ import org.example.business.dao.RepresentativeDAO;
 import org.example.business.dto.OrganizationDTO;
 import org.example.business.dto.RepresentativeDTO;
 import org.example.business.dto.enumeration.ProjectSector;
+import org.example.common.UserDisplayableException;
 import org.example.gui.Modal;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public class ComboBoxLoader {
@@ -31,7 +31,7 @@ public class ComboBoxLoader {
       }
 
       loadComboBoxAndSetDefault(comboBoxOrganization, organizationDTOList);
-    } catch (SQLException e) {
+    } catch (UserDisplayableException e) {
       Modal.displayError("No ha sido posible cargar las organizaciones que tienen representantes debido a un error en el sistema.");
     }
   }
@@ -47,7 +47,7 @@ public class ComboBoxLoader {
       }
 
       loadComboBoxAndSetDefault(comboBoxOrganization, organizationDTOList);
-    } catch (SQLException e) {
+    } catch (UserDisplayableException e) {
       Modal.displayError("No ha sido posible cargar las organizaciones debido a un error en el sistema.");
     }
   }
@@ -72,7 +72,7 @@ public class ComboBoxLoader {
       }
 
       loadComboBoxAndSetDefault(comboBoxRepresentative, representativeDTOList);
-    } catch (SQLException e) {
+    } catch (UserDisplayableException e) {
       Modal.displayError("No ha sido posible cargar los representantes debido a un error en el sistema.");
     }
   }
@@ -98,7 +98,7 @@ public class ComboBoxLoader {
         }
 
         comboBoxRepresentative.setValue(representatives.get(0));
-      } catch (SQLException e) {
+      } catch (UserDisplayableException e) {
         Modal.displayError("No ha sido posible cargar los representantes debido a un error en el sistema.");
       }
     });

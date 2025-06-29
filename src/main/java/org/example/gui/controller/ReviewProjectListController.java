@@ -8,9 +8,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import org.example.business.dto.ProjectDTO;
 import org.example.business.dao.ProjectDAO;
+import org.example.common.UserDisplayableException;
 import org.example.gui.Modal;
-
-import java.sql.SQLException;
 
 public class ReviewProjectListController extends ReviewListController implements FilterableByStateController {
   private static final ProjectDAO PROJECT_DAO = new ProjectDAO();
@@ -65,10 +64,8 @@ public class ReviewProjectListController extends ReviewListController implements
           PROJECT_DAO.getAll()
         )
       );
-    } catch (SQLException e) {
-      Modal.displayError(
-        "No ha sido posible cargar información de proyectos debido a un error en el sistema."
-      );
+    } catch (UserDisplayableException e) {
+      Modal.displayError(e.getMessage());
     }
   }
 
@@ -80,10 +77,8 @@ public class ReviewProjectListController extends ReviewListController implements
           PROJECT_DAO.getAllByState("ACTIVE")
         )
       );
-    } catch (SQLException e) {
-      Modal.displayError(
-        "No ha sido posible cargar información de proyectos activos debido a un error en el sistema."
-      );
+    } catch (UserDisplayableException e) {
+      Modal.displayError(e.getMessage());
     }
   }
 
@@ -95,10 +90,8 @@ public class ReviewProjectListController extends ReviewListController implements
           PROJECT_DAO.getAllByState("INACTIVE")
         )
       );
-    } catch (SQLException e) {
-      Modal.displayError(
-        "No ha sido posible cargar información de proyectos inactivos debido a un error en el sistema."
-      );
+    } catch (UserDisplayableException e) {
+      Modal.displayError(e.getMessage());
     }
   }
 

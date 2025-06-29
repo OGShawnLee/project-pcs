@@ -6,18 +6,17 @@ import javafx.scene.control.CheckBox;
 import org.example.business.dto.enumeration.ConfigurationName;
 import org.example.business.dao.ConfigurationDAO;
 import org.example.business.dto.ConfigurationDTO;
+import org.example.common.UserDisplayableException;
 import org.example.gui.Modal;
-
-import java.sql.SQLException;
 
 public class ManageConfigurationController extends Controller {
   private static final ConfigurationDAO CONFIGURATION_DAO = new ConfigurationDAO();
   @FXML
-  CheckBox checkBoxEnableFirstEvaluation;
+  private CheckBox checkBoxEnableFirstEvaluation;
   @FXML
-  CheckBox checkBoxEnableSecondEvaluation;
+  private CheckBox checkBoxEnableSecondEvaluation;
   @FXML
-  CheckBox checkBoxEnableFinalEvaluation;
+  private CheckBox checkBoxEnableFinalEvaluation;
 
   public void initialize() {
     loadConfiguration();
@@ -32,10 +31,8 @@ public class ManageConfigurationController extends Controller {
       checkBoxEnableFirstEvaluation.setSelected(firstEvaluationConfig.isEnabled());
       checkBoxEnableSecondEvaluation.setSelected(secondEvaluationConfig.isEnabled());
       checkBoxEnableFinalEvaluation.setSelected(lastEvaluationConfig.isEnabled());
-    } catch (SQLException e) {
-      Modal.displayError(
-        "No ha sido posible cargar la configuración de evaluaciones de presentaciones debido a error en el sistema"
-      );
+    } catch (UserDisplayableException e) {
+      Modal.displayError(e.getMessage());
     }
   }
 
@@ -51,10 +48,8 @@ public class ManageConfigurationController extends Controller {
         new ConfigurationDTO(ConfigurationName.EVALUATION_ENABLED_FINAL, checkBoxEnableFinalEvaluation.isSelected())
       );
       Modal.displaySuccess("Se ha actualizado la configuración del sistema exitosamente");
-    } catch (SQLException e) {
-      Modal.displayError(
-        "No ha sido posible actualizar la configuración del sistema debido a un error de sistema"
-      );
+    } catch (UserDisplayableException e) {
+      Modal.displayError(e.getMessage());
     }
   }
 }

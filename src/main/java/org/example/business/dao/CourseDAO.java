@@ -1,10 +1,15 @@
 package org.example.business.dao;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import org.example.business.dao.shape.CompleteDAOShape;
 import org.example.business.dto.CourseDTO;
 import org.example.business.dto.enumeration.CourseState;
 import org.example.business.dto.enumeration.Section;
 import org.example.business.dto.enumeration.Semester;
+import org.example.common.ExceptionHandler;
+import org.example.common.UserDisplayableException;
 import org.example.db.DBConnector;
 
 import java.sql.Connection;
@@ -16,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CourseDAO extends CompleteDAOShape<CourseDTO, String> {
+  private static final Logger LOGGER = LogManager.getLogger(CourseDAO.class);
   private static final String CREATE_QUERY =
     "INSERT INTO Course (nrc, id_academic, section, semester) VALUES (?, ?, ?, ?)";
   private static final String GET_ALL_QUERY = "SELECT * FROM CourseWithAcademic";
@@ -27,7 +33,7 @@ public class CourseDAO extends CompleteDAOShape<CourseDTO, String> {
   private static final String DELETE_QUERY = "DELETE FROM Course WHERE nrc = ?";
 
   @Override
-  public CourseDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
+  public CourseDTO getDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
     return new CourseDTO.CourseBuilder()
       .setNRC(resultSet.getString("nrc"))
       .setIDAcademic(resultSet.getString("id_academic"))
@@ -41,9 +47,9 @@ public class CourseDAO extends CompleteDAOShape<CourseDTO, String> {
   }
 
   @Override
-  public void createOne(CourseDTO courseDTO) throws SQLException {
+  public void createOne(CourseDTO courseDTO) throws UserDisplayableException {
     try (
-      Connection connection = DBConnector.getConnection();
+      Connection connection = DBConnector.getInstance().getConnection();
       PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
     ) {
       statement.setString(1, courseDTO.getNRC());
@@ -51,13 +57,15 @@ public class CourseDAO extends CompleteDAOShape<CourseDTO, String> {
       statement.setString(3, courseDTO.getSection().toString());
       statement.setString(4, courseDTO.getSemester().toDBString());
       statement.executeUpdate();
+    } catch (SQLException e) {
+      throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible crear el curso.");
     }
   }
 
   @Override
-  public List<CourseDTO> getAll() throws SQLException {
+  public List<CourseDTO> getAll() throws UserDisplayableException {
     try (
-      Connection connection = DBConnector.getConnection();
+      Connection connection = DBConnector.getInstance().getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_ALL_QUERY);
       ResultSet resultSet = statement.executeQuery()
     ) {
@@ -68,12 +76,14 @@ public class CourseDAO extends CompleteDAOShape<CourseDTO, String> {
       }
 
       return courseList;
+    } catch (SQLException e) {
+      throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible cargar los cursos.");
     }
   }
 
-  public List<CourseDTO> getAllByAcademic(String idAcademic) throws SQLException {
+  public List<CourseDTO> getAllByAcademic(String idAcademic) throws UserDisplayableException {
     try (
-      Connection connection = DBConnector.getConnection();
+      Connection connection = DBConnector.getInstance().getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_ALL_BY_ACADEMIC)
     ) {
       statement.setString(1, idAcademic);
@@ -86,12 +96,14 @@ public class CourseDAO extends CompleteDAOShape<CourseDTO, String> {
       }
 
       return courseList;
+    } catch (SQLException e) {
+      throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible cargar los cursos del académico.");
     }
   }
 
-  public List<CourseDTO> getAllByState(CourseState state) throws SQLException {
+  public List<CourseDTO> getAllByState(CourseState state) throws UserDisplayableException {
     try (
-      Connection connection = DBConnector.getConnection();
+      Connection connection = DBConnector.getInstance().getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_ALL_BY_STATE)
     ) {
       statement.setString(1, state.toString());
@@ -104,13 +116,15 @@ public class CourseDAO extends CompleteDAOShape<CourseDTO, String> {
       }
 
       return courseList;
+    } catch (SQLException e) {
+      throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible cargar los cursos por estado.");
     }
   }
 
   @Override
-  public CourseDTO getOne(String nrc) throws SQLException {
+  public CourseDTO getOne(String nrc) throws UserDisplayableException {
     try (
-      Connection connection = DBConnector.getConnection();
+      Connection connection = DBConnector.getInstance().getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_QUERY)
     ) {
       statement.setString(1, nrc);
@@ -124,13 +138,15 @@ public class CourseDAO extends CompleteDAOShape<CourseDTO, String> {
       }
 
       return courseDTO;
+    } catch (SQLException e) {
+      throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible cargar el curso.");
     }
   }
 
   @Override
-  public void updateOne(CourseDTO courseDTO) throws SQLException {
+  public void updateOne(CourseDTO courseDTO) throws UserDisplayableException {
     try (
-      Connection connection = DBConnector.getConnection();
+      Connection connection = DBConnector.getInstance().getConnection();
       PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
     ) {
       statement.setString(1, courseDTO.getIDAcademic());
@@ -139,17 +155,21 @@ public class CourseDAO extends CompleteDAOShape<CourseDTO, String> {
       statement.setString(4, courseDTO.getState().toString());
       statement.setString(5, courseDTO.getNRC());
       statement.executeUpdate();
+    } catch (SQLException e) {
+      throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible actualizar el curso.");
     }
   }
 
   @Override
-  public void deleteOne(String nrc) throws SQLException {
+  public void deleteOne(String nrc) throws UserDisplayableException {
     try (
-      Connection connection = DBConnector.getConnection();
+      Connection connection = DBConnector.getInstance().getConnection();
       PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)
     ) {
       statement.setString(1, nrc);
       statement.executeUpdate();
+    } catch (SQLException e) {
+      throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible eliminar el curso.");
     }
   }
 }

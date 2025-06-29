@@ -14,9 +14,9 @@ import org.example.business.dao.AccountDAO;
 import org.example.business.dao.CourseDAO;
 import org.example.business.dao.EnrollmentDAO;
 import org.example.business.dao.StudentDAO;
+import org.example.common.UserDisplayableException;
 import org.example.gui.Modal;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public class RegisterStudentController extends Controller {
@@ -55,8 +55,8 @@ public class RegisterStudentController extends Controller {
 
       comboBoxNRC.getItems().addAll(courseList);
       comboBoxNRC.setValue(courseList.getFirst());
-    } catch (SQLException e) {
-      Modal.displayError("No ha sido posible cargar los cursos debido a un error en el sistema.");
+    } catch (UserDisplayableException e) {
+      Modal.displayError(e.getMessage());
     }
   }
 
@@ -95,9 +95,8 @@ public class RegisterStudentController extends Controller {
       Modal.displaySuccess("El estudiante ha sido registrado exitosamente.");
     } catch (IllegalArgumentException e) {
       Modal.displayError(e.getMessage());
-    } catch (SQLException e) {
-      System.out.println(e.getMessage());
-      Modal.displayError("No ha sido posible registrar estudiante debido a un error en el sistema.");
+    } catch (UserDisplayableException e) {
+      Modal.displayError("No ha sido posible registrar estudiante.",  e);
     }
   }
 

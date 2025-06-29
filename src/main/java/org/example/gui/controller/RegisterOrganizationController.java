@@ -5,9 +5,8 @@ import javafx.scene.control.TextField;
 
 import org.example.business.dto.OrganizationDTO;
 import org.example.business.dao.OrganizationDAO;
+import org.example.common.UserDisplayableException;
 import org.example.gui.Modal;
-
-import java.sql.SQLException;
 
 public class RegisterOrganizationController extends Controller {
   private final OrganizationDAO ORGANIZATION_DAO = new OrganizationDAO();
@@ -40,10 +39,8 @@ public class RegisterOrganizationController extends Controller {
 
       ORGANIZATION_DAO.createOne(organizationDTO);
       Modal.displaySuccess("La organización ha sido registrada exitosamente.");
-    } catch (IllegalArgumentException e) {
+    } catch (IllegalArgumentException | UserDisplayableException e) {
       Modal.displayError(e.getMessage());
-    } catch (SQLException e) {
-      Modal.displayError("No ha sido posible registrar organización debido a un error en el sistema.");
     }
   }
 }

@@ -18,8 +18,8 @@ import org.example.business.dto.ProjectDTO;
 import org.example.business.dto.StudentDTO;
 import org.example.business.dto.StudentPracticeDTO;
 import org.example.gui.Modal;
+import org.example.common.UserDisplayableException;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -87,19 +87,17 @@ public class AssignProjectController extends ManageController<ProjectDTO> {
       tableStudentAvailable.setItems(observableStudentAvailableList);
 
       initialStudentPracticeList.clear();
-      initialStudentPracticeList = StudentPracticeDAO.getAllByProjectID(getContext().getID());
+      initialStudentPracticeList = new StudentPracticeDAO().getAllByProjectID(getContext().getID());
 
       for (StudentPracticeDTO studentPractice : initialStudentPracticeList) {
         observableStudentSelectedList.add(studentPractice.getStudentDTO());
       }
-    } catch (SQLException e) {
-      Modal.displayError(
-        "No ha sido posible cargar información de estudiantes debido a un error en el sistema." + e.getMessage()
-      );
+    } catch (UserDisplayableException e) {
+      Modal.displayError("No ha sido posible cargar información de estudiantes.", e);
     }
   }
 
-  public void handleAssign() throws SQLException {
+  public void handleAssign() throws UserDisplayableException {
     List<PracticeDTO> practiceDTOS = new ArrayList<>();
     List<String> assignedStudentNames = new ArrayList<>();
 
@@ -128,7 +126,7 @@ public class AssignProjectController extends ManageController<ProjectDTO> {
     }
   }
 
-  public void handleUnassign() throws SQLException {
+  public void handleUnassign() throws UserDisplayableException {
     List<FilterPractice> filterPractices = new ArrayList<>();
     List<String> unassignedStudentNames = new ArrayList<>();
 
@@ -165,10 +163,8 @@ public class AssignProjectController extends ManageController<ProjectDTO> {
       loadStudentLists();
     } catch (IllegalArgumentException e) {
       Modal.displayError(e.getMessage());
-    } catch (SQLException e) {
-      Modal.displayError(
-        "No ha sido posible guardar asignación del proyecto debido a un error en el sistema." + e.getMessage()
-      );
+    } catch (UserDisplayableException e) {
+      Modal.displayError("No ha sido posible guardar asignación del proyecto.", e);
     }
   }
 

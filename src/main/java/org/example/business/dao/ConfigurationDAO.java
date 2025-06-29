@@ -1,10 +1,16 @@
 package org.example.business.dao;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import org.example.business.dao.shape.DAOShape;
 import org.example.business.dao.shape.GetAllDAOShape;
 import org.example.business.dao.shape.GetOneDAOShape;
 import org.example.business.dao.shape.UpdateOneDAOShape;
 import org.example.business.dto.ConfigurationDTO;
 import org.example.business.dto.enumeration.ConfigurationName;
+import org.example.common.ExceptionHandler;
+import org.example.common.UserDisplayableException;
 import org.example.db.DBConnector;
 
 import java.sql.Connection;
@@ -14,15 +20,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConfigurationDAO
+public class ConfigurationDAO extends DAOShape<ConfigurationDTO>
   implements GetOneDAOShape<ConfigurationDTO, ConfigurationName>, GetAllDAOShape<ConfigurationDTO>, UpdateOneDAOShape<ConfigurationDTO>
 {
+  private static final Logger LOGGER = LogManager.getLogger(ConfigurationDAO.class);
   private static final String GET_QUERY = "SELECT * FROM Configuration WHERE name = ?";
   private static final String GET_ALL_QUERY = "SELECT * FROM Configuration";
   private static final String UPDATE_QUERY = "UPDATE Configuration SET is_enabled = ? WHERE name = ?";
 
   @Override
-  public ConfigurationDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
+  public ConfigurationDTO getDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
     return new ConfigurationDTO(
       ConfigurationName.valueOf(resultSet.getString("name")),
       resultSet.getBoolean("is_enabled")
@@ -30,9 +37,9 @@ public class ConfigurationDAO
   }
 
   @Override
-  public List<ConfigurationDTO> getAll() throws SQLException {
+  public List<ConfigurationDTO> getAll() throws UserDisplayableException {
     try (
-      Connection connection = DBConnector.getConnection();
+      Connection connection = DBConnector.getInstance().getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_ALL_QUERY);
       ResultSet resultSet = statement.executeQuery()
     ) {
@@ -43,13 +50,15 @@ public class ConfigurationDAO
       }
 
       return list;
+    } catch (SQLException e) {
+      throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible cargar las configuraciones.");
     }
   }
 
   @Override
-  public ConfigurationDTO getOne(ConfigurationName name) throws SQLException {
+  public ConfigurationDTO getOne(ConfigurationName name) throws UserDisplayableException {
     try (
-      Connection connection = DBConnector.getConnection();
+      Connection connection = DBConnector.getInstance().getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_QUERY)
     ) {
       statement.setString(1, name.toString());
@@ -63,18 +72,22 @@ public class ConfigurationDAO
       }
 
       return configurationDTO;
+    } catch (SQLException e) {
+      throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible cargar la configuración." );
     }
   }
 
   @Override
-  public void updateOne(ConfigurationDTO configurationDTO) throws SQLException {
+  public void updateOne(ConfigurationDTO configurationDTO) throws UserDisplayableException {
     try (
-      Connection connection = DBConnector.getConnection();
+      Connection connection = DBConnector.getInstance().getConnection();
       PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
     ) {
       statement.setBoolean(1, configurationDTO.isEnabled());
       statement.setString(2, configurationDTO.name().toString());
       statement.executeUpdate();
+    } catch (SQLException e) {
+      throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible actualizar la configuración.");
     }
   }
 }

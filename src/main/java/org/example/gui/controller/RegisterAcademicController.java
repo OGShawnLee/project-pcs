@@ -9,9 +9,8 @@ import org.example.business.dto.AccountDTO;
 import org.example.business.dao.AcademicDAO;
 import org.example.business.dao.AccountDAO;
 import org.example.business.dto.enumeration.AcademicRole;
+import org.example.common.UserDisplayableException;
 import org.example.gui.Modal;
-
-import java.sql.SQLException;
 
 public class RegisterAcademicController extends Controller {
   private final AccountDAO ACCOUNT_DAO = new AccountDAO();
@@ -66,11 +65,8 @@ public class RegisterAcademicController extends Controller {
 
       ACADEMIC_DAO.createOne(academicDTO);
       Modal.displaySuccess("El académico ha sido registrado exitosamente.");
-    } catch (IllegalArgumentException e) {
+    } catch (IllegalArgumentException | UserDisplayableException e) {
       Modal.displayError(e.getMessage());
-    } catch (SQLException e) {
-      System.out.println(e.getMessage());
-      Modal.displayError("No ha sido posible registrar académico debido a un error en el sistema.");
     }
   }
 }

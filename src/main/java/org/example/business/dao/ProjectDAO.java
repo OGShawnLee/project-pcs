@@ -1,9 +1,14 @@
 package org.example.business.dao;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import org.example.business.dao.shape.CompleteDAOShape;
 import org.example.business.dto.ProjectDTO;
 import org.example.business.dto.enumeration.ProjectSector;
 import org.example.business.dto.WorkPlanDTO;
+import org.example.common.ExceptionHandler;
+import org.example.common.UserDisplayableException;
 import org.example.db.DBConnector;
 
 import java.sql.Connection;
@@ -16,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProjectDAO extends CompleteDAOShape<ProjectDTO, Integer> {
+  private static final Logger LOGGER = LogManager.getLogger(ProjectDAO.class);
   private static final String CREATE_QUERY =
     "INSERT INTO Project (id_organization, representative_email, name, description, department, available_places, methodology, sector) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
   private static final String CREATE_WITH_WORK_PLAN_QUERY =
@@ -24,15 +30,15 @@ public class ProjectDAO extends CompleteDAOShape<ProjectDTO, Integer> {
   private static final String GET_QUERY = "SELECT * FROM Project WHERE id_project = ?";
   private static final String GET_BY_STUDENT_QUERY =
     """
-      SELECT * FROM Project WHERE (SELECT EXISTS(SELECT * FROM Practice WHERE id_student = ? AND id_project = Project.id_project))
-    """;
+        SELECT * FROM Project WHERE (SELECT EXISTS(SELECT * FROM Practice WHERE id_student = ? AND id_project = Project.id_project))
+      """;
   private static final String GET_ALL_BY_STATE = "SELECT * FROM Project WHERE state = ?";
   private static final String UPDATE_QUERY =
     "UPDATE Project SET id_organization = ?, representative_email = ?, name = ?, description = ?, department = ?, available_places = ?, methodology = ?, state = ?, sector = ? WHERE id_project = ?";
   private static final String DELETE_QUERY = "DELETE FROM Project WHERE id_project = ?";
 
   @Override
-  public ProjectDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
+  public ProjectDTO getDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
     return new ProjectDTO.ProjectBuilder()
       .setID(resultSet.getInt("id_project"))
       .setIDOrganization(resultSet.getString("id_organization"))
@@ -49,9 +55,9 @@ public class ProjectDAO extends CompleteDAOShape<ProjectDTO, Integer> {
   }
 
   @Override
-  public void createOne(ProjectDTO projectDTO) throws SQLException {
+  public void createOne(ProjectDTO projectDTO) throws UserDisplayableException {
     try (
-      Connection connection = DBConnector.getConnection();
+      Connection connection = DBConnector.getInstance().getConnection();
       PreparedStatement statement = connection.prepareStatement(CREATE_QUERY, PreparedStatement.RETURN_GENERATED_KEYS)
     ) {
       statement.setString(1, projectDTO.getIDOrganization());
@@ -71,15 +77,17 @@ public class ProjectDAO extends CompleteDAOShape<ProjectDTO, Integer> {
           throw new SQLException("Creating project failed, no ID obtained.");
         }
       }
+    } catch (SQLException e) {
+      throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible crear el proyecto.");
     }
   }
 
   public void createOneWithWorkPlan(
     ProjectDTO projectDTO,
     WorkPlanDTO workPlanDTO
-  ) throws SQLException {
+  ) throws UserDisplayableException {
     try (
-      Connection connection = DBConnector.getConnection();
+      Connection connection = DBConnector.getInstance().getConnection();
       CallableStatement statement = connection.prepareCall(CREATE_WITH_WORK_PLAN_QUERY)
     ) {
       statement.setString(1, projectDTO.getIDOrganization());
@@ -97,13 +105,15 @@ public class ProjectDAO extends CompleteDAOShape<ProjectDTO, Integer> {
       statement.setString(13, workPlanDTO.getThirdMonthActivities());
       statement.setString(14, workPlanDTO.getFourthMonthActivities());
       statement.executeUpdate();
+    } catch (SQLException e) {
+      throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible crear el proyecto con plan de trabajo.");
     }
   }
 
   @Override
-  public List<ProjectDTO> getAll() throws SQLException {
+  public List<ProjectDTO> getAll() throws UserDisplayableException {
     try (
-      Connection connection = DBConnector.getConnection();
+      Connection connection = DBConnector.getInstance().getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_ALL_QUERY);
       ResultSet resultSet = statement.executeQuery()
     ) {
@@ -114,12 +124,14 @@ public class ProjectDAO extends CompleteDAOShape<ProjectDTO, Integer> {
       }
 
       return list;
+    } catch (SQLException e) {
+      throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible cargar los proyectos.");
     }
   }
 
-  public List<ProjectDTO> getAllByState(String state) throws SQLException {
+  public List<ProjectDTO> getAllByState(String state) throws UserDisplayableException {
     try (
-      Connection connection = DBConnector.getConnection();
+      Connection connection = DBConnector.getInstance().getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_ALL_BY_STATE)
     ) {
       statement.setString(1, state);
@@ -132,13 +144,15 @@ public class ProjectDAO extends CompleteDAOShape<ProjectDTO, Integer> {
       }
 
       return list;
+    } catch (SQLException e) {
+      throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible cargar los proyectos por estado.");
     }
   }
 
   @Override
-  public ProjectDTO getOne(Integer id) throws SQLException {
+  public ProjectDTO getOne(Integer id) throws UserDisplayableException {
     try (
-      Connection connection = DBConnector.getConnection();
+      Connection connection = DBConnector.getInstance().getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_QUERY)
     ) {
       statement.setInt(1, id);
@@ -152,12 +166,14 @@ public class ProjectDAO extends CompleteDAOShape<ProjectDTO, Integer> {
       }
 
       return projectDTO;
+    } catch (SQLException e) {
+      throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible cargar el proyecto.");
     }
   }
 
-  public ProjectDTO getOneByStudent(String idStudent) throws SQLException {
+  public ProjectDTO getOneByStudent(String idStudent) throws UserDisplayableException {
     try (
-      Connection connection = DBConnector.getConnection();
+      Connection connection = DBConnector.getInstance().getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_BY_STUDENT_QUERY)
     ) {
       statement.setString(1, idStudent);
@@ -171,13 +187,15 @@ public class ProjectDAO extends CompleteDAOShape<ProjectDTO, Integer> {
       }
 
       return projectDTO;
+    } catch (SQLException e) {
+      throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible cargar el proyecto del estudiante.");
     }
   }
 
   @Override
-  public void updateOne(ProjectDTO projectDTO) throws SQLException {
+  public void updateOne(ProjectDTO projectDTO) throws UserDisplayableException {
     try (
-      Connection connection = DBConnector.getConnection();
+      Connection connection = DBConnector.getInstance().getConnection();
       PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
     ) {
       statement.setString(1, projectDTO.getIDOrganization());
@@ -191,17 +209,21 @@ public class ProjectDAO extends CompleteDAOShape<ProjectDTO, Integer> {
       statement.setString(9, projectDTO.getSector().toString());
       statement.setInt(10, projectDTO.getID());
       statement.executeUpdate();
+    } catch (SQLException e) {
+      throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible actualizar el proyecto.");
     }
   }
 
   @Override
-  public void deleteOne(Integer id) throws SQLException {
+  public void deleteOne(Integer id) throws UserDisplayableException {
     try (
-      Connection connection = DBConnector.getConnection();
+      Connection connection = DBConnector.getInstance().getConnection();
       PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)
     ) {
       statement.setInt(1, id);
       statement.executeUpdate();
+    } catch (SQLException e) {
+      throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible eliminar el proyecto.");
     }
   }
 }

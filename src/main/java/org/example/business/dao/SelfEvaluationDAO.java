@@ -1,7 +1,12 @@
 package org.example.business.dao;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import org.example.business.dao.shape.CompleteDAOShape;
 import org.example.business.dto.SelfEvaluationDTO;
+import org.example.common.ExceptionHandler;
+import org.example.common.UserDisplayableException;
 import org.example.db.DBConnector;
 
 import java.sql.Connection;
@@ -12,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SelfEvaluationDAO extends CompleteDAOShape<SelfEvaluationDTO, String> {
+  private static final Logger LOGGER = LogManager.getLogger(SelfEvaluationDAO.class);
   private static final String CREATE_QUERY =
     "INSERT INTO SelfEvaluation (" +
       "id_student, follow_up_grade, safety_grade, knowledge_application_grade, interesting_grade, " +
@@ -27,7 +33,7 @@ public class SelfEvaluationDAO extends CompleteDAOShape<SelfEvaluationDTO, Strin
   private static final String DELETE_QUERY = "DELETE FROM SelfEvaluation WHERE id_student = ?";
 
   @Override
-  public SelfEvaluationDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
+  public SelfEvaluationDTO getDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
     return new SelfEvaluationDTO.SelfEvaluationBuilder()
       .setIDStudent(resultSet.getString("id_student"))
       .setFollowUpGrade(resultSet.getInt("follow_up_grade"))
@@ -44,9 +50,9 @@ public class SelfEvaluationDAO extends CompleteDAOShape<SelfEvaluationDTO, Strin
   }
 
   @Override
-  public void createOne(SelfEvaluationDTO dataObject) throws SQLException {
+  public void createOne(SelfEvaluationDTO dataObject) throws UserDisplayableException {
     try (
-      Connection connection = DBConnector.getConnection();
+      Connection connection = DBConnector.getInstance().getConnection();
       PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
     ) {
       statement.setString(1, dataObject.getIDStudent());
@@ -60,13 +66,15 @@ public class SelfEvaluationDAO extends CompleteDAOShape<SelfEvaluationDTO, Strin
       statement.setInt(9, dataObject.getRegulatedByOrganization());
       statement.setInt(10, dataObject.getImportanceForProfessionalDevelopment());
       statement.executeUpdate();
+    } catch (SQLException e) {
+      throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible crear la autoevaluación.");
     }
   }
 
   @Override
-  public List<SelfEvaluationDTO> getAll() throws SQLException {
+  public List<SelfEvaluationDTO> getAll() throws UserDisplayableException {
     try (
-      Connection connection = DBConnector.getConnection();
+      Connection connection = DBConnector.getInstance().getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_ALL_QUERY);
       ResultSet resultSet = statement.executeQuery()
     ) {
@@ -77,13 +85,15 @@ public class SelfEvaluationDAO extends CompleteDAOShape<SelfEvaluationDTO, Strin
       }
 
       return list;
+    } catch (SQLException e) {
+      throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible cargar las autoevaluaciones.");
     }
   }
 
   @Override
-  public SelfEvaluationDTO getOne(String id) throws SQLException {
+  public SelfEvaluationDTO getOne(String id) throws UserDisplayableException {
     try (
-      Connection connection = DBConnector.getConnection();
+      Connection connection = DBConnector.getInstance().getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_QUERY)
     ) {
       statement.setString(1, id);
@@ -97,13 +107,15 @@ public class SelfEvaluationDAO extends CompleteDAOShape<SelfEvaluationDTO, Strin
       }
 
       return dataObject;
+    } catch (SQLException e) {
+      throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible cargar la autoevaluación.");
     }
   }
 
   @Override
-  public void updateOne(SelfEvaluationDTO dataObject) throws SQLException {
+  public void updateOne(SelfEvaluationDTO dataObject) throws UserDisplayableException {
     try (
-      Connection connection = DBConnector.getConnection();
+      Connection connection = DBConnector.getInstance().getConnection();
       PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
     ) {
       statement.setInt(1, dataObject.getFollowUpGrade());
@@ -117,17 +129,21 @@ public class SelfEvaluationDAO extends CompleteDAOShape<SelfEvaluationDTO, Strin
       statement.setInt(9, dataObject.getImportanceForProfessionalDevelopment());
       statement.setString(10, dataObject.getIDStudent());
       statement.executeUpdate();
+    } catch (SQLException e) {
+      throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible actualizar la autoevaluación.");
     }
   }
 
   @Override
-  public void deleteOne(String idStudent) throws SQLException {
+  public void deleteOne(String idStudent) throws UserDisplayableException {
     try (
-      Connection connection = DBConnector.getConnection();
+      Connection connection = DBConnector.getInstance().getConnection();
       PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)
     ) {
       statement.setString(1, idStudent);
       statement.executeUpdate();
+    } catch (SQLException e) {
+      throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible eliminar la autoevaluación.");
     }
   }
 }

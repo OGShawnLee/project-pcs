@@ -1,8 +1,12 @@
 package org.example.business.dao;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.example.business.dao.shape.CompleteDAOShape;
 import org.example.business.dto.AccountDTO;
 import org.example.business.dto.StudentDTO;
+import org.example.common.ExceptionHandler;
+import org.example.common.UserDisplayableException;
 import org.example.db.DBConnector;
 
 import java.sql.CallableStatement;
@@ -15,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StudentDAO extends CompleteDAOShape<StudentDTO, String> {
+  private static final Logger LOGGER = LogManager.getLogger(StudentDAO.class);
   private static final String CREATE_QUERY =
     "CALL create_student(?, ?, ?, ?, ?, ?, ?)";
   private static final String GET_ALL_QUERY =
@@ -23,6 +28,8 @@ public class StudentDAO extends CompleteDAOShape<StudentDTO, String> {
     "SELECT * FROM Student WHERE id_student IN (SELECT id_student FROM Enrollment WHERE id_academic = ?)";
   private static final String GET_ALL_BY_STATE_QUERY =
     "SELECT * FROM Student WHERE state = ?";
+  private static final String GET_ALL_WITH_NO_PROJECT_QUERY =
+    "SELECT * FROM Student WHERE id_student NOT IN (SELECT id_student FROM Practice) AND state = 'ACTIVE'";
   private static final String GET_QUERY =
     "SELECT * FROM Student WHERE id_student = ?";
   private static final String GET_BY_EMAIL_QUERY =
@@ -33,7 +40,7 @@ public class StudentDAO extends CompleteDAOShape<StudentDTO, String> {
     "DELETE FROM Student WHERE id_student = ?";
 
   @Override
-  public StudentDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
+  public StudentDTO getDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
     return new StudentDTO.StudentBuilder()
       .setID(resultSet.getString("id_student"))
       .setEmail(resultSet.getString("email"))
@@ -48,9 +55,9 @@ public class StudentDAO extends CompleteDAOShape<StudentDTO, String> {
   }
 
   @Override
-  public void createOne(StudentDTO studentDTO) throws SQLException {
+  public void createOne(StudentDTO studentDTO) throws UserDisplayableException {
     try (
-      Connection connection = DBConnector.getConnection();
+      Connection connection = DBConnector.getInstance().getConnection();
       CallableStatement statement = connection.prepareCall(CREATE_QUERY)
     ) {
       statement.setString(1, studentDTO.getID());
@@ -62,13 +69,15 @@ public class StudentDAO extends CompleteDAOShape<StudentDTO, String> {
       statement.setString(7, studentDTO.getPhoneNumber());
 
       statement.executeUpdate();
+    } catch (SQLException e) {
+      throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible crear el estudiante.");
     }
   }
 
   @Override
-  public List<StudentDTO> getAll() throws SQLException {
+  public List<StudentDTO> getAll() throws UserDisplayableException {
     try (
-      Connection connection = DBConnector.getConnection();
+      Connection connection = DBConnector.getInstance().getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_ALL_QUERY);
       ResultSet resultSet = statement.executeQuery()
     ) {
@@ -79,12 +88,14 @@ public class StudentDAO extends CompleteDAOShape<StudentDTO, String> {
       }
 
       return list;
+    } catch (SQLException e) {
+      throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible obtener la lista de estudiantes.");
     }
   }
 
-  public List<StudentDTO> getAllByAcademic(String academicID) throws SQLException {
+  public List<StudentDTO> getAllByAcademic(String academicID) throws UserDisplayableException {
     try (
-      Connection connection = DBConnector.getConnection();
+      Connection connection = DBConnector.getInstance().getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_ALL_BY_ACADEMIC)
     ) {
       statement.setString(1, academicID);
@@ -97,12 +108,14 @@ public class StudentDAO extends CompleteDAOShape<StudentDTO, String> {
       }
 
       return list;
+    } catch (SQLException e) {
+      throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible obtener la lista de estudiantes por académico.");
     }
   }
 
-  public List<StudentDTO> getAllByState(String state) throws SQLException {
+  public List<StudentDTO> getAllByState(String state) throws UserDisplayableException {
     try (
-      Connection connection = DBConnector.getConnection();
+      Connection connection = DBConnector.getInstance().getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_ALL_BY_STATE_QUERY)
     ) {
       statement.setString(1, state);
@@ -115,15 +128,15 @@ public class StudentDAO extends CompleteDAOShape<StudentDTO, String> {
       }
 
       return list;
+    } catch (SQLException e) {
+      throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible obtener la lista de estudiantes por estado.");
     }
   }
 
-  public List<StudentDTO> getAllWithNoProject() throws SQLException {
+  public List<StudentDTO> getAllWithNoProject() throws UserDisplayableException {
     try (
-      Connection connection = DBConnector.getConnection();
-      PreparedStatement statement = connection.prepareStatement(
-        "SELECT * FROM Student WHERE id_student NOT IN (SELECT id_student FROM Practice) AND state = 'ACTIVE'"
-      );
+      Connection connection = DBConnector.getInstance().getConnection();
+      PreparedStatement statement = connection.prepareStatement(GET_ALL_WITH_NO_PROJECT_QUERY);
       ResultSet resultSet = statement.executeQuery()
     ) {
       ArrayList<StudentDTO> list = new ArrayList<>();
@@ -133,13 +146,15 @@ public class StudentDAO extends CompleteDAOShape<StudentDTO, String> {
       }
 
       return list;
+    } catch (SQLException e) {
+      throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible obtener la lista de estudiantes sin proyecto.");
     }
   }
 
   @Override
-  public StudentDTO getOne(String id) throws SQLException {
+  public StudentDTO getOne(String id) throws UserDisplayableException {
     try (
-      Connection connection = DBConnector.getConnection();
+      Connection connection = DBConnector.getInstance().getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_QUERY)
     ) {
       statement.setString(1, id);
@@ -153,12 +168,14 @@ public class StudentDAO extends CompleteDAOShape<StudentDTO, String> {
       }
 
       return studentDTO;
+    } catch (SQLException e) {
+      throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible obtener el estudiante.");
     }
   }
 
-  public StudentDTO getOneByEmail(String email) throws SQLException {
+  public StudentDTO getOneByEmail(String email) throws UserDisplayableException {
     try (
-      Connection connection = DBConnector.getConnection();
+      Connection connection = DBConnector.getInstance().getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_BY_EMAIL_QUERY)
     ) {
       statement.setString(1, email);
@@ -172,13 +189,15 @@ public class StudentDAO extends CompleteDAOShape<StudentDTO, String> {
       }
 
       return studentDTO;
+    } catch (SQLException e) {
+      throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible obtener el estudiante por email.");
     }
   }
 
   @Override
-  public void updateOne(StudentDTO studentDTO) throws SQLException {
+  public void updateOne(StudentDTO studentDTO) throws UserDisplayableException {
     try (
-      Connection connection = DBConnector.getConnection();
+      Connection connection = DBConnector.getInstance().getConnection();
       PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
     ) {
       statement.setString(1, studentDTO.getName());
@@ -190,17 +209,21 @@ public class StudentDAO extends CompleteDAOShape<StudentDTO, String> {
       statement.setString(7, studentDTO.getID());
 
       statement.executeUpdate();
+    } catch (SQLException e) {
+      throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible actualizar el estudiante.");
     }
   }
 
   @Override
-  public void deleteOne(String id) throws SQLException {
+  public void deleteOne(String id) throws UserDisplayableException {
     try (
-      Connection connection = DBConnector.getConnection();
+      Connection connection = DBConnector.getInstance().getConnection();
       PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)
     ) {
       statement.setString(1, id);
       statement.executeUpdate();
+    } catch (SQLException e) {
+      throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible eliminar el estudiante.");
     }
   }
 }

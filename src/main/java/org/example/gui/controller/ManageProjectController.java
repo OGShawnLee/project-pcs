@@ -13,10 +13,10 @@ import org.example.business.dto.RepresentativeDTO;
 import org.example.business.dto.enumeration.ProjectSector;
 import org.example.business.dto.OrganizationDTO;
 import org.example.business.dto.ProjectDTO;
+import org.example.common.UserDisplayableException;
 import org.example.gui.Modal;
 
-import java.sql.SQLException;
-
+// TODO: UPDATE USE CASE
 public class ManageProjectController extends ManageController<ProjectDTO> {
   private static final ProjectDAO PROJECT_DAO = new ProjectDAO();
   private static final OrganizationDAO ORGANIZATION_DAO = new OrganizationDAO();
@@ -71,14 +71,14 @@ public class ManageProjectController extends ManageController<ProjectDTO> {
       for (OrganizationDTO organizationDTO : comboBoxOrganization.getItems()) {
         if (organizationDTO.getEmail().equals(getContext().getIDOrganization())) {
           comboBoxOrganization.setValue(organizationDTO);
-          break;
+          return;
         }
       }
 
       OrganizationDTO organization = ORGANIZATION_DAO.getOne(getContext().getIDOrganization());
       comboBoxOrganization.setValue(organization);
-    } catch (SQLException e) {
-      Modal.displayError("No ha sido posible cargar la organización del proyecto debido a un error en el sistema.");
+    } catch (UserDisplayableException e) {
+      Modal.displayError(e.getMessage());
     }
   }
 
@@ -93,8 +93,8 @@ public class ManageProjectController extends ManageController<ProjectDTO> {
 
       RepresentativeDTO representative = new RepresentativeDAO().getOne(getContext().getRepresentativeEmail());
       comboBoxRepresentative.setValue(representative);
-    } catch (SQLException | NotFoundException e) {
-      Modal.displayError("No ha sido posible cargar el representante del proyecto debido a un error en el sistema.");
+    } catch (UserDisplayableException | NotFoundException e) {
+      Modal.displayError(e.getMessage());
     }
   }
 
@@ -122,15 +122,9 @@ public class ManageProjectController extends ManageController<ProjectDTO> {
         Modal.displaySuccess("El proyecto ha sido actualizado exitosamente.");
       }
 
-      throw new IllegalArgumentException("El representante debe pertenecer a la misma organización del proyecto.");
-    } catch (IllegalArgumentException e) {
+      Modal.displayError("El representante debe pertenecer a la misma organización del proyecto.");
+    } catch (IllegalArgumentException | UserDisplayableException e) {
       Modal.displayError(e.getMessage());
-    } catch (SQLException e) {
-      Modal.displayError("No ha sido posible actualizar proyecto debido a un error en el sistema.");
     }
-  }
-
-  public void navigateToProjectList() {
-    ReviewProjectListController.navigateToProjectListPage(getScene());
   }
 }

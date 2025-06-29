@@ -9,11 +9,10 @@ import org.example.business.auth.AuthClient;
 import org.example.business.dao.AccountDAO;
 import org.example.business.dto.AccountDTO;
 import org.example.business.dto.enumeration.AccountRole;
+import org.example.common.UserDisplayableException;
 import org.example.gui.Modal;
 
 import org.mindrot.jbcrypt.BCrypt;
-
-import java.sql.SQLException;
 
 public class LoginController extends Controller {
   private static final AccountDAO ACCOUNT_DAO = new AccountDAO();
@@ -29,8 +28,8 @@ public class LoginController extends Controller {
       Modal.displayInformation(
         "Bienvenido a su Sistema Gestor de Practicas Profesionales. Cree una Cuenta de Coordinador para comenzar."
       );
-    } catch (SQLException e) {
-      Modal.displayError("No ha sido posible iniciar el sistema, intente más tarde.");
+    } catch (UserDisplayableException e) {
+      Modal.displayError("No ha sido posible iniciar el sistema.", e);
     }
   }
 
@@ -56,7 +55,7 @@ public class LoginController extends Controller {
     Modal.displayError(message);
   }
 
-  private void handleCreateCoordinatorAccount() throws SQLException {
+  private void handleCreateCoordinatorAccount() throws UserDisplayableException {
     String email = Validator.getValidEmail(emailField.getText());
     String password = Validator.getValidPassword(passwordField.getText());
 
@@ -75,7 +74,7 @@ public class LoginController extends Controller {
     );
   }
 
-  private void handleLoginAccount() throws SQLException {
+  private void handleLoginAccount() throws UserDisplayableException {
     String email = Validator.getValidEmail(emailField.getText());
     String password = Validator.getValidText(passwordField.getText(), "Contraseña");
     AccountDTO accountDTO = ACCOUNT_DAO.getOne(email);
@@ -101,8 +100,8 @@ public class LoginController extends Controller {
       }
     } catch (IllegalArgumentException e) {
       Modal.displayError(e.getMessage());
-    } catch (SQLException e) {
-      Modal.displayError("No ha sido posible iniciar sesión debido a un error en la base de datos.");
+    } catch (UserDisplayableException e) {
+      Modal.displayError("No ha sido posible iniciar sesión.", e);
     }
   }
 }

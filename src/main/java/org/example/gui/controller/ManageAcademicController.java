@@ -7,9 +7,8 @@ import javafx.scene.control.TextField;
 import org.example.business.dao.AcademicDAO;
 import org.example.business.dto.AcademicDTO;
 import org.example.business.dto.enumeration.AcademicRole;
+import org.example.common.UserDisplayableException;
 import org.example.gui.Modal;
-
-import java.sql.SQLException;
 
 public class ManageAcademicController extends ManageController<AcademicDTO> {
   private final AcademicDAO ACADEMIC_DAO = new AcademicDAO();
@@ -65,10 +64,8 @@ public class ManageAcademicController extends ManageController<AcademicDTO> {
 
       ACADEMIC_DAO.updateOne(academicDTO);
       Modal.displaySuccess("El académico ha sido actualizado exitosamente.");
-    } catch (IllegalArgumentException e) {
+    } catch (IllegalArgumentException | UserDisplayableException e) {
       Modal.displayError(e.getMessage());
-    } catch (SQLException e) {
-      Modal.displayError("No ha sido posible actualizar académico debido a un error en el sistema.");
     }
   }
 }

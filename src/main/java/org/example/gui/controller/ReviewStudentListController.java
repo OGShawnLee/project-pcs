@@ -10,9 +10,8 @@ import javafx.stage.Stage;
 import org.example.business.auth.AuthClient;
 import org.example.business.dto.StudentDTO;
 import org.example.business.dao.StudentDAO;
+import org.example.common.UserDisplayableException;
 import org.example.gui.Modal;
-
-import java.sql.SQLException;
 
 public class ReviewStudentListController extends ReviewListController implements FilterableByStateController {
   private static final StudentDAO STUDENT_DAO = new StudentDAO();
@@ -60,10 +59,8 @@ public class ReviewStudentListController extends ReviewListController implements
           )
         )
       );
-    } catch (SQLException e) {
-      Modal.displayError(
-        "No ha sido posible cargar información de estudiantes debido a un error de sistema."
-      );
+    } catch (UserDisplayableException e) {
+      Modal.displayError(e.getMessage());
     }
   }
 
@@ -75,10 +72,8 @@ public class ReviewStudentListController extends ReviewListController implements
           STUDENT_DAO.getAllByState("ACTIVE")
         )
       );
-    } catch (SQLException e) {
-      Modal.displayError(
-        "No ha sido posible cargar información de estudiantes activos debido a un error de sistema."
-      );
+    } catch (UserDisplayableException e) {
+      Modal.displayError(e.getMessage());
     }
   }
 
@@ -90,10 +85,8 @@ public class ReviewStudentListController extends ReviewListController implements
           STUDENT_DAO.getAllByState("RETIRED")
         )
       );
-    } catch (SQLException e) {
-      Modal.displayError(
-        "No ha sido posible cargar información de estudiantes inactivos debido a un error de sistema."
-      );
+    } catch (UserDisplayableException e) {
+      Modal.displayError(e.getMessage());
     }
   }
 

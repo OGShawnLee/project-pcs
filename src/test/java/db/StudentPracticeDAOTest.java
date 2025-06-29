@@ -12,6 +12,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 public class StudentPracticeDAOTest {
+  private static final StudentPracticeDAO STUDENT_PRACTICE_DAO = new StudentPracticeDAO();
   @AfterEach
   public void tearDown() throws SQLException {
     PracticeDAOTest.deleteOneTestPractice();
@@ -21,7 +22,7 @@ public class StudentPracticeDAOTest {
   public void testGetAllByProjectID() {
     assertDoesNotThrow(() -> {
       PracticeDAOTest.createOneTestPractice();
-      List<StudentPracticeDTO> studentPracticeList = StudentPracticeDAO.getAllByProjectID(
+      List<StudentPracticeDTO> studentPracticeList = STUDENT_PRACTICE_DAO.getAllByProjectID(
         ProjectDAOTest.PROJECT_DTO.getID()
       );
       Assertions.assertNotNull(studentPracticeList);

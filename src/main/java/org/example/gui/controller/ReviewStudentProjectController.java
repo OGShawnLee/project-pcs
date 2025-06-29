@@ -9,9 +9,8 @@ import org.example.business.dao.ProjectDAO;
 import org.example.business.dto.OrganizationDTO;
 import org.example.business.dto.ProjectDTO;
 import org.example.business.dto.StudentDTO;
+import org.example.common.UserDisplayableException;
 import org.example.gui.Modal;
-
-import java.sql.SQLException;
 
 public class ReviewStudentProjectController extends Controller {
   @FXML
@@ -43,8 +42,8 @@ public class ReviewStudentProjectController extends Controller {
       fieldOrganization.setText(organizationDTO.getName());
       fieldMethodology.setText(projectDTO.getMethodology());
       fieldSector.setText(projectDTO.getSector().toString());
-    } catch (SQLException e) {
-      Modal.displayError("No ha sido posible consultar el proyecto asignado");
+    } catch (UserDisplayableException e) {
+      Modal.displayError("No ha sido posible consultar el proyecto asignado.", e);
     }
   }
 }

@@ -9,9 +9,8 @@ import javafx.stage.Stage;
 
 import org.example.business.dto.RepresentativeDTO;
 import org.example.business.dao.RepresentativeDAO;
+import org.example.common.UserDisplayableException;
 import org.example.gui.Modal;
-
-import java.sql.SQLException;
 
 public class ReviewRepresentativeListController extends ReviewListController implements FilterableByStateController {
   private static final RepresentativeDAO REPRESENTATIVE_DAO = new RepresentativeDAO();
@@ -54,10 +53,8 @@ public class ReviewRepresentativeListController extends ReviewListController imp
           REPRESENTATIVE_DAO.getAll()
         )
       );
-    } catch (SQLException e) {
-      Modal.displayError(
-        "No ha sido posible cargar información de representantes debido a un error de sistema."
-      );
+    } catch (UserDisplayableException e) {
+      Modal.displayError(e.getMessage());
     }
   }
 
@@ -69,10 +66,8 @@ public class ReviewRepresentativeListController extends ReviewListController imp
           REPRESENTATIVE_DAO.getAllByState("ACTIVE")
         )
       );
-    } catch (SQLException e) {
-      Modal.displayError(
-        "No ha sido posible cargar información de representantes activos debido a un error de sistema."
-      );
+    } catch (UserDisplayableException e) {
+      Modal.displayError(e.getMessage());
     }
   }
 
@@ -84,10 +79,8 @@ public class ReviewRepresentativeListController extends ReviewListController imp
           REPRESENTATIVE_DAO.getAllByState("RETIRED")
         )
       );
-    } catch (SQLException e) {
-      Modal.displayError(
-        "No ha sido posible cargar información de representantes inactivos debido a un error de sistema."
-      );
+    } catch (UserDisplayableException e) {
+      Modal.displayError(e.getMessage());
     }
   }
 

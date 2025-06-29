@@ -2,11 +2,11 @@ package org.example.gui.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.text.Text;
+import org.example.business.dao.NotFoundException;
 import org.example.business.dao.StatsDAO;
 import org.example.business.dto.StatsDTO;
+import org.example.common.UserDisplayableException;
 import org.example.gui.Modal;
-
-import java.sql.SQLException;
 
 public class ReviewStatsController extends Controller {
   private final StatsDAO STATS_DAO = new StatsDAO();
@@ -49,8 +49,8 @@ public class ReviewStatsController extends Controller {
       textTotalProjects.setText(String.valueOf(statsDTO.getTotalProjects()));
       textTotalCourses.setText(String.valueOf(statsDTO.getTotalCourses()));
       textTotalStudents.setText(String.valueOf(statsDTO.getTotalStudents()));
-    } catch (SQLException e) {
-      Modal.displayError("No ha sido posible generar las estadísticas debido a un error en el sistema.");
+    } catch (NotFoundException | UserDisplayableException e) {
+      Modal.displayError(e.getMessage());
     }
   }
 }

@@ -1,7 +1,13 @@
 package org.example.business.dao;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import org.example.business.dao.shape.DAOShape;
 import org.example.business.dao.shape.GetOneDAOShape;
 import org.example.business.dto.WorkPlanDTO;
+import org.example.common.ExceptionHandler;
+import org.example.common.UserDisplayableException;
 import org.example.db.DBConnector;
 
 import java.sql.Connection;
@@ -9,11 +15,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class WorkPlanDAO implements GetOneDAOShape<WorkPlanDTO, Integer> {
+public class WorkPlanDAO extends DAOShape<WorkPlanDTO> implements GetOneDAOShape<WorkPlanDTO, Integer> {
+  private static final Logger LOGGER = LogManager.getLogger(WorkPlanDAO.class);
   private static final String GET_ONE_QUERY = "SELECT * From WorkPlan WHERE id_project = ?";
 
   @Override
-  public WorkPlanDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
+  public WorkPlanDTO getDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
     return new WorkPlanDTO.WorkPlanBuilder()
       .setIDProject(resultSet.getInt("id_project"))
       .setProjectGoal(resultSet.getString("project_goal"))
@@ -27,9 +34,9 @@ public class WorkPlanDAO implements GetOneDAOShape<WorkPlanDTO, Integer> {
   }
 
   @Override
-  public WorkPlanDTO getOne(Integer projectID) throws SQLException, NotFoundException {
+  public WorkPlanDTO getOne(Integer projectID) throws UserDisplayableException, NotFoundException {
     try (
-      Connection connection = DBConnector.getConnection();
+      Connection connection = DBConnector.getInstance().getConnection();
       PreparedStatement preparedStatement = connection.prepareStatement(GET_ONE_QUERY)
     ) {
       preparedStatement.setInt(1, projectID);
@@ -38,9 +45,11 @@ public class WorkPlanDAO implements GetOneDAOShape<WorkPlanDTO, Integer> {
         if (resultSet.next()) {
           return createDTOInstanceFromResultSet(resultSet);
         } else {
-          throw new NotFoundException("No se encontró el Cronograma de Actividades para el proyecto solicitado.");
+          throw ExceptionHandler.handleNotFoundException(LOGGER, "Cronograma de Actvidades");
         }
       }
+    } catch (SQLException e) {
+      throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible cargar el Cronograma de Actividades.");
     }
   }
 }

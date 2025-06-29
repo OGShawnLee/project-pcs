@@ -1,6 +1,10 @@
 package org.example.business.dao;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.example.business.dto.StatsDTO;
+import org.example.common.ExceptionHandler;
+import org.example.common.UserDisplayableException;
 import org.example.db.DBConnector;
 
 import java.sql.Connection;
@@ -9,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class StatsDAO {
+  private static final Logger LOGGER = LogManager.getLogger(StatsDAO.class);
   private static final String GET_STATS_QUERY = "SELECT * FROM Stats";
 
   StatsDTO createDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
@@ -26,17 +31,19 @@ public class StatsDAO {
       .build();
   }
 
-  public StatsDTO getStats() throws SQLException {
+  public StatsDTO getStats() throws UserDisplayableException, NotFoundException {
     try (
-      Connection connection = DBConnector.getConnection();
+      Connection connection = DBConnector.getInstance().getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_STATS_QUERY);
       ResultSet resultSet = statement.executeQuery()
     ) {
       if (resultSet.next()) {
         return createDTOInstanceFromResultSet(resultSet);
       } else {
-        throw new SQLException("No stats found in the database.");
+        throw ExceptionHandler.handleNotFoundException(LOGGER, "Estadísticas");
       }
+    } catch (SQLException e) {
+      throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible cargar las estadísticas.");
     }
   }
 }
