@@ -11,7 +11,8 @@ import org.example.business.dto.OrganizationDTO;
 import org.example.business.dao.OrganizationDAO;
 import org.example.common.UserDisplayableException;
 import org.example.gui.AlertFacade;
-import org.example.gui.Modal;
+import org.example.gui.modal.ModalFacade;
+import org.example.gui.modal.ModalFacadeConfiguration;
 
 public class ReviewOrganizationListController extends ReviewListController implements FilterableByStateController {
   private static final OrganizationDAO ORGANIZATION_DAO = new OrganizationDAO();
@@ -86,10 +87,12 @@ public class ReviewOrganizationListController extends ReviewListController imple
   }
 
   public void handleOpenRegisterOrganizationModal() {
-    Modal.display(
-      "Registrar Organización",
-      "RegisterOrganizationModal",
-      this::loadDataList
+    ModalFacade.createAndDisplay(
+      new ModalFacadeConfiguration(
+        "Registrar Organización",
+        "RegisterOrganizationModal",
+        this::loadDataList
+      )
     );
   }
 
@@ -98,10 +101,12 @@ public class ReviewOrganizationListController extends ReviewListController imple
 
     if (selectedOrganization == null) return;
 
-    Modal.displayContextModal(
-      "Gestionar Organización",
-      "ManageOrganizationModal",
-      this::loadDataList,
+    ModalFacade.createAndDisplayContextModal(
+      new ModalFacadeConfiguration(
+        "Gestionar Organización",
+        "ManageOrganizationModal",
+        this::loadDataList
+      ),
       selectedOrganization
     );
   }

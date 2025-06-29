@@ -1,7 +1,8 @@
 package org.example.gui.controller;
 
 
-import org.example.gui.Modal;
+import org.example.gui.modal.ModalFacade;
+import org.example.gui.modal.ModalFacadeConfiguration;
 
 public class LandingAcademicController extends LandingController {
 
@@ -10,7 +11,9 @@ public class LandingAcademicController extends LandingController {
   }
 
   public void handleOpenRegisterStudent() {
-    Modal.display("Registrar Estudiante", "RegisterStudentModal");
+    ModalFacade.createAndDisplay(
+      new ModalFacadeConfiguration("Registrar Estudiante", "RegisterStudentModal")
+    );
   }
 
   public void navigateToReviewEvaluationListPage() {

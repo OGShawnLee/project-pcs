@@ -12,7 +12,8 @@ import org.example.business.dto.StudentDTO;
 import org.example.business.dao.StudentDAO;
 import org.example.common.UserDisplayableException;
 import org.example.gui.AlertFacade;
-import org.example.gui.Modal;
+import org.example.gui.modal.ModalFacade;
+import org.example.gui.modal.ModalFacadeConfiguration;
 
 public class ReviewStudentListController extends ReviewListController implements FilterableByStateController {
   private static final StudentDAO STUDENT_DAO = new StudentDAO();
@@ -92,10 +93,8 @@ public class ReviewStudentListController extends ReviewListController implements
   }
 
   public void handleOpenRegisterStudentModal() {
-    Modal.display(
-      "Registrar Student",
-      "RegisterStudentModal",
-      this::loadDataList
+    ModalFacade.createAndDisplay(
+      new ModalFacadeConfiguration("Registrar Estudiante", "RegisterStudentModal", this::loadDataList)
     );
   }
 
@@ -104,10 +103,8 @@ public class ReviewStudentListController extends ReviewListController implements
 
     if (selectedStudent == null) return;
 
-    Modal.displayContextModal(
-      "Gestionar Estudiante",
-      "ManageStudentModal",
-      this::loadDataList,
+    ModalFacade.createAndDisplayContextModal(
+      new ModalFacadeConfiguration("Registrar Estudiante", "RegisterStudentModal", this::loadDataList),
       selectedStudent
     );
   }

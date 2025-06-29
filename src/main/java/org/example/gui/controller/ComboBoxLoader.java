@@ -9,7 +9,8 @@ import org.example.business.dto.RepresentativeDTO;
 import org.example.business.dto.enumeration.ProjectSector;
 import org.example.common.UserDisplayableException;
 import org.example.gui.AlertFacade;
-import org.example.gui.Modal;
+import org.example.gui.modal.ModalFacade;
+import org.example.gui.modal.ModalFacadeConfiguration;
 
 import java.util.List;
 
@@ -64,10 +65,12 @@ public class ComboBoxLoader {
 
       if (representativeDTOList.isEmpty()) {
         AlertFacade.showErrorAndWait("No existe un representante. Por favor, registre un representante antes de continuar.");
-        Modal.display(
-          "Registrar Representante",
-          "RegisterRepresentativeModal",
-          () -> loadComboBoxRepresentativeByOrganization(comboBoxRepresentative, email)
+        ModalFacade.createAndDisplay(
+          new ModalFacadeConfiguration(
+            "Registrar Representante",
+            "RegisterRepresentativeModal",
+            () -> loadComboBoxRepresentativeByOrganization(comboBoxRepresentative, email)
+          )
         );
         return;
       }

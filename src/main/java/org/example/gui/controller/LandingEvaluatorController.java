@@ -7,13 +7,16 @@ import org.example.business.dto.ConfigurationDTO;
 import org.example.business.dto.PracticeDTO;
 import org.example.common.UserDisplayableException;
 import org.example.gui.AlertFacade;
-import org.example.gui.Modal;
+import org.example.gui.modal.ModalFacade;
+import org.example.gui.modal.ModalFacadeConfiguration;
 
 import java.util.List;
 
 public class LandingEvaluatorController extends LandingController {
   public void navigateToReviewEvaluationListPage() {
-    Modal.display("Lista de Evaluaciones", "ReviewEvaluationListPage");
+    ModalFacade.createAndDisplay(
+      new ModalFacadeConfiguration("Lista de Evaluaciones", "ReviewEvaluationListPage")
+    );
   }
 
   public void handleOpenRegisterEvaluation() {
@@ -30,15 +33,21 @@ public class LandingEvaluatorController extends LandingController {
       for (ConfigurationDTO config : currentConfiguration) {
         String configName = String.valueOf(config.name());
         if (configName.equals(ConfigurationName.EVALUATION_ENABLED_FIRST.name()) && config.isEnabled()) {
-          Modal.display("Registrar Evaluacion-1er Parcial", "RegisterEvaluationModal");
+          ModalFacade.createAndDisplay(
+            new ModalFacadeConfiguration("Registrar Evaluación - 1er Parcial", "RegisterEvaluationModal")
+          );
         } else if (configName.equals(ConfigurationName.EVALUATION_ENABLED_SECOND.name()) && config.isEnabled()) {
-          Modal.display("Registrar Evaluacion-2do Parcial", "RegisterEvaluationModal");
+          ModalFacade.createAndDisplay(
+            new ModalFacadeConfiguration("Registrar Evaluación - 2do Parcial", "RegisterEvaluationModal")
+          );
         } else if (configName.equals(ConfigurationName.EVALUATION_ENABLED_FINAL.name()) && config.isEnabled()) {
-          Modal.display("Registrar Evaluacion-Final", "RegisterEvaluationModal");
+          ModalFacade.createAndDisplay(
+            new ModalFacadeConfiguration("Registrar Evaluación - Final", "RegisterEvaluationModal")
+          );
         }
       }
 
-      AlertFacade.showErrorAndWait("No se han habilitado las evaluaciones");
+      AlertFacade.showErrorAndWait("No se han habilitado las evaluaciones.");
     } catch (UserDisplayableException e) {
       AlertFacade.showErrorAndWait(e.getMessage());
     }

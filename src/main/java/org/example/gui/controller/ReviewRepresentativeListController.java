@@ -11,7 +11,8 @@ import org.example.business.dto.RepresentativeDTO;
 import org.example.business.dao.RepresentativeDAO;
 import org.example.common.UserDisplayableException;
 import org.example.gui.AlertFacade;
-import org.example.gui.Modal;
+import org.example.gui.modal.ModalFacade;
+import org.example.gui.modal.ModalFacadeConfiguration;
 
 public class ReviewRepresentativeListController extends ReviewListController implements FilterableByStateController {
   private static final RepresentativeDAO REPRESENTATIVE_DAO = new RepresentativeDAO();
@@ -86,10 +87,8 @@ public class ReviewRepresentativeListController extends ReviewListController imp
   }
 
   public void handleOpenRegisterRepresentativeModal() {
-    Modal.display(
-      "Registrar Representante",
-      "RegisterRepresentativeModal",
-      this::loadDataList
+    ModalFacade.createAndDisplay(
+      new ModalFacadeConfiguration("Registrar Representante", "RegisterRepresentative", this::loadDataList)
     );
   }
 
@@ -98,10 +97,8 @@ public class ReviewRepresentativeListController extends ReviewListController imp
 
     if (selectedRepresentative == null) return;
 
-    Modal.displayContextModal(
-      "Gestionar Representante",
-      "ManageRepresentativeModal",
-      this::loadDataList,
+    ModalFacade.createAndDisplayContextModal(
+      new ModalFacadeConfiguration("Gestionar Representante", "ManageRepresentativeModal", this::loadDataList),
       selectedRepresentative
     );
   }

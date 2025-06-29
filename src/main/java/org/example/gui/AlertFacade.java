@@ -4,6 +4,10 @@ import javafx.scene.control.Alert;
 
 import org.example.common.UserDisplayableException;
 
+/**
+ * AlertFacade is a utility class for displaying various types of alerts in the application.
+ * It provides methods to show error, information, and success alerts with a consistent format.
+ */
 public class AlertFacade {
   private final String title;
   private final Alert.AlertType type;

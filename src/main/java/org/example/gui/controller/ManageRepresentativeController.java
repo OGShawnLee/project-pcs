@@ -10,7 +10,7 @@ import org.example.business.dto.OrganizationDTO;
 import org.example.business.dto.RepresentativeDTO;
 import org.example.common.UserDisplayableException;
 import org.example.gui.AlertFacade;
-import org.example.gui.Modal;
+import org.example.gui.modal.ModalFacade;
 
 public class ManageRepresentativeController extends ManageController<RepresentativeDTO> {
   private final RepresentativeDAO REPRESENTATIVE_DAO = new RepresentativeDAO();
@@ -92,9 +92,13 @@ public class ManageRepresentativeController extends ManageController<Representat
     String state = representativeDTO.getState();
 
     if (state.equals("ACTIVE")) {
-      return Modal.displayConfirmation("¿Está seguro de que desea activar al representante? Podrá participar en proyectos.");
+      return ModalFacade.createAndDisplayConfirmation(
+        "¿Está seguro de que desea activar al representante? Podrá participar en proyectos."
+      );
     } else {
-      return Modal.displayConfirmation("¿Está seguro de que desea retirar al representante? Ya no podrá participar en proyectos hasta que sea reactivado.");
+      return ModalFacade.createAndDisplayConfirmation(
+        "¿Está seguro de que desea desactivar al representante? No podrá participar en proyectos."
+      );
     }
   }
 

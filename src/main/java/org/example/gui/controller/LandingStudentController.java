@@ -11,7 +11,8 @@ import org.example.business.dto.StudentDTO;
 import org.example.business.dto.WorkPlanDTO;
 import org.example.common.UserDisplayableException;
 import org.example.gui.AlertFacade;
-import org.example.gui.Modal;
+import org.example.gui.modal.ModalFacade;
+import org.example.gui.modal.ModalFacadeConfiguration;
 
 public class LandingStudentController extends LandingController {
   private StudentDTO currentStudentDTO;
@@ -29,7 +30,9 @@ public class LandingStudentController extends LandingController {
   }
 
   public void handleOpenReviewStudentProject() {
-    Modal.display("Consultar Proyecto", "ReviewStudentProjectModal");
+    ModalFacade.createAndDisplay(
+      new ModalFacadeConfiguration("Consultar Proyecto del Estudiante", "ReviewStudentProjectModal")
+    );
   }
 
   public void handleOpenReviewWorkPlan() {
@@ -42,7 +45,11 @@ public class LandingStudentController extends LandingController {
       }
 
       WorkPlanDTO currentWorkPlan = new WorkPlanDAO().getOne(currentProject.getID());
-      Modal.displayContextModal("Consultar Plan de Trabajo", "ReviewWorkPlanModal", currentWorkPlan);
+
+      ModalFacade.createAndDisplayContextModal(
+        new ModalFacadeConfiguration("Consultar Plan de Trabajo", "ReviewWorkPlanModal"),
+        currentWorkPlan
+      );
     } catch (UserDisplayableException e) {
       AlertFacade.showErrorAndWait("No ha sido posible cargar el plan de trabajo del estudiante actual.", e);
     } catch (NotFoundException e) {

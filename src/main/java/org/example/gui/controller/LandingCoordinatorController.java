@@ -1,6 +1,7 @@
 package org.example.gui.controller;
 
-import org.example.gui.Modal;
+import org.example.gui.modal.ModalFacade;
+import org.example.gui.modal.ModalFacadeConfiguration;
 
 public class LandingCoordinatorController extends LandingController {
   public void navigateToReviewAcademicListPage() {
@@ -8,7 +9,9 @@ public class LandingCoordinatorController extends LandingController {
   }
 
   public void handleOpenRegisterAcademic() {
-    Modal.display("Registrar Académico", "RegisterAcademicModal");
+    ModalFacade.createAndDisplay(
+      new ModalFacadeConfiguration("Registrar Académico", "RegisterAcademicModal")
+    );
   }
 
   public void navigateToReviewProjectListPage() {
@@ -20,11 +23,15 @@ public class LandingCoordinatorController extends LandingController {
   }
 
   public void handleOpenRegisterRepresentative() {
-    Modal.display("Registrar Representante", "RegisterRepresentativeModal");
+    ModalFacade.createAndDisplay(
+      new ModalFacadeConfiguration("Registrar Representante", "RegisterRepresentativeModal")
+    );
   }
 
   public void handleOpenRegisterProject() {
-    Modal.display("Registrar Proyecto", "RegisterProjectModal");
+    ModalFacade.createAndDisplay(
+      new ModalFacadeConfiguration("Registrar Proyecto", "RegisterProjectModal")
+    );
   }
 
   public void navigateToReviewCourseListPage() {
@@ -32,7 +39,9 @@ public class LandingCoordinatorController extends LandingController {
   }
 
   public void handleOpenRegisterCourse() {
-    Modal.display("Registrar Curso", "RegisterCourseModal");
+    ModalFacade.createAndDisplay(
+      new ModalFacadeConfiguration("Registrar Curso", "RegisterCourseModal")
+    );
   }
 
   public void navigateToReviewOrganizationListPage() {
@@ -40,14 +49,20 @@ public class LandingCoordinatorController extends LandingController {
   }
 
   public void handleOpenRegisterOrganization() {
-    Modal.display("Registrar Organización", "RegisterOrganizationModal");
+    ModalFacade.createAndDisplay(
+      new ModalFacadeConfiguration("Registrar Organización", "RegisterOrganizationModal")
+    );
   }
 
   public void handleOpenReviewStats() {
-    Modal.display("Estadísticas", "ReviewStatsModal");
+    ModalFacade.createAndDisplay(
+      new ModalFacadeConfiguration("Estadísticas", "ReviewStatsModal")
+    );
   }
 
   public void handleOpenManageConfiguration() {
-    Modal.display("Configuración", "ManageConfigurationModal");
+    ModalFacade.createAndDisplay(
+      new ModalFacadeConfiguration("Configuración", "ManageConfigurationModal")
+    );
   }
 }

@@ -12,7 +12,8 @@ import org.example.business.dto.enumeration.Section;
 import org.example.business.dto.enumeration.Semester;
 import org.example.common.UserDisplayableException;
 import org.example.gui.AlertFacade;
-import org.example.gui.Modal;
+import org.example.gui.modal.ModalFacade;
+import org.example.gui.modal.ModalFacadeConfiguration;
 
 import java.util.List;
 
@@ -52,10 +53,12 @@ public class RegisterCourseController extends Controller {
         AlertFacade.showErrorAndWait(
           "No es posible registrar un curso porque no hay ningún académico que se le pueda asignar registrado en el sistema."
         );
-        Modal.display(
-          "Registrar Académico",
-          "RegisterAcademicModal",
-          () -> loadComboBoxAcademic(comboBoxAcademic)
+        ModalFacade.createAndDisplay(
+          new ModalFacadeConfiguration(
+            "Registrar Académico",
+            "RegisterAcademicModal",
+            () -> loadComboBoxAcademic(comboBoxAcademic)
+          )
         );
         return;
       }

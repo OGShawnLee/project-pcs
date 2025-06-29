@@ -10,8 +10,9 @@ import javafx.stage.Stage;
 import org.example.business.dto.AcademicDTO;
 import org.example.business.dao.AcademicDAO;
 import org.example.common.UserDisplayableException;
-import org.example.gui.Modal;
 import org.example.gui.AlertFacade;
+import org.example.gui.modal.ModalFacade;
+import org.example.gui.modal.ModalFacadeConfiguration;
 
 public class ReviewAcademicListController extends ReviewListController implements FilterableByStateController {
   private static final AcademicDAO ACADEMIC_DAO = new AcademicDAO();
@@ -95,7 +96,13 @@ public class ReviewAcademicListController extends ReviewListController implement
   }
 
   public void handleOpenRegisterAcademicModal() {
-    Modal.display("Registrar Académico", "RegisterAcademicModal", this::loadDataList);
+    ModalFacade.createAndDisplay(
+      new ModalFacadeConfiguration(
+        "Registrar Académico",
+        "RegisterAcademicModal",
+        this::loadDataList
+      )
+    );
   }
 
   public void handleManageAcademic() {
@@ -103,10 +110,12 @@ public class ReviewAcademicListController extends ReviewListController implement
 
     if (selectedAcademic == null) return;
 
-    Modal.displayContextModal(
-      "Gestionar Académico",
-      "ManageAcademicModal",
-      this::loadDataList,
+    ModalFacade.createAndDisplayContextModal(
+      new ModalFacadeConfiguration(
+        "Gestionar Académico",
+        "ManageAcademicModal",
+        this::loadDataList
+      ),
       selectedAcademic
     );
   }

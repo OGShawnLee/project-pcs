@@ -11,7 +11,8 @@ import org.example.business.dto.AccountDTO;
 import org.example.business.dto.StudentDTO;
 import org.example.common.UserDisplayableException;
 import org.example.gui.AlertFacade;
-import org.example.gui.Modal;
+import org.example.gui.modal.ModalFacade;
+import org.example.gui.modal.ModalFacadeConfiguration;
 
 public abstract class LandingController extends Controller {
   @FXML
@@ -27,16 +28,25 @@ public abstract class LandingController extends Controller {
     try {
       switch (currentUserAccount.role()) {
         case COORDINATOR:
-          Modal.displayContextModal("Actualizar Perfil", "UpdateCoordinatorModal", currentUserAccount);
+          ModalFacade.createAndDisplayContextModal(
+            new ModalFacadeConfiguration("Actualizar Perfil", "UpdateCoordinatorModal"),
+            currentUserAccount
+          );
           break;
         case ACADEMIC, ACADEMIC_EVALUATOR, EVALUATOR: {
           AcademicDTO currentStaffDTO = new AcademicDAO().getOneByEmail(currentUserAccount.email());
-          Modal.displayContextModal("Actualizar Perfil", "UpdateAcademicModal", currentStaffDTO);
+          ModalFacade.createAndDisplayContextModal(
+            new ModalFacadeConfiguration("Actualizar Perfil", "UpdateAcademicModal"),
+            currentStaffDTO
+          );
           break;
         }
         case STUDENT: {
           StudentDTO currentStudentDTO = new StudentDAO().getOneByEmail(currentUserAccount.email());
-          Modal.displayContextModal("Actualizar Perfil", "UpdateStudentModal", currentStudentDTO);
+          ModalFacade.createAndDisplayContextModal(
+            new ModalFacadeConfiguration("Actualizar Perfil", "UpdateStudentModal"),
+            currentStudentDTO
+          );
           break;
         }
       }

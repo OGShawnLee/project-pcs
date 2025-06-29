@@ -13,7 +13,8 @@ import org.example.business.dto.enumeration.CourseState;
 import org.example.business.dto.enumeration.Section;
 import org.example.common.UserDisplayableException;
 import org.example.gui.AlertFacade;
-import org.example.gui.Modal;
+import org.example.gui.modal.ModalFacade;
+import org.example.gui.modal.ModalFacadeConfiguration;
 
 public class ReviewCourseListController extends ReviewListController implements FilterableByStateController {
   private static final CourseDAO COURSE_DAO = new CourseDAO();
@@ -91,10 +92,12 @@ public class ReviewCourseListController extends ReviewListController implements 
   }
 
   public void handleOpenRegisterCourseModal() {
-    Modal.display(
-      "Registrar Curso",
-      "RegisterCourseModal",
-      this::loadDataList
+    ModalFacade.createAndDisplay(
+      new ModalFacadeConfiguration(
+        "Registrar Curso",
+        "RegisterCourseModal",
+        this::loadDataList
+      )
     );
   }
 
@@ -103,10 +106,12 @@ public class ReviewCourseListController extends ReviewListController implements 
 
     if (selectedCourse == null) return;
 
-    Modal.displayContextModal(
-      "Gestionar Curso",
-      "ManageCourseModal",
-      this::loadDataList,
+    ModalFacade.createAndDisplayContextModal(
+      new ModalFacadeConfiguration(
+        "Gestionar Curso",
+        "ManageCourseModal",
+        this::loadDataList
+      ),
       selectedCourse
     );
   }

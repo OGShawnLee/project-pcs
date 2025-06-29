@@ -6,11 +6,13 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+
 import org.example.business.dto.ProjectDTO;
 import org.example.business.dao.ProjectDAO;
 import org.example.common.UserDisplayableException;
 import org.example.gui.AlertFacade;
-import org.example.gui.Modal;
+import org.example.gui.modal.ModalFacade;
+import org.example.gui.modal.ModalFacadeConfiguration;
 
 public class ReviewProjectListController extends ReviewListController implements FilterableByStateController {
   private static final ProjectDAO PROJECT_DAO = new ProjectDAO();
@@ -97,10 +99,8 @@ public class ReviewProjectListController extends ReviewListController implements
   }
 
   public void handleOpenRegisterProjectModal() {
-    Modal.display(
-      "Registrar Proyecto",
-      "RegisterProjectModal",
-      this::loadDataList
+    ModalFacade.createAndDisplay(
+      new ModalFacadeConfiguration("Registrar Proyecto", "RegisterProjectModal", this::loadDataList)
     );
   }
 
@@ -109,10 +109,8 @@ public class ReviewProjectListController extends ReviewListController implements
 
     if (selectedProject == null) return;
 
-    Modal.displayContextModal(
-      "Gestionar Projecto",
-      "ManageProjectModal",
-      this::loadDataList,
+    ModalFacade.createAndDisplayContextModal(
+      new ModalFacadeConfiguration("Gestionar Proyecto", "ManageProjectModal", this::loadDataList),
       selectedProject
     );
   }
@@ -122,10 +120,8 @@ public class ReviewProjectListController extends ReviewListController implements
 
     if (selectedProject == null) return;
 
-    Modal.displayContextModal(
-      "Gestionar Proyecto",
-      "AssignProjectPage",
-      this::loadDataList,
+    ModalFacade.createAndDisplayContextModal(
+      new ModalFacadeConfiguration("Gestionar Proyecto Práctica", "AssignProjectPage", this::loadDataList),
       selectedProject
     );
   }
