@@ -7,7 +7,7 @@ import javafx.scene.control.TextField;
 import org.example.business.dao.OrganizationDAO;
 import org.example.business.dto.OrganizationDTO;
 import org.example.common.UserDisplayableException;
-import org.example.gui.Modal;
+import org.example.gui.AlertFacade;
 
 public class ManageOrganizationController extends ManageController<OrganizationDTO> {
   private final OrganizationDAO ORGANIZATION_DAO = new OrganizationDAO();
@@ -49,9 +49,9 @@ public class ManageOrganizationController extends ManageController<OrganizationD
         .build();
 
       ORGANIZATION_DAO.updateOne(updatedOrganization);
-      Modal.displaySuccess("La organización ha sido actualizada con éxito.");
+      AlertFacade.showSuccessAndWait("La organización ha sido actualizada con éxito.");
     } catch (IllegalArgumentException | UserDisplayableException e) {
-      Modal.displayError(e.getMessage());
+      AlertFacade.showErrorAndWait(e.getMessage());
     }
   }
 }

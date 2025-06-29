@@ -8,7 +8,7 @@ import org.example.business.Validator;
 import org.example.business.dao.AccountDAO;
 import org.example.business.dto.AccountDTO;
 import org.example.common.UserDisplayableException;
-import org.example.gui.Modal;
+import org.example.gui.AlertFacade;
 
 // TODO: UPDATE USE CASE
 public class UpdateCoordinatorController extends ManageController<AccountDTO> {
@@ -48,11 +48,11 @@ public class UpdateCoordinatorController extends ManageController<AccountDTO> {
       );
       ACCOUNT_DAO.updateOne(accountDTO);
 
-      Modal.displaySuccess("Sus datos han sido actualizados exitosamente.");
+      AlertFacade.showSuccessAndWait("Sus datos han sido actualizados exitosamente.");
     } catch (IllegalArgumentException e) {
-      Modal.displayError(e.getMessage());
+      AlertFacade.showErrorAndWait(e.getMessage());
     } catch (UserDisplayableException e) {
-      Modal.displayError("No ha sido posible actualizar sus datos.", e);
+      AlertFacade.showErrorAndWait("No ha sido posible actualizar sus datos.", e);
     }
   }
 }

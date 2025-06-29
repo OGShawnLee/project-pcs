@@ -18,7 +18,7 @@ import org.example.business.dao.StudentDAO;
 import org.example.business.dto.*;
 import org.example.business.dao.ProjectRequestDAO;
 import org.example.common.UserDisplayableException;
-import org.example.gui.Modal;
+import org.example.gui.AlertFacade;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -102,14 +102,14 @@ public class RegisterProjectRequestController extends Controller {
     try {
       List<ProjectDTO> projects = new ProjectDAO().getAll();
       if (projects.isEmpty() || projects.size() < 3) {
-        Modal.displayError("No hay proyectos disponibles para mostrar.");
+        AlertFacade.showErrorAndWait("No hay proyectos disponibles para mostrar.");
         return;
       }
 
       ObservableList<ProjectDTO> projectList = FXCollections.observableArrayList(projects);
       projectRequestTable.setItems(projectList);
     } catch (UserDisplayableException e) {
-      Modal.displayError(e.getMessage());
+      AlertFacade.showErrorAndWait(e.getMessage());
     }
   }
 
@@ -118,13 +118,13 @@ public class RegisterProjectRequestController extends Controller {
       StudentDTO currentStudent = STUDENT_DAO.getOneByEmail(AuthClient.getInstance().getCurrentUser().email());
 
       if (selectedProjects.size() != 3) {
-        Modal.displayError("Debes seleccionar exactamente 3 proyectos.");
+        AlertFacade.showErrorAndWait("Debes seleccionar exactamente 3 proyectos.");
         return;
       }
 
       List<ProjectRequestDTO> existingRequests = PROJECT_REQUEST_DAO.getAllByEmail(currentStudent.getID());
       if (!existingRequests.isEmpty()) {
-        Modal.displayError("Ya has realizado una solicitud de proyectos.");
+        AlertFacade.showErrorAndWait("Ya has realizado una solicitud de proyectos.");
         return;
       }
 
@@ -140,9 +140,9 @@ public class RegisterProjectRequestController extends Controller {
         PROJECT_REQUEST_DAO.createOne(newRequest);
       }
 
-      Modal.displaySuccess("La solicitud de proyectos fue registrada exitosamente.");
+      AlertFacade.showSuccessAndWait("La solicitud de proyectos fue registrada exitosamente.");
     } catch (IllegalArgumentException | UserDisplayableException e) {
-      Modal.displayError(e.getMessage());
+      AlertFacade.showErrorAndWait(e.getMessage());
     }
   }
 }

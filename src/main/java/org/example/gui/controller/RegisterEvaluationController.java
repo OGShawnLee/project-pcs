@@ -12,7 +12,7 @@ import org.example.business.dto.*;
 import org.example.business.dto.enumeration.ConfigurationName;
 import org.example.business.dto.enumeration.EvaluationKind;
 import org.example.common.UserDisplayableException;
-import org.example.gui.Modal;
+import org.example.gui.AlertFacade;
 
 import java.util.List;
 
@@ -57,14 +57,14 @@ public class RegisterEvaluationController extends Controller {
       List<PracticeDTO> practiceList = PRACTICE_DAO.getAll();
 
       if (practiceList.isEmpty()) {
-        Modal.displayError("No existe una práctica. Por favor, registre una práctica antes de registrar una evaluación.");
+        AlertFacade.showErrorAndWait("No existe una práctica. Por favor, registre una práctica antes de registrar una evaluación.");
         return;
       }
 
       comboBoxPractice.getItems().addAll(practiceList);
       comboBoxPractice.setValue(practiceList.getFirst());
     } catch (UserDisplayableException e) {
-      Modal.displayError(e.getMessage());
+      AlertFacade.showErrorAndWait(e.getMessage());
     }
   }
 
@@ -73,7 +73,7 @@ public class RegisterEvaluationController extends Controller {
       if (comboBoxPractice.getValue() == null || comboBoxSkillGrade.getValue() == null ||
         comboBoxContentGrade.getValue() == null || comboBoxWritingGrade.getValue() == null ||
         comboBoxRequirementsGrade.getValue() == null || textAreaFeedback.getText().isBlank()) {
-        Modal.displayError("Todos los campos deben estar completos.");
+        AlertFacade.showErrorAndWait("Todos los campos deben estar completos.");
         return;
       }
 
@@ -116,14 +116,14 @@ public class RegisterEvaluationController extends Controller {
 
       EvaluationDTO existingEvaluationDTO = EVALUATION_DAO.getOne(filterEvaluation);
       if (existingEvaluationDTO != null) {
-        Modal.displayError("Ya existe una evaluación registrada para esta práctica.");
+        AlertFacade.showErrorAndWait("Ya existe una evaluación registrada para esta práctica.");
         return;
       }
 
       EVALUATION_DAO.createOne(evaluationDTO);
-      Modal.displaySuccess("La evaluación ha sido registrada exitosamente.");
+      AlertFacade.showSuccessAndWait("La evaluación ha sido registrada exitosamente.");
     } catch (IllegalArgumentException | UserDisplayableException e) {
-      Modal.displayError(e.getMessage());
+      AlertFacade.showErrorAndWait(e.getMessage());
     }
   }
 }

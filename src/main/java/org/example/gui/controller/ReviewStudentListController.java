@@ -11,6 +11,7 @@ import org.example.business.auth.AuthClient;
 import org.example.business.dto.StudentDTO;
 import org.example.business.dao.StudentDAO;
 import org.example.common.UserDisplayableException;
+import org.example.gui.AlertFacade;
 import org.example.gui.Modal;
 
 public class ReviewStudentListController extends ReviewListController implements FilterableByStateController {
@@ -60,7 +61,7 @@ public class ReviewStudentListController extends ReviewListController implements
         )
       );
     } catch (UserDisplayableException e) {
-      Modal.displayError(e.getMessage());
+      AlertFacade.showErrorAndWait(e.getMessage());
     }
   }
 
@@ -73,7 +74,7 @@ public class ReviewStudentListController extends ReviewListController implements
         )
       );
     } catch (UserDisplayableException e) {
-      Modal.displayError(e.getMessage());
+      AlertFacade.showErrorAndWait(e.getMessage());
     }
   }
 
@@ -86,7 +87,7 @@ public class ReviewStudentListController extends ReviewListController implements
         )
       );
     } catch (UserDisplayableException e) {
-      Modal.displayError(e.getMessage());
+      AlertFacade.showErrorAndWait(e.getMessage());
     }
   }
 

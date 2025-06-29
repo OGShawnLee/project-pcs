@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import org.example.business.dto.RepresentativeDTO;
 import org.example.business.dao.RepresentativeDAO;
 import org.example.common.UserDisplayableException;
+import org.example.gui.AlertFacade;
 import org.example.gui.Modal;
 
 public class ReviewRepresentativeListController extends ReviewListController implements FilterableByStateController {
@@ -54,7 +55,7 @@ public class ReviewRepresentativeListController extends ReviewListController imp
         )
       );
     } catch (UserDisplayableException e) {
-      Modal.displayError(e.getMessage());
+      AlertFacade.showErrorAndWait(e.getMessage());
     }
   }
 
@@ -67,7 +68,7 @@ public class ReviewRepresentativeListController extends ReviewListController imp
         )
       );
     } catch (UserDisplayableException e) {
-      Modal.displayError(e.getMessage());
+      AlertFacade.showErrorAndWait(e.getMessage());
     }
   }
 
@@ -80,7 +81,7 @@ public class ReviewRepresentativeListController extends ReviewListController imp
         )
       );
     } catch (UserDisplayableException e) {
-      Modal.displayError(e.getMessage());
+      AlertFacade.showErrorAndWait(e.getMessage());
     }
   }
 

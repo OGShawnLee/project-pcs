@@ -14,7 +14,7 @@ import org.example.business.dto.enumeration.ProjectSector;
 import org.example.business.dto.OrganizationDTO;
 import org.example.business.dto.ProjectDTO;
 import org.example.common.UserDisplayableException;
-import org.example.gui.Modal;
+import org.example.gui.AlertFacade;
 
 // TODO: UPDATE USE CASE
 public class ManageProjectController extends ManageController<ProjectDTO> {
@@ -78,7 +78,7 @@ public class ManageProjectController extends ManageController<ProjectDTO> {
       OrganizationDTO organization = ORGANIZATION_DAO.getOne(getContext().getIDOrganization());
       comboBoxOrganization.setValue(organization);
     } catch (UserDisplayableException e) {
-      Modal.displayError(e.getMessage());
+      AlertFacade.showErrorAndWait(e.getMessage());
     }
   }
 
@@ -94,7 +94,7 @@ public class ManageProjectController extends ManageController<ProjectDTO> {
       RepresentativeDTO representative = new RepresentativeDAO().getOne(getContext().getRepresentativeEmail());
       comboBoxRepresentative.setValue(representative);
     } catch (UserDisplayableException | NotFoundException e) {
-      Modal.displayError(e.getMessage());
+      AlertFacade.showErrorAndWait(e.getMessage());
     }
   }
 
@@ -119,12 +119,12 @@ public class ManageProjectController extends ManageController<ProjectDTO> {
 
       if (organizationEmail.equals(representativeOrganizationEmail)) {
         PROJECT_DAO.updateOne(updatedProject);
-        Modal.displaySuccess("El proyecto ha sido actualizado exitosamente.");
+        AlertFacade.showSuccessAndWait("El proyecto ha sido actualizado exitosamente.");
       }
 
-      Modal.displayError("El representante debe pertenecer a la misma organización del proyecto.");
+      AlertFacade.showErrorAndWait("El representante debe pertenecer a la misma organización del proyecto.");
     } catch (IllegalArgumentException | UserDisplayableException e) {
-      Modal.displayError(e.getMessage());
+      AlertFacade.showErrorAndWait(e.getMessage());
     }
   }
 }

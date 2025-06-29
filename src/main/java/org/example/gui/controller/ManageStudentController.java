@@ -9,7 +9,7 @@ import org.example.business.dao.EnrollmentDAO;
 import org.example.business.dao.StudentDAO;
 import org.example.business.dto.*;
 import org.example.common.UserDisplayableException;
-import org.example.gui.Modal;
+import org.example.gui.AlertFacade;
 
 // TODO: UPDATE USE CASE
 public class ManageStudentController extends ManageController<StudentDTO> {
@@ -64,7 +64,7 @@ public class ManageStudentController extends ManageController<StudentDTO> {
         }
       }
     } catch (Exception e) {
-      Modal.displayError("No ha sido posible cargar la inscripción del estudiante.");
+      AlertFacade.showErrorAndWait("No ha sido posible cargar la inscripción del estudiante.");
     }
   }
 
@@ -82,9 +82,9 @@ public class ManageStudentController extends ManageController<StudentDTO> {
         .build();
 
       STUDENT_DAO.updateOne(student);
-      Modal.displaySuccess("El estudiante ha sido actualizado exitosamente.");
+      AlertFacade.showSuccessAndWait("El estudiante ha sido actualizado exitosamente.");
     } catch (IllegalArgumentException | UserDisplayableException e) {
-      Modal.displayError(e.getMessage());
+      AlertFacade.showErrorAndWait(e.getMessage());
     }
   }
 }

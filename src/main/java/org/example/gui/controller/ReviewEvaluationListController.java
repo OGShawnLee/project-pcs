@@ -12,12 +12,13 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
+
 import org.example.business.dto.EvaluationDTO;
 import org.example.business.dao.EnrollmentDAO;
 import org.example.business.dao.EvaluationDAO;
 import org.example.business.dao.StudentDAO;
 import org.example.common.UserDisplayableException;
-import org.example.gui.Modal;
+import org.example.gui.AlertFacade;
 
 import java.io.IOException;
 import java.util.List;
@@ -74,7 +75,7 @@ public class ReviewEvaluationListController {
         fullName = student.getName() + " " + student.getPaternalLastName() + " " + student.getMaternalLastName();
       }
     } catch (UserDisplayableException e) {
-      Modal.displayError("No ha sido posible conectar con los datos del estudiante, debido a un error de conexion con la base de datos");
+      AlertFacade.showErrorAndWait("No ha sido posible conectar con los datos del estudiante, debido a un error de conexion con la base de datos");
     }
     return fullName;
   }
@@ -91,7 +92,7 @@ public class ReviewEvaluationListController {
         }
       }
     } catch (UserDisplayableException e) {
-      Modal.displayError("No ha sido posible conectar con la materia asignada, debido a un error de conexion con la base de datos");
+      AlertFacade.showErrorAndWait("No ha sido posible conectar con la materia asignada, debido a un error de conexion con la base de datos");
     }
     return nrc;
   }
@@ -109,7 +110,7 @@ public class ReviewEvaluationListController {
       stage.setScene(new Scene(root));
       stage.show();
     } catch (IOException e) {
-      Modal.displayError("No se pudo cargar la vista de detalles.");
+      AlertFacade.showErrorAndWait("No se pudo cargar la vista de detalles.");
     }
   }
 
@@ -119,7 +120,7 @@ public class ReviewEvaluationListController {
       ObservableList<EvaluationDTO> observableList = FXCollections.observableArrayList(evaluationList);
       evaluationTable.setItems(observableList);
     } catch (UserDisplayableException e) {
-      Modal.displayError(e.getMessage());
+      AlertFacade.showErrorAndWait(e.getMessage());
     }
   }
 
@@ -130,7 +131,7 @@ public class ReviewEvaluationListController {
       ObservableList<EvaluationDTO> observableList = FXCollections.observableArrayList(evaluationList);
       evaluationTable.setItems(observableList);
     } catch (UserDisplayableException e) {
-      Modal.displayError(e.getMessage());
+      AlertFacade.showErrorAndWait(e.getMessage());
     }
   }
 

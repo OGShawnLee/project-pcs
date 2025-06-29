@@ -6,7 +6,7 @@ import javafx.scene.control.TextField;
 import org.example.business.dto.OrganizationDTO;
 import org.example.business.dao.OrganizationDAO;
 import org.example.common.UserDisplayableException;
-import org.example.gui.Modal;
+import org.example.gui.AlertFacade;
 
 public class RegisterOrganizationController extends Controller {
   private final OrganizationDAO ORGANIZATION_DAO = new OrganizationDAO();
@@ -31,16 +31,16 @@ public class RegisterOrganizationController extends Controller {
       OrganizationDTO existingOrganizationDTO = ORGANIZATION_DAO.getOne(organizationDTO.getEmail());
 
       if (existingOrganizationDTO != null) {
-        Modal.displayError(
+        AlertFacade.showErrorAndWait(
           "No ha sido posible registrar la organización debido a que ya existe una organización registrada con ese correo electrónico."
         );
         return;
       }
 
       ORGANIZATION_DAO.createOne(organizationDTO);
-      Modal.displaySuccess("La organización ha sido registrada exitosamente.");
+      AlertFacade.showSuccessAndWait("La organización ha sido registrada exitosamente.");
     } catch (IllegalArgumentException | UserDisplayableException e) {
-      Modal.displayError(e.getMessage());
+      AlertFacade.showErrorAndWait(e.getMessage());
     }
   }
 }

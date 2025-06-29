@@ -12,6 +12,7 @@ import org.example.business.dao.CourseDAO;
 import org.example.business.dto.enumeration.CourseState;
 import org.example.business.dto.enumeration.Section;
 import org.example.common.UserDisplayableException;
+import org.example.gui.AlertFacade;
 import org.example.gui.Modal;
 
 public class ReviewCourseListController extends ReviewListController implements FilterableByStateController {
@@ -53,7 +54,7 @@ public class ReviewCourseListController extends ReviewListController implements 
         )
       );
     } catch (UserDisplayableException e) {
-      Modal.displayError(
+      AlertFacade.showErrorAndWait(
         "No ha sido posible cargar información de cursos debido a un error de sistema."
       );
     }
@@ -68,7 +69,7 @@ public class ReviewCourseListController extends ReviewListController implements 
         )
       );
     } catch (UserDisplayableException e) {
-      Modal.displayError(
+      AlertFacade.showErrorAndWait(
         "No ha sido posible cargar información de cursos activos debido a un error de sistema."
       );
     }
@@ -83,7 +84,7 @@ public class ReviewCourseListController extends ReviewListController implements 
         )
       );
     } catch (UserDisplayableException e) {
-      Modal.displayError(
+      AlertFacade.showErrorAndWait(
         "No ha sido posible cargar información de cursos inactivos debido a un error de sistema."
       );
     }

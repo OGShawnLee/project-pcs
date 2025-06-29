@@ -8,7 +8,7 @@ import org.example.business.dao.RepresentativeDAO;
 import org.example.business.dto.OrganizationDTO;
 import org.example.business.dto.RepresentativeDTO;
 import org.example.common.UserDisplayableException;
-import org.example.gui.Modal;
+import org.example.gui.AlertFacade;
 
 public class RegisterRepresentativeController extends Controller {
   private final RepresentativeDAO REPRESENTATIVE_DAO = new RepresentativeDAO();
@@ -49,14 +49,14 @@ public class RegisterRepresentativeController extends Controller {
 
       RepresentativeDTO existingRepresentative = REPRESENTATIVE_DAO.findOne(representativeDTO.getEmail());
       if (existingRepresentative != null) {
-        Modal.displayError("No ha sido posible registrar representante debido a que ya existe un representante con el mismo correo electrónico.");
+        AlertFacade.showErrorAndWait("No ha sido posible registrar representante debido a que ya existe un representante con el mismo correo electrónico.");
         return;
       }
 
       REPRESENTATIVE_DAO.createOne(representativeDTO);
-      Modal.displaySuccess("El representante ha sido registrado exitosamente.");
+      AlertFacade.showSuccessAndWait("El representante ha sido registrado exitosamente.");
     } catch (IllegalArgumentException | UserDisplayableException e) {
-      Modal.displayError(e.getMessage());
+      AlertFacade.showErrorAndWait(e.getMessage());
     }
   }
 }

@@ -10,7 +10,7 @@ import org.example.business.dao.AcademicDAO;
 import org.example.business.dao.AccountDAO;
 import org.example.business.dto.enumeration.AcademicRole;
 import org.example.common.UserDisplayableException;
-import org.example.gui.Modal;
+import org.example.gui.AlertFacade;
 
 public class RegisterAcademicController extends Controller {
   private final AccountDAO ACCOUNT_DAO = new AccountDAO();
@@ -53,20 +53,20 @@ public class RegisterAcademicController extends Controller {
 
       AccountDTO existingAccountDTO = ACCOUNT_DAO.getOne(academicDTO.getEmail());
       if (existingAccountDTO != null) {
-        Modal.displayError("No ha sido posible registrar académico debido a que ya existe una cuenta con ese correo electrónico.");
+        AlertFacade.showErrorAndWait("No ha sido posible registrar académico debido a que ya existe una cuenta con ese correo electrónico.");
         return;
       }
 
       AcademicDTO existingAcademicDTO = ACADEMIC_DAO.getOne(academicDTO.getID());
       if (existingAcademicDTO != null) {
-        Modal.displayError("No ha sido posible registrar académico debido a que ya existe un académico con la misma ID de Trabajador.");
+        AlertFacade.showErrorAndWait("No ha sido posible registrar académico debido a que ya existe un académico con la misma ID de Trabajador.");
         return;
       }
 
       ACADEMIC_DAO.createOne(academicDTO);
-      Modal.displaySuccess("El académico ha sido registrado exitosamente.");
+      AlertFacade.showSuccessAndWait("El académico ha sido registrado exitosamente.");
     } catch (IllegalArgumentException | UserDisplayableException e) {
-      Modal.displayError(e.getMessage());
+      AlertFacade.showErrorAndWait(e.getMessage());
     }
   }
 }

@@ -12,7 +12,7 @@ import org.example.business.dto.enumeration.CourseState;
 import org.example.business.dto.enumeration.Section;
 import org.example.business.dto.enumeration.Semester;
 import org.example.common.UserDisplayableException;
-import org.example.gui.Modal;
+import org.example.gui.AlertFacade;
 
 public class ManageCourseController extends ManageController<CourseDTO> {
   private final AcademicDAO ACADEMIC_DAO = new AcademicDAO();
@@ -65,7 +65,7 @@ public class ManageCourseController extends ManageController<CourseDTO> {
       AcademicDTO organization = ACADEMIC_DAO.getOne(getContext().getIDAcademic());
       comboBoxAcademic.setValue(organization);
     } catch (UserDisplayableException e) {
-      Modal.displayError(e.getMessage());
+      AlertFacade.showErrorAndWait(e.getMessage());
     }
   }
 
@@ -81,9 +81,9 @@ public class ManageCourseController extends ManageController<CourseDTO> {
         .build();
 
       COURSE_DAO.updateOne(courseDTO);
-      Modal.displaySuccess("El curso ha sido actualizado exitosamente.");
+      AlertFacade.showSuccessAndWait("El curso ha sido actualizado exitosamente.");
     } catch (IllegalArgumentException | UserDisplayableException e) {
-      Modal.displayError(e.getMessage());
+      AlertFacade.showErrorAndWait(e.getMessage());
     }
   }
 }

@@ -8,7 +8,7 @@ import org.example.business.dao.AcademicDAO;
 import org.example.business.dto.AcademicDTO;
 import org.example.business.dto.enumeration.AcademicRole;
 import org.example.common.UserDisplayableException;
-import org.example.gui.Modal;
+import org.example.gui.AlertFacade;
 
 public class ManageAcademicController extends ManageController<AcademicDTO> {
   private final AcademicDAO ACADEMIC_DAO = new AcademicDAO();
@@ -63,9 +63,9 @@ public class ManageAcademicController extends ManageController<AcademicDTO> {
         .build();
 
       ACADEMIC_DAO.updateOne(academicDTO);
-      Modal.displaySuccess("El académico ha sido actualizado exitosamente.");
+      AlertFacade.showSuccessAndWait("El académico ha sido actualizado exitosamente.");
     } catch (IllegalArgumentException | UserDisplayableException e) {
-      Modal.displayError(e.getMessage());
+      AlertFacade.showErrorAndWait(e.getMessage());
     }
   }
 }

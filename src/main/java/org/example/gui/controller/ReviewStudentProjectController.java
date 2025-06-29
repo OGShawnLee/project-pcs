@@ -10,7 +10,7 @@ import org.example.business.dto.OrganizationDTO;
 import org.example.business.dto.ProjectDTO;
 import org.example.business.dto.StudentDTO;
 import org.example.common.UserDisplayableException;
-import org.example.gui.Modal;
+import org.example.gui.AlertFacade;
 
 public class ReviewStudentProjectController extends Controller {
   @FXML
@@ -43,7 +43,7 @@ public class ReviewStudentProjectController extends Controller {
       fieldMethodology.setText(projectDTO.getMethodology());
       fieldSector.setText(projectDTO.getSector().toString());
     } catch (UserDisplayableException e) {
-      Modal.displayError("No ha sido posible consultar el proyecto asignado.", e);
+      AlertFacade.showErrorAndWait("No ha sido posible consultar el proyecto asignado.", e);
     }
   }
 }

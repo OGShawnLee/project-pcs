@@ -9,6 +9,7 @@ import org.example.business.dao.RepresentativeDAO;
 import org.example.business.dto.OrganizationDTO;
 import org.example.business.dto.RepresentativeDTO;
 import org.example.common.UserDisplayableException;
+import org.example.gui.AlertFacade;
 import org.example.gui.Modal;
 
 public class ManageRepresentativeController extends ManageController<RepresentativeDTO> {
@@ -64,7 +65,7 @@ public class ManageRepresentativeController extends ManageController<Representat
       OrganizationDTO organization = ORGANIZATION_DAO.getOne(getContext().getOrganizationID());
       comboBoxOrganization.setValue(organization);
     } catch (UserDisplayableException e) {
-      Modal.displayError(e.getMessage());
+      AlertFacade.showErrorAndWait(e.getMessage());
     }
   }
 
@@ -103,10 +104,10 @@ public class ManageRepresentativeController extends ManageController<Representat
       RepresentativeDTO representativeDTO = getDTOFromFields();
       if (hasUpdateConfirmationFromUser(representativeDTO)) {
         REPRESENTATIVE_DAO.updateOne(representativeDTO);
-        Modal.displaySuccess("El representante ha sido actualizado exitosamente.");
+        AlertFacade.showSuccessAndWait("El representante ha sido actualizado exitosamente.");
       }
     } catch (IllegalArgumentException | UserDisplayableException e) {
-      Modal.displayError(e.getMessage());
+      AlertFacade.showErrorAndWait(e.getMessage());
     }
   }
 }

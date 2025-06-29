@@ -13,7 +13,7 @@ import org.example.business.dao.SelfEvaluationDAO;
 import org.example.business.dto.SelfEvaluationDTO;
 import org.example.business.dto.StudentDTO;
 import org.example.common.UserDisplayableException;
-import org.example.gui.Modal;
+import org.example.gui.AlertFacade;
 
 import java.io.IOException;
 import java.util.stream.IntStream;
@@ -63,7 +63,7 @@ public class RegisterSelfEvaluationController {
   public void handleRegisterSelfEvaluation(ActionEvent event) {
     Object user = Session.getCurrentUser();
     if (!(user instanceof StudentDTO student)) {
-      Modal.displayError("Solo un estudiante puede registrar su autoevaluación.");
+      AlertFacade.showErrorAndWait("Solo un estudiante puede registrar su autoevaluación.");
       return;
     }
 
@@ -84,19 +84,19 @@ public class RegisterSelfEvaluationController {
       SelfEvaluationDTO dataObjectExistingSelfEvaluation = SELF_EVALUATION_DAO.getOne(dataObjectSelfEvaluation.getIDStudent());
 
       if (dataObjectExistingSelfEvaluation != null) {
-        Modal.displayError(
+        AlertFacade.showErrorAndWait(
           "No ha sido posible registrar la autoevaluacion debido a que ya existe una organización registrada con ese correo electrónico."
         );
         return;
       }
 
       SELF_EVALUATION_DAO.createOne(dataObjectSelfEvaluation);
-      Modal.displaySuccess("La autoevaluacion ha sido registrada exitosamente.");
+      AlertFacade.showSuccessAndWait("La autoevaluacion ha sido registrada exitosamente.");
       returnToMainPage(event);
     } catch (IllegalArgumentException | UserDisplayableException e) {
-      Modal.displayError(e.getMessage());
+      AlertFacade.showErrorAndWait(e.getMessage());
     } catch (IOException e) {
-      Modal.displayError("Ha ocurrido un error al cargar la pagina");
+      AlertFacade.showErrorAndWait("Ha ocurrido un error al cargar la pagina");
     }
   }
 

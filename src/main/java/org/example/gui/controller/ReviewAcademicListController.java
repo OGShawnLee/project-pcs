@@ -11,6 +11,7 @@ import org.example.business.dto.AcademicDTO;
 import org.example.business.dao.AcademicDAO;
 import org.example.common.UserDisplayableException;
 import org.example.gui.Modal;
+import org.example.gui.AlertFacade;
 
 public class ReviewAcademicListController extends ReviewListController implements FilterableByStateController {
   private static final AcademicDAO ACADEMIC_DAO = new AcademicDAO();
@@ -57,7 +58,7 @@ public class ReviewAcademicListController extends ReviewListController implement
         )
       );
     } catch (UserDisplayableException e) {
-      Modal.displayError(
+      AlertFacade.showErrorAndWait(
         "No ha sido posible cargar información de académicos debido a un error de sistema."
       );
     }
@@ -72,7 +73,7 @@ public class ReviewAcademicListController extends ReviewListController implement
         )
       );
     } catch (UserDisplayableException e) {
-      Modal.displayError(
+      AlertFacade.showErrorAndWait(
         "No ha sido posible cargar información de académicos activos debido a un error de sistema."
       );
     }
@@ -87,7 +88,7 @@ public class ReviewAcademicListController extends ReviewListController implement
         )
       );
     } catch (UserDisplayableException e) {
-      Modal.displayError(
+      AlertFacade.showErrorAndWait(
         "No ha sido posible cargar información de académicos inactivos debido a un error de sistema."
       );
     }

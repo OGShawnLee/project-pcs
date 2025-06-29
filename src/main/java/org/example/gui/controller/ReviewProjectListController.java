@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import org.example.business.dto.ProjectDTO;
 import org.example.business.dao.ProjectDAO;
 import org.example.common.UserDisplayableException;
+import org.example.gui.AlertFacade;
 import org.example.gui.Modal;
 
 public class ReviewProjectListController extends ReviewListController implements FilterableByStateController {
@@ -65,7 +66,7 @@ public class ReviewProjectListController extends ReviewListController implements
         )
       );
     } catch (UserDisplayableException e) {
-      Modal.displayError(e.getMessage());
+      AlertFacade.showErrorAndWait(e.getMessage());
     }
   }
 
@@ -78,7 +79,7 @@ public class ReviewProjectListController extends ReviewListController implements
         )
       );
     } catch (UserDisplayableException e) {
-      Modal.displayError(e.getMessage());
+      AlertFacade.showErrorAndWait(e.getMessage());
     }
   }
 
@@ -91,7 +92,7 @@ public class ReviewProjectListController extends ReviewListController implements
         )
       );
     } catch (UserDisplayableException e) {
-      Modal.displayError(e.getMessage());
+      AlertFacade.showErrorAndWait(e.getMessage());
     }
   }
 

@@ -6,6 +6,7 @@ import org.example.business.dao.PracticeDAO;
 import org.example.business.dto.ConfigurationDTO;
 import org.example.business.dto.PracticeDTO;
 import org.example.common.UserDisplayableException;
+import org.example.gui.AlertFacade;
 import org.example.gui.Modal;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public class LandingEvaluatorController extends LandingController {
       List<PracticeDTO> practices = new PracticeDAO().getAll();
 
       if (practices.isEmpty()) {
-        Modal.displayError("No existen prácticas. Registre una antes de evaluar.");
+        AlertFacade.showErrorAndWait("No existen prácticas. Registre una antes de evaluar.");
         return;
       }
 
@@ -37,9 +38,9 @@ public class LandingEvaluatorController extends LandingController {
         }
       }
 
-      Modal.displayError("No se han habilitado las evaluaciones");
+      AlertFacade.showErrorAndWait("No se han habilitado las evaluaciones");
     } catch (UserDisplayableException e) {
-      Modal.displayError(e.getMessage());
+      AlertFacade.showErrorAndWait(e.getMessage());
     }
   }
 }

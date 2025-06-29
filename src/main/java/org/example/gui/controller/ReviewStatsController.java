@@ -6,7 +6,7 @@ import org.example.business.dao.NotFoundException;
 import org.example.business.dao.StatsDAO;
 import org.example.business.dto.StatsDTO;
 import org.example.common.UserDisplayableException;
-import org.example.gui.Modal;
+import org.example.gui.AlertFacade;
 
 public class ReviewStatsController extends Controller {
   private final StatsDAO STATS_DAO = new StatsDAO();
@@ -50,7 +50,7 @@ public class ReviewStatsController extends Controller {
       textTotalCourses.setText(String.valueOf(statsDTO.getTotalCourses()));
       textTotalStudents.setText(String.valueOf(statsDTO.getTotalStudents()));
     } catch (NotFoundException | UserDisplayableException e) {
-      Modal.displayError(e.getMessage());
+      AlertFacade.showErrorAndWait(e.getMessage());
     }
   }
 }

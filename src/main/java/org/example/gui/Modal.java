@@ -3,7 +3,6 @@ package org.example.gui;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.TextInputDialog;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -11,7 +10,6 @@ import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.common.ExceptionHandler;
-import org.example.common.UserDisplayableException;
 import org.example.gui.controller.ConfirmationController;
 import org.example.gui.controller.ContextController;
 
@@ -44,7 +42,7 @@ public class Modal {
       modalStage.initModality(Modality.APPLICATION_MODAL);
       modalStage.showAndWait();
     } catch (IOException e) {
-      Modal.displayError(
+      AlertFacade.showErrorAndWait(
         ExceptionHandler.handleGUILoadIOException(LOGGER, e).getMessage()
       );
     }
@@ -65,7 +63,7 @@ public class Modal {
       stage.showAndWait();
       return controller.getIsConfirmed();
     } catch (IOException e) {
-      Modal.displayError(
+      AlertFacade.showErrorAndWait(
         ExceptionHandler.handleGUILoadIOException(LOGGER, e).getMessage()
       );
       return false;
@@ -99,39 +97,10 @@ public class Modal {
       modalStage.initModality(Modality.APPLICATION_MODAL);
       modalStage.showAndWait();
     } catch (IOException e) {
-      Modal.displayError(
+      AlertFacade.showErrorAndWait(
         ExceptionHandler.handleGUILoadIOException(LOGGER, e).getMessage()
       );
     }
-  }
-
-  public static void displayError(String message) {
-    Alert alert = new Alert(Alert.AlertType.ERROR);
-    alert.setTitle("Error");
-    alert.setHeaderText("Error de Validación");
-    alert.setContentText(message);
-    alert.showAndWait();
-  }
-
-  public static void displayError(String message, UserDisplayableException e) {
-    displayError(message + "\n" + e.getMessage());
-  }
-
-  public static void displayInformation(String message) {
-    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-    alert.setTitle("Información");
-    alert.setHeaderText("Información del Sistema");
-    alert.setContentText(message);
-    alert.showAndWait();
-  }
-
-
-  public static void displaySuccess(String message) {
-    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-    alert.setTitle("Éxito");
-    alert.setHeaderText("Registro Exitoso");
-    alert.setContentText(message);
-    alert.showAndWait();
   }
 
   public static Optional<String> promptText(String title, String header, String content) {

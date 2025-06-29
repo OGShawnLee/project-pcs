@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.common.ExceptionHandler;
-import org.example.gui.Modal;
+import org.example.gui.AlertFacade;
 
 import java.io.IOException;
 
@@ -25,19 +25,21 @@ public class Main {
         stage.setScene(scene);
         stage.show();
       } catch (IOException e) {
-        Modal.displayError(ExceptionHandler.handleGUILoadIOException(LOGGER, e).getMessage());
+        AlertFacade.showErrorAndWait(
+          ExceptionHandler.handleGUILoadIOException(LOGGER, e)
+        );
       } catch (IllegalStateException e) {
         handleIllegalStateException(e);
       } catch (Exception e) {
-        Modal.displayError(
-          ExceptionHandler.handleUnexpectedException(LOGGER, e, "Error al iniciar la aplicación.").getMessage()
+        AlertFacade.showErrorAndWait(
+          ExceptionHandler.handleUnexpectedException(LOGGER, e, "Error al iniciar la aplicación.")
         );
       }
     }
 
     private void handleIllegalStateException(IllegalStateException e) {
       LOGGER.fatal("Error al iniciar la aplicación: {}", e.getMessage(), e);
-      Modal.displayError(
+      AlertFacade.showErrorAndWait(
         "Error de estado de interfaz gráfica al iniciar la aplicación. Por favor, comuníquese con el desarrollador si el error persiste."
       );
     }

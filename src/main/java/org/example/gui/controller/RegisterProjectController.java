@@ -12,7 +12,7 @@ import org.example.business.dto.ProjectDTO;
 import org.example.business.dao.ProjectDAO;
 import org.example.business.dto.WorkPlanDTO;
 import org.example.common.UserDisplayableException;
-import org.example.gui.Modal;
+import org.example.gui.AlertFacade;
 
 // TODO: UPDATE USE CASE
 public class RegisterProjectController extends Controller {
@@ -79,9 +79,9 @@ public class RegisterProjectController extends Controller {
         .build();
 
       PROJECT_DAO.createOneWithWorkPlan(projectDTO, workPlanDTO);
-      Modal.displaySuccess("El proyecto ha sido registrado exitosamente.");
+      AlertFacade.showSuccessAndWait("El proyecto ha sido registrado exitosamente.");
     } catch (IllegalArgumentException | UserDisplayableException e) {
-      Modal.displayError(e.getMessage());
+      AlertFacade.showErrorAndWait(e.getMessage());
     }
   }
 }

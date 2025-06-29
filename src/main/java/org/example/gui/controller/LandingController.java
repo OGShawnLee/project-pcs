@@ -10,6 +10,7 @@ import org.example.business.dto.AcademicDTO;
 import org.example.business.dto.AccountDTO;
 import org.example.business.dto.StudentDTO;
 import org.example.common.UserDisplayableException;
+import org.example.gui.AlertFacade;
 import org.example.gui.Modal;
 
 public abstract class LandingController extends Controller {
@@ -40,7 +41,7 @@ public abstract class LandingController extends Controller {
         }
       }
     } catch (UserDisplayableException e) {
-      Modal.displayError("No ha sido posible actualizar perfil", e);
+      AlertFacade.showErrorAndWait("No ha sido posible actualizar perfil", e);
     }
   }
 

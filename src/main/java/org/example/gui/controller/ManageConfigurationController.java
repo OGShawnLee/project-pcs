@@ -7,7 +7,7 @@ import org.example.business.dto.enumeration.ConfigurationName;
 import org.example.business.dao.ConfigurationDAO;
 import org.example.business.dto.ConfigurationDTO;
 import org.example.common.UserDisplayableException;
-import org.example.gui.Modal;
+import org.example.gui.AlertFacade;
 
 public class ManageConfigurationController extends Controller {
   private static final ConfigurationDAO CONFIGURATION_DAO = new ConfigurationDAO();
@@ -32,7 +32,7 @@ public class ManageConfigurationController extends Controller {
       checkBoxEnableSecondEvaluation.setSelected(secondEvaluationConfig.isEnabled());
       checkBoxEnableFinalEvaluation.setSelected(lastEvaluationConfig.isEnabled());
     } catch (UserDisplayableException e) {
-      Modal.displayError(e.getMessage());
+      AlertFacade.showErrorAndWait(e.getMessage());
     }
   }
 
@@ -47,9 +47,9 @@ public class ManageConfigurationController extends Controller {
       CONFIGURATION_DAO.updateOne(
         new ConfigurationDTO(ConfigurationName.EVALUATION_ENABLED_FINAL, checkBoxEnableFinalEvaluation.isSelected())
       );
-      Modal.displaySuccess("Se ha actualizado la configuración del sistema exitosamente");
+      AlertFacade.showSuccessAndWait("Se ha actualizado la configuración del sistema exitosamente");
     } catch (UserDisplayableException e) {
-      Modal.displayError(e.getMessage());
+      AlertFacade.showErrorAndWait(e.getMessage());
     }
   }
 }

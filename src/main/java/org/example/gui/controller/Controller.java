@@ -12,7 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.business.auth.AuthClient;
 import org.example.common.ExceptionHandler;
-import org.example.gui.Modal;
+import org.example.gui.AlertFacade;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -53,7 +53,7 @@ public abstract class Controller {
       currentStage.setScene(newScene);
       currentStage.show();
     } catch (IOException e) {
-      Modal.displayError(
+      AlertFacade.showErrorAndWait(
         ExceptionHandler.handleGUILoadIOException(CONTROLLER_LOGGER, e).getMessage()
       );
     }

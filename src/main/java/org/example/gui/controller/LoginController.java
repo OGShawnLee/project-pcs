@@ -10,7 +10,7 @@ import org.example.business.dao.AccountDAO;
 import org.example.business.dto.AccountDTO;
 import org.example.business.dto.enumeration.AccountRole;
 import org.example.common.UserDisplayableException;
-import org.example.gui.Modal;
+import org.example.gui.AlertFacade;
 
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -25,11 +25,11 @@ public class LoginController extends Controller {
     try {
       if (ACCOUNT_DAO.hasCoordinatorAccount()) return;
 
-      Modal.displayInformation(
+      AlertFacade.showInformationAndWait(
         "Bienvenido a su Sistema Gestor de Practicas Profesionales. Cree una Cuenta de Coordinador para comenzar."
       );
     } catch (UserDisplayableException e) {
-      Modal.displayError("No ha sido posible iniciar el sistema.", e);
+      AlertFacade.showErrorAndWait("No ha sido posible iniciar el sistema.", e);
     }
   }
 
@@ -44,15 +44,13 @@ public class LoginController extends Controller {
     String message;
 
     switch (role) {
-      case STUDENT ->
-        message = "No tiene acceso al sistema. Por favor, contacte a su Académico encargado.";
+      case STUDENT -> message = "No tiene acceso al sistema. Por favor, contacte a su Académico encargado.";
       case ACADEMIC, ACADEMIC_EVALUATOR, EVALUATOR ->
         message = "No tiene acceso al sistema. Por favor, contacte al Coordinador de Prácticas Profesionales.";
-      default ->
-        message = "No tiene acceso al sistema. Por favor, contacte al Administrador del Sistema.";
+      default -> message = "No tiene acceso al sistema. Por favor, contacte al Administrador del Sistema.";
     }
 
-    Modal.displayError(message);
+    AlertFacade.showErrorAndWait(message);
   }
 
   private void handleCreateCoordinatorAccount() throws UserDisplayableException {
@@ -66,10 +64,10 @@ public class LoginController extends Controller {
     emailField.clear();
     passwordField.clear();
 
-    Modal.displaySuccess(
+    AlertFacade.showSuccessAndWait(
       "¡Cuenta de Coordinador creada! Bienvenido, " + email + " a su Sistema Gestor de Practicas Profesionales."
     );
-    Modal.displayInformation(
+    AlertFacade.showInformationAndWait(
       "Por favor utilice las credenciales de su Cuenta recién creada para iniciar sesión."
     );
   }
@@ -80,14 +78,14 @@ public class LoginController extends Controller {
     AccountDTO accountDTO = ACCOUNT_DAO.getOne(email);
 
     if (accountDTO == null) {
-      Modal.displayError("No existe una cuenta con este correo electrónico.");
+      AlertFacade.showErrorAndWait("No existe una cuenta con este correo electrónico.");
       return;
     }
 
     if (accountDTO.hasPasswordMatch(password)) {
       handleAccountAccess(accountDTO);
     } else {
-      Modal.displayError("Las credenciales son inválidas. Por favor intente de nuevo.");
+      AlertFacade.showErrorAndWait("Las credenciales son inválidas. Por favor intente de nuevo.");
     }
   }
 
@@ -99,9 +97,9 @@ public class LoginController extends Controller {
         handleCreateCoordinatorAccount();
       }
     } catch (IllegalArgumentException e) {
-      Modal.displayError(e.getMessage());
+      AlertFacade.showErrorAndWait(e.getMessage());
     } catch (UserDisplayableException e) {
-      Modal.displayError("No ha sido posible iniciar sesión.", e);
+      AlertFacade.showErrorAndWait("No ha sido posible iniciar sesión.", e);
     }
   }
 }

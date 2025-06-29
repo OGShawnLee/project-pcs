@@ -15,7 +15,7 @@ import org.example.business.dao.CourseDAO;
 import org.example.business.dao.EnrollmentDAO;
 import org.example.business.dao.StudentDAO;
 import org.example.common.UserDisplayableException;
-import org.example.gui.Modal;
+import org.example.gui.AlertFacade;
 
 import java.util.List;
 
@@ -49,14 +49,14 @@ public class RegisterStudentController extends Controller {
       List<CourseDTO> courseList = COURSE_DAO.getAllByAcademic(currentAcademicDTO.getID());
 
       if (courseList.isEmpty()) {
-        Modal.displayError("No existe un curso activo asignado a ústed. Por favor, contacte a su Coordinador.");
+        AlertFacade.showErrorAndWait("No existe un curso activo asignado a ústed. Por favor, contacte a su Coordinador.");
         return;
       }
 
       comboBoxNRC.getItems().addAll(courseList);
       comboBoxNRC.setValue(courseList.getFirst());
     } catch (UserDisplayableException e) {
-      Modal.displayError(e.getMessage());
+      AlertFacade.showErrorAndWait(e.getMessage());
     }
   }
 
@@ -73,13 +73,13 @@ public class RegisterStudentController extends Controller {
 
       AccountDTO existingAccountDTO = ACCOUNT_DAO.getOne(studentDTO.getEmail());
       if (existingAccountDTO != null) {
-        Modal.displayError("No ha sido posible registrar estudiante debido a que ya existe una cuenta con ese correo electrónico.");
+        AlertFacade.showErrorAndWait("No ha sido posible registrar estudiante debido a que ya existe una cuenta con ese correo electrónico.");
         return;
       }
 
       StudentDTO existingStudentDTO = STUDENT_DAO.getOne(studentDTO.getID());
       if (existingStudentDTO != null) {
-        Modal.displayError("No ha sido posible registrar estudiante debido a que ya existe un estudiante con la misma matrícula.");
+        AlertFacade.showErrorAndWait("No ha sido posible registrar estudiante debido a que ya existe un estudiante con la misma matrícula.");
         return;
       }
 
@@ -92,11 +92,11 @@ public class RegisterStudentController extends Controller {
         .build();
 
       ENROLLMENT_DAO.createOne(enrollmentDTO);
-      Modal.displaySuccess("El estudiante ha sido registrado exitosamente.");
+      AlertFacade.showSuccessAndWait("El estudiante ha sido registrado exitosamente.");
     } catch (IllegalArgumentException e) {
-      Modal.displayError(e.getMessage());
+      AlertFacade.showErrorAndWait(e.getMessage());
     } catch (UserDisplayableException e) {
-      Modal.displayError("No ha sido posible registrar estudiante.",  e);
+      AlertFacade.showErrorAndWait("No ha sido posible registrar estudiante.",  e);
     }
   }
 

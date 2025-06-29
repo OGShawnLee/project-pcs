@@ -11,7 +11,7 @@ import org.example.business.dto.AcademicDTO;
 import org.example.business.dto.AccountDTO;
 import org.example.business.dto.enumeration.AccountRole;
 import org.example.common.UserDisplayableException;
-import org.example.gui.Modal;
+import org.example.gui.AlertFacade;
 
 // TODO: UPDATE USE CASE
 public class UpdateAcademicController extends ManageController<AcademicDTO> {
@@ -99,11 +99,11 @@ public class UpdateAcademicController extends ManageController<AcademicDTO> {
       handlePasswordUpdate();
       handleAcademicUpdate();
 
-      Modal.displaySuccess("Sus datos han sido actualizados exitosamente.");
+      AlertFacade.showSuccessAndWait("Sus datos han sido actualizados exitosamente.");
     } catch (IllegalArgumentException e ){
-      Modal.displayError(e.getMessage());
+      AlertFacade.showErrorAndWait(e.getMessage());
     } catch (UserDisplayableException e) {
-      Modal.displayError("No ha sido posible actualizar sus datos.", e);
+      AlertFacade.showErrorAndWait("No ha sido posible actualizar sus datos.", e);
     }
   }
 }

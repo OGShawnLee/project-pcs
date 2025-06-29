@@ -8,6 +8,7 @@ import org.example.business.dto.OrganizationDTO;
 import org.example.business.dto.RepresentativeDTO;
 import org.example.business.dto.enumeration.ProjectSector;
 import org.example.common.UserDisplayableException;
+import org.example.gui.AlertFacade;
 import org.example.gui.Modal;
 
 import java.util.List;
@@ -26,13 +27,13 @@ public class ComboBoxLoader {
       List<OrganizationDTO> organizationDTOList = organizationDAO.getAllWithRepresentatives();
 
       if (organizationDTOList.isEmpty()) {
-       Modal.displayError("No existen organizaciones con representantes. Por favor, registre un representante antes de continuar.");
+       AlertFacade.showErrorAndWait("No existen organizaciones con representantes. Por favor, registre un representante antes de continuar.");
        return;
       }
 
       loadComboBoxAndSetDefault(comboBoxOrganization, organizationDTOList);
     } catch (UserDisplayableException e) {
-      Modal.displayError("No ha sido posible cargar las organizaciones que tienen representantes debido a un error en el sistema.");
+      AlertFacade.showErrorAndWait("No ha sido posible cargar las organizaciones que tienen representantes debido a un error en el sistema.");
     }
   }
 
@@ -42,13 +43,13 @@ public class ComboBoxLoader {
       List<OrganizationDTO> organizationDTOList = organizationDAO.getAllByState("ACTIVE");
 
       if (organizationDTOList.isEmpty()) {
-        Modal.displayError("No existe una organización. Por favor, registre una organización antes de continuar.");
+        AlertFacade.showErrorAndWait("No existe una organización. Por favor, registre una organización antes de continuar.");
         return;
       }
 
       loadComboBoxAndSetDefault(comboBoxOrganization, organizationDTOList);
     } catch (UserDisplayableException e) {
-      Modal.displayError("No ha sido posible cargar las organizaciones debido a un error en el sistema.");
+      AlertFacade.showErrorAndWait("No ha sido posible cargar las organizaciones debido a un error en el sistema.");
     }
   }
 
@@ -62,7 +63,7 @@ public class ComboBoxLoader {
       List<RepresentativeDTO> representativeDTOList = new RepresentativeDAO().getAllByOrganization(email, "ACTIVE");
 
       if (representativeDTOList.isEmpty()) {
-        Modal.displayError("No existe un representante. Por favor, registre un representante antes de continuar.");
+        AlertFacade.showErrorAndWait("No existe un representante. Por favor, registre un representante antes de continuar.");
         Modal.display(
           "Registrar Representante",
           "RegisterRepresentativeModal",
@@ -73,7 +74,7 @@ public class ComboBoxLoader {
 
       loadComboBoxAndSetDefault(comboBoxRepresentative, representativeDTOList);
     } catch (UserDisplayableException e) {
-      Modal.displayError("No ha sido posible cargar los representantes debido a un error en el sistema.");
+      AlertFacade.showErrorAndWait("No ha sido posible cargar los representantes debido a un error en el sistema.");
     }
   }
 
@@ -99,7 +100,7 @@ public class ComboBoxLoader {
 
         comboBoxRepresentative.setValue(representatives.get(0));
       } catch (UserDisplayableException e) {
-        Modal.displayError("No ha sido posible cargar los representantes debido a un error en el sistema.");
+        AlertFacade.showErrorAndWait("No ha sido posible cargar los representantes debido a un error en el sistema.");
       }
     });
   }

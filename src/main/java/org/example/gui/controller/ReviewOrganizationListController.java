@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import org.example.business.dto.OrganizationDTO;
 import org.example.business.dao.OrganizationDAO;
 import org.example.common.UserDisplayableException;
+import org.example.gui.AlertFacade;
 import org.example.gui.Modal;
 
 public class ReviewOrganizationListController extends ReviewListController implements FilterableByStateController {
@@ -48,7 +49,7 @@ public class ReviewOrganizationListController extends ReviewListController imple
         )
       );
     } catch (UserDisplayableException e) {
-      Modal.displayError(
+      AlertFacade.showErrorAndWait(
         "No ha sido posible cargar información de organizaciones debido a un error en el sistema."
       );
     }
@@ -63,7 +64,7 @@ public class ReviewOrganizationListController extends ReviewListController imple
         )
       );
     } catch (UserDisplayableException e) {
-      Modal.displayError(
+      AlertFacade.showErrorAndWait(
         "No ha sido posible cargar información de organizaciones activas debido a un error en el sistema."
       );
     }
@@ -78,7 +79,7 @@ public class ReviewOrganizationListController extends ReviewListController imple
         )
       );
     } catch (UserDisplayableException e) {
-      Modal.displayError(
+      AlertFacade.showErrorAndWait(
         "No ha sido posible cargar información de organizaciones inactivas debido a un error en el sistema."
       );
     }

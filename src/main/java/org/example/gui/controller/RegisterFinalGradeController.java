@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 import org.example.business.dto.StudentDTO;
 import org.example.business.dao.StudentDAO;
 import org.example.common.UserDisplayableException;
-import org.example.gui.Modal;
+import org.example.gui.AlertFacade;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -31,21 +31,21 @@ public class RegisterFinalGradeController {
     if (currentStudent != null) {
       finalGradeField.setText(String.valueOf(student.getFinalGrade()));  // Establece la calificación actual
     } else {
-      Modal.displayError("El estudiante no está disponible.");
+      AlertFacade.showErrorAndWait("El estudiante no está disponible.");
     }
   }
 
   @FXML
   public void updateStudentFinalGrade(ActionEvent event) throws IOException {
     if (currentStudent == null) {
-      Modal.displayError("No se ha seleccionado un estudiante.");
+      AlertFacade.showErrorAndWait("No se ha seleccionado un estudiante.");
       return;
     }
     try {
       int newFinalGrade = Integer.parseInt(finalGradeField.getText());
 
       if (newFinalGrade < 0 || newFinalGrade > 10) {
-        Modal.displayError("La calificación final debe estar entre 0 y 10.");
+        AlertFacade.showErrorAndWait("La calificación final debe estar entre 0 y 10.");
         return;
       }
 
@@ -62,13 +62,13 @@ public class RegisterFinalGradeController {
       StudentDAO studentDAO = new StudentDAO();
       studentDAO.updateOne(updatedStudent);
 
-      Modal.displaySuccess("La calificación fue asignada correctamente.");
+      AlertFacade.showSuccessAndWait("La calificación fue asignada correctamente.");
       goToReviewStudentsPage();
 
     } catch (NumberFormatException e) {
-      Modal.displayError("La calificación ingresada no es válida.");
+      AlertFacade.showErrorAndWait("La calificación ingresada no es válida.");
     } catch (IllegalArgumentException | UserDisplayableException e) {
-      Modal.displayError(e.getMessage());
+      AlertFacade.showErrorAndWait(e.getMessage());
     }
   }
 

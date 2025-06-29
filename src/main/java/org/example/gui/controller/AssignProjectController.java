@@ -17,8 +17,8 @@ import org.example.business.dto.PracticeDTO;
 import org.example.business.dto.ProjectDTO;
 import org.example.business.dto.StudentDTO;
 import org.example.business.dto.StudentPracticeDTO;
-import org.example.gui.Modal;
 import org.example.common.UserDisplayableException;
+import org.example.gui.AlertFacade;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,7 +93,7 @@ public class AssignProjectController extends ManageController<ProjectDTO> {
         observableStudentSelectedList.add(studentPractice.getStudentDTO());
       }
     } catch (UserDisplayableException e) {
-      Modal.displayError("No ha sido posible cargar información de estudiantes.", e);
+      AlertFacade.showErrorAndWait("No ha sido posible cargar información de estudiantes.", e);
     }
   }
 
@@ -122,7 +122,7 @@ public class AssignProjectController extends ManageController<ProjectDTO> {
     PRACTICE_DAO.createMany(practiceDTOS);
 
     for (String assignedStudentName : assignedStudentNames) {
-      Modal.displaySuccess("El proyecto ha asignado a " + assignedStudentName + " exitosamente.");
+      AlertFacade.showSuccessAndWait("El proyecto ha asignado a " + assignedStudentName + " exitosamente.");
     }
   }
 
@@ -147,13 +147,13 @@ public class AssignProjectController extends ManageController<ProjectDTO> {
     PRACTICE_DAO.deleteMany(filterPractices);
 
     for (String unassignedStudentName : unassignedStudentNames) {
-      Modal.displaySuccess("El proyecto ha sido desasignado a " + unassignedStudentName + " exitosamente.");
+      AlertFacade.showSuccessAndWait("El proyecto ha sido desasignado a " + unassignedStudentName + " exitosamente.");
     }
   }
 
   public void handleUpdateCurrentDataObject() {
     if (observableStudentSelectedList.size() > 3) {
-      Modal.displayError("No se pueden asignar más de 3 estudiantes a un proyecto.");
+      AlertFacade.showErrorAndWait("No se pueden asignar más de 3 estudiantes a un proyecto.");
       return;
     }
 
@@ -162,9 +162,9 @@ public class AssignProjectController extends ManageController<ProjectDTO> {
       handleUnassign();
       loadStudentLists();
     } catch (IllegalArgumentException e) {
-      Modal.displayError(e.getMessage());
+      AlertFacade.showErrorAndWait(e.getMessage());
     } catch (UserDisplayableException e) {
-      Modal.displayError("No ha sido posible guardar asignación del proyecto.", e);
+      AlertFacade.showErrorAndWait("No ha sido posible guardar asignación del proyecto.", e);
     }
   }
 
@@ -181,7 +181,7 @@ public class AssignProjectController extends ManageController<ProjectDTO> {
         }
 
         if (observableStudentSelectedList.size() >= getContext().getAvailablePlaces()) {
-          Modal.displayError("No se pueden asignar más estudiantes al proyecto. Máximo: " + getContext().getAvailablePlaces());
+          AlertFacade.showErrorAndWait("No se pueden asignar más estudiantes al proyecto. Máximo: " + getContext().getAvailablePlaces());
           return null;
         }
 

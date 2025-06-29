@@ -11,6 +11,7 @@ import org.example.business.dto.CourseDTO;
 import org.example.business.dto.enumeration.Section;
 import org.example.business.dto.enumeration.Semester;
 import org.example.common.UserDisplayableException;
+import org.example.gui.AlertFacade;
 import org.example.gui.Modal;
 
 import java.util.List;
@@ -48,7 +49,7 @@ public class RegisterCourseController extends Controller {
       List<AcademicDTO> academicList = ACADEMIC_DAO.getAllByState("ACTIVE");
 
       if (academicList.isEmpty()) {
-        Modal.displayError(
+        AlertFacade.showErrorAndWait(
           "No es posible registrar un curso porque no hay ningún académico que se le pueda asignar registrado en el sistema."
         );
         Modal.display(
@@ -62,7 +63,7 @@ public class RegisterCourseController extends Controller {
       comboBoxAcademic.getItems().addAll(academicList);
       comboBoxAcademic.setValue(academicList.get(0));
     } catch (UserDisplayableException e) {
-      Modal.displayError(e.getMessage());
+      AlertFacade.showErrorAndWait(e.getMessage());
     }
   }
 
@@ -71,7 +72,7 @@ public class RegisterCourseController extends Controller {
       CourseDTO duplicateCourse = COURSE_DAO.getOne(fieldNRC.getText());
 
       if (duplicateCourse != null) {
-        Modal.displayError("No ha sido posible registrar el curso porque ya existe un curso con el NRC ingresado.");
+        AlertFacade.showErrorAndWait("No ha sido posible registrar el curso porque ya existe un curso con el NRC ingresado.");
         return;
       }
 
@@ -83,9 +84,9 @@ public class RegisterCourseController extends Controller {
         .build();
 
       COURSE_DAO.createOne(courseDTO);
-      Modal.displaySuccess("El curso ha sido registrado exitosamente.");
+      AlertFacade.showSuccessAndWait("El curso ha sido registrado exitosamente.");
     } catch (IllegalArgumentException | UserDisplayableException e) {
-      Modal.displayError(e.getMessage());
+      AlertFacade.showErrorAndWait(e.getMessage());
     }
   }
 }
