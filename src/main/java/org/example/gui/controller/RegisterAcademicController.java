@@ -39,17 +39,21 @@ public class RegisterAcademicController extends Controller {
     fieldRole.setValue(AcademicRole.ACADEMIC);
   }
 
+  public AcademicDTO createAcademicDTOFromFields() {
+    return new AcademicDTO.AcademicBuilder()
+      .setID(fieldIDAcademic.getText())
+      .setEmail(fieldEmail.getText())
+      .setName(fieldName.getText())
+      .setPaternalLastName(fieldPaternalLastName.getText())
+      .setMaternalLastName(fieldMaternalLastName.getText())
+      .setPhoneNumber(fieldPhoneNumber.getText())
+      .setRole(fieldRole.getValue())
+      .build();
+  }
+
   public void handleRegister() {
     try {
-      AcademicDTO academicDTO = new AcademicDTO.AcademicBuilder()
-        .setID(fieldIDAcademic.getText())
-        .setEmail(fieldEmail.getText())
-        .setName(fieldName.getText())
-        .setPaternalLastName(fieldPaternalLastName.getText())
-        .setMaternalLastName(fieldMaternalLastName.getText())
-        .setPhoneNumber(fieldPhoneNumber.getText())
-        .setRole(fieldRole.getValue())
-        .build();
+      AcademicDTO academicDTO = createAcademicDTOFromFields();
 
       AccountDTO existingAccountDTO = ACCOUNT_DAO.getOne(academicDTO.getEmail());
       if (existingAccountDTO != null) {

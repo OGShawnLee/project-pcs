@@ -87,7 +87,7 @@ public class ManageProjectController extends ManageController<ProjectDTO> {
       for (RepresentativeDTO representativeDTO : comboBoxRepresentative.getItems()) {
         if (representativeDTO.getEmail().equals(getContext().getRepresentativeEmail())) {
           comboBoxRepresentative.setValue(representativeDTO);
-          break;
+          return;
         }
       }
 
@@ -98,27 +98,31 @@ public class ManageProjectController extends ManageController<ProjectDTO> {
     }
   }
 
+  private ProjectDTO createProjectDTOFromFields() {
+    return new ProjectDTO.ProjectBuilder()
+      .setID(Integer.parseInt(fieldIDProject.getText()))
+      .setIDOrganization(comboBoxOrganization.getValue().getEmail())
+      .setRepresentativeEmail(comboBoxRepresentative.getValue().getEmail())
+      .setName(fieldName.getText())
+      .setDescription(fieldDescription.getText())
+      .setDepartment(fieldDepartment.getText())
+      .setAvailablePlaces(fieldAvailablePlaces.getText())
+      .setMethodology(fieldMethodology.getText())
+      .setSector(comboBoxSector.getValue())
+      .setState(comboBoxState.getValue())
+      .build();
+  }
+
   @Override
   public void handleUpdateCurrentDataObject() {
     try {
-      ProjectDTO updatedProject = new ProjectDTO.ProjectBuilder()
-        .setID(Integer.parseInt(fieldIDProject.getText()))
-        .setIDOrganization(comboBoxOrganization.getValue().getEmail())
-        .setRepresentativeEmail(comboBoxRepresentative.getValue().getEmail())
-        .setName(fieldName.getText())
-        .setDescription(fieldDescription.getText())
-        .setDepartment(fieldDepartment.getText())
-        .setAvailablePlaces(fieldAvailablePlaces.getText())
-        .setMethodology(fieldMethodology.getText())
-        .setSector(comboBoxSector.getValue())
-        .setState(comboBoxState.getValue())
-        .build();
+      ProjectDTO updateProjectDTO = createProjectDTOFromFields();
 
-      String organizationEmail = updatedProject.getIDOrganization();
+      String organizationEmail = updateProjectDTO.getIDOrganization();
       String representativeOrganizationEmail = comboBoxRepresentative.getValue().getEmail();
 
       if (organizationEmail.equals(representativeOrganizationEmail)) {
-        PROJECT_DAO.updateOne(updatedProject);
+        PROJECT_DAO.updateOne(updateProjectDTO);
         AlertFacade.showSuccessAndWait("El proyecto ha sido actualizado exitosamente.");
       }
 

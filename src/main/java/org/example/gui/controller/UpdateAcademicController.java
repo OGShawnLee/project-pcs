@@ -9,6 +9,7 @@ import org.example.business.dao.AcademicDAO;
 import org.example.business.dao.AccountDAO;
 import org.example.business.dto.AcademicDTO;
 import org.example.business.dto.AccountDTO;
+import org.example.business.dto.StudentDTO;
 import org.example.business.dto.enumeration.AccountRole;
 import org.example.common.UserDisplayableException;
 import org.example.gui.AlertFacade;
@@ -49,12 +50,12 @@ public class UpdateAcademicController extends ManageController<AcademicDTO> {
     fieldPhoneNumber.setText(getContext().getPhoneNumber());
   }
 
-  private void handlePasswordUpdate() throws IllegalArgumentException, UserDisplayableException {
+  private boolean isPasswordChangeRequired() throws IllegalArgumentException {
     String password = fieldPassword.getText();
     String passwordConfirm = fieldPasswordConfirm.getText();
 
     if (!Validator.isValidString(password) && !Validator.isValidString(passwordConfirm)) {
-      return; // No password change requested
+      return false;
     }
 
     if (!Validator.isValidString(password)) {
@@ -69,19 +70,28 @@ public class UpdateAcademicController extends ManageController<AcademicDTO> {
       throw new IllegalArgumentException("Las contraseñas no coinciden.");
     }
 
-    AccountDTO accountDTO = new AccountDTO(
-      getContext().getEmail(),
-      fieldPassword.getText(),
-      AccountRole.fromAcademicRole(getContext().getRole()),
-      true
-    );
-    ACCOUNT_DAO.updateOne(accountDTO);
+    return true;
   }
 
-  private void handleAcademicUpdate() throws UserDisplayableException {
-    AcademicDTO academicDTO = new AcademicDTO.AcademicBuilder()
-      .setID(getContext().getID())
-      .setEmail(getContext().getEmail())
+  private AccountDTO createAccountDTOFromFields() {
+    return new AccountDTO(
+      getContext().getEmail(),
+      fieldPassword.getText(),
+      AccountRole.STUDENT,
+      true
+    );
+  }
+
+  private void updateAccountDTO() throws IllegalArgumentException, UserDisplayableException {
+    if (isPasswordChangeRequired()) {
+      ACCOUNT_DAO.updateOne(createAccountDTOFromFields());
+    }
+  }
+
+  private AcademicDTO createAcademicDTOFromFields() {
+    return new AcademicDTO.AcademicBuilder()
+      .setID(fieldIDAcademic.getText())
+      .setEmail(fieldEmail.getText())
       .setName(fieldName.getText())
       .setPaternalLastName(fieldPaternalLastName.getText())
       .setMaternalLastName(fieldMaternalLastName.getText())
@@ -89,16 +99,17 @@ public class UpdateAcademicController extends ManageController<AcademicDTO> {
       .setRole(getContext().getRole())
       .setState(getContext().getState())
       .build();
+  }
 
-    ACADEMIC_DAO.updateOne(academicDTO);
+  private void updateAcademicDTO() throws UserDisplayableException {
+    ACADEMIC_DAO.updateOne(createAcademicDTOFromFields());
   }
 
   @Override
   public void handleUpdateCurrentDataObject() {
     try {
-      handlePasswordUpdate();
-      handleAcademicUpdate();
-
+      updateAccountDTO();
+      updateAcademicDTO();
       AlertFacade.showSuccessAndWait("Sus datos han sido actualizados exitosamente.");
     } catch (IllegalArgumentException e ){
       AlertFacade.showErrorAndWait(e.getMessage());

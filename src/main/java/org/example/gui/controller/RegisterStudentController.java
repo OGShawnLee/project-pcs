@@ -60,16 +60,28 @@ public class RegisterStudentController extends Controller {
     }
   }
 
+  private StudentDTO createStudentDTOFromFields() {
+    return new StudentDTO.StudentBuilder()
+      .setID(fieldIDStudent.getText())
+      .setEmail(fieldEmail.getText())
+      .setName(fieldName.getText())
+      .setPaternalLastName(fieldPaternalLastName.getText())
+      .setMaternalLastName(fieldMaternalLastName.getText())
+      .setPhoneNumber(fieldPhoneNumber.getText())
+      .build();
+  }
+
+  private EnrollmentDTO createEnrollmentDTOFromFields() throws UserDisplayableException {
+    return new EnrollmentDTO.EnrollmentBuilder()
+      .setIDAcademic(AuthClient.getInstance().getCurrentAcademicDTO().getID())
+      .setIDStudent(fieldIDStudent.getText())
+      .setIDCourse(comboBoxNRC.getValue().getNRC())
+      .build();
+  }
+
   public void handleRegister() {
     try {
-      StudentDTO studentDTO = new StudentDTO.StudentBuilder()
-        .setID(fieldIDStudent.getText())
-        .setEmail(fieldEmail.getText())
-        .setName(fieldName.getText())
-        .setPaternalLastName(fieldPaternalLastName.getText())
-        .setMaternalLastName(fieldMaternalLastName.getText())
-        .setPhoneNumber(fieldPhoneNumber.getText())
-        .build();
+      StudentDTO studentDTO = createStudentDTOFromFields();
 
       AccountDTO existingAccountDTO = ACCOUNT_DAO.getOne(studentDTO.getEmail());
       if (existingAccountDTO != null) {
@@ -84,14 +96,7 @@ public class RegisterStudentController extends Controller {
       }
 
       STUDENT_DAO.createOne(studentDTO);
-
-      EnrollmentDTO enrollmentDTO = new EnrollmentDTO.EnrollmentBuilder()
-        .setIDAcademic(AuthClient.getInstance().getCurrentAcademicDTO().getID())
-        .setIDStudent(fieldIDStudent.getText())
-        .setIDCourse(comboBoxNRC.getValue().getNRC())
-        .build();
-
-      ENROLLMENT_DAO.createOne(enrollmentDTO);
+      ENROLLMENT_DAO.createOne(createEnrollmentDTOFromFields());
       AlertFacade.showSuccessAndWait("El estudiante ha sido registrado exitosamente.");
     } catch (IllegalArgumentException e) {
       AlertFacade.showErrorAndWait(e.getMessage());

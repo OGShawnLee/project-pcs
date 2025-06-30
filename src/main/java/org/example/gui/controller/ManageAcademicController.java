@@ -48,21 +48,23 @@ public class ManageAcademicController extends ManageController<AcademicDTO> {
     comboBoxState.setValue(getContext().getState());
   }
 
+  private AcademicDTO createAcademicDTOFromFields() {
+    return new AcademicDTO.AcademicBuilder()
+      .setID(fieldIDAcademic.getText())
+      .setEmail(fieldEmail.getText())
+      .setName(fieldName.getText())
+      .setPaternalLastName(fieldPaternalLastName.getText())
+      .setMaternalLastName(fieldMaternalLastName.getText())
+      .setPhoneNumber(fieldPhoneNumber.getText())
+      .setRole(fieldRole.getValue())
+      .setState(comboBoxState.getValue())
+      .build();
+  }
+
   @Override
   public void handleUpdateCurrentDataObject() {
     try {
-      AcademicDTO academicDTO = new AcademicDTO.AcademicBuilder()
-        .setID(fieldIDAcademic.getText())
-        .setEmail(fieldEmail.getText())
-        .setName(fieldName.getText())
-        .setPaternalLastName(fieldPaternalLastName.getText())
-        .setMaternalLastName(fieldMaternalLastName.getText())
-        .setRole(fieldRole.getValue())
-        .setPhoneNumber(fieldPhoneNumber.getText())
-        .setState(comboBoxState.getValue())
-        .build();
-
-      ACADEMIC_DAO.updateOne(academicDTO);
+      ACADEMIC_DAO.updateOne(createAcademicDTOFromFields());
       AlertFacade.showSuccessAndWait("El académico ha sido actualizado exitosamente.");
     } catch (IllegalArgumentException | UserDisplayableException e) {
       AlertFacade.showErrorAndWait(e.getMessage());

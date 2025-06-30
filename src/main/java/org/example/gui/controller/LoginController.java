@@ -23,27 +23,23 @@ public class LoginController extends Controller {
 
   public void initialize() {
     try {
-      if (ACCOUNT_DAO.hasCoordinatorAccount()) return;
-
-      AlertFacade.showInformationAndWait(
-        "Bienvenido a su Sistema Gestor de Practicas Profesionales. Cree una Cuenta de Coordinador para comenzar."
-      );
+      boolean isSystemInitialized = ACCOUNT_DAO.hasCoordinatorAccount();
+      if (isSystemInitialized) return;
+      AlertFacade.showInformationAndWait("Bienvenido a su Sistema Gestor de Practicas Profesionales. Cree su cuenta para comenzar.");
     } catch (UserDisplayableException e) {
       AlertFacade.showErrorAndWait("No ha sido posible iniciar el sistema.", e);
     }
   }
 
-  private void handleAccountAccess(AccountDTO accountDTO) {
-    if (accountDTO.hasAccess()) {
-      AuthClient.getInstance().setCurrentUser(accountDTO);
-      navigateToLandingPage();
-      return;
-    }
+  private void onAccountHasAccess(AccountDTO accountDTO) {
+    AuthClient.getInstance().setCurrentUser(accountDTO);
+    navigateToLandingPage();
+  }
 
-    AccountRole role = accountDTO.role();
+  private void onRevokedAccess(AccountDTO accountDTO) {
     String message;
 
-    switch (role) {
+    switch (accountDTO.role()) {
       case STUDENT -> message = "No tiene acceso al sistema. Por favor, contacte a su Académico encargado.";
       case ACADEMIC, ACADEMIC_EVALUATOR, EVALUATOR ->
         message = "No tiene acceso al sistema. Por favor, contacte al Coordinador de Prácticas Profesionales.";
@@ -53,19 +49,30 @@ public class LoginController extends Controller {
     AlertFacade.showErrorAndWait(message);
   }
 
-  private void handleCreateCoordinatorAccount() throws UserDisplayableException {
+  private void handleAccountAccess(AccountDTO accountDTO) {
+    if (accountDTO.hasAccess()) {
+      onAccountHasAccess(accountDTO);
+    } else {
+      onRevokedAccess(accountDTO);
+    }
+  }
+
+  private AccountDTO createAccountDTOFromFields() {
     String email = Validator.getValidEmail(emailField.getText());
     String password = Validator.getValidPassword(passwordField.getText());
+    return new AccountDTO(email, BCrypt.hashpw(password, BCrypt.gensalt()), AccountRole.COORDINATOR, true);
+  }
 
-    ACCOUNT_DAO.createOne(
-      new AccountDTO(email, BCrypt.hashpw(password, BCrypt.gensalt()), AccountRole.COORDINATOR, true)
-    );
+  private void handleCreateCoordinatorAccount() throws UserDisplayableException {
+    AccountDTO accountDTO = createAccountDTOFromFields();
+
+    ACCOUNT_DAO.createOne(accountDTO);
 
     emailField.clear();
     passwordField.clear();
 
     AlertFacade.showSuccessAndWait(
-      "¡Cuenta de Coordinador creada! Bienvenido, " + email + " a su Sistema Gestor de Practicas Profesionales."
+      "¡Cuenta de Coordinador creada! Bienvenido, " + accountDTO.email() + " a su Sistema Gestor de Practicas Profesionales."
     );
     AlertFacade.showInformationAndWait(
       "Por favor utilice las credenciales de su Cuenta recién creada para iniciar sesión."

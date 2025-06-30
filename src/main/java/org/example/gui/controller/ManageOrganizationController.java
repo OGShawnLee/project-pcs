@@ -37,18 +37,20 @@ public class ManageOrganizationController extends ManageController<OrganizationD
     comboBoxState.setValue(getContext().getState());
   }
 
+  private OrganizationDTO createOrganizationDTOFromFields() {
+    return new OrganizationDTO.OrganizationBuilder()
+      .setEmail(fieldEmail.getText())
+      .setName(fieldName.getText())
+      .setAddress(fieldAddress.getText())
+      .setPhoneNumber(fieldPhoneNumber.getText())
+      .setState(comboBoxState.getValue())
+      .build();
+  }
+
   @Override
   public void handleUpdateCurrentDataObject() {
     try {
-      OrganizationDTO updatedOrganization = new OrganizationDTO.OrganizationBuilder()
-        .setEmail(fieldEmail.getText())
-        .setName(fieldName.getText())
-        .setAddress(fieldAddress.getText())
-        .setPhoneNumber(fieldPhoneNumber.getText())
-        .setState(comboBoxState.getValue())
-        .build();
-
-      ORGANIZATION_DAO.updateOne(updatedOrganization);
+      ORGANIZATION_DAO.updateOne(createOrganizationDTOFromFields());
       AlertFacade.showSuccessAndWait("La organización ha sido actualizada con éxito.");
     } catch (IllegalArgumentException | UserDisplayableException e) {
       AlertFacade.showErrorAndWait(e.getMessage());

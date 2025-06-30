@@ -68,20 +68,22 @@ public class ManageStudentController extends ManageController<StudentDTO> {
     }
   }
 
+  private StudentDTO createStudentDTOFromFields() {
+    return new StudentDTO.StudentBuilder()
+      .setID(fieldIDStudent.getText())
+      .setEmail(fieldEmail.getText())
+      .setName(fieldName.getText())
+      .setPaternalLastName(fieldPaternalLastName.getText())
+      .setMaternalLastName(fieldMaternalLastName.getText())
+      .setPhoneNumber(fieldPhoneNumber.getText())
+      .setState(comboBoxState.getValue())
+      .build();
+  }
+
   @Override
   public void handleUpdateCurrentDataObject() {
     try {
-      StudentDTO student = new StudentDTO.StudentBuilder()
-        .setID(fieldIDStudent.getText())
-        .setEmail(fieldEmail.getText())
-        .setName(fieldName.getText())
-        .setPaternalLastName(fieldPaternalLastName.getText())
-        .setMaternalLastName(fieldMaternalLastName.getText())
-        .setPhoneNumber(fieldPhoneNumber.getText())
-        .setState(comboBoxState.getValue())
-        .build();
-
-      STUDENT_DAO.updateOne(student);
+      STUDENT_DAO.updateOne(createStudentDTOFromFields());
       AlertFacade.showSuccessAndWait("El estudiante ha sido actualizado exitosamente.");
     } catch (IllegalArgumentException | UserDisplayableException e) {
       AlertFacade.showErrorAndWait(e.getMessage());

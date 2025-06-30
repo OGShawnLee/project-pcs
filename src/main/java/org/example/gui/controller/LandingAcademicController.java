@@ -1,6 +1,5 @@
 package org.example.gui.controller;
 
-
 import org.example.gui.modal.ModalFacade;
 import org.example.gui.modal.ModalFacadeConfiguration;
 

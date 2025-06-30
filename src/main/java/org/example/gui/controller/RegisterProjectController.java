@@ -57,28 +57,33 @@ public class RegisterProjectController extends Controller {
     });
   }
 
+  private ProjectDTO createProjectDTOFromFields() {
+    return new ProjectDTO.ProjectBuilder()
+      .setIDOrganization(comboBoxOrganization.getValue().getEmail())
+      .setRepresentativeEmail(comboBoxRepresentative.getValue().getEmail())
+      .setName(fieldName.getText())
+      .setDescription(fieldDescription.getText())
+      .setDepartment(fieldDepartment.getText())
+      .setAvailablePlaces(fieldAvailablePlaces.getText())
+      .setMethodology(fieldMethodology.getText())
+      .setSector(comboBoxSector.getValue())
+      .build();
+  }
+
+  private WorkPlanDTO createWorkPlanDTOFromFields() {
+    return new WorkPlanDTO.WorkPlanBuilder()
+      .setProjectGoal(fieldProjectGoal.getText())
+      .setTheoreticalScope(fieldTheoreticalScope.getText())
+      .setFirstMonthActivities(fieldFirstMonthActivities.getText())
+      .setSecondMonthActivities(fieldSecondMonthActivities.getText())
+      .setThirdMonthActivities(fieldThirdMonthActivities.getText())
+      .setFourthMonthActivities(fieldFourthMonthActivities.getText())
+      .build();
+  }
+
   public void handleRegister() {
     try {
-      ProjectDTO projectDTO = new ProjectDTO.ProjectBuilder()
-        .setIDOrganization(comboBoxOrganization.getValue().getEmail())
-        .setRepresentativeEmail(comboBoxRepresentative.getValue().getEmail())
-        .setName(fieldName.getText())
-        .setDescription(fieldDescription.getText())
-        .setDepartment(fieldDepartment.getText())
-        .setAvailablePlaces(fieldAvailablePlaces.getText())
-        .setMethodology(fieldMethodology.getText())
-        .setSector(comboBoxSector.getValue())
-        .build();
-      WorkPlanDTO workPlanDTO = new WorkPlanDTO.WorkPlanBuilder()
-        .setProjectGoal(fieldProjectGoal.getText())
-        .setTheoreticalScope(fieldTheoreticalScope.getText())
-        .setFirstMonthActivities(fieldFirstMonthActivities.getText())
-        .setSecondMonthActivities(fieldSecondMonthActivities.getText())
-        .setThirdMonthActivities(fieldThirdMonthActivities.getText())
-        .setFourthMonthActivities(fieldFourthMonthActivities.getText())
-        .build();
-
-      PROJECT_DAO.createOneWithWorkPlan(projectDTO, workPlanDTO);
+      PROJECT_DAO.createOneWithWorkPlan(createProjectDTOFromFields(), createWorkPlanDTOFromFields());
       AlertFacade.showSuccessAndWait("El proyecto ha sido registrado exitosamente.");
     } catch (IllegalArgumentException | UserDisplayableException e) {
       AlertFacade.showErrorAndWait(e.getMessage());

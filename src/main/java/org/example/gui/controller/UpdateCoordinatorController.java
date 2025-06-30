@@ -30,25 +30,27 @@ public class UpdateCoordinatorController extends ManageController<AccountDTO> {
     fieldEmail.setText(getContext().email());
   }
 
+  private AccountDTO createAccountDTOFromFields() {
+    return new AccountDTO(
+      getContext().email(),
+      fieldPassword.getText(),
+      getContext().role(),
+      true
+    );
+  }
+
   @Override
   public void handleUpdateCurrentDataObject() {
     try {
       String password = Validator.getValidPassword(fieldPassword.getText());
       String passwordConfirm = Validator.getValidPassword(fieldPasswordConfirm.getText());
 
-      if (!password.equals(passwordConfirm)) {
-        throw new IllegalArgumentException("Las contraseñas no coinciden.");
+      if (password.equals(passwordConfirm)) {
+        ACCOUNT_DAO.updateOne(createAccountDTOFromFields());
+        AlertFacade.showSuccessAndWait("Sus datos han sido actualizados exitosamente.");
       }
 
-      AccountDTO accountDTO = new AccountDTO(
-        getContext().email(),
-        passwordConfirm,
-        getContext().role(),
-        true
-      );
-      ACCOUNT_DAO.updateOne(accountDTO);
-
-      AlertFacade.showSuccessAndWait("Sus datos han sido actualizados exitosamente.");
+      throw new IllegalArgumentException("Las contraseñas no coinciden.");
     } catch (IllegalArgumentException e) {
       AlertFacade.showErrorAndWait(e.getMessage());
     } catch (UserDisplayableException e) {

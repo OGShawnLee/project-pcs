@@ -19,15 +19,18 @@ public class RegisterOrganizationController extends Controller {
   @FXML
   private TextField fieldPhoneNumber;
 
+  private OrganizationDTO createOrganizationDTOFromFields() {
+    return new OrganizationDTO.OrganizationBuilder()
+      .setName(fieldName.getText())
+      .setEmail(fieldEmail.getText())
+      .setAddress(fieldAddress.getText())
+      .setPhoneNumber(fieldPhoneNumber.getText())
+      .build();
+  }
+
   public void handleRegister() {
     try {
-      OrganizationDTO organizationDTO = new OrganizationDTO.OrganizationBuilder()
-        .setEmail(fieldEmail.getText())
-        .setName(fieldName.getText())
-        .setAddress(fieldAddress.getText())
-        .setPhoneNumber(fieldPhoneNumber.getText())
-        .build();
-
+      OrganizationDTO organizationDTO = createOrganizationDTOFromFields();
       OrganizationDTO existingOrganizationDTO = ORGANIZATION_DAO.getOne(organizationDTO.getEmail());
 
       if (existingOrganizationDTO != null) {

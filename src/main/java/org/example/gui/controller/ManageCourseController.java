@@ -69,18 +69,20 @@ public class ManageCourseController extends ManageController<CourseDTO> {
     }
   }
 
+  private CourseDTO createCourseDTOFromFields() {
+    return new CourseDTO.CourseBuilder()
+      .setNRC(fieldNRC.getText())
+      .setIDAcademic(comboBoxAcademic.getValue().getID())
+      .setSection(comboBoxSection.getValue())
+      .setSemester(comboBoxSemester.getValue())
+      .setState(comboBoxState.getValue())
+      .build();
+  }
+
   @Override
   public void handleUpdateCurrentDataObject() {
     try {
-      CourseDTO courseDTO = new CourseDTO.CourseBuilder()
-        .setNRC(fieldNRC.getText())
-        .setIDAcademic(comboBoxAcademic.getValue().getID())
-        .setSection(comboBoxSection.getValue())
-        .setSemester(comboBoxSemester.getValue())
-        .setState(comboBoxState.getValue())
-        .build();
-
-      COURSE_DAO.updateOne(courseDTO);
+      COURSE_DAO.updateOne(createCourseDTOFromFields());
       AlertFacade.showSuccessAndWait("El curso ha sido actualizado exitosamente.");
     } catch (IllegalArgumentException | UserDisplayableException e) {
       AlertFacade.showErrorAndWait(e.getMessage());

@@ -69,7 +69,7 @@ public class ManageRepresentativeController extends ManageController<Representat
     }
   }
 
-  public RepresentativeDTO getDTOFromFields() {
+  public RepresentativeDTO createRepresentativeDTOFromFields() {
     return new RepresentativeDTO.RepresentativeBuilder()
       .setEmail(fieldEmail.getText())
       .setOrganizationID(comboBoxOrganization.getValue().getEmail())
@@ -105,7 +105,7 @@ public class ManageRepresentativeController extends ManageController<Representat
   @Override
   public void handleUpdateCurrentDataObject() {
     try {
-      RepresentativeDTO representativeDTO = getDTOFromFields();
+      RepresentativeDTO representativeDTO = createRepresentativeDTOFromFields();
       if (hasUpdateConfirmationFromUser(representativeDTO)) {
         REPRESENTATIVE_DAO.updateOne(representativeDTO);
         AlertFacade.showSuccessAndWait("El representante ha sido actualizado exitosamente.");

@@ -31,7 +31,7 @@ public class RegisterRepresentativeController extends Controller {
     ComboBoxLoader.loadComboBoxOrganization(comboBoxOrganization);
   }
 
-  public RepresentativeDTO getDTOFromFields() {
+  public RepresentativeDTO getRepresentativeDTOFromFields() {
     return new RepresentativeDTO.RepresentativeBuilder()
       .setEmail(fieldEmail.getText())
       .setOrganizationID(comboBoxOrganization.getValue().getEmail())
@@ -45,10 +45,10 @@ public class RegisterRepresentativeController extends Controller {
 
   public void handleRegister() {
     try {
-      RepresentativeDTO representativeDTO = getDTOFromFields();
+      RepresentativeDTO representativeDTO = getRepresentativeDTOFromFields();
 
-      RepresentativeDTO existingRepresentative = REPRESENTATIVE_DAO.findOne(representativeDTO.getEmail());
-      if (existingRepresentative != null) {
+      RepresentativeDTO existingRepresentativeDTO = REPRESENTATIVE_DAO.findOne(representativeDTO.getEmail());
+      if (existingRepresentativeDTO != null) {
         AlertFacade.showErrorAndWait("No ha sido posible registrar representante debido a que ya existe un representante con el mismo correo electrónico.");
         return;
       }

@@ -49,12 +49,21 @@ public class UpdateStudentController extends ManageController<StudentDTO> {
     fieldPhoneNumber.setText(getContext().getPhoneNumber());
   }
 
-  private void handlePasswordUpdate() throws IllegalArgumentException, UserDisplayableException {
+  private AccountDTO createAccountDTOFromFields() {
+    return new AccountDTO(
+      getContext().getEmail(),
+      fieldPassword.getText(),
+      AccountRole.STUDENT,
+      true
+    );
+  }
+
+  private boolean isPasswordChangeRequired() throws IllegalArgumentException {
     String password = fieldPassword.getText();
     String passwordConfirm = fieldPasswordConfirm.getText();
 
     if (!Validator.isValidString(password) && !Validator.isValidString(passwordConfirm)) {
-      return; // No password change requested
+      return false;
     }
 
     if (!Validator.isValidString(password)) {
@@ -69,35 +78,36 @@ public class UpdateStudentController extends ManageController<StudentDTO> {
       throw new IllegalArgumentException("Las contraseñas no coinciden.");
     }
 
-    AccountDTO accountDTO = new AccountDTO(
-      getContext().getEmail(),
-      fieldPassword.getText(),
-      AccountRole.STUDENT,
-      true
-    );
-    ACCOUNT_DAO.updateOne(accountDTO);
+    return true;
   }
 
-  private void handleStudentUpdate() throws UserDisplayableException {
-    StudentDTO studentDTO = new StudentDTO.StudentBuilder()
-      .setID(getContext().getID())
-      .setEmail(getContext().getEmail())
+  private void updateAccountDTO() throws IllegalArgumentException, UserDisplayableException {
+    if (isPasswordChangeRequired()) {
+      ACCOUNT_DAO.updateOne(createAccountDTOFromFields());
+    }
+  }
+
+  private StudentDTO createStudentDTOFromFields() {
+    return new StudentDTO.StudentBuilder()
+      .setID(fieldIDStudent.getText())
+      .setEmail(fieldEmail.getText())
       .setName(fieldName.getText())
       .setPaternalLastName(fieldPaternalLastName.getText())
       .setMaternalLastName(fieldMaternalLastName.getText())
       .setPhoneNumber(fieldPhoneNumber.getText())
       .setState(getContext().getState())
       .build();
+  }
 
-    STUDENT_DAO.updateOne(studentDTO);
+  private void updateStudentDTO() throws UserDisplayableException {
+    STUDENT_DAO.updateOne(createStudentDTOFromFields());
   }
 
   @Override
   public void handleUpdateCurrentDataObject() {
     try {
-      handlePasswordUpdate();
-      handleStudentUpdate();
-
+      updateAccountDTO();
+      updateStudentDTO();
       AlertFacade.showSuccessAndWait("Sus datos han sido actualizados exitosamente.");
     } catch (IllegalArgumentException e) {
       AlertFacade.showErrorAndWait(e.getMessage());

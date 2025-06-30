@@ -70,23 +70,25 @@ public class RegisterCourseController extends Controller {
     }
   }
 
+  private CourseDTO createCourseDTOFromFields() {
+    return new CourseDTO.CourseBuilder()
+      .setNRC(fieldNRC.getText())
+      .setIDAcademic(comboBoxAcademic.getValue().getID())
+      .setSection(comboBoxSection.getValue())
+      .setSemester(comboBoxSemester.getValue())
+      .build();
+  }
+
   public void handleRegister() {
     try {
-      CourseDTO duplicateCourse = COURSE_DAO.getOne(fieldNRC.getText());
+      CourseDTO existingCourseDTO = COURSE_DAO.getOne(fieldNRC.getText());
 
-      if (duplicateCourse != null) {
+      if (existingCourseDTO != null) {
         AlertFacade.showErrorAndWait("No ha sido posible registrar el curso porque ya existe un curso con el NRC ingresado.");
         return;
       }
 
-      CourseDTO courseDTO = new CourseDTO.CourseBuilder()
-        .setNRC(fieldNRC.getText())
-        .setIDAcademic(comboBoxAcademic.getValue().getID())
-        .setSection(comboBoxSection.getValue())
-        .setSemester(comboBoxSemester.getValue())
-        .build();
-
-      COURSE_DAO.createOne(courseDTO);
+      COURSE_DAO.createOne(createCourseDTOFromFields());
       AlertFacade.showSuccessAndWait("El curso ha sido registrado exitosamente.");
     } catch (IllegalArgumentException | UserDisplayableException e) {
       AlertFacade.showErrorAndWait(e.getMessage());
