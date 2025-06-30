@@ -13,82 +13,75 @@
             xmlns="http://javafx.com/javafx/23.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="org.example.gui.controller.ManageStudentController">
-    <children>
-        <VBox layoutX="200.0" layoutY="38.0" prefWidth="320.0" spacing="16.0">
-            <children>
-                <Label styleClass="title" text="Gestionar Estudiante">
-                    <padding>
-                        <Insets bottom="8.0"/>
-                    </padding>
-                </Label>
+  <children>
+    <VBox layoutX="200.0" layoutY="38.0" prefWidth="320.0" spacing="16.0">
+      <children>
+        <Label styleClass="title" text="Gestionar Estudiante">
+          <padding>
+            <Insets bottom="8.0"/>
+          </padding>
+        </Label>
 
-                <VBox spacing="8.0">
-                    <children>
-                        <Label styleClass="label" text="Nombre"/>
-                        <TextField fx:id="fieldName" promptText="Introduzca el Nombre del Estudiante" styleClass="input"/>
-                    </children>
-                </VBox>
-
-                <VBox spacing="8.0">
-                    <children>
-                        <Label styleClass="label" text="Apellido Paterno"/>
-                        <TextField fx:id="fieldPaternalLastName" promptText="Introduzca el Apellido Paterno del Estudiante" styleClass="input"/>
-                    </children>
-                </VBox>
-
-                <VBox spacing="8.0">
-                    <children>
-                        <Label styleClass="label" text="Apellido Materno"/>
-                        <TextField fx:id="fieldMaternalLastName" promptText="Introduzca el Apellido Materno del Estudiante" styleClass="input"/>
-                    </children>
-                </VBox>
-
-                <VBox spacing="8.0">
-                    <children>
-                        <Label styleClass="label" text="Matrícula"/>
-                        <TextField fx:id="fieldIDStudent" disable="true" editable="false"
-                                   promptText="Matrícula del Estudiante" styleClass="input"/>
-                    </children>
-                </VBox>
-
-                <VBox spacing="8.0">
-                    <children>
-                        <Label styleClass="label" text="Correo Electrónico"/>
-                        <TextField fx:id="fieldEmail" disable="true" editable="false"
-                                   promptText="Correo del Estudiante" styleClass="input"/>
-                    </children>
-                </VBox>
-
-                <VBox spacing="8.0">
-                    <children>
-                        <Label styleClass="label" text="Número de Teléfono"/>
-                        <TextField fx:id="fieldPhoneNumber" promptText="Teléfono del Estudiante" styleClass="input"/>
-                    </children>
-                </VBox>
-
-                <VBox spacing="8.0">
-                    <children>
-                        <Label text="Estado"/>
-                        <ComboBox fx:id="comboBoxState" maxWidth="Infinity"
-                                  promptText="Seleccione el Estado del Estudiante" styleClass="input"/>
-                    </children>
-                </VBox>
-
-                <VBox spacing="8.0">
-                    <children>
-                        <Label text="Curso Asignado"/>
-                        <ComboBox fx:id="comboBoxNRC" maxWidth="Infinity" disable="true"
-                                  promptText="Seleccione el NRC" styleClass="input"/>
-                    </children>
-                </VBox>
-
-                <HBox>
-                    <children>
-                        <Button mnemonicParsing="false" onAction="#handleUpdateCurrentDataObject" prefWidth="320.0"
-                                styleClass="button" text="Actualizar Estudiante"/>
-                    </children>
-                </HBox>
-            </children>
+        <VBox spacing="8.0">
+          <children>
+            <Label styleClass="label" text="Nombre"/>
+            <TextField fx:id="fieldName" promptText="Introduzca el Nombre del Estudiante" styleClass="input"/>
+          </children>
         </VBox>
-    </children>
+
+        <VBox spacing="8.0">
+          <children>
+            <Label styleClass="label" text="Apellido Paterno"/>
+            <TextField fx:id="fieldPaternalLastName" promptText="Introduzca el Apellido Paterno del Estudiante"
+                       styleClass="input"/>
+          </children>
+        </VBox>
+
+        <VBox spacing="8.0">
+          <children>
+            <Label styleClass="label" text="Apellido Materno"/>
+            <TextField fx:id="fieldMaternalLastName" promptText="Introduzca el Apellido Materno del Estudiante"
+                       styleClass="input"/>
+          </children>
+        </VBox>
+
+        <VBox spacing="8.0">
+          <children>
+            <Label styleClass="label" text="Matrícula"/>
+            <TextField fx:id="fieldIDStudent" disable="true" editable="false"
+                       promptText="Matrícula del Estudiante" styleClass="input"/>
+          </children>
+        </VBox>
+
+        <VBox spacing="8.0">
+          <children>
+            <Label styleClass="label" text="Correo Electrónico"/>
+            <TextField fx:id="fieldEmail" disable="true" editable="false"
+                       promptText="Correo del Estudiante" styleClass="input"/>
+          </children>
+        </VBox>
+
+        <VBox spacing="8.0">
+          <children>
+            <Label styleClass="label" text="Número de Teléfono"/>
+            <TextField fx:id="fieldPhoneNumber" promptText="Teléfono del Estudiante" styleClass="input"/>
+          </children>
+        </VBox>
+
+        <VBox spacing="8.0">
+          <children>
+            <Label text="Estado"/>
+            <ComboBox fx:id="comboBoxState" maxWidth="Infinity"
+                      promptText="Seleccione el Estado del Estudiante" styleClass="input"/>
+          </children>
+        </VBox>
+        <HBox>
+          <children>
+            <Button mnemonicParsing="false" onAction="#handleUpdateCurrentDataObject" prefWidth="320.0"
+                    styleClass="button" text="Actualizar Estudiante"/>
+          </children>
+        </HBox>
+      </children>
+    </VBox>
+  </children>
 </AnchorPane>

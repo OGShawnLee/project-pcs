@@ -4,18 +4,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 
-import org.example.business.dao.CourseDAO;
-import org.example.business.dao.EnrollmentDAO;
 import org.example.business.dao.StudentDAO;
-import org.example.business.dto.*;
+import org.example.business.dto.StudentDTO;
 import org.example.common.UserDisplayableException;
 import org.example.gui.AlertFacade;
 
-// TODO: UPDATE USE CASE
 public class ManageStudentController extends ManageController<StudentDTO> {
   private final StudentDAO STUDENT_DAO = new StudentDAO();
-  private final CourseDAO COURSE_DAO = new CourseDAO();
-  private final EnrollmentDAO ENROLLMENT_DAO = new EnrollmentDAO();
   @FXML
   private TextField fieldPaternalLastName;
   @FXML
@@ -29,43 +24,23 @@ public class ManageStudentController extends ManageController<StudentDTO> {
   @FXML
   private TextField fieldPhoneNumber;
   @FXML
-  private ComboBox<EnrollmentDTO> comboBoxNRC;
-  @FXML
   private ComboBox<String> comboBoxState;
 
   @Override
   public void initialize(StudentDTO dataObject) {
     super.initialize(dataObject);
     ComboBoxLoader.loadComboBoxState(comboBoxState);
-    loadEnrollments(); // <-- cargar ítems primero
     loadDataObjectFields();
   }
 
-  public void loadEnrollments() {
-
-  }
-
   public void loadDataObjectFields() {
-    StudentDTO student = getContext();
-
-    fieldIDStudent.setText(student.getID());
-    fieldEmail.setText(student.getEmail());
-    fieldName.setText(student.getName());
-    fieldPaternalLastName.setText(student.getPaternalLastName());
-    fieldMaternalLastName.setText(student.getMaternalLastName());
-    fieldPhoneNumber.setText(student.getPhoneNumber());
-    comboBoxState.setValue(student.getState());
-
-    try {
-      for (EnrollmentDTO enrollment : comboBoxNRC.getItems()) {
-        if (enrollment.getIDStudent().equals(student.getID())) {
-          comboBoxNRC.setValue(enrollment);
-          break;
-        }
-      }
-    } catch (Exception e) {
-      AlertFacade.showErrorAndWait("No ha sido posible cargar la inscripción del estudiante.");
-    }
+    fieldIDStudent.setText(getContext().getID());
+    fieldEmail.setText(getContext().getEmail());
+    fieldName.setText(getContext().getName());
+    fieldPaternalLastName.setText(getContext().getPaternalLastName());
+    fieldMaternalLastName.setText(getContext().getMaternalLastName());
+    fieldPhoneNumber.setText(getContext().getPhoneNumber());
+    comboBoxState.setValue(getContext().getState());
   }
 
   private StudentDTO createStudentDTOFromFields() {
@@ -80,13 +55,17 @@ public class ManageStudentController extends ManageController<StudentDTO> {
       .build();
   }
 
+  private void updateStudentDTO() throws UserDisplayableException {
+    STUDENT_DAO.updateOne(createStudentDTOFromFields());
+    AlertFacade.showSuccessAndWait("El estudiante ha sido actualizado exitosamente.");
+  }
+
   @Override
   public void handleUpdateCurrentDataObject() {
     try {
-      STUDENT_DAO.updateOne(createStudentDTOFromFields());
-      AlertFacade.showSuccessAndWait("El estudiante ha sido actualizado exitosamente.");
+      updateStudentDTO();
     } catch (IllegalArgumentException | UserDisplayableException e) {
-      AlertFacade.showErrorAndWait(e.getMessage());
+      AlertFacade.showErrorAndWait("No ha sido posible actualizar estudiante.", e.getMessage());
     }
   }
 }
