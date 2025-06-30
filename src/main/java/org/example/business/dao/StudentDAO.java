@@ -24,10 +24,12 @@ public class StudentDAO extends CompleteDAOShape<StudentDTO, String> {
     "CALL create_student(?, ?, ?, ?, ?, ?, ?)";
   private static final String GET_ALL_QUERY =
     "SELECT * FROM Student";
-  private static final String GET_ALL_BY_ACADEMIC =
-    "SELECT * FROM Student WHERE id_student IN (SELECT id_student FROM Enrollment WHERE id_academic = ?)";
-  private static final String GET_ALL_BY_STATE_QUERY =
-    "SELECT * FROM Student WHERE state = ?";
+  private static final String GET_ALL_BY_COURSE =
+    """
+      SELECT * FROM Student WHERE EXISTS(SELECT 1 FROM Enrollment WHERE Enrollment.id_student = Student.id_student AND id_course = ?)""";
+  private static final String GET_ALL_BY_COURSE_AND_STATE =
+    """
+      SELECT * FROM Student WHERE state = ? AND EXISTS(SELECT 1 FROM Enrollment WHERE Enrollment.id_student = Student.id_student AND id_course = ?)""";
   private static final String GET_ALL_WITH_NO_PROJECT_QUERY =
     "SELECT * FROM Student WHERE id_student NOT IN (SELECT id_student FROM Practice) AND state = 'ACTIVE'";
   private static final String GET_QUERY =
@@ -93,12 +95,12 @@ public class StudentDAO extends CompleteDAOShape<StudentDTO, String> {
     }
   }
 
-  public List<StudentDTO> getAllByAcademic(String academicID) throws UserDisplayableException {
+  public List<StudentDTO> getAllByCourse(String idCourse) throws UserDisplayableException {
     try (
       Connection connection = DBConnector.getInstance().getConnection();
-      PreparedStatement statement = connection.prepareStatement(GET_ALL_BY_ACADEMIC)
+      PreparedStatement statement = connection.prepareStatement(GET_ALL_BY_COURSE)
     ) {
-      statement.setString(1, academicID);
+      statement.setString(1, idCourse);
       List<StudentDTO> list = new ArrayList<>();
 
       try (ResultSet resultSet = statement.executeQuery()) {
@@ -113,12 +115,13 @@ public class StudentDAO extends CompleteDAOShape<StudentDTO, String> {
     }
   }
 
-  public List<StudentDTO> getAllByState(String state) throws UserDisplayableException {
+  public List<StudentDTO> getAllByStateAndCourse(String state, String idCourse) throws UserDisplayableException {
     try (
       Connection connection = DBConnector.getInstance().getConnection();
-      PreparedStatement statement = connection.prepareStatement(GET_ALL_BY_STATE_QUERY)
+      PreparedStatement statement = connection.prepareStatement(GET_ALL_BY_COURSE_AND_STATE)
     ) {
       statement.setString(1, state);
+      statement.setString(2, idCourse);
       List<StudentDTO> list = new ArrayList<>();
 
       try (ResultSet resultSet = statement.executeQuery()) {

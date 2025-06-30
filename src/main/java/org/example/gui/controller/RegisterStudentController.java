@@ -5,24 +5,21 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 
 import org.example.business.auth.AuthClient;
-import org.example.business.dto.AcademicDTO;
+import org.example.business.dao.AccountDAO;
+import org.example.business.dao.EnrollmentDAO;
+import org.example.business.dao.NotFoundException;
+import org.example.business.dao.StudentDAO;
 import org.example.business.dto.AccountDTO;
 import org.example.business.dto.CourseDTO;
 import org.example.business.dto.EnrollmentDTO;
 import org.example.business.dto.StudentDTO;
-import org.example.business.dao.AccountDAO;
-import org.example.business.dao.CourseDAO;
-import org.example.business.dao.EnrollmentDAO;
-import org.example.business.dao.StudentDAO;
 import org.example.common.UserDisplayableException;
 import org.example.gui.AlertFacade;
-
-import java.util.List;
+import org.example.gui.combobox.CourseComboBoxLoader;
 
 public class RegisterStudentController extends Controller {
   private final AccountDAO ACCOUNT_DAO = new AccountDAO();
   private final StudentDAO STUDENT_DAO = new StudentDAO();
-  private final CourseDAO COURSE_DAO = new CourseDAO();
   private final EnrollmentDAO ENROLLMENT_DAO = new EnrollmentDAO();
   @FXML
   private TextField fieldPaternalLastName;
@@ -37,27 +34,10 @@ public class RegisterStudentController extends Controller {
   @FXML
   private TextField fieldPhoneNumber;
   @FXML
-  private ComboBox<CourseDTO> comboBoxNRC;
+  private ComboBox<CourseDTO> comboBoxCourse;
 
   public void initialize() {
-    loadComboBoxCourse();
-  }
-
-  public void loadComboBoxCourse() {
-    try {
-      AcademicDTO currentAcademicDTO = AuthClient.getInstance().getCurrentAcademicDTO();
-      List<CourseDTO> courseList = COURSE_DAO.getAllByAcademic(currentAcademicDTO.getID());
-
-      if (courseList.isEmpty()) {
-        AlertFacade.showErrorAndWait("No existe un curso activo asignado a ústed. Por favor, contacte a su Coordinador.");
-        return;
-      }
-
-      comboBoxNRC.getItems().addAll(courseList);
-      comboBoxNRC.setValue(courseList.getFirst());
-    } catch (UserDisplayableException e) {
-      AlertFacade.showErrorAndWait(e.getMessage());
-    }
+    CourseComboBoxLoader.loadByCurrentAcademicDTO(comboBoxCourse);
   }
 
   private StudentDTO createStudentDTOFromFields() {
@@ -71,11 +51,11 @@ public class RegisterStudentController extends Controller {
       .build();
   }
 
-  private EnrollmentDTO createEnrollmentDTOFromFields() throws UserDisplayableException {
+  private EnrollmentDTO createEnrollmentDTOFromFields() throws NotFoundException, UserDisplayableException {
     return new EnrollmentDTO.EnrollmentBuilder()
       .setIDAcademic(AuthClient.getInstance().getCurrentAcademicDTO().getID())
       .setIDStudent(fieldIDStudent.getText())
-      .setIDCourse(comboBoxNRC.getValue().getNRC())
+      .setIDCourse(comboBoxCourse.getValue().getNRC())
       .build();
   }
 
@@ -100,9 +80,8 @@ public class RegisterStudentController extends Controller {
       AlertFacade.showSuccessAndWait("El estudiante ha sido registrado exitosamente.");
     } catch (IllegalArgumentException e) {
       AlertFacade.showErrorAndWait(e.getMessage());
-    } catch (UserDisplayableException e) {
-      AlertFacade.showErrorAndWait("No ha sido posible registrar estudiante.",  e);
+    } catch (NotFoundException | UserDisplayableException e) {
+      AlertFacade.showErrorAndWait("No ha sido posible registrar estudiante.", e.getMessage());
     }
   }
-
 }

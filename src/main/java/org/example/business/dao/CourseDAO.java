@@ -23,9 +23,9 @@ import java.util.List;
 public class CourseDAO extends CompleteDAOShape<CourseDTO, String> {
   private static final Logger LOGGER = LogManager.getLogger(CourseDAO.class);
   private static final String CREATE_QUERY =
-    "INSERT INTO Course (nrc, id_academic, section, semester) VALUES (?, ?, ?, ?)";
+    "INSERT INTO Course (nrc, id_academic, section) VALUES (?, ?, ?)";
   private static final String GET_ALL_QUERY = "SELECT * FROM CourseWithAcademic";
-  private static final String GET_ALL_BY_ACADEMIC = "SELECT * FROM CourseWithAcademic WHERE id_academic = ? AND state = 'ON_GOING'";
+  private static final String GET_ALL_BY_ACADEMIC = "SELECT * FROM CourseWithAcademic WHERE id_academic = ?";
   private static final String GET_ALL_BY_STATE = "SELECT * FROM CourseWithAcademic WHERE state = ?";
   private static final String GET_QUERY = "SELECT * FROM CourseWithAcademic WHERE nrc = ?";
   private static final String UPDATE_QUERY =
@@ -55,7 +55,6 @@ public class CourseDAO extends CompleteDAOShape<CourseDTO, String> {
       statement.setString(1, courseDTO.getNRC());
       statement.setString(2, courseDTO.getIDAcademic());
       statement.setString(3, courseDTO.getSection().toString());
-      statement.setString(4, courseDTO.getSemester().toDBString());
       statement.executeUpdate();
     } catch (SQLException e) {
       throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible crear el curso.");
