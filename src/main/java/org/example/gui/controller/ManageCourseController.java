@@ -10,9 +10,9 @@ import org.example.business.dto.AcademicDTO;
 import org.example.business.dto.CourseDTO;
 import org.example.business.dto.enumeration.CourseState;
 import org.example.business.dto.enumeration.Section;
-import org.example.business.dto.enumeration.Semester;
 import org.example.common.UserDisplayableException;
 import org.example.gui.AlertFacade;
+import org.example.gui.combobox.CourseComboBoxLoader;
 
 public class ManageCourseController extends ManageController<CourseDTO> {
   private final AcademicDAO ACADEMIC_DAO = new AcademicDAO();
@@ -32,7 +32,7 @@ public class ManageCourseController extends ManageController<CourseDTO> {
   public void initialize(CourseDTO dataObject) {
     super.initialize(dataObject);
     RegisterCourseController.loadComboBoxAcademic(comboBoxAcademic);
-    RegisterCourseController.loadComboBoxSection(comboBoxSection);
+    CourseComboBoxLoader.loadComboBoxSection(comboBoxSection);
     loadComboboxState();
     loadDataObjectFields();
   }
@@ -77,11 +77,15 @@ public class ManageCourseController extends ManageController<CourseDTO> {
       .build();
   }
 
+  private void updateCourseDTO() throws UserDisplayableException {
+    COURSE_DAO.updateOne(createCourseDTOFromFields());
+    AlertFacade.showSuccessAndWait("El curso ha sido actualizado exitosamente.");
+  }
+
   @Override
   public void handleUpdateCurrentDataObject() {
     try {
-      COURSE_DAO.updateOne(createCourseDTOFromFields());
-      AlertFacade.showSuccessAndWait("El curso ha sido actualizado exitosamente.");
+      updateCourseDTO();
     } catch (IllegalArgumentException | UserDisplayableException e) {
       AlertFacade.showErrorAndWait(e.getMessage());
     }

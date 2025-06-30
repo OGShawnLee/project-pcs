@@ -11,6 +11,7 @@ import org.example.business.dto.CourseDTO;
 import org.example.business.dto.enumeration.Section;
 import org.example.common.UserDisplayableException;
 import org.example.gui.AlertFacade;
+import org.example.gui.combobox.CourseComboBoxLoader;
 import org.example.gui.modal.ModalFacade;
 import org.example.gui.modal.ModalFacadeConfiguration;
 
@@ -27,13 +28,8 @@ public class RegisterCourseController extends Controller {
   private ComboBox<Section> comboBoxSection;
 
   public void initialize() {
-    loadComboBoxSection(comboBoxSection);
+    CourseComboBoxLoader.loadComboBoxSection(comboBoxSection);
     loadComboBoxAcademic(comboBoxAcademic);
-  }
-
-  public static void loadComboBoxSection(ComboBox<Section> comboBoxSection) {
-    comboBoxSection.getItems().addAll(Section.values());
-    comboBoxSection.setValue(Section.S1);
   }
 
   public static void loadComboBoxAcademic(ComboBox<AcademicDTO> comboBoxAcademic) {
