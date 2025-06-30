@@ -24,7 +24,7 @@ public class ManageCourseController extends ManageController<CourseDTO> {
   @FXML
   private ComboBox<Section> comboBoxSection;
   @FXML
-  private ComboBox<Semester> comboBoxSemester;
+  private TextField fieldSemester;
   @FXML
   private ComboBox<CourseState> comboBoxState;
 
@@ -33,7 +33,6 @@ public class ManageCourseController extends ManageController<CourseDTO> {
     super.initialize(dataObject);
     RegisterCourseController.loadComboBoxAcademic(comboBoxAcademic);
     RegisterCourseController.loadComboBoxSection(comboBoxSection);
-    RegisterCourseController.loadComboBoxSemester(comboBoxSemester);
     loadComboboxState();
     loadDataObjectFields();
   }
@@ -49,7 +48,7 @@ public class ManageCourseController extends ManageController<CourseDTO> {
     loadAcademic();
 
     comboBoxSection.setValue(getContext().getSection());
-    comboBoxSemester.setValue(getContext().getSemester());
+    fieldSemester.setText(getContext().getSemester().toString());
     comboBoxState.setValue(getContext().getState());
   }
 
@@ -74,7 +73,6 @@ public class ManageCourseController extends ManageController<CourseDTO> {
       .setNRC(fieldNRC.getText())
       .setIDAcademic(comboBoxAcademic.getValue().getID())
       .setSection(comboBoxSection.getValue())
-      .setSemester(comboBoxSemester.getValue())
       .setState(comboBoxState.getValue())
       .build();
   }

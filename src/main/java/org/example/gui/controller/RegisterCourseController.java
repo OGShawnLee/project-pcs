@@ -9,7 +9,6 @@ import org.example.business.dao.CourseDAO;
 import org.example.business.dto.AcademicDTO;
 import org.example.business.dto.CourseDTO;
 import org.example.business.dto.enumeration.Section;
-import org.example.business.dto.enumeration.Semester;
 import org.example.common.UserDisplayableException;
 import org.example.gui.AlertFacade;
 import org.example.gui.modal.ModalFacade;
@@ -26,23 +25,15 @@ public class RegisterCourseController extends Controller {
   private ComboBox<AcademicDTO> comboBoxAcademic;
   @FXML
   private ComboBox<Section> comboBoxSection;
-  @FXML
-  private ComboBox<Semester> comboBoxSemester;
 
   public void initialize() {
     loadComboBoxSection(comboBoxSection);
-    loadComboBoxSemester(comboBoxSemester);
     loadComboBoxAcademic(comboBoxAcademic);
   }
 
   public static void loadComboBoxSection(ComboBox<Section> comboBoxSection) {
     comboBoxSection.getItems().addAll(Section.values());
     comboBoxSection.setValue(Section.S1);
-  }
-
-  public static void loadComboBoxSemester(ComboBox<Semester> comboBoxSemester) {
-    comboBoxSemester.getItems().addAll(Semester.values());
-    comboBoxSemester.setValue(Semester.FEB_JUL);
   }
 
   public static void loadComboBoxAcademic(ComboBox<AcademicDTO> comboBoxAcademic) {
@@ -75,7 +66,6 @@ public class RegisterCourseController extends Controller {
       .setNRC(fieldNRC.getText())
       .setIDAcademic(comboBoxAcademic.getValue().getID())
       .setSection(comboBoxSection.getValue())
-      .setSemester(comboBoxSemester.getValue())
       .build();
   }
 

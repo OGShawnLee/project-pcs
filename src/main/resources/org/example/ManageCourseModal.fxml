@@ -42,7 +42,7 @@
         <VBox spacing="8.0">
           <children>
             <Label styleClass="label" text="Periodo" />
-            <ComboBox fx:id="comboBoxSemester" maxWidth="1.7976931348623157E308" promptText="Seleccione el Periodo del Curso" styleClass="input" />
+            <TextField fx:id="fieldSemester" disable="true" editable="false" styleClass="input" />
           </children>
         </VBox>
         <VBox spacing="8.0">
