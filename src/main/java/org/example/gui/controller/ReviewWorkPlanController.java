@@ -29,8 +29,8 @@ public class ReviewWorkPlanController extends ContextController<WorkPlanDTO> {
   public Text fieldFourthMonthActivities;
 
   @Override
-  public void initialize(WorkPlanDTO dataObject) {
-    super.initialize(dataObject);
+  public void initialize(WorkPlanDTO workPlanDTO) {
+    super.initialize(workPlanDTO);
     loadFields();
   }
 
