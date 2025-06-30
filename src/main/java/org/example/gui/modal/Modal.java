@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 class Modal {
-  private ModalFacadeConfiguration configuration;
+  private final ModalFacadeConfiguration configuration;
   private final Parent parent;
   private final Scene scene;
   private final Stage stage;
