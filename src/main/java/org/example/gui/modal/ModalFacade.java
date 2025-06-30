@@ -9,6 +9,9 @@ import org.example.gui.controller.ContextController;
 
 import java.io.IOException;
 
+/** ModalFacade is a utility class that simplifies the creation and display of modals in the GUI.
+ * It handles the loading of FXML resources, displaying modals, and managing context for controllers.
+*/
 public class ModalFacade {
   private final static Logger LOGGER = LogManager.getLogger(ModalFacade.class);
   private final Modal modal;
@@ -42,6 +45,12 @@ public class ModalFacade {
     }
   }
 
+  /**
+   * Displays a modal with a specific context.
+   *
+   * @param context the context to be passed to the controller
+   * @param <T>     the type of the context
+   */
   private <T> void displayContextModal(T context) {
     Modal modal = getModal();
     ContextController<T> controller = modal.getController();
@@ -49,6 +58,20 @@ public class ModalFacade {
     modal.showAndWait();
   }
 
+  /**
+   * Creates and displays a modal with a specific context.
+   * This method is useful for scenarios where the modal needs to operate with a specific context,
+   * such as when working on a database record.
+   * <p>
+   * It initializes the controller with the provided context and displays the modal.
+   * This method is generic and can be used with any type of context.
+   * It offers a convenient way to create and display modals without needing to
+   * manually set up the controller and modal each time.
+   *
+   * @param configuration the configuration for the modal
+   * @param context       the context to be passed to the controller
+   * @param <T>           the type of the context
+   */
   public static <T> void createAndDisplayContextModal(ModalFacadeConfiguration configuration, T context) {
     try {
       ModalFacade modalFacade = new ModalFacade(configuration);

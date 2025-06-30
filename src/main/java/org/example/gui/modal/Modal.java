@@ -9,6 +9,17 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
 
+
+/**
+ * Modal class that represents a modal dialog in the application.
+ * It is responsible for loading the FXML file, creating the stage, and managing the modal's lifecycle
+ * <p>
+ * This class is used to create and display modals with a specific configuration such as
+ * title, resource file name, and optional close actions.
+ * <p>
+ * The files used for this have the name convention of ending with "Modal"
+ * (e.g., "RegisterAcademicModal", "ManageAcademicModal", etc.).
+ */
 class Modal {
   private final ModalFacadeConfiguration configuration;
   private final Parent parent;
