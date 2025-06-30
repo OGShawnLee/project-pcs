@@ -67,7 +67,7 @@ public class ProjectDAO extends CompleteDAOShape<ProjectDTO, Integer> {
       statement.setString(5, projectDTO.getDepartment());
       statement.setInt(6, projectDTO.getAvailablePlaces());
       statement.setString(7, projectDTO.getMethodology());
-      statement.setString(8, projectDTO.getSector().toString());
+      statement.setString(8, projectDTO.getSector().toDBString());
       statement.executeUpdate();
 
       try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
@@ -97,7 +97,7 @@ public class ProjectDAO extends CompleteDAOShape<ProjectDTO, Integer> {
       statement.setString(5, projectDTO.getDepartment());
       statement.setInt(6, projectDTO.getAvailablePlaces());
       statement.setString(7, projectDTO.getMethodology());
-      statement.setString(8, projectDTO.getSector().toString());
+      statement.setString(8, projectDTO.getSector().toDBString());
       statement.setString(9, workPlanDTO.getProjectGoal());
       statement.setString(10, workPlanDTO.getTheoreticalScope());
       statement.setString(11, workPlanDTO.getFirstMonthActivities());

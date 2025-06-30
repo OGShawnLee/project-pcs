@@ -1,7 +1,5 @@
 package org.example.business.dto.enumeration;
 
-import org.example.business.dto.AccountDTO;
-
 public enum AccountRole {
   COORDINATOR,
   ACADEMIC,
@@ -9,11 +7,18 @@ public enum AccountRole {
   EVALUATOR,
   STUDENT;
 
-  public static AccountRole fromAcademicRole(AcademicRole academicRole) {
-    return switch (academicRole) {
-      case ACADEMIC -> AccountRole.ACADEMIC;
-      case ACADEMIC_EVALUATOR -> AccountRole.ACADEMIC_EVALUATOR;
-      case EVALUATOR -> AccountRole.EVALUATOR;
+  @Override
+  public String toString() {
+    return switch (this) {
+      case COORDINATOR -> "Coordinador";
+      case ACADEMIC -> "Académico";
+      case ACADEMIC_EVALUATOR -> "Académico Evaluador";
+      case EVALUATOR -> "Evaluador";
+      case STUDENT -> "Estudiante";
     };
+  }
+
+  public String toDBString() {
+    return this.name();
   }
 }

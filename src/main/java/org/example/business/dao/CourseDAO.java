@@ -151,7 +151,7 @@ public class CourseDAO extends CompleteDAOShape<CourseDTO, String> {
       statement.setString(1, courseDTO.getIDAcademic());
       statement.setString(2, courseDTO.getSection().toString());
       statement.setString(3, courseDTO.getSemester().toDBString());
-      statement.setString(4, courseDTO.getState().toString());
+      statement.setString(4, courseDTO.getState().toDBString());
       statement.setString(5, courseDTO.getNRC());
       statement.executeUpdate();
     } catch (SQLException e) {

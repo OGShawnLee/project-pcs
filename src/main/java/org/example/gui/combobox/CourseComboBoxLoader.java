@@ -20,7 +20,7 @@ public class CourseComboBoxLoader {
   private static final CourseDAO COURSE_DAO = new CourseDAO();
 
   /**
-   * Loads the course combo box with courses associated with the current academic year.
+   * Loads the given ComboBox with courses associated with the current Academic user logged in the system.
    * If no courses are found, it shows an error alert.
    * <p>
    * <code>NotFoundException</code> and <code>UserDisplayableException</code> are handled by this method.

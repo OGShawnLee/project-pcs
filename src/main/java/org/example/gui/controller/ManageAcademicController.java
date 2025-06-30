@@ -9,6 +9,7 @@ import org.example.business.dto.AcademicDTO;
 import org.example.business.dto.enumeration.AcademicRole;
 import org.example.common.UserDisplayableException;
 import org.example.gui.AlertFacade;
+import org.example.gui.combobox.AcademicComboBoxLoader;
 
 public class ManageAcademicController extends ManageController<AcademicDTO> {
   private final AcademicDAO ACADEMIC_DAO = new AcademicDAO();
@@ -25,14 +26,14 @@ public class ManageAcademicController extends ManageController<AcademicDTO> {
   @FXML
   private TextField fieldPhoneNumber;
   @FXML
-  private ComboBox<AcademicRole> fieldRole;
+  private ComboBox<AcademicRole> comboBoxRole;
   @FXML
   private ComboBox<String> comboBoxState;
 
   @Override
   public void initialize(AcademicDTO dataObject) {
     super.initialize(dataObject);
-    RegisterAcademicController.loadRoleComboBox(fieldRole);
+    AcademicComboBoxLoader.loadAcademicRoleComboBox(comboBoxRole);
     ComboBoxLoader.loadComboBoxState(comboBoxState);
     loadDataObjectFields();
   }
@@ -43,7 +44,7 @@ public class ManageAcademicController extends ManageController<AcademicDTO> {
     fieldName.setText(getContext().getName());
     fieldPaternalLastName.setText(getContext().getPaternalLastName());
     fieldMaternalLastName.setText(getContext().getMaternalLastName());
-    fieldRole.setValue(getContext().getRole());
+    comboBoxRole.setValue(getContext().getRole());
     fieldPhoneNumber.setText(getContext().getPhoneNumber());
     comboBoxState.setValue(getContext().getState());
   }
@@ -56,18 +57,22 @@ public class ManageAcademicController extends ManageController<AcademicDTO> {
       .setPaternalLastName(fieldPaternalLastName.getText())
       .setMaternalLastName(fieldMaternalLastName.getText())
       .setPhoneNumber(fieldPhoneNumber.getText())
-      .setRole(fieldRole.getValue())
+      .setRole(comboBoxRole.getValue())
       .setState(comboBoxState.getValue())
       .build();
+  }
+
+  private void updateAcademicDTO() throws UserDisplayableException {
+    ACADEMIC_DAO.updateOne(createAcademicDTOFromFields());
+    AlertFacade.showSuccessAndWait("El académico ha sido actualizado exitosamente.");
   }
 
   @Override
   public void handleUpdateCurrentDataObject() {
     try {
-      ACADEMIC_DAO.updateOne(createAcademicDTOFromFields());
-      AlertFacade.showSuccessAndWait("El académico ha sido actualizado exitosamente.");
+      updateAcademicDTO();
     } catch (IllegalArgumentException | UserDisplayableException e) {
-      AlertFacade.showErrorAndWait(e.getMessage());
+      AlertFacade.showErrorAndWait("No ha sido posible actualizar académico", e.getMessage());
     }
   }
 }

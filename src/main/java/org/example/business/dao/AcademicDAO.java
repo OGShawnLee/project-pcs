@@ -59,7 +59,7 @@ public class AcademicDAO extends CompleteDAOShape<AcademicDTO, String> {
       statement.setString(5, academicDTO.getMaternalLastName());
       statement.setString(6, AccountDTO.getGeneratedHashedPassword(academicDTO.getID()));
       statement.setString(7, academicDTO.getPhoneNumber());
-      statement.setString(8, academicDTO.getRole().toString());
+      statement.setString(8, academicDTO.getRole().toDBString());
       statement.executeUpdate();
     } catch (SQLException e) {
       throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible crear el académico.");
@@ -156,7 +156,7 @@ public class AcademicDAO extends CompleteDAOShape<AcademicDTO, String> {
       statement.setString(2, academicDTO.getPaternalLastName());
       statement.setString(3, academicDTO.getMaternalLastName());
       statement.setString(4, academicDTO.getPhoneNumber());
-      statement.setString(5, academicDTO.getRole().toString());
+      statement.setString(5, academicDTO.getRole().toDBString());
       statement.setString(6, academicDTO.getState());
       statement.setString(7, academicDTO.getID());
       statement.executeUpdate();

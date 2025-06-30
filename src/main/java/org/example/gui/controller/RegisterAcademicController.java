@@ -11,6 +11,7 @@ import org.example.business.dao.AccountDAO;
 import org.example.business.dto.enumeration.AcademicRole;
 import org.example.common.UserDisplayableException;
 import org.example.gui.AlertFacade;
+import org.example.gui.combobox.AcademicComboBoxLoader;
 
 public class RegisterAcademicController extends Controller {
   private final AccountDAO ACCOUNT_DAO = new AccountDAO();
@@ -28,15 +29,10 @@ public class RegisterAcademicController extends Controller {
   @FXML
   private TextField fieldPhoneNumber;
   @FXML
-  private ComboBox<AcademicRole> fieldRole;
+  private ComboBox<AcademicRole> comboBoxAcademicRole;
 
   public void initialize() {
-    loadRoleComboBox(fieldRole);
-  }
-
-  public static void loadRoleComboBox(ComboBox<AcademicRole> fieldRole) {
-    fieldRole.getItems().addAll(AcademicRole.values());
-    fieldRole.setValue(AcademicRole.ACADEMIC);
+    AcademicComboBoxLoader.loadAcademicRoleComboBox(comboBoxAcademicRole);
   }
 
   public AcademicDTO createAcademicDTOFromFields() {
@@ -47,30 +43,59 @@ public class RegisterAcademicController extends Controller {
       .setPaternalLastName(fieldPaternalLastName.getText())
       .setMaternalLastName(fieldMaternalLastName.getText())
       .setPhoneNumber(fieldPhoneNumber.getText())
-      .setRole(fieldRole.getValue())
+      .setRole(comboBoxAcademicRole.getValue())
       .build();
+  }
+
+  /**
+   * Verifies if an academic account with the given email already exists and shows an error.
+   *
+   * @param academicDTO The AcademicDTO containing the email to check.
+   * @return true if no duplicate account exists, false otherwise.
+   * @throws UserDisplayableException if an error occurs while checking for duplicates.
+   */
+  public boolean verifyDuplicateAccount(AcademicDTO academicDTO) throws UserDisplayableException {
+    AccountDTO existingAccountDTO = ACCOUNT_DAO.getOne(academicDTO.getEmail());
+
+    if (existingAccountDTO != null) {
+      AlertFacade.showErrorAndWait("No ha sido posible registrar académico debido a que ya existe una cuenta con ese correo electrónico.");
+      return false;
+    }
+
+    return true;
+  }
+
+  /**
+   * Verifies if an academic with the given ID already exists and shows an error.
+   *
+   * @param academicDTO The AcademicDTO containing the ID to check.
+   * @return true if no duplicate academic exists, false otherwise.
+   * @throws UserDisplayableException if an error occurs while checking for duplicates.
+   */
+  public boolean verifyDuplicateAcademic(AcademicDTO academicDTO) throws UserDisplayableException {
+    AcademicDTO existingAcademicDTO = ACADEMIC_DAO.getOne(academicDTO.getID());
+
+    if (existingAcademicDTO != null) {
+      AlertFacade.showErrorAndWait("No ha sido posible registrar académico debido a que ya existe un académico con la misma ID de Trabajador.");
+      return false;
+    }
+
+    return true;
+  }
+
+  public void updateAcademicDTO(AcademicDTO academicDTO) throws UserDisplayableException {
+    ACADEMIC_DAO.createOne(academicDTO);
+    AlertFacade.showSuccessAndWait("El académico ha sido registrado exitosamente.");
   }
 
   public void handleRegister() {
     try {
       AcademicDTO academicDTO = createAcademicDTOFromFields();
-
-      AccountDTO existingAccountDTO = ACCOUNT_DAO.getOne(academicDTO.getEmail());
-      if (existingAccountDTO != null) {
-        AlertFacade.showErrorAndWait("No ha sido posible registrar académico debido a que ya existe una cuenta con ese correo electrónico.");
-        return;
+      if (verifyDuplicateAccount(academicDTO) && verifyDuplicateAcademic(academicDTO)) {
+        updateAcademicDTO(academicDTO);
       }
-
-      AcademicDTO existingAcademicDTO = ACADEMIC_DAO.getOne(academicDTO.getID());
-      if (existingAcademicDTO != null) {
-        AlertFacade.showErrorAndWait("No ha sido posible registrar académico debido a que ya existe un académico con la misma ID de Trabajador.");
-        return;
-      }
-
-      ACADEMIC_DAO.createOne(academicDTO);
-      AlertFacade.showSuccessAndWait("El académico ha sido registrado exitosamente.");
     } catch (IllegalArgumentException | UserDisplayableException e) {
-      AlertFacade.showErrorAndWait(e.getMessage());
+      AlertFacade.showErrorAndWait("No ha sido posible registrar académico.", e.getMessage());
     }
   }
 }

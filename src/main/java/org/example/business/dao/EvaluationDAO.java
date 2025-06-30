@@ -59,7 +59,7 @@ public class EvaluationDAO extends CompleteDAOShape<EvaluationDTO, FilterEvaluat
       statement.setInt(6, evaluationDTO.getContentCongruenceGrade());
       statement.setInt(7, evaluationDTO.getWritingGrade());
       statement.setInt(8, evaluationDTO.getMethodologicalRigorGrade());
-      statement.setString(9, evaluationDTO.getKind().toString());
+      statement.setString(9, evaluationDTO.getKind().toDBString());
       statement.executeUpdate();
     } catch (SQLException e) {
       throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible crear la evaluación.");
@@ -118,7 +118,7 @@ public class EvaluationDAO extends CompleteDAOShape<EvaluationDTO, FilterEvaluat
       statement.setInt(3, dataObject.getContentCongruenceGrade());
       statement.setInt(4, dataObject.getWritingGrade());
       statement.setInt(5, dataObject.getMethodologicalRigorGrade());
-      statement.setString(6, dataObject.getKind().toString());
+      statement.setString(6, dataObject.getKind().toDBString());
       statement.setString(7, dataObject.getIDAcademic());
       statement.setInt(8, dataObject.getIDProject());
       statement.setString(9, dataObject.getIDStudent());

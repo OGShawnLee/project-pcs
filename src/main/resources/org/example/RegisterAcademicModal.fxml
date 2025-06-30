@@ -67,7 +67,7 @@
         <VBox spacing="8.0">
           <children>
             <Label styleClass="label" text="Rol"/>
-            <ComboBox fx:id="fieldRole" maxWidth="1.7976931348623157E308"
+            <ComboBox fx:id="comboBoxAcademicRole" maxWidth="1.7976931348623157E308"
                       promptText="Seleccione el Rol del Académico" styleClass="input"/>
           </children>
         </VBox>

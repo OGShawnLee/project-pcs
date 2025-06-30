@@ -1,27 +1,18 @@
 package org.example.business.dto.enumeration;
 
 public enum Semester {
-  FEB_JUL("Febrero - Julio"),
-  AUG_JAN("Agosto - Enero");
-
-  private final String displayName;
-
-  Semester(String displayName) {
-    this.displayName = displayName;
-  }
+  FEB_JUL,
+  AUG_JAN;
 
   @Override
   public String toString() {
-    return displayName;
+    return switch (this) {
+      case FEB_JUL -> "Febrero - Julio";
+      case AUG_JAN -> "Agosto - Enero";
+    };
   }
 
   public String toDBString() {
-    if (displayName.equals("Febrero - Julio")) {
-      return "FEB_JUL";
-    } else if (displayName.equals("Agosto - Enero")) {
-      return "AUG_JAN";
-    } else {
-      throw new IllegalArgumentException("Unknown Semester: " + displayName);
-    }
+    return this.name();
   }
 }
