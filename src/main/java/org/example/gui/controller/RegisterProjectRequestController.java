@@ -12,6 +12,7 @@ import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import org.example.business.auth.AuthClient;
+import org.example.business.dao.NotFoundException;
 import org.example.business.dao.ProjectDAO;
 import org.example.business.dto.enumeration.ProjectSector;
 import org.example.business.dao.StudentDAO;
@@ -141,7 +142,7 @@ public class RegisterProjectRequestController extends Controller {
       }
 
       AlertFacade.showSuccessAndWait("La solicitud de proyectos fue registrada exitosamente.");
-    } catch (IllegalArgumentException | UserDisplayableException e) {
+    } catch (IllegalArgumentException | NotFoundException | UserDisplayableException e) {
       AlertFacade.showErrorAndWait(e.getMessage());
     }
   }

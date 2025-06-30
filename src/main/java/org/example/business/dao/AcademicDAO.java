@@ -127,22 +127,20 @@ public class AcademicDAO extends CompleteDAOShape<AcademicDTO, String> {
     }
   }
 
-  public AcademicDTO getOneByEmail(String email) throws UserDisplayableException {
+  public AcademicDTO getOneByEmail(String email) throws NotFoundException, UserDisplayableException {
     try (
       Connection connection = DBConnector.getInstance().getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_BY_EMAIL_QUERY)
     ) {
       statement.setString(1, email);
 
-      AcademicDTO academicDTO = null;
-
       try (ResultSet resultSet = statement.executeQuery()) {
         if (resultSet.next()) {
-          academicDTO = createDTOInstanceFromResultSet(resultSet);
+          return createDTOInstanceFromResultSet(resultSet);
+        } else {
+          throw new NotFoundException("No se encontró un académico con el email proporcionado");
         }
       }
-
-      return academicDTO;
     } catch (SQLException e) {
       throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible obtener el académico por email.");
     }

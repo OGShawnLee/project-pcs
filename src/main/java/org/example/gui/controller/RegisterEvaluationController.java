@@ -122,7 +122,7 @@ public class RegisterEvaluationController extends Controller {
 
       EVALUATION_DAO.createOne(evaluationDTO);
       AlertFacade.showSuccessAndWait("La evaluación ha sido registrada exitosamente.");
-    } catch (IllegalArgumentException | UserDisplayableException e) {
+    } catch (IllegalArgumentException | NotFoundException | UserDisplayableException e) {
       AlertFacade.showErrorAndWait(e.getMessage());
     }
   }

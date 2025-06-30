@@ -171,22 +171,20 @@ public class ProjectDAO extends CompleteDAOShape<ProjectDTO, Integer> {
     }
   }
 
-  public ProjectDTO getOneByStudent(String idStudent) throws UserDisplayableException {
+  public ProjectDTO getOneByStudent(String idStudent) throws NotFoundException, UserDisplayableException {
     try (
       Connection connection = DBConnector.getInstance().getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_BY_STUDENT_QUERY)
     ) {
       statement.setString(1, idStudent);
 
-      ProjectDTO projectDTO = null;
-
       try (ResultSet resultSet = statement.executeQuery()) {
         if (resultSet.next()) {
-          projectDTO = createDTOInstanceFromResultSet(resultSet);
+          return createDTOInstanceFromResultSet(resultSet);
+        } else {
+          throw new NotFoundException("No se ha encontrado un proyecto asignado al estudiante.");
         }
       }
-
-      return projectDTO;
     } catch (SQLException e) {
       throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible cargar el proyecto del estudiante.");
     }

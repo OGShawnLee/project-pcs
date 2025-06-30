@@ -173,22 +173,20 @@ public class StudentDAO extends CompleteDAOShape<StudentDTO, String> {
     }
   }
 
-  public StudentDTO getOneByEmail(String email) throws UserDisplayableException {
+  public StudentDTO getOneByEmail(String email) throws NotFoundException, UserDisplayableException {
     try (
       Connection connection = DBConnector.getInstance().getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_BY_EMAIL_QUERY)
     ) {
       statement.setString(1, email);
 
-      StudentDTO studentDTO = null;
-
       try (ResultSet resultSet = statement.executeQuery()) {
         if (resultSet.next()) {
-          studentDTO = createDTOInstanceFromResultSet(resultSet);
+          return createDTOInstanceFromResultSet(resultSet);
+        } else {
+          throw new NotFoundException("No se ha encontrado un estudiante con el email proporcionado.");
         }
       }
-
-      return studentDTO;
     } catch (SQLException e) {
       throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible obtener el estudiante por email.");
     }

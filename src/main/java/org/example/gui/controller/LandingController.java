@@ -5,6 +5,7 @@ import javafx.scene.control.Label;
 
 import org.example.business.auth.AuthClient;
 import org.example.business.dao.AcademicDAO;
+import org.example.business.dao.NotFoundException;
 import org.example.business.dao.StudentDAO;
 import org.example.business.dto.AcademicDTO;
 import org.example.business.dto.AccountDTO;
@@ -50,8 +51,8 @@ public abstract class LandingController extends Controller {
           break;
         }
       }
-    } catch (UserDisplayableException e) {
-      AlertFacade.showErrorAndWait("No ha sido posible actualizar perfil", e);
+    } catch (NotFoundException | UserDisplayableException e) {
+      AlertFacade.showErrorAndWait("No ha sido posible actualizar perfil", e.getMessage());
     }
   }
 

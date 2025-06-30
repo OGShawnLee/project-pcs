@@ -1,6 +1,7 @@
 package org.example.business.auth;
 
 import org.example.business.dao.AcademicDAO;
+import org.example.business.dao.NotFoundException;
 import org.example.business.dao.StudentDAO;
 import org.example.business.dto.AcademicDTO;
 import org.example.business.dto.AccountDTO;
@@ -34,7 +35,7 @@ public class AuthClient {
     this.currentUser = currentUser;
   }
 
-  public AcademicDTO getCurrentAcademicDTO() throws IllegalStateException, UserDisplayableException {
+  public AcademicDTO getCurrentAcademicDTO() throws IllegalStateException, NotFoundException, UserDisplayableException {
     AccountDTO currentUser = getCurrentUser();
 
     if (currentUser == null) {
@@ -48,7 +49,7 @@ public class AuthClient {
     };
   }
 
-  public StudentDTO getCurrentStudentDTO() throws UserDisplayableException {
+  public StudentDTO getCurrentStudentDTO() throws IllegalStateException, NotFoundException, UserDisplayableException {
     AccountDTO currentUser = getCurrentUser();
 
     if (currentUser == null) {

@@ -25,6 +25,10 @@ public class AlertFacade {
     showErrorAndWait(e.getMessage());
   }
 
+  public static void showErrorAndWait(String message, String errorMessage) {
+    showErrorAndWait(message + "\n" + errorMessage);
+  }
+
   public static void showErrorAndWait(String message, UserDisplayableException e) {
     showErrorAndWait(message + "\n" + e.getMessage());
   }
