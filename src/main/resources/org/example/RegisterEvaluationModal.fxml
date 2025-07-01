@@ -48,7 +48,7 @@
         </VBox>
         <VBox spacing="8.0">
           <children>
-            <Label styleClass="label" text="Ortografía y Reacción" />
+            <Label styleClass="label" text="Ortografía y Redacción" />
             <ComboBox fx:id="comboBoxWritingGrade" maxWidth="1.7976931348623157E308" promptText="Califique la Ortografía y Redacción" styleClass="input" />
           </children>
         </VBox>
