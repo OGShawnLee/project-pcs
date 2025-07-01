@@ -29,7 +29,9 @@ public class ReviewStudentProjectController extends ContextController<ProjectDTO
   @FXML
   private Text fieldSector;
 
-  public void initialize() {
+  @Override
+  public void initialize(ProjectDTO projectDTO) {
+    super.initialize(projectDTO);
     loadStudentProject();
   }
 

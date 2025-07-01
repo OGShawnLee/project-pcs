@@ -28,10 +28,7 @@ public class ProjectDAO extends CompleteDAOShape<ProjectDTO, Integer> {
     "CALL create_project_and_work_plan(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
   private static final String GET_ALL_QUERY = "SELECT * FROM Project";
   private static final String GET_QUERY = "SELECT * FROM Project WHERE id_project = ?";
-  private static final String GET_BY_STUDENT_QUERY =
-    """
-        SELECT * FROM Project WHERE (SELECT EXISTS(SELECT * FROM Practice WHERE id_student = ? AND id_project = Project.id_project))
-      """;
+  private static final String GET_BY_STUDENT_QUERY = "CALL get_current_student_project(?)";
   private static final String GET_ALL_BY_STATE = "SELECT * FROM Project WHERE state = ?";
   private static final String UPDATE_QUERY =
     "UPDATE Project SET id_organization = ?, representative_email = ?, name = ?, description = ?, department = ?, available_places = ?, methodology = ?, state = ?, sector = ? WHERE id_project = ?";
@@ -174,7 +171,7 @@ public class ProjectDAO extends CompleteDAOShape<ProjectDTO, Integer> {
   public ProjectDTO getOneByStudent(String idStudent) throws NotFoundException, UserDisplayableException {
     try (
       Connection connection = DBConnector.getInstance().getConnection();
-      PreparedStatement statement = connection.prepareStatement(GET_BY_STUDENT_QUERY)
+      CallableStatement statement = connection.prepareCall(GET_BY_STUDENT_QUERY)
     ) {
       statement.setString(1, idStudent);
 
