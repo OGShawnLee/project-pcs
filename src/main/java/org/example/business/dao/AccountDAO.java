@@ -47,7 +47,7 @@ public class AccountDAO extends CompleteDAOShape<AccountDTO, String> {
     ) {
       statement.setString(1, accountDTO.email());
       statement.setString(2, accountDTO.password());
-      statement.setString(3, accountDTO.role().toString());
+      statement.setString(3, accountDTO.role().toDBString());
       statement.executeUpdate();
     } catch (SQLException e) {
       throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible crear la cuenta.");
@@ -102,7 +102,7 @@ public class AccountDAO extends CompleteDAOShape<AccountDTO, String> {
       PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
     ) {
       statement.setString(1, BCrypt.hashpw(accountDTO.password(), BCrypt.gensalt()));
-      statement.setString(2, accountDTO.role().toString());
+      statement.setString(2, accountDTO.role().toDBString());
       statement.setString(3, accountDTO.email());
       statement.executeUpdate();
     } catch (SQLException e) {
