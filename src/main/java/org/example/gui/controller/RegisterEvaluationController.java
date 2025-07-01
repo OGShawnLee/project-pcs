@@ -185,7 +185,8 @@ public class RegisterEvaluationController extends Controller {
       new FilterEvaluation(
         evaluationDTO.getIDProject(),
         evaluationDTO.getIDStudent(),
-        evaluationDTO.getIDAcademic()
+        evaluationDTO.getIDAcademic(),
+        evaluationDTO.getKind()
       )
     );
 

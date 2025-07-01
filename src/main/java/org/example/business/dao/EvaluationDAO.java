@@ -24,10 +24,10 @@ public class EvaluationDAO extends CompleteDAOShape<EvaluationDTO, FilterEvaluat
   private static final String CREATE_QUERY =
     "INSERT INTO Evaluation (id_academic, id_project, id_student, adequate_use_grade, feedback, content_congruence_grade, writing_grade, methodological_rigor_grade, kind) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
   private static final String GET_ALL_QUERY = "SELECT * FROM Evaluation";
-  private static final String GET_QUERY = "SELECT * FROM Evaluation WHERE id_academic = ? AND id_project = ? AND id_student = ?";
+  private static final String GET_QUERY = "SELECT * FROM Evaluation WHERE id_academic = ? AND id_project = ? AND id_student = ? AND kind = ?";
   private static final String UPDATE_QUERY =
     "UPDATE Evaluation SET adequate_use_grade = ?, feedback = ?, content_congruence_grade = ?, writing_grade = ?, methodological_rigor_grade = ?, kind = ? WHERE id_academic = ? AND id_project = ? AND id_student = ?";
-  private static final String DELETE_QUERY = "DELETE FROM Evaluation WHERE id_academic = ? AND id_project = ? AND id_student = ?";
+  private static final String DELETE_QUERY = "DELETE FROM Evaluation WHERE id_academic = ? AND id_project = ? AND id_student = ? AND kind = ?";
 
   @Override
   public EvaluationDTO getDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
@@ -94,6 +94,7 @@ public class EvaluationDAO extends CompleteDAOShape<EvaluationDTO, FilterEvaluat
       statement.setString(1, filter.getIDAcademic());
       statement.setInt(2, filter.getIDProject());
       statement.setString(3, filter.getIDStudent());
+      statement.setString(4, filter.getKind().toDBString());
 
       try (ResultSet resultSet = statement.executeQuery()) {
         if (resultSet.next()) {
@@ -137,6 +138,7 @@ public class EvaluationDAO extends CompleteDAOShape<EvaluationDTO, FilterEvaluat
       statement.setString(1, filter.getIDAcademic());
       statement.setInt(2, filter.getIDProject());
       statement.setString(3, filter.getIDStudent());
+      statement.setString(4, filter.getKind().toDBString());
       statement.executeUpdate();
     } catch (SQLException e) {
       throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible eliminar la evaluación.");
