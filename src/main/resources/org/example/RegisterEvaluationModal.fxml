@@ -1,60 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="500.0" prefWidth="500.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.12" fx:controller="org.example.gui.controller.RegisterEvaluationController">
-    <children>
-        <VBox alignment="TOP_CENTER" spacing="15.0">
-            <padding>
-                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-            </padding>
-            <!-- Título -->
-            <Label text="Registrar Evaluación">
-                <font>
-                    <Font name="System Bold" size="20" />
-                </font>
-            </Label>
-
-            <!-- ComboBox Práctica -->
-            <HBox alignment="CENTER_LEFT" spacing="10">
-                <Label minWidth="120" text="Práctica:" />
-                <ComboBox fx:id="comboBoxPractice" prefWidth="250" />
-            </HBox>
-
-            <!-- Calificaciones -->
-            <HBox alignment="CENTER_LEFT" spacing="10">
-                <Label minWidth="120" text="Calificación Técnica:" />
-                <ComboBox fx:id="comboBoxSkillGrade" prefHeight="25.0" prefWidth="183.0" promptText="selecciona una calificacion" />
-            </HBox>
-
-            <HBox alignment="CENTER_LEFT" spacing="10">
-                <Label minWidth="120" text="Contenido:" />
-                <ComboBox fx:id="comboBoxContentGrade" prefHeight="25.0" prefWidth="181.0" promptText="selecciona una calificacion" />
-            </HBox>
-
-            <HBox alignment="CENTER_LEFT" spacing="10">
-                <Label minWidth="120" text="Redacción:" />
-                <ComboBox fx:id="comboBoxWritingGrade" prefHeight="25.0" prefWidth="179.0" promptText="selecciona una calificacion" />
-            </HBox>
-
-            <HBox alignment="CENTER_LEFT" spacing="10">
-                <Label minWidth="120" text="Requisitos:" />
-                <ComboBox fx:id="comboBoxRequirementsGrade" prefHeight="25.0" prefWidth="178.0" promptText="selecciona una calificacion" />
-            </HBox>
-
-            <!-- Feedback -->
-            <HBox alignment="CENTER_LEFT" spacing="10">
-                <Label alignment="TOP_LEFT" minWidth="120" text="Retroalimentación:" />
-                <TextArea fx:id="textAreaFeedback" prefHeight="100" prefWidth="250" />
-            </HBox>
-
-            <!-- Botones -->
-            <HBox alignment="CENTER" spacing="15">
-                <Button onAction="#handleRegister" text="Registrar" />
-            </HBox>
+<AnchorPane fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="720.0" stylesheets="@main.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.gui.controller.RegisterEvaluationController">
+  <children>
+    <VBox layoutX="200.0" layoutY="57.0" prefWidth="320.0" spacing="16.0">
+      <children>
+        <Label styleClass="title" text="Registrar Evaluación">
+          <VBox.margin>
+            <Insets />
+          </VBox.margin>
+          <padding>
+            <Insets bottom="8.0" />
+          </padding>
+        </Label>
+        <VBox spacing="8.0">
+          <children>
+            <Label styleClass="label" text="Periodo a Evaluar" />
+            <TextField fx:id="fieldCurrentEvaluationEnabled" disable="true" editable="false" promptText="Periodo a Evaluar" styleClass="input" />
+          </children>
         </VBox>
-    </children>
+        <VBox spacing="8.0">
+          <children>
+            <Label styleClass="label" text="Uso Adecuado de la Disciplina" />
+            <ComboBox fx:id="comboBoxStudent" maxWidth="1.7976931348623157E308" promptText="Seleccione Estudiante a Evaluar" styleClass="input" />
+          </children>
+        </VBox>
+        <VBox spacing="8.0">
+          <children>
+            <Label styleClass="label" text="Uso Adecuado de la Disciplina" />
+            <ComboBox fx:id="comboBoxAdequateUseGrade" maxWidth="1.7976931348623157E308" promptText="Califique el Uso Adecuado de la Disciplina " styleClass="input" />
+          </children>
+        </VBox>
+        <VBox spacing="8.0">
+          <children>
+            <Label styleClass="label" text="Contenido Congruente" />
+            <ComboBox fx:id="comboBoxContentCongruenceGrade" maxWidth="1.7976931348623157E308" promptText="Califique el Contenido Congruente " styleClass="input" />
+          </children>
+        </VBox>
+        <VBox spacing="8.0">
+          <children>
+            <Label styleClass="label" text="Ortografía y Reacción" />
+            <ComboBox fx:id="comboBoxWritingGrade" maxWidth="1.7976931348623157E308" promptText="Califique la Ortografía y Redacción" styleClass="input" />
+          </children>
+        </VBox>
+        <VBox spacing="8.0">
+          <children>
+            <Label styleClass="label" text="Rigor Metodológico" />
+            <ComboBox fx:id="comboBoxMethodologicalRigorGrade" maxWidth="1.7976931348623157E308" promptText="Califique el Rigor Metodológico" styleClass="input" />
+          </children>
+        </VBox>
+        <VBox spacing="8.0">
+          <children>
+            <Label styleClass="label" text="Uso Adecuado de la Disciplina" />
+            <TextArea fx:id="textAreaFeedback" promptText="Introduzca su Retroalimentación" styleClass="text-area" />
+          </children>
+        </VBox>
+        <HBox>
+          <children>
+            <Button mnemonicParsing="false" onAction="#handleRegister" prefWidth="320.0" styleClass="button" text="Registrar Evaluación" />
+          </children>
+        </HBox>
+      </children>
+    </VBox>
+  </children>
 </AnchorPane>

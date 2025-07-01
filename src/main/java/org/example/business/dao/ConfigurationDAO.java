@@ -61,17 +61,18 @@ public class ConfigurationDAO extends DAOShape<ConfigurationDTO>
       Connection connection = DBConnector.getInstance().getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_QUERY)
     ) {
-      statement.setString(1, name.toString());
-
-      ConfigurationDTO configurationDTO = null;
+      statement.setString(1, name.toDBName());
 
       try (ResultSet resultSet = statement.executeQuery()) {
         if (resultSet.next()) {
-          configurationDTO = createDTOInstanceFromResultSet(resultSet);
+          return createDTOInstanceFromResultSet(resultSet);
+        } else {
+          LOGGER.fatal("Configuración {} No Registrada. Revisar Inserción en db.sql", name);
+          throw new UserDisplayableException(
+            "No ha sido posible encontrar configuración del sistema. Por favor, contacte al desarrollador del sistema."
+          );
         }
       }
-
-      return configurationDTO;
     } catch (SQLException e) {
       throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible cargar la configuración." );
     }
@@ -84,7 +85,7 @@ public class ConfigurationDAO extends DAOShape<ConfigurationDTO>
       PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
     ) {
       statement.setBoolean(1, configurationDTO.isEnabled());
-      statement.setString(2, configurationDTO.name().toString());
+      statement.setString(2, configurationDTO.name().toDBName());
       statement.executeUpdate();
     } catch (SQLException e) {
       throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible actualizar la configuración.");

@@ -21,6 +21,11 @@ public class StudentDTO extends Person {
   }
 
   @Override
+  public String toString() {
+    return getFullName() + " (S" + id + ")";
+  }
+
+  @Override
   public boolean equals(Object instance) {
     if (this == instance) return true;
     if (instance == null || getClass() != instance.getClass()) return false;

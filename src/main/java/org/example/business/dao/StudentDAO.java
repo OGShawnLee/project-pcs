@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.example.business.dao.shape.CompleteDAOShape;
 import org.example.business.dto.AccountDTO;
 import org.example.business.dto.StudentDTO;
+import org.example.business.dto.enumeration.ConfigurationName;
 import org.example.common.ExceptionHandler;
 import org.example.common.UserDisplayableException;
 import org.example.db.DBConnector;
@@ -32,6 +33,8 @@ public class StudentDAO extends CompleteDAOShape<StudentDTO, String> {
       SELECT * FROM Student WHERE state = ? AND EXISTS(SELECT 1 FROM Enrollment WHERE Enrollment.id_student = Student.id_student AND id_course = ?)""";
   private static final String GET_ALL_WITH_NO_PROJECT_QUERY =
     "SELECT * FROM Student WHERE id_student NOT IN (SELECT id_student FROM Practice) AND state = 'ACTIVE'";
+  private static final String GET_ALL_EVALUABLE_STUDENTS_BY_EVALUATOR_AND_EVALUATION_PERIOD =
+    "CALL get_evaluable_students_by_academic_and_evaluation_period(?, ?)";
   private static final String GET_QUERY =
     "SELECT * FROM Student WHERE id_student = ?";
   private static final String GET_BY_EMAIL_QUERY =
@@ -151,6 +154,28 @@ public class StudentDAO extends CompleteDAOShape<StudentDTO, String> {
       return list;
     } catch (SQLException e) {
       throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible obtener la lista de estudiantes sin proyecto.");
+    }
+  }
+
+  public List<StudentDTO> getAllEvaluableStudentsByEvaluatorAndEvaluationPeriod(String idAcademic, ConfigurationName evaluationPeriod) throws UserDisplayableException {
+    try (
+      Connection connection = DBConnector.getInstance().getConnection();
+      CallableStatement callableStatement = connection.prepareCall(GET_ALL_EVALUABLE_STUDENTS_BY_EVALUATOR_AND_EVALUATION_PERIOD)
+    ) {
+      callableStatement.setString(1, idAcademic);
+      callableStatement.setString(2, evaluationPeriod.toEvaluationKind().toDBString());
+
+      List<StudentDTO> list = new ArrayList<>();
+
+      try (ResultSet resultSet = callableStatement.executeQuery()) {
+        while (resultSet.next()) {
+          list.add(createDTOInstanceFromResultSet(resultSet));
+        }
+      }
+
+      return list;
+    } catch (SQLException e) {
+      throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible obtener la lista de estudiantes evaluables.");
     }
   }
 
