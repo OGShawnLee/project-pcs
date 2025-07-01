@@ -12,6 +12,7 @@ import org.example.business.dto.enumeration.CourseState;
 import org.example.business.dto.enumeration.Section;
 import org.example.common.UserDisplayableException;
 import org.example.gui.AlertFacade;
+import org.example.gui.combobox.AcademicComboBoxLoader;
 import org.example.gui.combobox.CourseComboBoxLoader;
 
 public class ManageCourseController extends ManageController<CourseDTO> {
@@ -31,7 +32,7 @@ public class ManageCourseController extends ManageController<CourseDTO> {
   @Override
   public void initialize(CourseDTO dataObject) {
     super.initialize(dataObject);
-    RegisterCourseController.loadComboBoxAcademic(comboBoxAcademic);
+    AcademicComboBoxLoader.loadComboBoxAcademic(comboBoxAcademic);
     CourseComboBoxLoader.loadComboBoxSection(comboBoxSection);
     loadComboboxState();
     loadDataObjectFields();

@@ -11,11 +11,8 @@ import org.example.business.dto.CourseDTO;
 import org.example.business.dto.enumeration.Section;
 import org.example.common.UserDisplayableException;
 import org.example.gui.AlertFacade;
+import org.example.gui.combobox.AcademicComboBoxLoader;
 import org.example.gui.combobox.CourseComboBoxLoader;
-import org.example.gui.modal.ModalFacade;
-import org.example.gui.modal.ModalFacadeConfiguration;
-
-import java.util.List;
 
 public class RegisterCourseController extends Controller {
   private static final AcademicDAO ACADEMIC_DAO = new AcademicDAO();
@@ -29,32 +26,7 @@ public class RegisterCourseController extends Controller {
 
   public void initialize() {
     CourseComboBoxLoader.loadComboBoxSection(comboBoxSection);
-    loadComboBoxAcademic(comboBoxAcademic);
-  }
-
-  public static void loadComboBoxAcademic(ComboBox<AcademicDTO> comboBoxAcademic) {
-    try {
-      List<AcademicDTO> academicList = ACADEMIC_DAO.getAllByState("ACTIVE");
-
-      if (academicList.isEmpty()) {
-        AlertFacade.showErrorAndWait(
-          "No es posible registrar un curso porque no hay ningún académico que se le pueda asignar registrado en el sistema."
-        );
-        ModalFacade.createAndDisplay(
-          new ModalFacadeConfiguration(
-            "Registrar Académico",
-            "RegisterAcademicModal",
-            () -> loadComboBoxAcademic(comboBoxAcademic)
-          )
-        );
-        return;
-      }
-
-      comboBoxAcademic.getItems().addAll(academicList);
-      comboBoxAcademic.setValue(academicList.get(0));
-    } catch (UserDisplayableException e) {
-      AlertFacade.showErrorAndWait(e.getMessage());
-    }
+    AcademicComboBoxLoader.loadComboBoxAcademic(comboBoxAcademic);
   }
 
   private CourseDTO createCourseDTOFromFields() {
@@ -65,19 +37,37 @@ public class RegisterCourseController extends Controller {
       .build();
   }
 
-  public void handleRegister() {
-    try {
-      CourseDTO existingCourseDTO = COURSE_DAO.getOne(fieldNRC.getText());
+  /**
+   * Verifies if a course with the given NRC already exists and shows an error if it does.
+   *
+   * @return true if no duplicate course exists, false otherwise.
+   * @throws UserDisplayableException if an error occurs while checking for duplicates.
+   */
+  public boolean verifyDuplicateCourse() throws UserDisplayableException {
+    CourseDTO existingCourseDTO = COURSE_DAO.getOne(fieldNRC.getText());
 
-      if (existingCourseDTO != null) {
-        AlertFacade.showErrorAndWait("No ha sido posible registrar el curso porque ya existe un curso con el NRC ingresado.");
-        return;
-      }
+    if (existingCourseDTO != null) {
+      AlertFacade.showErrorAndWait(
+        "No ha sido posible registrar el curso porque ya existe un curso con el NRC ingresado."
+      );
+      return false;
+    }
 
+    return true;
+  }
+
+  public void updateCourseDTO() throws UserDisplayableException {
       COURSE_DAO.createOne(createCourseDTOFromFields());
       AlertFacade.showSuccessAndWait("El curso ha sido registrado exitosamente.");
+  }
+
+  public void handleRegister() {
+    try {
+      if (verifyDuplicateCourse()) {
+        updateCourseDTO();
+      }
     } catch (IllegalArgumentException | UserDisplayableException e) {
-      AlertFacade.showErrorAndWait(e.getMessage());
+      AlertFacade.showErrorAndWait("No ha sido posible registrar curso", e.getMessage());
     }
   }
 }

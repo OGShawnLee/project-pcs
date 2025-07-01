@@ -5,6 +5,7 @@ import org.example.business.auth.AuthClient;
 import org.example.business.dao.CourseDAO;
 import org.example.business.dao.NotFoundException;
 import org.example.business.dto.CourseDTO;
+import org.example.business.dto.enumeration.Section;
 import org.example.common.UserDisplayableException;
 import org.example.gui.AlertFacade;
 
@@ -43,5 +44,16 @@ public class CourseComboBoxLoader {
     } catch (NotFoundException | UserDisplayableException e) {
       AlertFacade.showErrorAndWait(e.getMessage());
     }
+  }
+
+  /**
+   * Loads the given ComboBox with all available sections.
+   * The default value is set to Section.S1.
+   *
+   * @param comboBoxSection The ComboBox to be populated with Section items.
+   */
+  public static void loadComboBoxSection(ComboBox<Section> comboBoxSection) {
+    comboBoxSection.getItems().addAll(Section.values());
+    comboBoxSection.setValue(Section.S1);
   }
 }

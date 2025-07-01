@@ -76,7 +76,9 @@ public class RegisterAcademicController extends Controller {
     AcademicDTO existingAcademicDTO = ACADEMIC_DAO.getOne(academicDTO.getID());
 
     if (existingAcademicDTO != null) {
-      AlertFacade.showErrorAndWait("No ha sido posible registrar académico debido a que ya existe un académico con la misma ID de Trabajador.");
+      AlertFacade.showErrorAndWait(
+        "No ha sido posible registrar académico debido a que ya existe un académico con la misma ID de Trabajador."
+      );
       return false;
     }
 
