@@ -5,9 +5,7 @@ import org.example.gui.modal.ModalFacadeConfiguration;
 
 public class LandingEvaluatorController extends LandingController {
   public void navigateToReviewEvaluationListPage() {
-    ModalFacade.createAndDisplay(
-      new ModalFacadeConfiguration("Lista de Evaluaciones", "ReviewEvaluationListPage")
-    );
+    ReviewEvaluationListController.navigateToEvaluationListPage(getScene());
   }
 
   public void handleOpenRegisterEvaluation() {

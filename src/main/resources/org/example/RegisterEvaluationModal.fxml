@@ -10,63 +10,72 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="720.0" stylesheets="@main.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.gui.controller.RegisterEvaluationController">
+<AnchorPane fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="720.0" prefWidth="720.0" stylesheets="@main.css" xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.gui.controller.RegisterEvaluationController">
   <children>
     <VBox layoutX="200.0" layoutY="57.0" prefWidth="320.0" spacing="16.0">
       <children>
         <Label styleClass="title" text="Registrar Evaluación">
           <VBox.margin>
-            <Insets />
+            <Insets/>
           </VBox.margin>
           <padding>
-            <Insets bottom="8.0" />
+            <Insets bottom="8.0"/>
           </padding>
         </Label>
         <VBox spacing="8.0">
           <children>
-            <Label styleClass="label" text="Periodo a Evaluar" />
-            <TextField fx:id="fieldCurrentEvaluationEnabled" disable="true" editable="false" promptText="Periodo a Evaluar" styleClass="input" />
+            <Label styleClass="label" text="Periodo a Evaluar"/>
+            <TextField fx:id="fieldCurrentEvaluationEnabled" disable="true" editable="false"
+                       promptText="Periodo a Evaluar" styleClass="input"/>
           </children>
         </VBox>
         <VBox spacing="8.0">
           <children>
-            <Label styleClass="label" text="Uso Adecuado de la Disciplina" />
-            <ComboBox fx:id="comboBoxStudent" maxWidth="1.7976931348623157E308" promptText="Seleccione Estudiante a Evaluar" styleClass="input" />
+            <Label styleClass="label" text="Uso Adecuado de la Disciplina"/>
+            <ComboBox fx:id="comboBoxStudent" maxWidth="1.7976931348623157E308"
+                      promptText="Seleccione Estudiante a Evaluar" styleClass="input"/>
           </children>
         </VBox>
         <VBox spacing="8.0">
           <children>
-            <Label styleClass="label" text="Uso Adecuado de la Disciplina" />
-            <ComboBox fx:id="comboBoxAdequateUseGrade" maxWidth="1.7976931348623157E308" promptText="Califique el Uso Adecuado de la Disciplina " styleClass="input" />
+            <Label styleClass="label" text="Uso Adecuado de la Disciplina"/>
+            <ComboBox fx:id="comboBoxAdequateUseGrade" maxWidth="1.7976931348623157E308"
+                      promptText="Califique el Uso Adecuado de la Disciplina " styleClass="input"/>
           </children>
         </VBox>
         <VBox spacing="8.0">
           <children>
-            <Label styleClass="label" text="Contenido Congruente" />
-            <ComboBox fx:id="comboBoxContentCongruenceGrade" maxWidth="1.7976931348623157E308" promptText="Califique el Contenido Congruente " styleClass="input" />
+            <Label styleClass="label" text="Contenido Congruente"/>
+            <ComboBox fx:id="comboBoxContentCongruenceGrade" maxWidth="1.7976931348623157E308"
+                      promptText="Califique el Contenido Congruente " styleClass="input"/>
           </children>
         </VBox>
         <VBox spacing="8.0">
           <children>
-            <Label styleClass="label" text="Ortografía y Redacción" />
-            <ComboBox fx:id="comboBoxWritingGrade" maxWidth="1.7976931348623157E308" promptText="Califique la Ortografía y Redacción" styleClass="input" />
+            <Label styleClass="label" text="Ortografía y Redacción"/>
+            <ComboBox fx:id="comboBoxWritingGrade" maxWidth="1.7976931348623157E308"
+                      promptText="Califique la Ortografía y Redacción" styleClass="input"/>
           </children>
         </VBox>
         <VBox spacing="8.0">
           <children>
-            <Label styleClass="label" text="Rigor Metodológico" />
-            <ComboBox fx:id="comboBoxMethodologicalRigorGrade" maxWidth="1.7976931348623157E308" promptText="Califique el Rigor Metodológico" styleClass="input" />
+            <Label styleClass="label" text="Rigor Metodológico"/>
+            <ComboBox fx:id="comboBoxMethodologicalRigorGrade" maxWidth="1.7976931348623157E308"
+                      promptText="Califique el Rigor Metodológico" styleClass="input"/>
           </children>
         </VBox>
         <VBox spacing="8.0">
           <children>
-            <Label styleClass="label" text="Uso Adecuado de la Disciplina" />
-            <TextArea fx:id="textAreaFeedback" promptText="Introduzca su Retroalimentación" styleClass="text-area" />
+            <Label styleClass="label" text="Uso Adecuado de la Disciplina"/>
+            <TextArea fx:id="textAreaFeedback" promptText="Introduzca su Retroalimentación" styleClass="text-area"/>
           </children>
         </VBox>
         <HBox>
           <children>
-            <Button mnemonicParsing="false" onAction="#handleRegister" prefWidth="320.0" styleClass="button" text="Registrar Evaluación" />
+            <Button mnemonicParsing="false" onAction="#handleRegister" prefWidth="320.0" styleClass="button"
+                    text="Registrar Evaluación"/>
           </children>
         </HBox>
       </children>

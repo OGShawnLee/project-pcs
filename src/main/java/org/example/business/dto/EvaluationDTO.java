@@ -5,7 +5,7 @@ import org.example.business.dto.enumeration.EvaluationKind;
 
 import java.time.LocalDateTime;
 
-public class EvaluationDTO {
+public class EvaluationDTO implements Record {
   private int idProject;
   private final String idStudent;
   private final String idAcademic;
@@ -72,6 +72,10 @@ public class EvaluationDTO {
 
   public LocalDateTime getCreatedAt() {
     return createdAt;
+  }
+
+  public float getAverageGrade() {
+    return (adequateUseGrade + contentCongruenceGrade + writingGrade + methodologicalRigorGrade) / 4.0f;
   }
 
   @Override

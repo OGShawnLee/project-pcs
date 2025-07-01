@@ -109,10 +109,7 @@ public class ReviewEvaluationListController extends Controller {
   public void onViewEvaluation() {
     getSelectedItem().ifPresent(evaluationPreview -> {
       ModalFacade.createAndDisplayContextModal(
-        new ModalFacadeConfiguration(
-          "Visualizar Evaluacion",
-          "VisualizeEvaluationModal"
-        ),
+        new ModalFacadeConfiguration("Ver Evaluación","ReviewEvaluationModal"),
         evaluationPreview
       );
     });

@@ -49,7 +49,11 @@ public class RegisterProjectController extends Controller {
   public void initialize() {
     ComboBoxLoader.loadComboBoxOrganizationWithRepresentatives(comboBoxOrganization);
     ComboBoxLoader.loadComboBoxSector(comboBoxSector);
-    ComboBoxLoader.loadComboBoxRepresentativeByOrganization(comboBoxRepresentative, comboBoxOrganization.getItems().getFirst().getEmail());
+
+    if (!comboBoxOrganization.getItems().isEmpty()) {
+      ComboBoxLoader.loadComboBoxRepresentativeByOrganization(comboBoxRepresentative, comboBoxOrganization.getItems().getFirst().getEmail());
+    }
+
     ComboBoxLoader.loadSynchronizationOfRepresentativeComboBoxFromOrganizationComboBoxSelection(comboBoxOrganization, comboBoxRepresentative);
 
     fieldDescription.textProperty().addListener((observable, oldValue, newValue) -> {

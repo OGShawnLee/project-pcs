@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="720.0" prefWidth="720.0" stylesheets="@main.css" xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.gui.controller.ReviewEvaluationController">
+  <children>
+    <ScrollPane prefHeight="720.0" prefWidth="720.0">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="720.0">
+          <children>
+            <VBox layoutX="200.0" layoutY="90.0" prefWidth="320.0" spacing="16.0">
+              <children>
+                <Label styleClass="title" text="Visualizar Evaluación">
+                  <VBox.margin>
+                    <Insets/>
+                  </VBox.margin>
+                  <padding>
+                    <Insets bottom="8.0"/>
+                  </padding>
+                </Label>
+                <VBox spacing="8.0">
+                  <children>
+                    <Label styleClass="label" text="Periodo Evaluado"/>
+                    <TextField fx:id="fieldKind" disable="true" editable="false" promptText="Periodo Evaluado"
+                               styleClass="input"/>
+                  </children>
+                </VBox>
+                <VBox spacing="8.0">
+                  <children>
+                    <Label styleClass="label" text="Estudiante"/>
+                    <TextField fx:id="fieldStudent" disable="true" editable="false" promptText="Estudiante"
+                               styleClass="input"/>
+                  </children>
+                </VBox>
+                <VBox spacing="8.0">
+                  <children>
+                    <Label styleClass="label" text="Académico Evaluador"/>
+                    <TextField fx:id="fieldAcademic" disable="true" editable="false" promptText="Académico Evaluador"
+                               styleClass="input"/>
+                  </children>
+                </VBox>
+                <VBox spacing="8.0">
+                  <children>
+                    <Label styleClass="label" text="Nombre de Proyecto"/>
+                    <TextArea fx:id="textAreaProjectName" disable="true" editable="false"
+                              promptText="Nombre de Proyecto" styleClass="text-area"/>
+                  </children>
+                </VBox>
+                <VBox spacing="8.0">
+                  <children>
+                    <Label styleClass="label" text="Uso Adecuado de la Disciplina"/>
+                    <TextField fx:id="fieldAdequateUseGrade" disable="true" editable="false"
+                               promptText="Uso Adecuado de la Disciplina" styleClass="input"/>
+                  </children>
+                </VBox>
+                <VBox spacing="8.0">
+                  <children>
+                    <Label styleClass="label" text="Contenido Congruente"/>
+                    <TextField fx:id="fieldContentCongruenceGrade" disable="true" editable="false"
+                               promptText="Contenido Congruente" styleClass="input"/>
+                  </children>
+                </VBox>
+                <VBox spacing="8.0">
+                  <children>
+                    <Label styleClass="label" text="Ortografía y Redacción"/>
+                    <TextField fx:id="fieldWritingGrade" disable="true" editable="false"
+                               promptText="Ortografía y Redacción" styleClass="input"/>
+                  </children>
+                </VBox>
+                <VBox spacing="8.0">
+                  <children>
+                    <Label styleClass="label" text="Rigor Metodológico"/>
+                    <TextField fx:id="fieldMethodologicalRigorGrade" disable="true" editable="false"
+                               promptText="Rigor Metodológico" styleClass="input"/>
+                  </children>
+                </VBox>
+                <VBox spacing="8.0">
+                  <children>
+                    <Label styleClass="label" text="Promedio"/>
+                    <TextField fx:id="fieldAverage" disable="true" editable="false" promptText="Promedio"
+                               styleClass="input"/>
+                  </children>
+                </VBox>
+                <VBox spacing="8.0">
+                  <children>
+                    <Label styleClass="label" text="Fecha de Registro"/>
+                    <TextField fx:id="fieldCreatedAt" disable="true" editable="false" promptText="Fecha de Registro"
+                               styleClass="input"/>
+                  </children>
+                </VBox>
+                <VBox spacing="8.0">
+                  <children>
+                    <Label styleClass="label" text="Retroalimentación"/>
+                    <TextArea fx:id="textAreaFeedback" disable="true" editable="false" promptText="Retroalimentación"
+                              styleClass="text-area"/>
+                  </children>
+                </VBox>
+              </children>
+            </VBox>
+          </children>
+          <padding>
+            <Insets top="128.0"/>
+          </padding>
+        </AnchorPane>
+      </content>
+    </ScrollPane>
+  </children>
+</AnchorPane>
