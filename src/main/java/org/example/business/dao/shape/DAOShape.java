@@ -1,5 +1,8 @@
 package org.example.business.dao.shape;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.example.common.ExceptionHandler;
 import org.example.common.UserDisplayableException;
 
 import java.sql.ResultSet;
@@ -14,6 +17,7 @@ import java.sql.SQLException;
  * @param <T> the type of the DTO that this DAOShape will handle.
  */
 public abstract class DAOShape<T> {
+  protected static final Logger LOGGER = LogManager.getLogger(DAOShape.class);
   /**
    * Gets a DTO instance from the ResultSet. This method is intended to be used by the createDTOInstanceFromResultSet method
    * to create a DTO instance from the ResultSet along with error handling.
@@ -35,7 +39,7 @@ public abstract class DAOShape<T> {
     try {
       return getDTOInstanceFromResultSet(resultSet);
     } catch (SQLException e) {
-      throw new UserDisplayableException("Error creating DTO instance from ResultSet", e);
+      throw ExceptionHandler.handleSQLException(LOGGER, e);
     }
   }
 }
