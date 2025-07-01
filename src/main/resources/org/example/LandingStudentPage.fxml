@@ -45,6 +45,9 @@
           <Button onAction="#handleOpenRegisterProjectRequest" maxWidth="1.7976931348623157E308"
                   mnemonicParsing="false" prefWidth="160.0" styleClass="button" text="Solicitar Proyecto"/>
         </HBox>
+        <Button onAction="#navigateToReviewEvaluationListPage" maxWidth="1.7976931348623157E308"
+                mnemonicParsing="false"
+                styleClass="button" text="Consultar Evaluaciones"/>
         <Button onAction="#handleOpenRegisterSelfEvaluation" maxWidth="1.7976931348623157E308"
                 mnemonicParsing="false"
                 styleClass="button" text="Registrar Autoevaluación"/>

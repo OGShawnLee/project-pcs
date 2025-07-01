@@ -23,6 +23,10 @@ public class LandingStudentController extends LandingController {
     });
   }
 
+  public void navigateToReviewEvaluationListPage() {
+    navigateFromThisPageTo("Revisar Evaluaciones", "ReviewEvaluationListPage");
+  }
+
   public void handleOpenReviewStudentProject() {
     ReviewStudentProjectController.displayAsContextModal(currentStudentDTO);
   }

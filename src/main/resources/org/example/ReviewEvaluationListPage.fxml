@@ -21,15 +21,17 @@
         <HBox alignment="CENTER" spacing="16.0">
           <Button mnemonicParsing="false" onMouseClicked="#navigateToLandingPage" styleClass="button"
                   text="Volver a Inicio"/>
-          <Button mnemonicParsing="false" onMouseClicked="#onRegisterEvaluation" styleClass="button"
-                  text="Registrar Evaluación"/>
           <Button mnemonicParsing="false" onMouseClicked="#onViewEvaluation" styleClass="button"
                   text="Visualizar Evaluación"/>
+          <Button fx:id="buttonRegisterEvaluation" mnemonicParsing="false" onMouseClicked="#onRegisterEvaluation"
+                  styleClass="button"
+                  text="Registrar Evaluación"/>
         </HBox>
       </HBox>
       <TableView fx:id="tableEvaluation" prefHeight="605.0" prefWidth="1013.0">
         <columns>
           <TableColumn fx:id="columnKind" prefWidth="150.0" styleClass="column" text="Periodo de Evaluación"/>
+          <TableColumn fx:id="columnFullNameAcademic" prefWidth="150.0" styleClass="column" text="Académico Evaluador"/>
           <TableColumn fx:id="columnFullNameStudent" prefWidth="150.0" styleClass="column" text="Estudiante"/>
           <TableColumn fx:id="columnAdequateUseGrade" prefWidth="150.0" styleClass="column" text="Uso Adecuado"/>
           <TableColumn fx:id="columnContentCongruenceGrade" prefWidth="150.0" styleClass="column"
