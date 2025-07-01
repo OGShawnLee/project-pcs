@@ -37,7 +37,11 @@ public class RegisterStudentController extends Controller {
   private ComboBox<CourseDTO> comboBoxCourse;
 
   public void initialize() {
-    CourseComboBoxLoader.loadByCurrentAcademicDTO(comboBoxCourse);
+    try {
+      CourseComboBoxLoader.loadByCurrentAcademicDTO(comboBoxCourse);
+    } catch (NotFoundException | UserDisplayableException e) {
+      AlertFacade.showErrorAndWait("No es posible registrar estudiantes.", e.getMessage());
+    }
   }
 
   private StudentDTO createStudentDTOFromFields() {
@@ -52,6 +56,10 @@ public class RegisterStudentController extends Controller {
   }
 
   private EnrollmentDTO createEnrollmentDTOFromFields() throws NotFoundException, UserDisplayableException {
+    if (comboBoxCourse.getItems().isEmpty()) {
+      throw new UserDisplayableException("No existen cursos asignados a su cuenta. Por favor, contacte a su Coordinador.");
+    }
+
     return new EnrollmentDTO.EnrollmentBuilder()
       .setIDAcademic(AuthClient.getInstance().getCurrentAcademicDTO().getID())
       .setIDStudent(fieldIDStudent.getText())

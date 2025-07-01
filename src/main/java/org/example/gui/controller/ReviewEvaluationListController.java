@@ -4,23 +4,18 @@ import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import org.example.business.auth.AuthClient;
-import org.example.business.dao.EvaluationPreviewDAO;
 import org.example.business.dao.NotFoundException;
-import org.example.business.dto.AcademicDTO;
-import org.example.business.dto.AccountDTO;
+import org.example.business.dto.CourseDTO;
 import org.example.business.dto.EvaluationPreviewDTO;
-import org.example.business.dto.StudentDTO;
-import org.example.business.dto.enumeration.AccountRole;
 import org.example.common.UserDisplayableException;
 import org.example.gui.AlertFacade;
+import org.example.gui.controller.helpers.ReviewEvaluationListContext;
 import org.example.gui.modal.ModalFacade;
 import org.example.gui.modal.ModalFacadeConfiguration;
 
@@ -28,8 +23,6 @@ import java.util.List;
 import java.util.Optional;
 
 public class ReviewEvaluationListController extends Controller {
-  private static final Logger LOGGER = LogManager.getLogger(ReviewEvaluationListController.class);
-  private static final EvaluationPreviewDAO EVALUATION_PREVIEW_DAO = new EvaluationPreviewDAO();
   @FXML
   private TableView<EvaluationPreviewDTO> tableEvaluation;
   @FXML
@@ -51,66 +44,65 @@ public class ReviewEvaluationListController extends Controller {
   @FXML
   private TableColumn<EvaluationPreviewDTO, String> columnCreatedAt;
   @FXML
+  private HBox containerComboBoxCourse;
+  @FXML
+  private ComboBox<CourseDTO> comboBoxCourse;
+  @FXML
   private Button buttonRegisterEvaluation;
+  @FXML
+  public Button buttonViewAcademicEvaluatorViewEvaluationList;
+  private ReviewEvaluationListContext stateContext;
 
   public void initialize() {
     try {
-      loadTableItemsAndView();
+      this.stateContext = new ReviewEvaluationListContext(this);
+      this.stateContext.loadTableItemsAndView();
       loadCommonTableColumns();
     } catch (NotFoundException | UserDisplayableException e) {
       AlertFacade.showErrorAndWait("No ha sido posible cargar evaluaciones.", e.getMessage());
     }
   }
 
+  public void setColumnFullNameAcademicVisibilityAndConfigure(boolean visibility) {
+    columnFullNameAcademic.setVisible(visibility);
+    if (visibility) {
+      columnFullNameAcademic.setCellValueFactory((it) ->
+        new ReadOnlyStringWrapper(it.getValue().fullNameAcademic())
+      );
+    }
+  }
+
+  public void setColumnFullNameStudentVisibilityAndConfigure(boolean visibility) {
+    columnFullNameStudent.setVisible(visibility);
+    if (visibility) {
+      columnFullNameStudent.setCellValueFactory((it) ->
+        new ReadOnlyStringWrapper(it.getValue().fullNameStudent())
+      );
+    }
+  }
+
+  public ComboBox<CourseDTO> getComboBoxCourse() {
+    return comboBoxCourse;
+  }
+
+  public Button getButtonViewAcademicEvaluatorViewEvaluationList() {
+    return buttonViewAcademicEvaluatorViewEvaluationList;
+  }
+
   public void setButtonRegisterEvaluationVisibility(boolean visibility) {
     buttonRegisterEvaluation.setVisible(visibility);
   }
 
-  public void loadTableItemsAndView() throws NotFoundException, UserDisplayableException {
-    switch (AuthClient.getInstance().getCurrentUser().role()) {
-      case EVALUATOR -> loadEvaluatorItemsAndView();
-      case STUDENT -> loadStudentItemsAndView();
-      case COORDINATOR -> loadCoordinatorItemsAndView();
-    }
+  public void setButtonViewAcademicEvaluatorEvaluationListVisibility(boolean visibility) {
+    buttonViewAcademicEvaluatorViewEvaluationList.setVisible(visibility);
+  }
+
+  public void setContainerComboboxVisibility(boolean visibility) {
+    containerComboBoxCourse.setVisible(visibility);
   }
 
   public void setTableItems(List<EvaluationPreviewDTO> evaluationPreviewDTOList) {
     tableEvaluation.setItems(FXCollections.observableArrayList(evaluationPreviewDTOList));
-  }
-
-  public void loadEvaluatorColumns() {
-    columnFullNameAcademic.setVisible(false);
-    columnFullNameStudent.setVisible(true);
-    columnFullNameStudent.setCellValueFactory((it) ->
-      new ReadOnlyStringWrapper(it.getValue().fullNameStudent())
-    );
-  }
-
-  public void loadEvaluatorItemsAndView() throws NotFoundException, UserDisplayableException {
-    AcademicDTO currentAcademicDTO = AuthClient.getInstance().getCurrentAcademicDTO();
-    setTableItems(EVALUATION_PREVIEW_DAO.getAllByEvaluator(currentAcademicDTO.getID()));
-    loadEvaluatorColumns();
-    setButtonRegisterEvaluationVisibility(true);
-  }
-
-  public void loadStudentColumns() {
-    columnFullNameStudent.setVisible(false);
-    columnFullNameAcademic.setVisible(true);
-    columnFullNameAcademic.setCellValueFactory((it) ->
-      new ReadOnlyStringWrapper(it.getValue().fullNameAcademic())
-    );
-  }
-
-  public void loadStudentItemsAndView() throws NotFoundException, UserDisplayableException {
-    StudentDTO currentStudentDTO = AuthClient.getInstance().getCurrentStudentDTO();
-    setTableItems(EVALUATION_PREVIEW_DAO.getAllByStudent(currentStudentDTO.getID()));
-    loadStudentColumns();
-    setButtonRegisterEvaluationVisibility(false);
-  }
-
-  public void loadCoordinatorItemsAndView() {
-    LOGGER.fatal("El rol de Coordinador no puede ver evaluaciones directamente.");
-    AlertFacade.showErrorAndWait("Acción Prohibida", "El rol de Coordinador no puede ver evaluaciones directamente.");
   }
 
   public void loadCommonTableColumns() {
@@ -138,7 +130,12 @@ public class ReviewEvaluationListController extends Controller {
 
   public void refreshDataList() {
     try {
-      loadTableItemsAndView();
+      if (this.stateContext != null) {
+        this.stateContext.loadTableItems();
+        return;
+      }
+
+      AlertFacade.showErrorAndWait("Recarga Exitosa", "Las evaluaciones han sido recargadas correctamente.");
     } catch (NotFoundException | UserDisplayableException e) {
       AlertFacade.showErrorAndWait("No ha sido posible recargar las evaluaciones.", e.getMessage());
     }

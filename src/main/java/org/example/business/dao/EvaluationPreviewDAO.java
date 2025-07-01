@@ -40,13 +40,14 @@ public class EvaluationPreviewDAO
     );
   }
 
-  public List<EvaluationPreviewDTO> getAllByAcademic(String idAcademic, int idCourse) throws UserDisplayableException {
+  public List<EvaluationPreviewDTO> getAllByAcademic(String idAcademic, String idCourse) throws UserDisplayableException {
     try (
       Connection connection = DBConnector.getInstance().getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_ALL_BY_ACADEMIC)
     ) {
       statement.setString(1, idAcademic);
-      statement.setInt(2, idCourse);
+      statement.setString(2, idCourse);
+
       try (ResultSet resultSet = statement.executeQuery()) {
         List<EvaluationPreviewDTO> list = new ArrayList<>();
 

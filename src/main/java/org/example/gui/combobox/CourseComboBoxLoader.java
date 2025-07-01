@@ -7,7 +7,6 @@ import org.example.business.dao.NotFoundException;
 import org.example.business.dto.CourseDTO;
 import org.example.business.dto.enumeration.Section;
 import org.example.common.UserDisplayableException;
-import org.example.gui.AlertFacade;
 
 import java.util.List;
 
@@ -24,26 +23,24 @@ public class CourseComboBoxLoader {
    * Loads the given ComboBox with courses associated with the current Academic user logged in the system.
    * If no courses are found, it shows an error alert.
    * <p>
-   * <code>NotFoundException</code> and <code>UserDisplayableException</code> are handled by this method.
+   * Throws <code>NotFoundException</code> when unable to retrieve the current Academic.
+   * Throws <code>UserDisplayableException</code> when there are no courses associated with the current Academic.
    *
    * @param comboBoxCourse The ComboBox to be populated with CourseDTO items.
    */
-  public static void loadByCurrentAcademicDTO(ComboBox<CourseDTO> comboBoxCourse) {
-    try {
-      List<CourseDTO> courseList = COURSE_DAO.getAllByAcademic(
-        AuthClient.getInstance().getCurrentAcademicDTO().getID()
+  public static void loadByCurrentAcademicDTO(ComboBox<CourseDTO> comboBoxCourse) throws NotFoundException, UserDisplayableException {
+    List<CourseDTO> courseList = COURSE_DAO.getAllByAcademic(
+      AuthClient.getInstance().getCurrentAcademicDTO().getID()
+    );
+
+    if (courseList.isEmpty()) {
+      throw new UserDisplayableException(
+        "No existen cursos asignados a su cuenta. Por favor, contacte a su Coordinador."
       );
-
-      if (courseList.isEmpty()) {
-        AlertFacade.showErrorAndWait("No existe un curso activo asignado a ústed. Por favor, contacte a su Coordinador.");
-        return;
-      }
-
-      comboBoxCourse.getItems().addAll(courseList);
-      comboBoxCourse.setValue(courseList.getFirst());
-    } catch (NotFoundException | UserDisplayableException e) {
-      AlertFacade.showErrorAndWait(e.getMessage());
     }
+
+    comboBoxCourse.getItems().addAll(courseList);
+    comboBoxCourse.setValue(courseList.getFirst());
   }
 
   /**

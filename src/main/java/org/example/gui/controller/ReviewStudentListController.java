@@ -8,6 +8,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
+import org.example.business.dao.NotFoundException;
 import org.example.business.dto.CourseDTO;
 import org.example.business.dto.StudentDTO;
 import org.example.business.dao.StudentDAO;
@@ -44,9 +45,13 @@ public class ReviewStudentListController extends ReviewListController implements
   @Override
   public void initialize() {
     super.initialize();
-    CourseComboBoxLoader.loadByCurrentAcademicDTO(comboBoxCourse); // Note: Must be loaded first.
-    loadStudentListBasedOnCourseSelectionAndState(null);
-    setLoadStudentListOnCourseSelectionAction();
+    try {
+      CourseComboBoxLoader.loadByCurrentAcademicDTO(comboBoxCourse); // Note: Must be loaded first.
+      loadStudentListBasedOnCourseSelectionAndState(null);
+      setLoadStudentListOnCourseSelectionAction();
+    } catch (NotFoundException | UserDisplayableException e) {
+      AlertFacade.showErrorAndWait("No es posible cargar los estudiantes.", e.getMessage());
+    }
   }
 
   public void loadTableColumns() {
