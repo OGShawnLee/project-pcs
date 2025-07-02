@@ -7,11 +7,12 @@ import org.example.common.UserDisplayableException;
 import org.example.gui.AlertFacade;
 import org.example.gui.combobox.CourseComboBoxLoader;
 
-enum AcademicEvaluatorViewMode {
-  ACADEMIC, EVALUATOR,
-}
 
 public class ReviewEvaluationListAcademicEvaluatorState extends ReviewEvaluationListState {
+  private enum AcademicEvaluatorViewMode {
+    ACADEMIC, EVALUATOR,
+  }
+
   private final AcademicDTO currentAcademicDTO;
   private AcademicEvaluatorViewMode currentViewMode;
 
