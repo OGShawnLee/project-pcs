@@ -1,12 +1,13 @@
 package db;
 
 import org.example.business.dao.SelfEvaluationDAO;
+import org.example.business.dao.filter.FilterSelfEvaluation;
 import org.example.business.dto.SelfEvaluationDTO;
+import org.example.common.UserDisplayableException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -15,6 +16,7 @@ public class SelfEvaluationDAOTest {
   public static final SelfEvaluationDAO SELF_EVALUATION_DAO = new SelfEvaluationDAO();
   public static final SelfEvaluationDTO SELF_EVALUATION_DTO = new SelfEvaluationDTO.SelfEvaluationBuilder()
     .setIDStudent(StudentDAOTest.STUDENT_DTO.getID())
+    .setIDCourse(CourseDAOTest.COURSE_DTO.getNRC())
     .setCongruentGrade(5)
     .setFollowUpGrade(5)
     .setInformedByOrganization(5)
@@ -26,18 +28,25 @@ public class SelfEvaluationDAOTest {
     .setImportanceForProfessionalDevelopment(5)
     .build();
 
-  public static void createOneTestSelfEvaluation() throws SQLException {
+  public static void createOneTestSelfEvaluation() throws UserDisplayableException {
+    CourseDAOTest.createOneTestCourse();
     StudentDAOTest.createOneTestStudent();
     SELF_EVALUATION_DAO.createOne(SELF_EVALUATION_DTO);
   }
 
-  public static void deleteOneTestSelfEvaluation() throws SQLException {
+  public static void deleteOneTestSelfEvaluation() throws UserDisplayableException {
+    CourseDAOTest.deleteOneTestCourse();
     StudentDAOTest.deleteOneTestStudent();
-    SELF_EVALUATION_DAO.deleteOne(StudentDAOTest.STUDENT_DTO.getID());
+    SELF_EVALUATION_DAO.deleteOne(
+      new FilterSelfEvaluation(
+        StudentDAOTest.STUDENT_DTO.getID(),
+        CourseDAOTest.COURSE_DTO.getNRC()
+      )
+    );
   }
 
   @AfterEach
-  public void tearDown() throws SQLException {
+  public void tearDown() throws UserDisplayableException {
     deleteOneTestSelfEvaluation();
   }
 
@@ -45,7 +54,12 @@ public class SelfEvaluationDAOTest {
   public void testCreateOneSelfEvaluation() {
     assertDoesNotThrow(() -> {
       createOneTestSelfEvaluation();
-      SelfEvaluationDTO selfEvaluation = SELF_EVALUATION_DAO.getOne(StudentDAOTest.STUDENT_DTO.getID());
+      SelfEvaluationDTO selfEvaluation = SELF_EVALUATION_DAO.getOne(
+        new FilterSelfEvaluation(
+          StudentDAOTest.STUDENT_DTO.getID(),
+          CourseDAOTest.COURSE_DTO.getNRC()
+        )
+      );
       Assertions.assertEquals(selfEvaluation, SELF_EVALUATION_DTO);
     });
   }
@@ -66,7 +80,12 @@ public class SelfEvaluationDAOTest {
   public void testGetOneSelfEvaluation() {
     assertDoesNotThrow(() -> {
       createOneTestSelfEvaluation();
-      SelfEvaluationDTO selfEvaluation = SELF_EVALUATION_DAO.getOne(StudentDAOTest.STUDENT_DTO.getID());
+      SelfEvaluationDTO selfEvaluation = SELF_EVALUATION_DAO.getOne(
+        new FilterSelfEvaluation(
+          StudentDAOTest.STUDENT_DTO.getID(),
+          CourseDAOTest.COURSE_DTO.getNRC()
+        )
+      );
       Assertions.assertEquals(selfEvaluation, SELF_EVALUATION_DTO);
     });
   }
@@ -78,6 +97,7 @@ public class SelfEvaluationDAOTest {
 
       SelfEvaluationDTO updatedSelfEvaluation = new SelfEvaluationDTO.SelfEvaluationBuilder()
         .setIDStudent(StudentDAOTest.STUDENT_DTO.getID())
+        .setIDCourse(CourseDAOTest.COURSE_DTO.getNRC())
         .setCongruentGrade(4)
         .setFollowUpGrade(4)
         .setInformedByOrganization(4)
@@ -91,7 +111,12 @@ public class SelfEvaluationDAOTest {
 
       SELF_EVALUATION_DAO.updateOne(updatedSelfEvaluation);
 
-      SelfEvaluationDTO selfEvaluation = SELF_EVALUATION_DAO.getOne(StudentDAOTest.STUDENT_DTO.getID());
+      SelfEvaluationDTO selfEvaluation = SELF_EVALUATION_DAO.getOne(
+        new FilterSelfEvaluation(
+          StudentDAOTest.STUDENT_DTO.getID(),
+          CourseDAOTest.COURSE_DTO.getNRC()
+        )
+      );
       Assertions.assertEquals(selfEvaluation, updatedSelfEvaluation);
     });
   }
@@ -100,8 +125,18 @@ public class SelfEvaluationDAOTest {
   public void testDeleteOneSelfEvaluation() {
     assertDoesNotThrow(() -> {
       createOneTestSelfEvaluation();
-      SELF_EVALUATION_DAO.deleteOne(StudentDAOTest.STUDENT_DTO.getID());
-      Assertions.assertNull(SELF_EVALUATION_DAO.getOne(StudentDAOTest.STUDENT_DTO.getID()));
+      SELF_EVALUATION_DAO.deleteOne(
+        new FilterSelfEvaluation(
+          StudentDAOTest.STUDENT_DTO.getID(),
+          CourseDAOTest.COURSE_DTO.getNRC()
+        )
+      );
+      Assertions.assertNull(SELF_EVALUATION_DAO.getOne(
+        new FilterSelfEvaluation(
+          StudentDAOTest.STUDENT_DTO.getID(),
+          CourseDAOTest.COURSE_DTO.getNRC()
+        )
+      ));
     });
   }
 }

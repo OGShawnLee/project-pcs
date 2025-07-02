@@ -4,10 +4,10 @@ import org.example.business.dto.EvaluationDTO;
 import org.example.business.dao.EvaluationDAO;
 import org.example.business.dao.filter.FilterEvaluation;
 import org.example.business.dto.enumeration.EvaluationKind;
+import org.example.common.UserDisplayableException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -25,7 +25,7 @@ public class EvaluationDAOTest {
     .setFeedback("I have never seen a project like this before, it is amazing!")
     .build();
 
-  public static void createOneTestEvaluation() throws SQLException {
+  public static void createOneTestEvaluation() throws UserDisplayableException {
     AcademicDAOTest.createOneTestAcademic();
     ProjectDAOTest.createOneTestProject();
     StudentDAOTest.createOneTestStudent();
@@ -33,7 +33,7 @@ public class EvaluationDAOTest {
     EVALUATION_DAO.createOne(EVALUATION_DTO);
   }
 
-  public static void deleteOneTestEvaluation() throws SQLException {
+  public static void deleteOneTestEvaluation() throws UserDisplayableException {
     StudentDAOTest.deleteOneTestStudent();
     ProjectDAOTest.deleteOneTestProject();
     AcademicDAOTest.deleteOneTestAcademic();
@@ -41,13 +41,14 @@ public class EvaluationDAOTest {
       new FilterEvaluation(
         EVALUATION_DTO.getIDProject(),
         EVALUATION_DTO.getIDStudent(),
-        EVALUATION_DTO.getIDAcademic()
+        EVALUATION_DTO.getIDAcademic(),
+        EVALUATION_DTO.getKind()
       )
     );
   }
 
   @AfterEach
-  public void tearDown() throws SQLException {
+  public void tearDown() throws UserDisplayableException {
     deleteOneTestEvaluation();
   }
 
@@ -60,7 +61,8 @@ public class EvaluationDAOTest {
         new FilterEvaluation(
           EVALUATION_DTO.getIDProject(),
           EVALUATION_DTO.getIDStudent(),
-          EVALUATION_DTO.getIDAcademic()
+          EVALUATION_DTO.getIDAcademic(),
+          EVALUATION_DTO.getKind()
         )
       );
 
@@ -89,7 +91,8 @@ public class EvaluationDAOTest {
         new FilterEvaluation(
           EVALUATION_DTO.getIDProject(),
           EVALUATION_DTO.getIDStudent(),
-          EVALUATION_DTO.getIDAcademic()
+          EVALUATION_DTO.getIDAcademic(),
+          EVALUATION_DTO.getKind()
         )
       );
 
@@ -120,7 +123,8 @@ public class EvaluationDAOTest {
         new FilterEvaluation(
           updatedEvaluation.getIDProject(),
           updatedEvaluation.getIDStudent(),
-          updatedEvaluation.getIDAcademic()
+          updatedEvaluation.getIDAcademic(),
+          updatedEvaluation.getKind()
         )
       );
 
@@ -136,7 +140,8 @@ public class EvaluationDAOTest {
         new FilterEvaluation(
           EVALUATION_DTO.getIDProject(),
           EVALUATION_DTO.getIDStudent(),
-          EVALUATION_DTO.getIDAcademic()
+          EVALUATION_DTO.getIDAcademic(),
+          EVALUATION_DTO.getKind()
         )
       );
       assertNotNull(createdEvaluation);
@@ -146,7 +151,8 @@ public class EvaluationDAOTest {
         new FilterEvaluation(
           EVALUATION_DTO.getIDProject(),
           EVALUATION_DTO.getIDStudent(),
-          EVALUATION_DTO.getIDAcademic()
+          EVALUATION_DTO.getIDAcademic(),
+          EVALUATION_DTO.getKind()
         )
       );
       assertNull(deletedEvaluation);

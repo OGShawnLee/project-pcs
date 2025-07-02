@@ -3,11 +3,12 @@ package db;
 import org.example.business.dto.AccountDTO;
 import org.example.business.dao.AccountDAO;
 import org.example.business.dto.enumeration.AccountRole;
+import org.example.common.UserDisplayableException;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -27,24 +28,24 @@ public class AccountDAOTest {
     true
   );
 
-  public static void createOneTestAcademicAccount() throws SQLException {
+  public static void createOneTestAcademicAccount() throws UserDisplayableException {
     ACCOUNT_DAO.createOne(ACADEMIC_ACCOUNT_DTO);
   }
 
-  public static void createOneTestStudentAccount() throws SQLException {
+  public static void createOneTestStudentAccount() throws UserDisplayableException {
     ACCOUNT_DAO.createOne(STUDENT_ACCOUNT_DTO);
   }
 
-  public static void deleteOneTestAcademicAccount() throws SQLException {
+  public static void deleteOneTestAcademicAccount() throws UserDisplayableException {
     ACCOUNT_DAO.deleteOne(ACADEMIC_ACCOUNT_DTO.email());
   }
 
-  public static void deleteOneTestStudentAccount() throws SQLException {
+  public static void deleteOneTestStudentAccount() throws UserDisplayableException {
     ACCOUNT_DAO.deleteOne(STUDENT_ACCOUNT_DTO.email());
   }
 
   @AfterEach
-  public void tearDown() throws SQLException {
+  public void tearDown() throws UserDisplayableException {
     deleteOneTestAcademicAccount();
   }
 

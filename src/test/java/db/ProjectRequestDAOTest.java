@@ -3,11 +3,11 @@ package db;
 import org.example.business.dao.ProjectRequestDAO;
 import org.example.business.dao.filter.FilterProject;
 import org.example.business.dto.ProjectRequestDTO;
+import org.example.common.UserDisplayableException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 public class ProjectRequestDAOTest {
   private final static ProjectRequestDAO PROJECT_REQUEST_DAO = new ProjectRequestDAO();
 
-  public static ProjectRequestDTO createOnTestProjectRequest() throws SQLException {
+  public static ProjectRequestDTO createOnTestProjectRequest() throws UserDisplayableException {
     ProjectDAOTest.createOneTestProject();
     StudentDAOTest.createOneTestStudent();
 
@@ -31,7 +31,7 @@ public class ProjectRequestDAOTest {
     return dataObject;
   }
 
-  public static void deleteOneTestProjectRequest() throws SQLException {
+  public static void deleteOneTestProjectRequest() throws UserDisplayableException {
     ProjectDAOTest.deleteOneTestProject();
     StudentDAOTest.deleteOneTestStudent();
 
@@ -41,7 +41,7 @@ public class ProjectRequestDAOTest {
   }
 
   @AfterEach
-  public void tearDown() throws SQLException {
+  public void tearDown() throws UserDisplayableException {
     deleteOneTestProjectRequest();
   }
 

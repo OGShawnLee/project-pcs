@@ -1,10 +1,13 @@
 package org.example.business.dto;
 
+import org.example.business.Validator;
+
 import java.time.LocalDateTime;
 
 public class MonthlyReportDTO {
   private final int idProject;
   private final String idStudent;
+  private final String idCourse;
   private final int month;
   private final int year;
   private final int workedHours;
@@ -14,6 +17,7 @@ public class MonthlyReportDTO {
   public MonthlyReportDTO(MonthlyReportBuilder builder) {
     this.idProject = builder.idProject;
     this.idStudent = builder.idStudent;
+    this.idCourse = builder.idCourse;
     this.month = builder.month;
     this.year = builder.year;
     this.workedHours = builder.workedHours;
@@ -27,6 +31,10 @@ public class MonthlyReportDTO {
 
   public String getIDStudent() {
     return idStudent;
+  }
+
+  public String getIDCourse() {
+    return idCourse;
   }
 
   public int getMonth() {
@@ -67,6 +75,7 @@ public class MonthlyReportDTO {
   public static class MonthlyReportBuilder {
     protected int idProject;
     protected String idStudent;
+    protected String idCourse;
     protected int month;
     protected int year;
     protected int workedHours;
@@ -79,7 +88,12 @@ public class MonthlyReportDTO {
     }
 
     public MonthlyReportBuilder setIDStudent(String idStudent) {
-      this.idStudent = idStudent;
+      this.idStudent = Validator.getValidEnrollment(idStudent);
+      return this;
+    }
+
+    public MonthlyReportBuilder setIDCourse(String idCourse) throws IllegalArgumentException{
+      this.idCourse = Validator.getValidNRC(idCourse);
       return this;
     }
 

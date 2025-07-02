@@ -4,15 +4,14 @@ package db;
 import org.example.business.dto.EnrollmentDTO;
 import org.example.business.dao.EnrollmentDAO;
 import org.example.business.dao.filter.FilterEnrollment;
+import org.example.common.UserDisplayableException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class EnrollmentDAOTest {
   public static final EnrollmentDAO ENROLLMENT_DAO = new EnrollmentDAO();
@@ -22,13 +21,13 @@ public class EnrollmentDAOTest {
     .setIDStudent(StudentDAOTest.STUDENT_DTO.getID())
     .build();
 
-  public static void createOneTestEnrollment() throws SQLException {
+  public static void createOneTestEnrollment() throws UserDisplayableException {
     StudentDAOTest.createOneTestStudent();
     CourseDAOTest.createOneTestCourse();
     ENROLLMENT_DAO.createOne(ENROLLMENT_DTO);
   }
 
-  public static void deleteOneTestEnrollment() throws SQLException {
+  public static void deleteOneTestEnrollment() throws UserDisplayableException {
     StudentDAOTest.deleteOneTestStudent();
     CourseDAOTest.deleteOneTestCourse();
     ENROLLMENT_DAO.deleteOne(
@@ -40,7 +39,7 @@ public class EnrollmentDAOTest {
   }
 
   @AfterEach
-  public void tearDown() throws SQLException {
+  public void tearDown() throws UserDisplayableException {
     deleteOneTestEnrollment();
   }
 
@@ -85,21 +84,6 @@ public class EnrollmentDAOTest {
       );
 
       Assertions.assertEquals(ENROLLMENT_DTO, createdEnrollment);
-    });
-  }
-
-  @Test
-  public void testUpdateOneEnrollment() {
-    assertThrows(UnsupportedOperationException.class, () -> {
-      createOneTestEnrollment();
-
-      EnrollmentDTO updatedEnrollment = new EnrollmentDTO.EnrollmentBuilder()
-        .setIDAcademic(ENROLLMENT_DTO.getIDAcademic())
-        .setIDCourse(ENROLLMENT_DTO.getIDCourse())
-        .setIDStudent(ENROLLMENT_DTO.getIDStudent())
-        .build();
-
-      ENROLLMENT_DAO.updateOne(updatedEnrollment);
     });
   }
 

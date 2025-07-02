@@ -3,11 +3,11 @@ package db;
 import org.example.business.dto.enumeration.ProjectSector;
 import org.example.business.dto.ProjectDTO;
 import org.example.business.dao.ProjectDAO;
+import org.example.common.UserDisplayableException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -26,18 +26,18 @@ public class ProjectDAOTest {
     .setSector(ProjectSector.PRIVATE)
     .build();
 
-  public static void createOneTestProject() throws SQLException {
+  public static void createOneTestProject() throws UserDisplayableException {
     RepresentativeDAOTest.createOneTestRepresentative();
     PROJECT_DAO.createOne(PROJECT_DTO);
   }
 
-  public static void deleteOneTestProject() throws SQLException {
+  public static void deleteOneTestProject() throws UserDisplayableException {
     RepresentativeDAOTest.deleteOneTestRepresentative();
     PROJECT_DAO.deleteOne(PROJECT_DTO.getID());
   }
 
   @AfterEach
-  public void tearDown() throws SQLException {
+  public void tearDown() throws UserDisplayableException {
     deleteOneTestProject();
   }
 

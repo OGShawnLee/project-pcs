@@ -201,7 +201,7 @@ public class ProjectDAO extends CompleteDAOShape<ProjectDTO, Integer> {
       statement.setInt(6, projectDTO.getAvailablePlaces());
       statement.setString(7, projectDTO.getMethodology());
       statement.setString(8, projectDTO.getState());
-      statement.setString(9, projectDTO.getSector().toString());
+      statement.setString(9, projectDTO.getSector().toDBString());
       statement.setInt(10, projectDTO.getID());
       statement.executeUpdate();
     } catch (SQLException e) {

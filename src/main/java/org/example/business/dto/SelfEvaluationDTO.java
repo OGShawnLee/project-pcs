@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 
 public class SelfEvaluationDTO {
   private final String idStudent;
+  private final String idCourse;
   private final int followUpGrade;
   private final int safetyGrade;
   private final int knowledgeApplicationGrade;
@@ -18,6 +19,7 @@ public class SelfEvaluationDTO {
 
   public SelfEvaluationDTO(SelfEvaluationBuilder builder) {
     this.idStudent = builder.idStudent;
+    this.idCourse = builder.idCourse;
     this.followUpGrade = builder.followUpGrade;
     this.safetyGrade = builder.safetyGrade;
     this.knowledgeApplicationGrade = builder.knowledgeApplicationGrade;
@@ -32,6 +34,10 @@ public class SelfEvaluationDTO {
 
   public String getIDStudent() {
     return idStudent;
+  }
+
+  public String getIDCourse() {
+    return idCourse;
   }
 
   public int getFollowUpGrade() {
@@ -95,6 +101,7 @@ public class SelfEvaluationDTO {
 
   public static class SelfEvaluationBuilder {
     protected String idStudent;
+    protected String idCourse;
     protected int followUpGrade;
     protected int safetyGrade;
     protected int knowledgeApplicationGrade;
@@ -107,7 +114,12 @@ public class SelfEvaluationDTO {
     protected LocalDateTime createdAt;
 
     public SelfEvaluationBuilder setIDStudent(String idStudent) {
-      this.idStudent = idStudent;
+      this.idStudent = Validator.getValidEnrollment(idStudent);
+      return this;
+    }
+
+    public SelfEvaluationBuilder setIDCourse(String idCourse) {
+      this.idCourse = Validator.getValidNRC(idCourse);
       return this;
     }
 

@@ -3,6 +3,7 @@ package org.example.business.dao;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import org.example.business.dao.filter.FilterSelfEvaluation;
 import org.example.business.dao.shape.CompleteDAOShape;
 import org.example.business.dto.SelfEvaluationDTO;
 import org.example.common.ExceptionHandler;
@@ -16,26 +17,27 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SelfEvaluationDAO extends CompleteDAOShape<SelfEvaluationDTO, String> {
+public class SelfEvaluationDAO extends CompleteDAOShape<SelfEvaluationDTO, FilterSelfEvaluation> {
   private static final Logger LOGGER = LogManager.getLogger(SelfEvaluationDAO.class);
   private static final String CREATE_QUERY =
     "INSERT INTO SelfEvaluation (" +
-      "id_student, follow_up_grade, safety_grade, knowledge_application_grade, interesting_grade, " +
+      "id_student, id_course, follow_up_grade, safety_grade, knowledge_application_grade, interesting_grade, " +
       "productivity_grade, congruent_grade, informed_by_organization, regulated_by_organization, " +
-      "importance_for_professional_development) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      "importance_for_professional_development) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
   private static final String GET_ALL_QUERY = "SELECT * FROM SelfEvaluation";
-  private static final String GET_QUERY = "SELECT * FROM SelfEvaluation WHERE id_student = ?";
+  private static final String GET_QUERY = "SELECT * FROM SelfEvaluation WHERE id_student = ? AND id_course = ?";
   private static final String UPDATE_QUERY =
     "UPDATE SelfEvaluation SET follow_up_grade = ?, safety_grade = ?, knowledge_application_grade = ?, " +
       "interesting_grade = ?, productivity_grade = ?, congruent_grade = ?, informed_by_organization = ?, " +
       "regulated_by_organization = ?, importance_for_professional_development = ? " +
-      "WHERE id_student = ?";
-  private static final String DELETE_QUERY = "DELETE FROM SelfEvaluation WHERE id_student = ?";
+      "WHERE id_student = ? AND id_course = ?";
+  private static final String DELETE_QUERY = "DELETE FROM SelfEvaluation WHERE id_student = ? AND id_course = ?";
 
   @Override
   public SelfEvaluationDTO getDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
     return new SelfEvaluationDTO.SelfEvaluationBuilder()
       .setIDStudent(resultSet.getString("id_student"))
+      .setIDCourse(resultSet.getString("id_course"))
       .setFollowUpGrade(resultSet.getInt("follow_up_grade"))
       .setSafetyGrade(resultSet.getInt("safety_grade"))
       .setKnowledgeApplicationGrade(resultSet.getInt("knowledge_application_grade"))
@@ -50,21 +52,22 @@ public class SelfEvaluationDAO extends CompleteDAOShape<SelfEvaluationDTO, Strin
   }
 
   @Override
-  public void createOne(SelfEvaluationDTO dataObject) throws UserDisplayableException {
+  public void createOne(SelfEvaluationDTO selfEvaluationDTO) throws UserDisplayableException {
     try (
       Connection connection = DBConnector.getInstance().getConnection();
       PreparedStatement statement = connection.prepareStatement(CREATE_QUERY)
     ) {
-      statement.setString(1, dataObject.getIDStudent());
-      statement.setInt(2, dataObject.getFollowUpGrade());
-      statement.setInt(3, dataObject.getSafetyGrade());
-      statement.setInt(4, dataObject.getKnowledgeApplicationGrade());
-      statement.setInt(5, dataObject.getInterestingGrade());
-      statement.setInt(6, dataObject.getProductivityGrade());
-      statement.setInt(7, dataObject.getCongruentGrade());
-      statement.setInt(8, dataObject.getInformedByOrganization());
-      statement.setInt(9, dataObject.getRegulatedByOrganization());
-      statement.setInt(10, dataObject.getImportanceForProfessionalDevelopment());
+      statement.setString(1, selfEvaluationDTO.getIDStudent());
+      statement.setString(2, selfEvaluationDTO.getIDCourse());
+      statement.setInt(3, selfEvaluationDTO.getFollowUpGrade());
+      statement.setInt(4, selfEvaluationDTO.getSafetyGrade());
+      statement.setInt(5, selfEvaluationDTO.getKnowledgeApplicationGrade());
+      statement.setInt(6, selfEvaluationDTO.getInterestingGrade());
+      statement.setInt(7, selfEvaluationDTO.getProductivityGrade());
+      statement.setInt(8, selfEvaluationDTO.getCongruentGrade());
+      statement.setInt(9, selfEvaluationDTO.getInformedByOrganization());
+      statement.setInt(10, selfEvaluationDTO.getRegulatedByOrganization());
+      statement.setInt(11, selfEvaluationDTO.getImportanceForProfessionalDevelopment());
       statement.executeUpdate();
     } catch (SQLException e) {
       throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible crear la autoevaluación.");
@@ -91,43 +94,45 @@ public class SelfEvaluationDAO extends CompleteDAOShape<SelfEvaluationDTO, Strin
   }
 
   @Override
-  public SelfEvaluationDTO getOne(String id) throws UserDisplayableException {
+  public SelfEvaluationDTO getOne(FilterSelfEvaluation filter) throws UserDisplayableException {
     try (
       Connection connection = DBConnector.getInstance().getConnection();
       PreparedStatement statement = connection.prepareStatement(GET_QUERY)
     ) {
-      statement.setString(1, id);
+      statement.setString(1, filter.getIDStudent());
+      statement.setString(2, filter.getIDCourse());
 
-      SelfEvaluationDTO dataObject = null;
+      SelfEvaluationDTO selfEvaluationDTO = null;
 
       try (ResultSet resultSet = statement.executeQuery()) {
         if (resultSet.next()) {
-          dataObject = createDTOInstanceFromResultSet(resultSet);
+          selfEvaluationDTO = createDTOInstanceFromResultSet(resultSet);
         }
       }
 
-      return dataObject;
+      return selfEvaluationDTO;
     } catch (SQLException e) {
       throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible cargar la autoevaluación.");
     }
   }
 
   @Override
-  public void updateOne(SelfEvaluationDTO dataObject) throws UserDisplayableException {
+  public void updateOne(SelfEvaluationDTO selfEvaluationDTO) throws UserDisplayableException {
     try (
       Connection connection = DBConnector.getInstance().getConnection();
       PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)
     ) {
-      statement.setInt(1, dataObject.getFollowUpGrade());
-      statement.setInt(2, dataObject.getSafetyGrade());
-      statement.setInt(3, dataObject.getKnowledgeApplicationGrade());
-      statement.setInt(4, dataObject.getInterestingGrade());
-      statement.setInt(5, dataObject.getProductivityGrade());
-      statement.setInt(6, dataObject.getCongruentGrade());
-      statement.setInt(7, dataObject.getInformedByOrganization());
-      statement.setInt(8, dataObject.getRegulatedByOrganization());
-      statement.setInt(9, dataObject.getImportanceForProfessionalDevelopment());
-      statement.setString(10, dataObject.getIDStudent());
+      statement.setInt(1, selfEvaluationDTO.getFollowUpGrade());
+      statement.setInt(2, selfEvaluationDTO.getSafetyGrade());
+      statement.setInt(3, selfEvaluationDTO.getKnowledgeApplicationGrade());
+      statement.setInt(4, selfEvaluationDTO.getInterestingGrade());
+      statement.setInt(5, selfEvaluationDTO.getProductivityGrade());
+      statement.setInt(6, selfEvaluationDTO.getCongruentGrade());
+      statement.setInt(7, selfEvaluationDTO.getInformedByOrganization());
+      statement.setInt(8, selfEvaluationDTO.getRegulatedByOrganization());
+      statement.setInt(9, selfEvaluationDTO.getImportanceForProfessionalDevelopment());
+      statement.setString(10, selfEvaluationDTO.getIDStudent());
+      statement.setString(11, selfEvaluationDTO.getIDCourse());
       statement.executeUpdate();
     } catch (SQLException e) {
       throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible actualizar la autoevaluación.");
@@ -135,12 +140,13 @@ public class SelfEvaluationDAO extends CompleteDAOShape<SelfEvaluationDTO, Strin
   }
 
   @Override
-  public void deleteOne(String idStudent) throws UserDisplayableException {
+  public void deleteOne(FilterSelfEvaluation filter) throws UserDisplayableException {
     try (
       Connection connection = DBConnector.getInstance().getConnection();
       PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)
     ) {
-      statement.setString(1, idStudent);
+      statement.setString(1, filter.getIDStudent());
+      statement.setString(2, filter.getIDCourse());
       statement.executeUpdate();
     } catch (SQLException e) {
       throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible eliminar la autoevaluación.");

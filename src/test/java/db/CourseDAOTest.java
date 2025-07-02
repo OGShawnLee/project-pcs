@@ -5,11 +5,12 @@ import org.example.business.dao.CourseDAO;
 import org.example.business.dto.enumeration.CourseState;
 import org.example.business.dto.enumeration.Section;
 import org.example.business.dto.enumeration.Semester;
+import org.example.common.UserDisplayableException;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -25,18 +26,18 @@ public class CourseDAOTest {
     .setTotalStudents(0)
     .build();
 
-  public static void createOneTestCourse() throws SQLException {
+  public static void createOneTestCourse() throws UserDisplayableException {
     AcademicDAOTest.createOneTestAcademic();
     COURSE_DAO.createOne(COURSE_DTO);
   }
 
-  public static void deleteOneTestCourse() throws SQLException {
+  public static void deleteOneTestCourse() throws UserDisplayableException {
     AcademicDAOTest.deleteOneTestAcademic();
     COURSE_DAO.deleteOne(COURSE_DTO.getNRC());
   }
 
   @AfterEach
-  public void tearDown() throws SQLException {
+  public void tearDown() throws UserDisplayableException {
     deleteOneTestCourse();
   }
 

@@ -20,20 +20,21 @@ import java.util.List;
 public class MonthlyReportDAO extends CompleteDAOShape<MonthlyReportDTO, FilterMonthlyReport> {
   private static final Logger LOGGER = LogManager.getLogger(MonthlyReportDAO.class);
   private static final String CREATE_QUERY =
-    "INSERT INTO MonthlyReport (id_project, id_student, month, year, worked_hours, report) VALUES (?, ?, ?, ?, ?, ?)";
+    "INSERT INTO MonthlyReport (id_project, id_student, id_course, month, year, worked_hours, report) VALUES (?, ?, ?, ?, ?, ?, ?)";
   private static final String GET_ALL_QUERY = "SELECT * FROM MonthlyReport";
   private static final String GET_QUERY =
-    "SELECT * FROM MonthlyReport WHERE id_project = ? AND id_student = ? AND month = ? AND year = ?";
+    "SELECT * FROM MonthlyReport WHERE id_project = ? AND id_student = ? AND id_course = ? AND month = ? AND year = ?";
   private static final String UPDATE_QUERY =
-    "UPDATE MonthlyReport SET worked_hours = ?, report = ? WHERE id_project = ? AND id_student = ? AND month = ? AND year = ?";
+    "UPDATE MonthlyReport SET worked_hours = ?, report = ? WHERE id_project = ? AND id_student = ? AND id_course = ? AND month = ? AND year = ?";
   private static final String DELETE_QUERY =
-    "DELETE FROM MonthlyReport WHERE id_project = ? AND id_student = ? AND month = ? AND year = ?";
+    "DELETE FROM MonthlyReport WHERE id_project = ? AND id_student = ? AND month = ? AND year = ? AND id_course = ?";
 
   @Override
   public MonthlyReportDTO getDTOInstanceFromResultSet(ResultSet resultSet) throws SQLException {
     return new MonthlyReportDTO.MonthlyReportBuilder()
       .setIDProject(resultSet.getInt("id_project"))
       .setIDStudent(resultSet.getString("id_student"))
+      .setIDCourse(resultSet.getString("id_course"))
       .setMonth(resultSet.getInt("month"))
       .setYear(resultSet.getInt("year"))
       .setWorkedHours(resultSet.getInt("worked_hours"))
@@ -50,10 +51,11 @@ public class MonthlyReportDAO extends CompleteDAOShape<MonthlyReportDTO, FilterM
     ) {
       statement.setInt(1, dataObject.getIDProject());
       statement.setString(2, dataObject.getIDStudent());
-      statement.setInt(3, dataObject.getMonth());
-      statement.setInt(4, dataObject.getYear());
-      statement.setInt(5, dataObject.getWorkedHours());
-      statement.setString(6, dataObject.getReport());
+      statement.setString(3, dataObject.getIDCourse());
+      statement.setInt(4, dataObject.getMonth());
+      statement.setInt(5, dataObject.getYear());
+      statement.setInt(6, dataObject.getWorkedHours());
+      statement.setString(7, dataObject.getReport());
       statement.executeUpdate();
     } catch (SQLException e) {
       throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible crear el informe mensual.");
@@ -87,8 +89,9 @@ public class MonthlyReportDAO extends CompleteDAOShape<MonthlyReportDTO, FilterM
     ) {
       statement.setInt(1, filter.getIDProject());
       statement.setString(2, filter.getIDStudent());
-      statement.setInt(3, filter.getMonth());
-      statement.setInt(4, filter.getYear());
+      statement.setString(3, filter.getIDCourse());
+      statement.setInt(4, filter.getMonth());
+      statement.setInt(5, filter.getYear());
 
       MonthlyReportDTO dataObject = null;
 
@@ -114,8 +117,9 @@ public class MonthlyReportDAO extends CompleteDAOShape<MonthlyReportDTO, FilterM
       statement.setString(2, dataObject.getReport());
       statement.setInt(3, dataObject.getIDProject());
       statement.setString(4, dataObject.getIDStudent());
-      statement.setInt(5, dataObject.getMonth());
-      statement.setInt(6, dataObject.getYear());
+      statement.setString(5, dataObject.getIDCourse());
+      statement.setInt(6, dataObject.getMonth());
+      statement.setInt(7, dataObject.getYear());
       statement.executeUpdate();
     } catch (SQLException e) {
       throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible actualizar el informe mensual.");
@@ -132,6 +136,7 @@ public class MonthlyReportDAO extends CompleteDAOShape<MonthlyReportDTO, FilterM
       statement.setString(2, filter.getIDStudent());
       statement.setInt(3, filter.getMonth());
       statement.setInt(4, filter.getYear());
+      statement.setString(5, filter.getIDCourse());
       statement.executeUpdate();
     } catch (SQLException e) {
       throw ExceptionHandler.handleSQLException(LOGGER, e, "No ha sido posible eliminar el informe mensual.");

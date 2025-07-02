@@ -4,11 +4,12 @@ import org.example.business.dto.AcademicDTO;
 import org.example.business.dao.AcademicDAO;
 import org.example.business.dto.AccountDTO;
 import org.example.business.dto.enumeration.AcademicRole;
+import org.example.common.UserDisplayableException;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -26,16 +27,16 @@ public class AcademicDAOTest {
     .setState("ACTIVE")
     .build();
 
-  public static void createOneTestAcademic() throws SQLException {
+  public static void createOneTestAcademic() throws UserDisplayableException {
     ACADEMIC_DAO.createOne(ACADEMIC_DTO);
   }
 
-  public static void deleteOneTestAcademic() throws SQLException {
+  public static void deleteOneTestAcademic() throws UserDisplayableException {
     ACADEMIC_DAO.deleteOne(ACADEMIC_DTO.getID());
   }
 
   @AfterEach
-  public void tearDown() throws SQLException {
+  public void tearDown() throws UserDisplayableException {
     deleteOneTestAcademic();
   }
 

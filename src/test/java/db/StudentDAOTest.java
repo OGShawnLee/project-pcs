@@ -2,11 +2,11 @@ package db;
 
 import org.example.business.dto.StudentDTO;
 import org.example.business.dao.StudentDAO;
+import org.example.common.UserDisplayableException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -23,16 +23,16 @@ public class StudentDAOTest {
     .setPhoneNumber("2281904050")
     .build();
 
-  public static void createOneTestStudent() throws SQLException {
+  public static void createOneTestStudent() throws UserDisplayableException {
     STUDENT_DAO.createOne(STUDENT_DTO);
   }
 
-  public static void deleteOneTestStudent() throws SQLException {
+  public static void deleteOneTestStudent() throws UserDisplayableException {
     STUDENT_DAO.deleteOne(STUDENT_DTO.getID());
   }
 
   @AfterEach
-  public void tearDown() throws SQLException {
+  public void tearDown() throws UserDisplayableException {
     deleteOneTestStudent();
   }
 

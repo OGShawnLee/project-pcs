@@ -3,11 +3,11 @@ package db;
 import org.example.business.dto.PracticeDTO;
 import org.example.business.dao.PracticeDAO;
 import org.example.business.dao.filter.FilterPractice;
+import org.example.common.UserDisplayableException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 public class PracticeDAOTest {
   public static final PracticeDAO PRACTICE_DAO = new PracticeDAO();
 
-  public static PracticeDTO createOneTestPractice() throws SQLException {
+  public static PracticeDTO createOneTestPractice() throws UserDisplayableException {
     StudentDAOTest.createOneTestStudent();
     ProjectDAOTest.createOneTestProject();
 
@@ -29,14 +29,14 @@ public class PracticeDAOTest {
     return dataObject;
   }
 
-  public static void deleteOneTestPractice() throws SQLException {
+  public static void deleteOneTestPractice() throws UserDisplayableException {
     StudentDAOTest.deleteOneTestStudent();
     ProjectDAOTest.deleteOneTestProject();
     PRACTICE_DAO.deleteOne(new FilterPractice(StudentDAOTest.STUDENT_DTO.getID(), ProjectDAOTest.PROJECT_DTO.getID()));
   }
 
   @AfterEach
-  public void tearDown() throws SQLException {
+  public void tearDown() throws UserDisplayableException {
     deleteOneTestPractice();
   }
 
